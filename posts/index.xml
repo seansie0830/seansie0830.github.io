@@ -6,8 +6,15 @@
     <description>Recent content in Posts on My New Hugo Site</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 26 Apr 2024 20:07:10 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 26 Apr 2024 22:12:55 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何用hugo框架在github上建立靜態網站</title>
+      <link>https://seansie0830.github.io/posts/%E5%A6%82%E4%BD%95%E7%94%A8hugo%E6%A1%86%E6%9E%B6%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E9%9D%9C%E6%85%8B%E7%B6%B2%E7%AB%99/</link>
+      <pubDate>Fri, 26 Apr 2024 22:12:55 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/%E5%A6%82%E4%BD%95%E7%94%A8hugo%E6%A1%86%E6%9E%B6%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E9%9D%9C%E6%85%8B%E7%B6%B2%E7%AB%99/</guid>
+      <description>https://winget.run/ 搜尋hugo.&#xA;點擊hugo（不是extend的那一個），複製指令 winget install -e --id Hugo.Hugo， 貼到終端機&#xA;在終端機中輸入hugo驗證安裝，如果成功會出現&#xA;PS C:\Users\seans&amp;gt; hugo Total in 2 ms Error: Unable to locate config file or config directory. Perhaps you need to create a new site. Run `hugo help new` for details. PS C:\Users\seans&amp;gt; 4.建立一個 工作用 資料夾，並在裏面打開終端機&#xA;可以用以下方式，在檔案總管上面輸入cmd按enter。&#xA;找個喜歡的主題吧 https://themes.gohugo.io/ https://gohugo.io/getting-started/quick-start/&#xA;推薦這個&#xA;https://github.com/nanxiaobei/hugo-paper&#xA;6.輸入 hugo new site [YOUR-BLOG-NAME] 在終端機中&#xA;result would be&#xA;PS C:\Users\seans\codewhitelist\newnew&amp;gt; hugo new site myblog Congratulations! Your new Hugo site was created in C:\Users\seans\codewhitelist\newnew\myblog.</description>
+    </item>
     <item>
       <title>My First Post</title>
       <link>https://seansie0830.github.io/posts/my-first-post/</link>
