@@ -1,0 +1,356 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Zerojudge a009. 解碼器 C&#43;&#43;題解 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="Zerojudge a009. 解碼器 題目連結
+程式碼：
+C&#43;&#43;
+#include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
+首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="Zerojudge a009. 解碼器 C&#43;&#43;題解">
+  <meta itemprop="description" content="Zerojudge a009. 解碼器 題目連結
+程式碼：
+C&#43;&#43;
+#include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
+首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：">
+  <meta itemprop="datePublished" content="2024-07-12T20:43:31+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T20:43:31+08:00">
+  <meta itemprop="wordCount" content="84">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a009/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Zerojudge a009. 解碼器 C&#43;&#43;題解">
+  <meta property="og:description" content="Zerojudge a009. 解碼器 題目連結
+程式碼：
+C&#43;&#43;
+#include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
+首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T20:43:31+08:00">
+    <meta property="article:modified_time" content="2024-07-12T20:43:31+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a009. 解碼器 C&#43;&#43;題解">
+<meta name="twitter:description" content="Zerojudge a009. 解碼器 題目連結
+程式碼：
+C&#43;&#43;
+#include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
+首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a009/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Zerojudge a009. 解碼器 C&#43;&#43;題解</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 12, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a009"><strong>Zerojudge a009. 解碼器 題目連結</strong></a></p>
+<p><strong>程式碼：</strong></p>
+<p>C++</p>
+<pre tabindex="0"><code>#include&lt;iostream&gt;
+#include&lt;string&gt;
+using namespace std;
+
+int main (){
+    string in; // 宣告一個字串變數 in
+    int i; // 宣告一個整數變數 i
+
+    // 讀取輸入字串
+    getline(cin,in);
+
+    // 將每個字元減去 7
+    for(i=0;i&lt;in.size();i++){
+        in[i]=in[i]-7;
+    }
+
+    // 輸出解密後的字串
+    cout&lt;&lt;in;
+
+    return 0;
+}
+</code></pre><p><strong>程式碼說明：</strong></p>
+<ol>
+<li>首先，程式碼包含了 <code>iostream</code> 和 <code>string</code> 兩個標準函式庫，分別用於輸入輸出和字串操作。</li>
+<li>程式碼接著宣告了兩個變數：<code>in</code> 和 <code>i</code>。<code>in</code> 用於儲存輸入的密文字串，<code>i</code> 用於迴圈控制。</li>
+<li>使用 <code>getline</code> 函式讀取輸入字串並儲存在 <code>in</code> 變數中。</li>
+<li>使用 <code>for</code> 迴圈遍歷 <code>in</code> 字串中的每個字元。</li>
+<li>在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。</li>
+<li>最後，使用 <code>cout</code> 函式輸出解密後的字串。</li>
+</ol>
+<p><strong>密鑰推導：</strong></p>
+<p>根據題目敘述，密鑰是<strong>需要自行參照範例輸入和輸出推導出來</strong>。在範例輸入和輸出中，可以觀察到密文和明文的差異。例如，在第一個範例中，密文 <code>crrng</code> 和明文 <code>apple</code> 的每個字元相差 2。因此，可以推斷密鑰為 <strong>2</strong>。</p>
+<p><strong>結論：</strong></p>
+<p>這段程式碼實現了凱撒密碼的解密功能。使用者可以輸入一段密文，程式碼會根據密鑰將其解密成明文。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a020/"
+      ><span class="mr-1.5">←</span><span>zerojudge a020. 身分證檢驗 詳解</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a001/"
+      ><span>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

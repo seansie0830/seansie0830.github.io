@@ -1,0 +1,469 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言） - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="Zerojudge a001. 哈囉題目連結
+Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &#34;hello, &#34; &#43; name # Print the output string print(output_string) 讀取使用者輸入
+name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。
+建構輸出字串
+output_string = &#34;hello, &#34; &#43; name 這行程式碼使用 &#43; 運算子來將 &ldquo;hello, &quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。
+輸出字串
+print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
+  <meta itemprop="description" content="Zerojudge a001. 哈囉題目連結
+Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &#34;hello, &#34; &#43; name # Print the output string print(output_string) 讀取使用者輸入
+name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。
+建構輸出字串
+output_string = &#34;hello, &#34; &#43; name 這行程式碼使用 &#43; 運算子來將 &ldquo;hello, &quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。
+輸出字串
+print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。">
+  <meta itemprop="datePublished" content="2024-07-12T20:42:47+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T20:42:47+08:00">
+  <meta itemprop="wordCount" content="369">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a001/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
+  <meta property="og:description" content="Zerojudge a001. 哈囉題目連結
+Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &#34;hello, &#34; &#43; name # Print the output string print(output_string) 讀取使用者輸入
+name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。
+建構輸出字串
+output_string = &#34;hello, &#34; &#43; name 這行程式碼使用 &#43; 運算子來將 “hello, &#34; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。
+輸出字串
+print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T20:42:47+08:00">
+    <meta property="article:modified_time" content="2024-07-12T20:42:47+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
+<meta name="twitter:description" content="Zerojudge a001. 哈囉題目連結
+Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &#34;hello, &#34; &#43; name # Print the output string print(output_string) 讀取使用者輸入
+name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。
+建構輸出字串
+output_string = &#34;hello, &#34; &#43; name 這行程式碼使用 &#43; 運算子來將 &ldquo;hello, &quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。
+輸出字串
+print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a001/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 12, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a001">Zerojudge a001. 哈囉題目連結</a></p>
+<h2 id="python-題解">Python 題解</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 結果：AC (18ms, 3.3MB)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prompt the user for input with a message</span>
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> input()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Construct the output string using concatenation</span>
+</span></span><span style="display:flex;"><span>output_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Print the output string</span>
+</span></span><span style="display:flex;"><span>print(output_string)
+</span></span></code></pre></div><ol>
+<li>
+<p><strong>讀取使用者輸入</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>name <span style="color:#f92672">=</span> input()
+</span></span></code></pre></div><p>這行程式碼使用 <code>input()</code> 函式來讀取使用者的輸入。<code>input()</code> 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 <code>name</code> 變數中。</p>
+</li>
+<li>
+<p><strong>建構輸出字串</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>output_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> name
+</span></span></code></pre></div><p>這行程式碼使用 <code>+</code> 運算子來將 &ldquo;hello, &quot; 和 <code>name</code> 變數中的值連接在一起。連接後的字串會被儲存在 <code>output_string</code> 變數中。</p>
+</li>
+<li>
+<p><strong>輸出字串</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(output_string)
+</span></span></code></pre></div><p>這行程式碼使用 <code>print()</code> 函式來輸出 <code>output_string</code> 變數中的值。</p>
+<p><strong>程式碼範例</strong></p>
+<p>以下是程式碼的範例輸出：</p>
+<pre tabindex="0"><code>&gt; world
+hello, world
+</code></pre><p><strong>程式碼解釋</strong></p>
+<ul>
+<li><code>input()</code> 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 <code>name</code> 變數中。</li>
+<li><code>+</code> 運算子可以用來將兩個字串連接在一起。</li>
+<li><code>print()</code> 函式可以用來輸出字串。</li>
+</ul>
+</li>
+</ol>
+<h2 id="c-題解">C++ 題解</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 324KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  string input;
+</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> input;
+</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello, &#34;</span> <span style="color:#f92672">&lt;&lt;</span> input <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這個程式碼首先包含了 <code>&lt;iostream&gt;</code> 標頭檔，該標頭檔提供了輸入和輸出函數。</p>
+<p>然後，程式碼定義了一個名為 <code>input</code> 的 <code>string</code> 型別變數。<code>string</code> 型別用於儲存字串。</p>
+<p>接下來，程式碼使用 <code>cin</code> 函數讀入使用者輸入的字串。使用者輸入的字串將被儲存在 <code>input</code> 變數中。</p>
+<p>最後，程式碼使用 <code>cout</code> 函數輸出字串 &ldquo;Hello, &ldquo;，然後輸出 <code>input</code> 變數的值，最後輸出換行符。</p>
+<p>以下是這個程式碼的執行結果：</p>
+<pre tabindex="0"><code>world
+Hello, world
+</code></pre><p>這個程式碼成功地讀入了使用者輸入的字串 &ldquo;world&rdquo;，並輸出了字串 &ldquo;Hello, world&rdquo;。</p>
+<p>以下是一些關於這個程式碼的詳細說明：</p>
+<ul>
+<li><code>#include &lt;iostream&gt;</code>：這行程式碼包含了 <code>&lt;iostream&gt;</code> 標頭檔。該標頭檔提供了輸入和輸出函數。</li>
+<li><code>string input;</code>：這行程式碼定義了一個名為 <code>input</code> 的 <code>string</code> 型別變數。<code>string</code> 型別用於儲存字串。</li>
+<li><code>cin &gt;&gt; input;</code>：這行程式碼使用 <code>cin</code> 函數讀入使用者輸入的字串。使用者輸入的字串將被儲存在 <code>input</code> 變數中。</li>
+<li><code>cout &lt;&lt; &quot;Hello, &quot; &lt;&lt; input &lt;&lt; endl;</code>：這行程式碼使用 <code>cout</code> 函數輸出字串 &ldquo;Hello, &ldquo;，然後輸出 <code>input</code> 變數的值，最後輸出換行符。</li>
+</ul>
+<h2 id="java-詳解">Java 詳解</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//	AC (0.2s, 1.7MB)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Scanner;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorld</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        Scanner scanner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Scanner(System.<span style="color:#a6e22e">in</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String inputString <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextLine</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> inputString);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="程式碼分析">程式碼分析</h3>
+<p>1.<strong>匯入 Scanner 類別</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Scanner;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">**</span>程式碼重點<span style="color:#f92672">**</span>
+</span></span></code></pre></div><ul>
+<li>
+<p>這個程式碼使用了 <code>Scanner</code> 類別來讀取使用者輸入的資料。</p>
+</li>
+<li>
+<p>這個程式碼使用了 <code>System.out.println()</code> 方法來輸出字串。</p>
+</li>
+</ul>
+<p><strong>2.宣告 Scanner 物件</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Scanner scanner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Scanner(System.<span style="color:#a6e22e">in</span>);
+</span></span></code></pre></div><p>這行程式碼會宣告一個新的 <code>Scanner</code> 物件，並將其命名為 <code>scanner</code>。此物件將用於讀取使用者輸入的資料。</p>
+<p><strong>3.讀取使用者輸入的字串</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String inputString <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextLine</span>();
+</span></span></code></pre></div><p>這行程式碼會使用 <code>scanner.nextLine()</code> 方法讀取使用者輸入的字串。讀取的字串會儲存在 <code>inputString</code> 變數中。</p>
+<p><strong>4.輸出字串</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> inputString);
+</span></span></code></pre></div><p>這行程式碼會使用 <code>System.out.println()</code> 方法輸出字串。輸出字串為 &ldquo;hello, &ldquo;，後面接上 <code>inputString</code> 變數的值。</p>
+<p>範例輸出</p>
+<pre tabindex="0"><code>輸入：world
+
+輸出：hello, world
+</code></pre><p><strong>程式碼重點</strong></p>
+<ul>
+<li>這個程式碼使用了 <code>Scanner</code> 類別來讀取使用者輸入的資料。</li>
+<li>這個程式碼使用了 <code>System.out.println()</code> 方法來輸出字串。</li>
+</ul>
+<p><strong>本題重點</strong></p>
+<ul>
+<li>如何使用 <code>Scanner</code> 類別讀取使用者輸入的資料。</li>
+<li>如何使用 <code>System.out.println()</code> 方法輸出字串。</li>
+</ul>
+<h2 id="c語言詳解">C語言詳解</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 92KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  scanf(<span style="color:#e6db74">&#34;%s&#34;</span>, input);
+</span></span><span style="display:flex;"><span>  printf(<span style="color:#e6db74">&#34;hello, %s&#34;</span>, input);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這個程式碼首先包含了 <code>stdio.h</code> 標頭檔，該標頭檔定義了標準輸入輸出函數。</p>
+<p>然後，程式碼宣告了一個名為 <code>input</code> 的字元陣列，用於儲存輸入的字串。</p>
+<p>接下來，程式碼使用 <code>scanf</code> 函數讀取輸入的字串。<code>scanf</code> 函數的第一個引數是字串格式化字串，指示 <code>scanf</code> 函數將輸入儲存在 <code>input</code> 陣列中。第二個引數是 <code>input</code> 陣列的地址。</p>
+<p>最後，程式碼使用 <code>printf</code> 函數輸出字串。<code>printf</code> 函數的第一個引數是格式化字串，指示 <code>printf</code> 函數將字串 &ldquo;hello, &quot; 輸出到標準輸出。第二個引數是 <code>input</code> 陣列的地址。</p>
+<p>這個程式碼的輸出與題目要求的一致。</p>
+<p>以下是一些程式碼的詳細解釋：</p>
+<ul>
+<li>
+<p><code>scanf(&quot;%s&quot;, input);</code></p>
+<p>這個程式碼使用 <code>scanf</code> 函數讀取輸入的字串。<code>scanf</code> 函數的第一個引數是字串格式化字串 <code>&quot;%s&quot;</code>，指示 <code>scanf</code> 函數將輸入的字串儲存在 <code>input</code> 陣列中。<code>%s</code> 格式化字串表示一個字串，它將讀取輸入的字串直到遇到空白字元或換行符。第二個引數是 <code>input</code> 陣列的地址，<code>&amp;input</code> 表示 <code>input</code> 陣列的地址。</p>
+</li>
+<li>
+<p><code>printf(&quot;hello, %s&quot;, input);</code></p>
+<p>這個程式碼使用 <code>printf</code> 函數輸出字串。<code>printf</code> 函數的第一個引數是格式化字串 <code>&quot;hello, %s&quot;</code>，指示 <code>printf</code> 函數將字串 &ldquo;hello, &quot; 輸出到標準輸出，然後將 <code>input</code> 陣列中的字串輸出到標準輸出。<code>%s</code> 格式化字串表示一個字串，它將輸出 <code>input</code> 陣列中的字串。第二個引數是 <code>input</code> 陣列的地址，<code>input</code> 表示 <code>input</code> 陣列的地址。</p>
+</li>
+</ul>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a009/"
+      ><span class="mr-1.5">←</span><span>Zerojudge a009. 解碼器 C&#43;&#43;題解</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a024/"
+      ><span>Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 </span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

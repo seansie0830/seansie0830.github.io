@@ -1,0 +1,410 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>zerojudge a020. 身分證檢驗 詳解 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="題目連結 a020. 身分證檢驗
+//	AC (2ms, 116KB) #include &lt;stdio.h&gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&#34;%c%s&#34;, &amp;city, num); if(city&gt;=65 &amp;&amp; city&lt;=72) city-=55; else if(city==&#39;I&#39;) city-=39; else if(city&gt;=74 &amp;&amp; city&lt;=78) city-=56; else if(city==&#39;O&#39;) city-=44; else if(city&gt;=80 &amp;&amp; city&lt;=86) city-=57; else if(city==&#39;W&#39;) city-=55; else if(city==&#39;X&#39; || city==&#39;Y&#39;) city-=58; else if(city==&#39;Z&#39;) city-=57; int sum=num[8]-48; for(int i=0;i&lt;8;i&#43;&#43;) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum&#43;=(num[i]-48)*(8-i); sum&#43;=city/10&#43;(city%10)*9; if(sum%10==0) printf(&#34;real&#34;); else printf(&#34;fake&#34;); return 0; } 程式碼分析" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="zerojudge a020. 身分證檢驗 詳解">
+  <meta itemprop="description" content="題目連結 a020. 身分證檢驗
+//	AC (2ms, 116KB) #include &lt;stdio.h&gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&#34;%c%s&#34;, &amp;city, num); if(city&gt;=65 &amp;&amp; city&lt;=72) city-=55; else if(city==&#39;I&#39;) city-=39; else if(city&gt;=74 &amp;&amp; city&lt;=78) city-=56; else if(city==&#39;O&#39;) city-=44; else if(city&gt;=80 &amp;&amp; city&lt;=86) city-=57; else if(city==&#39;W&#39;) city-=55; else if(city==&#39;X&#39; || city==&#39;Y&#39;) city-=58; else if(city==&#39;Z&#39;) city-=57; int sum=num[8]-48; for(int i=0;i&lt;8;i&#43;&#43;) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum&#43;=(num[i]-48)*(8-i); sum&#43;=city/10&#43;(city%10)*9; if(sum%10==0) printf(&#34;real&#34;); else printf(&#34;fake&#34;); return 0; } 程式碼分析">
+  <meta itemprop="datePublished" content="2024-07-12T20:44:20+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T20:44:20+08:00">
+  <meta itemprop="wordCount" content="194">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a020/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="zerojudge a020. 身分證檢驗 詳解">
+  <meta property="og:description" content="題目連結 a020. 身分證檢驗
+//	AC (2ms, 116KB) #include &lt;stdio.h&gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&#34;%c%s&#34;, &amp;city, num); if(city&gt;=65 &amp;&amp; city&lt;=72) city-=55; else if(city==&#39;I&#39;) city-=39; else if(city&gt;=74 &amp;&amp; city&lt;=78) city-=56; else if(city==&#39;O&#39;) city-=44; else if(city&gt;=80 &amp;&amp; city&lt;=86) city-=57; else if(city==&#39;W&#39;) city-=55; else if(city==&#39;X&#39; || city==&#39;Y&#39;) city-=58; else if(city==&#39;Z&#39;) city-=57; int sum=num[8]-48; for(int i=0;i&lt;8;i&#43;&#43;) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum&#43;=(num[i]-48)*(8-i); sum&#43;=city/10&#43;(city%10)*9; if(sum%10==0) printf(&#34;real&#34;); else printf(&#34;fake&#34;); return 0; } 程式碼分析">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T20:44:20+08:00">
+    <meta property="article:modified_time" content="2024-07-12T20:44:20+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="zerojudge a020. 身分證檢驗 詳解">
+<meta name="twitter:description" content="題目連結 a020. 身分證檢驗
+//	AC (2ms, 116KB) #include &lt;stdio.h&gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&#34;%c%s&#34;, &amp;city, num); if(city&gt;=65 &amp;&amp; city&lt;=72) city-=55; else if(city==&#39;I&#39;) city-=39; else if(city&gt;=74 &amp;&amp; city&lt;=78) city-=56; else if(city==&#39;O&#39;) city-=44; else if(city&gt;=80 &amp;&amp; city&lt;=86) city-=57; else if(city==&#39;W&#39;) city-=55; else if(city==&#39;X&#39; || city==&#39;Y&#39;) city-=58; else if(city==&#39;Z&#39;) city-=57; int sum=num[8]-48; for(int i=0;i&lt;8;i&#43;&#43;) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum&#43;=(num[i]-48)*(8-i); sum&#43;=city/10&#43;(city%10)*9; if(sum%10==0) printf(&#34;real&#34;); else printf(&#34;fake&#34;); return 0; } 程式碼分析">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a020/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">zerojudge a020. 身分證檢驗 詳解</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 12, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a020"><strong>題目連結 a020. 身分證檢驗</strong></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 116KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> city, num[<span style="color:#ae81ff">10</span>]; <span style="color:#75715e">/*!身分證字號的數字雖然是整數型態，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                          但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                          因此需用字元陣列偵測並儲存輸入*/</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e">/*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                          因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">                          嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */</span>
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%c%s&#34;</span>, <span style="color:#f92672">&amp;</span>city, num);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">65</span> <span style="color:#f92672">&amp;&amp;</span> city<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">72</span>) 
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">55</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;I&#39;</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">39</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">74</span> <span style="color:#f92672">&amp;&amp;</span> city<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">78</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">56</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;O&#39;</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">44</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">80</span> <span style="color:#f92672">&amp;&amp;</span> city<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">86</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">57</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;W&#39;</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">55</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;X&#39;</span> <span style="color:#f92672">||</span> city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;Y&#39;</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">58</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;Z&#39;</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">57</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> sum<span style="color:#f92672">=</span>num[<span style="color:#ae81ff">8</span>]<span style="color:#f92672">-</span><span style="color:#ae81ff">48</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">8</span>;i<span style="color:#f92672">++</span>) <span style="color:#75715e">/*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/</span>
+</span></span><span style="display:flex;"><span>        sum<span style="color:#f92672">+=</span>(num[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">48</span>)<span style="color:#f92672">*</span>(<span style="color:#ae81ff">8</span><span style="color:#f92672">-</span>i);
+</span></span><span style="display:flex;"><span>    sum<span style="color:#f92672">+=</span>city<span style="color:#f92672">/</span><span style="color:#ae81ff">10</span><span style="color:#f92672">+</span>(city<span style="color:#f92672">%</span><span style="color:#ae81ff">10</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">9</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(sum<span style="color:#f92672">%</span><span style="color:#ae81ff">10</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;real&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;fake&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>程式碼分析</strong></p>
+<pre tabindex="0"><code>char city, num[10]; /*!身分證字號的數字雖然是整數型態，
+                          但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數，
+                          因此需用字元陣列偵測並儲存輸入*/
+</code></pre><p>這段程式碼宣告了兩個變數：</p>
+<ul>
+<li><code>city</code>：用於儲存身分證字號的第一個英文字母</li>
+<li><code>num</code>：用於儲存身分證字號的九個數字</li>
+</ul>
+<p><strong>英文代號轉換</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(city<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">65</span> <span style="color:#f92672">&amp;&amp;</span> city<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">72</span>) 
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">55</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;I&#39;</span>)
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">39</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">74</span> <span style="color:#f92672">&amp;&amp;</span> city<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">78</span>)
+</span></span><span style="display:flex;"><span>        city<span style="color:#f92672">-=</span><span style="color:#ae81ff">56</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;O&#39;</span>)
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">44</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">80</span> <span style="color:#f92672">&amp;&amp;</span> city<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">86</span>)
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">57</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;W&#39;</span>)
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">55</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;X&#39;</span> <span style="color:#f92672">||</span> city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;Y&#39;</span>)
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">58</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(city<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;Z&#39;</span>)
+</span></span><span style="display:flex;"><span>    city<span style="color:#f92672">-=</span><span style="color:#ae81ff">57</span>;
+</span></span></code></pre></div><p>這段程式碼將身分證字號的第一個英文字母轉換為一個數字，其規則如下：</p>
+<ul>
+<li>A 到 I，將其 ASCII 代碼減去 55</li>
+<li>I，將其 ASCII 代碼減去 39</li>
+<li>J 到 O，將其 ASCII 代碼減去 56</li>
+<li>O，將其 ASCII 代碼減去 44</li>
+<li>P 到 W，將其 ASCII 代碼減去 57</li>
+<li>W，將其 ASCII 代碼減去 55</li>
+<li>X 和 Y，將其 ASCII 代碼減去 58</li>
+<li>Z，將其 ASCII 代碼減去 57</li>
+</ul>
+<p><strong>計算檢查碼</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> sum<span style="color:#f92672">=</span>num[<span style="color:#ae81ff">8</span>]<span style="color:#f92672">-</span><span style="color:#ae81ff">48</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">8</span>;i<span style="color:#f92672">++</span>) <span style="color:#75715e">/*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/</span>
+</span></span><span style="display:flex;"><span>    sum<span style="color:#f92672">+=</span>(num[i]<span style="color:#f92672">-</span><span style="color:#ae81ff">48</span>)<span style="color:#f92672">*</span>(<span style="color:#ae81ff">8</span><span style="color:#f92672">-</span>i);
+</span></span><span style="display:flex;"><span>sum<span style="color:#f92672">+=</span>city<span style="color:#f92672">/</span><span style="color:#ae81ff">10</span><span style="color:#f92672">+</span>(city<span style="color:#f92672">%</span><span style="color:#ae81ff">10</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">9</span>;
+</span></span></code></pre></div><p>這段程式碼計算身分證字號的檢查碼，其步驟如下：</p>
+<ol>
+<li>將最後一碼轉換為數字</li>
+<li>將前八個數字乘以各自的權數（8 到 1），並將乘積相加</li>
+<li>將轉換後的英文字母的十位數和個位數分別乘以 9 和 1，並將結果相加</li>
+<li>將上述三項結果相加</li>
+</ol>
+<p><strong>判斷是否符合規則</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(sum<span style="color:#f92672">%</span><span style="color:#ae81ff">10</span><span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;real&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;fake&#34;</span>);
+</span></span></code></pre></div><p>這段程式碼判斷計算出的檢查碼是否為 0。如果為 0，則表示輸入的身分證字號符合規則；否則不符合。</p>
+<p><strong>程式範例</strong></p>
+<p>以下是程式範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Input: T112663836
+</span></span><span style="display:flex;"><span>Output: real
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Input: S154287863
+</span></span><span style="display:flex;"><span>Output: fake
+</span></span></code></pre></div><p>由以上程式碼正確地實現了中華民國身分證字號檢查規則。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_d219/"
+      ><span class="mr-1.5">←</span><span>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a009/"
+      ><span>Zerojudge a009. 解碼器 C&#43;&#43;題解</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

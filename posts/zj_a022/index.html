@@ -1,0 +1,510 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="&lsquo;Zerojudge a022. 迴文題目連結
+法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
+包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
+宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
+輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
+  <meta itemprop="description" content="&lsquo;Zerojudge a022. 迴文題目連結
+法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
+包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
+宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
+輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
+  <meta itemprop="datePublished" content="2024-07-12T21:03:53+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T21:03:53+08:00">
+  <meta itemprop="wordCount" content="424">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a022/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
+  <meta property="og:description" content="‘Zerojudge a022. 迴文題目連結
+法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
+包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
+宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
+輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T21:03:53+08:00">
+    <meta property="article:modified_time" content="2024-07-12T21:03:53+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
+<meta name="twitter:description" content="&lsquo;Zerojudge a022. 迴文題目連結
+法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
+包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
+宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
+輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a022/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 12, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a022">&lsquo;Zerojudge a022. 迴文題目連結</a></p>
+<h2 id="法一-內建函數">法一 內建函數</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 332KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  string s;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (cin <span style="color:#f92672">&gt;&gt;</span> s) {
+</span></span><span style="display:flex;"><span>    string t <span style="color:#f92672">=</span> s; <span style="color:#75715e">// Create a copy of s
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    reverse(t.begin(), t.end());
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> ((s <span style="color:#f92672">==</span> t) <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;yes&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;no&#34;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>程式碼分析</strong></p>
+<ol>
+<li><strong>包含函式庫</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span></code></pre></div><p>此段程式碼包含了 C++ 標準函式庫中的所有頭文件，並使用 <code>using namespace std;</code> 語句將函式庫中的函式引入到全局範圍內。</p>
+<ol>
+<li><strong>宣告變數</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>string s;
+</span></span></code></pre></div><p>此行程式碼宣告了一個名為 <code>s</code> 的字串變數。</p>
+<ol>
+<li><strong>輸入字串</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (cin <span style="color:#f92672">&gt;&gt;</span> s) {
+</span></span></code></pre></div><p>此段程式碼使用 <code>cin</code> 函式從標準輸入設備中讀取一個字串並將其存儲在 <code>s</code> 變數中。<code>while</code> 迴圈將不斷執行，直到讀取到空字串為止。</p>
+<ol>
+<li><strong>建立反向字串</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>string t <span style="color:#f92672">=</span> s; <span style="color:#75715e">// Create a copy of s
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>reverse(t.begin(), t.end());
+</span></span></code></pre></div><p>此段程式碼首先建立一個名為 <code>t</code> 的字串變數，並將 <code>s</code> 變數的值複製到 <code>t</code> 變數中。然後，使用 <code>reverse</code> 函式將 <code>t</code> 變數中的字元順序反轉。</p>
+<ol>
+<li><strong>判斷是否為迴文</strong></li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> ((s <span style="color:#f92672">==</span> t) <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;yes&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;no&#34;</span>);
+</span></span></code></pre></div><p>此段程式碼使用 <code>==</code> 運算子比較 <code>s</code> 變數和 <code>t</code> 變數的值。如果它們相等，則表示 <code>s</code> 變數是一個迴文，並輸出 &ldquo;yes&rdquo;；否則，則表示 <code>s</code> 變數不是一個迴文，並輸出 &ldquo;no&rdquo;。</p>
+<blockquote>
+<p>在上述程式碼中，三元運算子被用於判斷 <code>s</code> 變數和 <code>t</code> 變數的值是否相等。以下是三元運算子的語法：</p>
+<pre tabindex="0"><code>條件 ? 真實值 : 假設值
+</code></pre><p>在上述程式碼中，三元運算子被用於以下語句：</p>
+<p>C++</p>
+<pre tabindex="0"><code>cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;);
+</code></pre><p>此語句的解析如下：</p>
+<ul>
+<li><code>s == t</code> 是條件運算子的條件部分。如果該條件為真，則表示 <code>s</code> 變數和 <code>t</code> 變數的值相等。</li>
+<li><code>&quot;yes&quot;</code> 是條件為真時的真實值。</li>
+<li><code>&quot;no&quot;</code> 是條件為假時的假設值。</li>
+</ul>
+<p>因此，如果 <code>s</code> 變數和 <code>t</code> 變數的值相等，則輸出 &ldquo;yes&rdquo;；否則，輸出 &ldquo;no&rdquo;。</p>
+<p>三元運算子是一種簡潔的條件運算方式，可以用於代替 <code>if-else</code> 語句。在某些情況下，三元運算子可以使程式碼更加簡潔易讀。</p>
+<p>以下是一些三元運算子的優點：</p>
+<ul>
+<li>簡潔：三元運算子可以用於一行程式碼中表達條件判斷和結果輸出。</li>
+<li>易讀：三元運算子的語法比較直觀，易於理解。</li>
+</ul>
+<p>以下是一些三元運算子的缺點：</p>
+<ul>
+<li>可讀性：對於較為複雜的條件判斷，三元運算子可能會使程式碼難以閱讀。</li>
+<li>嵌套：三元運算子可以嵌套使用，但過度嵌套可能會使程式碼難以理解。</li>
+</ul>
+<p>總體而言，三元運算子是一種有用的工具，可以用於簡化程式碼。但是，在使用三元運算子時，需要考慮程式碼的可讀性和易維護性。</p>
+</blockquote>
+<p><strong>範例</strong></p>
+<p>以下是一些範例輸入和輸出：</p>
+<pre tabindex="0"><code>輸入：abba
+輸出：yes
+
+輸入：abcba
+輸出：yes
+
+輸入：abc
+輸出：no
+</code></pre><p><strong>結論</strong></p>
+<p>該程式碼使用簡單的邏輯和 C++ 標準函式庫中的函式來有效地判斷一個字串是否為迴文。</p>
+<h2 id="法二-迴圈法">法二 迴圈法</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isPalindrome</span>(string str) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> str.length();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (str[i] <span style="color:#f92672">!=</span> str[len <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  string str;
+</span></span><span style="display:flex;"><span>  getline(cin, str);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (isPalindrome(str)) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;yes&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;no&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這段程式碼是用 C++ 編寫的，用於判斷一個字符串是否為迴文。</p>
+<p><strong>程式碼分析</strong></p>
+<ol>
+<li>
+<p><strong>包含頭文件</strong></p>
+<p>C++</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span></code></pre></div><p>這兩行程式碼包含了必要的頭文件 <code>&lt;iostream&gt;</code> 和 <code>&lt;string&gt;</code>。</p>
+<ul>
+<li><code>&lt;iostream&gt;</code> 頭文件提供了標準輸入輸出流 <code>cin</code> 和 <code>cout</code>。</li>
+<li><code>&lt;string&gt;</code> 頭文件提供了 <code>string</code> 類型，用於表示字符串。</li>
+</ul>
+</li>
+<li>
+<p><strong>定義函數</strong></p>
+<p>C++</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isPalindrome</span>(string str) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> str.length();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (str[i] <span style="color:#f92672">!=</span> str[len <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這段程式碼定義了一個名為 <code>isPalindrome</code> 的函數，該函數接受一個字符串 <code>str</code> 作為參數，並返回一個布爾值，指示該字符串是否為迴文。</p>
+<ul>
+<li>函數的返回值類型為 <code>bool</code>，表示它將返回一個布爾值。</li>
+<li>函數的參數 <code>str</code> 是 <code>string</code> 類型，表示它將接受一個字符串作為參數。</li>
+</ul>
+<p>函數的具體實現如下：</p>
+<ul>
+<li>
+<p>首先，獲取字符串 <code>str</code> 的長度，並將其存儲在變量 <code>len</code> 中。</p>
+</li>
+<li>
+<p>然後，使用一個</p>
+<pre tabindex="0"><code>for
+</code></pre><p>循環來比較字符串的每個字符及其對應的逆序字符。</p>
+<ul>
+<li>
+<p>循環變量 <code>i</code> 從 0 開始，直到 <code>i &lt; len / 2</code>。</p>
+</li>
+<li>
+<p>在每個循環迭代中，將字符串的第</p>
+<pre tabindex="0"><code>i
+</code></pre><p>個字符與其逆序的第</p>
+<pre tabindex="0"><code>len - i - 1
+</code></pre><p>個字符進行比較。</p>
+<ul>
+<li>如果兩個字符相等，則繼續下一個循環迭代。</li>
+<li>如果兩個字符不相等，則字符串不是迴文，並返回 <code>false</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>如果循環結束，則字符串是迴文，並返回 <code>true</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>主函數</strong></p>
+<p>C++</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  string str;
+</span></span><span style="display:flex;"><span>  getline(cin, str);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (isPalindrome(str)) {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;yes&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;no&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這段程式碼是程式碼的入口點，它包含了程式碼的邏輯。</p>
+<ul>
+<li>首先，定義一個 <code>string</code> 類型變量 <code>str</code>，用於存儲輸入的字符串。</li>
+<li>然後，使用 <code>getline(cin, str)</code> 函數從標準輸入獲取一個字符串並將其存儲在 <code>str</code> 變量中。</li>
+<li>接下來，調用 <code>isPalindrome</code> 函數來判斷字符串 <code>str</code> 是否為迴文，並將函數的返回值存儲在變量 <code>result</code> 中。</li>
+<li>最後，根據 <code>result</code> 的值輸出 &ldquo;yes&rdquo; 或 &ldquo;no&rdquo;。</li>
+</ul>
+</li>
+</ol>
+<p><strong>程式碼總結</strong></p>
+<p>這段程式碼使用簡單的循環來比較字符串的每個字符及其對應的逆序字符，有效地判斷了一個字符串是否為迴文。程式碼結構清晰，易於理解和修改。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_d219/"
+      ><span>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

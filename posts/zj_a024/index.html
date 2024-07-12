@@ -1,0 +1,460 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解  - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="本題題目連結 Zerojudge a024. 最大公因數
+法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
+在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
+以下是一些注意事項：
+程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 ">
+  <meta itemprop="description" content="本題題目連結 Zerojudge a024. 最大公因數
+法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
+在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
+以下是一些注意事項：
+程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。">
+  <meta itemprop="datePublished" content="2024-07-12T20:36:28+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T20:36:28+08:00">
+  <meta itemprop="wordCount" content="388">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a024/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 ">
+  <meta property="og:description" content="本題題目連結 Zerojudge a024. 最大公因數
+法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
+在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
+以下是一些注意事項：
+程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T20:36:28+08:00">
+    <meta property="article:modified_time" content="2024-07-12T20:36:28+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 ">
+<meta name="twitter:description" content="本題題目連結 Zerojudge a024. 最大公因數
+法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
+在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
+以下是一些注意事項：
+程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a024/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 </h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 12, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a024"><strong>本題題目連結 Zerojudge a024. 最大公因數</strong></a></p>
+<h2 id="法一-內建函數最方便">法一 內建函數，最方便</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> a, b;
+</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> gcd <span style="color:#f92672">=</span> __gcd(a, b);
+</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> gcd <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>此程式碼首先包含了必要的頭文件 <code>&lt;iostream&gt;</code> 和 <code>&lt;algorithm&gt;</code>。<code>&lt;iostream&gt;</code> 頭文件用於輸入輸出，<code>&lt;algorithm&gt;</code> 頭文件提供了 <code>__gcd()</code> 函數來計算兩個整數的最大公因數。</p>
+<p>在 <code>main()</code> 函數中，首先使用 <code>cin</code> 語句從標準輸入讀取兩個整數 <code>a</code> 和 <code>b</code>。然後，使用 <code>__gcd()</code> 函數計算 <code>a</code> 和 <code>b</code> 的最大公因數，並將結果存儲在變量 <code>gcd</code> 中。最後，使用 <code>cout</code> 語句將 <code>gcd</code> 的值輸出到標準輸出。</p>
+<p>以下是一些注意事項：</p>
+<ul>
+<li>程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。</li>
+<li>程式碼使用 <code>__gcd()</code> 函數來計算最大公因數。<code>__gcd()</code> 函數是 C++ 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。</li>
+</ul>
+<h2 id="法二-遞迴函數可讀性高">法二 遞迴函數，可讀性高</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">gcd</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a;
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> gcd(b, a <span style="color:#f92672">%</span> b);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> a, b;
+</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> gcd <span style="color:#f92672">=</span> gcd(a, b);
+</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> gcd <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>此程式碼使用遞迴函數 <code>gcd()</code> 來計算最大公因數。函數 <code>gcd()</code> 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。</p>
+<p>以下是此版本的程式碼的優點：</p>
+<ul>
+<li>程式碼比使用 <code>__gcd()</code> 函數的版本更具可讀性。</li>
+</ul>
+<p>但是，遞迴函數也有一些缺點：</p>
+<ul>
+<li>遞迴函數可能會導致堆棧溢出，如果輸入整數非常大。</li>
+<li>遞迴函數可能比非遞歸版本更慢。</li>
+</ul>
+<p>第二種算法的 <code>gcd</code> 遞迴部分使用了歐幾里得算法來計算兩個整數的最大公因數。歐幾里得算法是一種古老的算法，其基本思想是：</p>
+<pre tabindex="0"><code>兩個整數的最大公因數等於它們的較小公倍數的除數。
+</code></pre><p>在 <code>gcd</code> 遞迴函數中，首先檢查第二個參數是否為 0。如果為 0，則第一個參數就是兩個整數的最大公因數，函數直接回傳第一個參數。否則，函數將遞迴呼叫自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。</p>
+<p>具體來說，函數的遞迴呼叫可以理解為以下步驟：</p>
+<ol>
+<li>將較大的整數（第一個參數）除以較小的整數（第二個參數），得到餘數。</li>
+<li>將餘數作為新的第二個參數，將原來的第二個參數（較小的整數）作為新的第一個參數。</li>
+<li>遞歸調用 <code>gcd</code> 函數，計算新的第一個參數和新的第二個參數的最大公因數。</li>
+<li>函數返回遞迴呼叫得到的最大公因數。</li>
+</ol>
+<p>例如，假設我們要計算 48 和 18 的最大公因數。</p>
+<ol>
+<li>首先，將 48 除以 18，得到餘數 12。</li>
+<li>然後，將 12 作為新的第二個參數，將 18 作為新的第一個參數。</li>
+<li>遞歸調用 <code>gcd</code> 函數，計算 18 和 12 的最大公因數。</li>
+<li>函數返回遞迴呼叫得到的最大公因數 6。</li>
+</ol>
+<p>因此，48 和 18 的最大公因數是 6。</p>
+<p>遞迴演算法的優點是簡潔易懂，但缺點是可能導致堆疊溢位。在實際應用中，如果輸入整數非常大，可以使用非遞迴版本的歐幾里得算法來避免堆疊溢位。</p>
+<h2 id="法三-迴圈法效能最好">法三 迴圈法，效能最好</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">// (3ms, 324KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> a, b;
+</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (b <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> a <span style="color:#f92672">%</span> b;
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">=</span> temp;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>程式碼說明：</p>
+<ol>
+<li>
+<p>首先，我們包含 <code>&lt;iostream&gt;</code> 標頭檔，以使用 <code>cin</code> 和 <code>cout</code> 函數進行輸入和輸出。</p>
+</li>
+<li>
+<p>然後，我們定義兩個整數變數 <code>a</code> 和 <code>b</code> 來存儲輸入的兩個整數。</p>
+</li>
+<li>
+<p>接下來，我們使用歐幾里得算法來計算最大公因數。歐幾里得算法是一種遞歸算法，但我們可以使用迴圈來實現。該算法的思路是：不斷將較大的數除以較小的數，直到較小的數為 0。此時，較大的數即為最大公因數。</p>
+</li>
+<li>
+<p>在迴圈中，我們首先使用 <code>a % b</code> 運算子來求得 <code>a</code> 除以 <code>b</code> 的餘數。然後，我們將 <code>a</code> 的值賦給 <code>b</code>，將 <code>b</code> 的值賦給 <code>temp</code>。這樣，在下一輪迴圈中，我們將使用較小的數（<code>temp</code>）來除以較大的數（<code>a</code>）。</p>
+<blockquote>
+<p>補充說明，兩數的交換</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> a <span style="color:#f92672">%</span> b; 
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> temp;
+</span></span></code></pre></div><p><strong>1. 程式碼片段的作用</strong></p>
+<p>這段程式碼的作用是將兩個整數變數 <code>a</code> 和 <code>b</code> 的值進行交換。</p>
+<p><strong>2. 程式碼片段的詳細解釋</strong></p>
+<ul>
+<li><code>int temp = a % b;</code></li>
+</ul>
+<p>這行程式碼首先將 <code>a</code> 除以 <code>b</code> 的餘數存儲在變數 <code>temp</code> 中。例如，如果 <code>a</code> 為 18，<code>b</code> 為 6，那麼這行程式碼將把 0 存儲在 <code>temp</code> 中。</p>
+<ul>
+<li><code>a = b;</code></li>
+</ul>
+<p>這行程式碼將 <code>b</code> 的值賦給 <code>a</code>。例如，如果 <code>b</code> 為 6，那麼這行程式碼將把 6 存儲在 <code>a</code> 中。</p>
+<ul>
+<li><code>b = temp;</code></li>
+</ul>
+<p>這行程式碼將 <code>temp</code> 的值賦給 <code>b</code>。例如，如果 <code>temp</code> 為 0，那麼這行程式碼將把 0 存儲在 <code>b</code> 中。</p>
+<p><strong>3. 程式碼片段的執行示例</strong></p>
+<p>假設 <code>a</code> 的初始值為 18，<code>b</code> 的初始值為 6。那麼，這段程式碼將執行以下步驟：</p>
+<ol>
+<li>將 <code>a</code> 除以 <code>b</code> 的餘數存儲在 <code>temp</code> 中。在這個例子中，<code>temp</code> 的值為 0。</li>
+<li>將 <code>b</code> 的值賦給 <code>a</code>。現在，<code>a</code> 的值為 6。</li>
+<li>將 <code>temp</code> 的值賦給 <code>b</code>。現在，<code>b</code> 的值為 0。</li>
+</ol>
+<p>因此，在執行這段程式碼之後，<code>a</code> 的值為 6，<code>b</code> 的值為 0。</p>
+</blockquote>
+</li>
+<li>
+<p>當 <code>b</code> 為 0 時，迴圈結束。此時，<code>a</code> 的值即為最大公因數。</p>
+</li>
+<li>
+<p>最後，我們使用 <code>cout</code> 函數輸出最大公因數。</p>
+</li>
+</ol>
+<p>以下是程式碼的輸入輸出範例：</p>
+<pre tabindex="0"><code>輸入：
+18 36
+
+輸出：
+6
+</code></pre><p>在這個範例中，輸入的兩個整數是 18 和 36，它們的最大公因數是 6。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a001/"
+      ><span class="mr-1.5">←</span><span>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</span></a
+    >
+    
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
