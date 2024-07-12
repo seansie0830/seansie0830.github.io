@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -69,14 +69,14 @@ b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -92,7 +92,7 @@ b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -102,13 +102,63 @@ b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）">
+  <meta itemprop="description" content="d219. 00374 - Big Mod 題目連結
+基本版本 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int mod(int b,int p,int m){ int r=1,nr=b%m; while(p&gt;0){ if(p&amp;1) r=(r*nr)%m; nr=(nr*nr)%m, p=p&gt;&gt;1; } return (b&gt;=0&amp;&amp;m&gt;0)?r:-1; } int main(){ int b,p,m; while(cin&gt;&gt;b&gt;&gt;p&gt;&gt;m) cout&lt;&lt;mod(b,p,m)&lt;&lt;endl; } 程式碼說明 函數 mod
+這個函數的功能是計算 b^p mod m 的值，也就是 b 的 p 次方對 m 取餘。
+函數參數
+b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數 函數返回值
+如果 b 和 m 都是正整數，則返回 b^p mod m 的值 否則返回 -1 函數運作原理
+這個函數使用二進位快速冪算法來計算 b^p mod m。二進位快速冪算法的基本思想是，將 p 分解為二進位表示，然後根據二進位表示來計算 b^p。">
+  <meta itemprop="datePublished" content="2024-07-12T21:00:01+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T21:00:01+08:00">
+  <meta itemprop="wordCount" content="447">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_d219/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）">
+  <meta property="og:description" content="d219. 00374 - Big Mod 題目連結
+基本版本 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int mod(int b,int p,int m){ int r=1,nr=b%m; while(p&gt;0){ if(p&amp;1) r=(r*nr)%m; nr=(nr*nr)%m, p=p&gt;&gt;1; } return (b&gt;=0&amp;&amp;m&gt;0)?r:-1; } int main(){ int b,p,m; while(cin&gt;&gt;b&gt;&gt;p&gt;&gt;m) cout&lt;&lt;mod(b,p,m)&lt;&lt;endl; } 程式碼說明 函數 mod
+這個函數的功能是計算 b^p mod m 的值，也就是 b 的 p 次方對 m 取餘。
+函數參數
+b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數 函數返回值
+如果 b 和 m 都是正整數，則返回 b^p mod m 的值 否則返回 -1 函數運作原理
+這個函數使用二進位快速冪算法來計算 b^p mod m。二進位快速冪算法的基本思想是，將 p 分解為二進位表示，然後根據二進位表示來計算 b^p。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T21:00:01+08:00">
+    <meta property="article:modified_time" content="2024-07-12T21:00:01+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）">
+<meta name="twitter:description" content="d219. 00374 - Big Mod 題目連結
+基本版本 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int mod(int b,int p,int m){ int r=1,nr=b%m; while(p&gt;0){ if(p&amp;1) r=(r*nr)%m; nr=(nr*nr)%m, p=p&gt;&gt;1; } return (b&gt;=0&amp;&amp;m&gt;0)?r:-1; } int main(){ int b,p,m; while(cin&gt;&gt;b&gt;&gt;p&gt;&gt;m) cout&lt;&lt;mod(b,p,m)&lt;&lt;endl; } 程式碼說明 函數 mod
+這個函數的功能是計算 b^p mod m 的值，也就是 b 的 p 次方對 m 取餘。
+函數參數
+b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數 函數返回值
+如果 b 和 m 都是正整數，則返回 b^p mod m 的值 否則返回 -1 函數運作原理
+這個函數使用二進位快速冪算法來計算 b^p mod m。二進位快速冪算法的基本思想是，將 p 分解為二進位表示，然後根據二進位表示來計算 b^p。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_d219/" />
   
   
 </head>
@@ -118,7 +168,7 @@ b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -326,14 +376,14 @@ b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a022/"
+      href="https://seansie0830.github.io/posts/zj_a022/"
       ><span class="mr-1.5">←</span><span>Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a020/"
+      href="https://seansie0830.github.io/posts/zj_a020/"
       ><span>zerojudge a020. 身分證檢驗 詳解</span><span class="ml-1.5">→</span></a
     >
     
@@ -361,7 +411,7 @@ b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

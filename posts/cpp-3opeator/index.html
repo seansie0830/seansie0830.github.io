@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -67,14 +67,14 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -90,7 +90,7 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -100,13 +100,57 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="C&#43;&#43; 教學 三元運算子">
+  <meta itemprop="description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
+condition ? value1 : value2; 其中：
+condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
+首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。">
+  <meta itemprop="datePublished" content="2024-07-12T21:35:57+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T21:35:57+08:00">
+  <meta itemprop="wordCount" content="86">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/cpp-3opeator/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="C&#43;&#43; 教學 三元運算子">
+  <meta property="og:description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
+condition ? value1 : value2; 其中：
+condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
+首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-12T21:35:57+08:00">
+    <meta property="article:modified_time" content="2024-07-12T21:35:57+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C&#43;&#43; 教學 三元運算子">
+<meta name="twitter:description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
+condition ? value1 : value2; 其中：
+condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
+首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/cpp-3opeator/" />
   
   
 </head>
@@ -116,7 +160,7 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -264,14 +308,14 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/hugo-frame-new-build/"
-      ><span class="mr-1.5">←</span><span>如何利用hugo套件建立靜態網頁型網誌並佈署在github page上</span></a
+      href="https://seansie0830.github.io/posts/chatgpt-new-exp/"
+      ><span class="mr-1.5">←</span><span>Chatgpt 新體驗與實測</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a022/"
+      href="https://seansie0830.github.io/posts/zj_a022/"
       ><span>Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</span><span class="ml-1.5">→</span></a
     >
     
@@ -299,7 +343,7 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a
