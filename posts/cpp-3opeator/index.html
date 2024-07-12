@@ -1,0 +1,317 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>C&#43;&#43; 教學 三元運算子 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
+condition ? value1 : value2; 其中：
+condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
+首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">C&#43;&#43; 教學 三元運算子</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 12, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="介紹">介紹</h2>
+<p>C++的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>condition <span style="color:#f92672">?</span> value1 : value2;
+</span></span></code></pre></div><p>其中：</p>
+<ul>
+<li><code>condition</code> 是要判斷的條件表達式，其值必須為布林值。</li>
+<li><code>value1</code> 是條件為真時要返回的值。</li>
+<li><code>value2</code> 是條件為假時要返回的值。</li>
+</ul>
+<p>三元運算子的運作方式如下：</p>
+<ol>
+<li>首先計算 <code>condition</code> 的值。</li>
+<li>如果 <code>condition</code> 的值為真，則返回 <code>value1</code>。</li>
+<li>如果 <code>condition</code> 的值為假，則返回 <code>value2</code>。</li>
+</ol>
+<h2 id="例子">例子</h2>
+<p>例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> isEven <span style="color:#f92672">=</span> (number <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">?</span> true <span style="color:#f92672">:</span> false;
+</span></span></code></pre></div><p>在這個程式碼中，<code>condition</code> 是 <code>number % 2 == 0</code>，它會檢查 <code>number</code> 是否為偶數。如果 <code>number</code> 為偶數，則 <code>condition</code> 的值為真，並將 <code>true</code> 賦值給 <code>isEven</code>。如果 <code>number</code> 為奇數，則 <code>condition</code> 的值為假，並將 <code>false</code> 賦值給 <code>isEven</code>。</p>
+<h2 id="限制">限制</h2>
+<p>三元運算子可以用來簡化程式碼，使其更易讀。但是，它也有一些限制：</p>
+<ul>
+<li>三元運算子只能用於簡單的條件判斷。</li>
+<li>三元運算子的可讀性可能會受到影響，尤其是當條件表達式或返回值較複雜時。</li>
+</ul>
+<p>在以下情況下，可以使用三元運算子：</p>
+<ul>
+<li>需要在一個程式碼行中進行簡單的條件判斷。</li>
+<li>需要在程式碼中嵌入條件判斷。</li>
+</ul>
+<p>在以下情況下，不建議使用三元運算子：</p>
+<ul>
+<li>需要進行複雜的條件判斷。</li>
+<li>需要提高程式碼的可讀性。</li>
+</ul>
+<p>以下是一些三元運算子的使用技巧：</p>
+<ul>
+<li>使用三元運算子時，要注意條件表達式的可讀性。</li>
+<li>如果條件表達式或返回值較複雜，可以使用 if-else 條件判斷來代替三元運算子。</li>
+<li>可以使用括號來提高三元運算子的可讀性。</li>
+</ul>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/hugo-frame-new-build/"
+      ><span class="mr-1.5">←</span><span>如何利用hugo套件建立靜態網頁型網誌並佈署在github page上</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/zj_a022/"
+      ><span>Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

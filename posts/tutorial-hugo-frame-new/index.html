@@ -1,0 +1,375 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>如何利用hugo套件建立靜態網頁型網誌並佈署在github page上 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
+https://gohugo.io/getting-started/installing/
+這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。
+debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
+更新 (2022.10.15)
+因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速
+網址如下 https://github.com/gohugoio/hugo/releases
+建議使用wget 下載 命令就是wget空一格&#43;網址
+接著用dpkg安裝，命令如下
+dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 需要curl與git 沒有記得安裝 sudo apt install curl git
+安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。
+安裝完畢會出現這些訊息，執行下面的命令
+==&gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34; - Install Homebrew&#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">如何利用hugo套件建立靜態網頁型網誌並佈署在github page上</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 25, 2022</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="安裝">安裝</h1>
+<p>本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。</p>
+<p><a href="https://gohugo.io/getting-started/installing/">https://gohugo.io/getting-started/installing/</a></p>
+<p>這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。</p>
+<p>debian-based的作業系統安裝軟體通常都會用<code>apt</code>這個工具，不過本人用<code>apt </code>安裝的時候發現版本過舊
+與很多主題都無法相容。
+所以為了安裝到最新版本的hugo，建議使用<code>homebrew</code>這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。</p>
+<blockquote>
+<h3 id="更新">更新</h3>
+<p>(2022.10.15)</p>
+<p>因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速</p>
+<p>網址如下 <a href="https://github.com/gohugoio/hugo/releases">https://github.com/gohugoio/hugo/releases</a></p>
+<p>建議使用<code>wget</code> 下載 命令就是<code>wget</code>空一格+網址</p>
+<p>接著用<code>dpkg</code>安裝，命令如下</p>
+<pre tabindex="0"><code>dpkg -i [YOUR PACKAGE]
+</code></pre></blockquote>
+<ul>
+<li>命令如下</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> /bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>需要<code>curl</code>與<code>git</code> 沒有記得安裝 <code> sudo apt install curl git</code></p>
+<ul>
+<li>
+<p>安裝完記得還要執行一段命令，來把<code>homebrew</code>加入<code>PATH</code>，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。</p>
+<p>安裝完畢會出現這些訊息，執行下面的命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">==</span>&gt; Next steps:
+</span></span><span style="display:flex;"><span>- Run these two commands in your terminal to add Homebrew to your PATH:
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39;</span> &gt;&gt; /root/.profile
+</span></span><span style="display:flex;"><span>    eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>/home/linuxbrew/.linuxbrew/bin/brew shellenv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>- Install Homebrew<span style="color:#960050;background-color:#1e0010">&#39;</span>s dependencies <span style="color:#66d9ef">if</span> you have sudo access:
+</span></span><span style="display:flex;"><span>    sudo apt-get install build-essential
+</span></span></code></pre></div></li>
+<li>
+<p>最後輸入<code>brew install hugo</code>安裝</p>
+</li>
+<li>
+<p>最後輸入<code>hugo version</code> 驗證安裝，如果成功安裝會出現版本資訊。</p>
+</li>
+</ul>
+<h1 id="新增一個網頁">新增一個網頁</h1>
+<p>1.首先開終端機，輸入<code>hugo new site [YOUR SITE NAME]</code> YOUR SITE NAME 填入自己網頁的名字。</p>
+<p>2.接著建立完，輸入<code>ls</code>命令會出現以下資料夾</p>
+<pre tabindex="0"><code>archetypes  config.toml  content  data  layouts  public  resources  static  themes
+</code></pre><p>輸入<code>cd themes</code>，切換目錄到主題資料夾，並到hugo的官方主題商店(<a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a>)下載主題，挑一個自己喜歡的</p>
+<blockquote>
+<p>下載方式，在(<a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a>找到自己喜歡的主題，按下download，前往github，並使用<code>git clone</code></p>
+</blockquote>
+<p>3.接著編輯<code>config.toml</code> <strong>設定檔</strong></p>
+<p>輸入<code>cd ..</code> 回到上層目錄，使用編輯器編輯<code>config.toml</code>設定檔，若在<strong>終端機</strong>環境，建議使用<code>nano</code>編輯器，簡單易懂。</p>
+<p><code>nano</code>編輯器使用<code>sudo apt install nano</code>安裝。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#39;http://example.org/&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">languageCode</span> = <span style="color:#e6db74">&#39;en-us&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#39;My New Hugo Site&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#34;ananke&#34;</span>
+</span></span></code></pre></div><p>在下面新增 <code>theme = &quot;[YOUR THEME]&quot; </code>  YOUR THEME指你的主題。</p>
+<p>4.如果要新增貼文 ，輸入<code>hugo new posts/my-first-post.md</code> my-first-post 填入貼文名字。</p>
+<p>下完指令後，系統會在<code>.content/posts</code>中新增<code>markdown</code>檔案，可以使用以下的語法</p>
+<blockquote>
+<p><strong>markdown</strong>語法簡介</p>
+<ol>
+<li>
+<p>標題 (用加在前面的#號代表)</p>
+<p>舉例</p>
+<pre tabindex="0"><code># 我是大標題
+## 我是第二大標題
+</code></pre><h1 id="我是大標題">我是大標題</h1>
+<h2 id="我第二大標題">我第二大標題</h2>
+<p><em><strong>#號越多越小</strong></em>，記得要空格</p>
+<p>2.常見字體格式</p>
+<p>舉例</p>
+<pre tabindex="0"><code>**粗體**  *斜體*  &lt;u&gt;底線&lt;/u&gt; ***粗體&amp;斜體***
+</code></pre><p><strong>粗體</strong> <em>斜體</em> <!-- raw HTML omitted -->底線<!-- raw HTML omitted -->  <em><strong>粗體與斜體</strong></em></p>
+<p>3.若沒有加記號，就是正常內文。</p>
+</li>
+</ol>
+</blockquote>
+<p>5.完成後，輸入<code>hugo server -D</code>啟動hugo伺服器，可以在本地測試。接下來會出現一個網址，點下去可以預覽。</p>
+<p>6.覺得沒問題，輸入<code>hugo -D</code>建立靜態網頁，預設會儲存在<code>./public/</code>中</p>
+<h1 id="上傳到github-page-上">上傳到github page 上</h1>
+<p>github原本是軟體代碼的託管網站，不過他也有讓人免費建立小型網站的功能，本次就是要利用這個功能。</p>
+<p>1.註冊一個github帳號</p>
+<p>2.新增一個repo(類似一個存檔案的空間，主要來存程式碼) 名字叫做<code>[USERNAME].github.io</code> ，這樣才會啟用<code>github page</code>功能。</p>
+<p>3.上傳靜態網頁內容到剛剛建立的repo</p>
+<blockquote>
+<p>github上傳說明</p>
+<p>1.先將目錄切換到<code>./public/</code> 輸入指令<code>git init</code>建立git儲存庫</p>
+<p>2.輸入<code>git add .</code>將所有檔案加入追蹤</p>
+<p>3.輸入<code>git commit </code>提交到儲存庫</p>
+<p>這邊有個坑，git的預設編輯是<code>vim</code> ，操作方式有點奇怪，方式如下</p>
+<blockquote>
+<p>首先先按方向鍵的下鍵，把游標移動到最下面，按下<code>I</code>進入插入模式，編輯完之後按下<code>esc</code>鍵退出插入模式，最後輸入<code>:wq</code>存檔並離開。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>4.最後輸入<code>git push [URL]</code> 把文件推送到<code>github</code>上</p>
+</blockquote>
+<p>4.上傳完後，沒有意外的話<code>github action</code>會自動部屬，過不久就可以打開瀏覽器，輸入<code>[your username].github.io</code>看看自己的網頁了。</p>
+<p>若沒有可以看看<code>githubstatus</code> 上次碰巧遇到<code>github page</code>大當機，原本還以為是自己的問題，過不久就好了</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/zj_a024/"
+      ><span class="mr-1.5">←</span><span>Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 </span></a
+    >
+    
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
