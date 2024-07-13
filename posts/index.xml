@@ -6,8 +6,15 @@
     <description>Recent content in Posts on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 12 Jul 2024 22:09:47 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jul 2024 10:06:11 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>茶包日常#1 git推送衝突與git push &amp; git pull 的用法</title>
+      <link>https://seansie0830.github.io/posts/trouble-1/</link>
+      <pubDate>Sat, 13 Jul 2024 10:06:11 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/trouble-1/</guid>
+      <description>昨天在用GitHub Page的時候，因為剛好在GitHub網頁版執行了操作，沒有跟本機的repo同步，導致git push發生衝突。這讓我重新理解了git push的原理，以及為什麼git push發生衝突的時候要先用git pull同步git repo再git push上去遠端伺服器。&#xA;git push是什麼？ git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先將本機的repo切換到要推送的分支上，然後再執行git push命令。&#xA;git checkout &amp;lt;branch-name&amp;gt; git push 例如，要將本機的master分支推送到名為“my-repo”的遠端repo，可以執行以下命令：&#xA;git checkout master git push origin master 為什麼git push發生衝突的時候要先用git pull同步git repo？ git push發生衝突的原因是，本機的repo和遠端repo的內容不一致。在這種情況下，git push會失敗，並提示發生衝突。&#xA;舉個例子&#xA;1.我在Github建立了一個新的 GitHub Action 工作流程，並將相關的配置文件存放在 .github/workflows 目錄下。&#xA;2.我在 GitHub 網頁版上編輯了配置文件，並提交了更改，因此在遠端伺服器中的分支比本機端多了一個（配置文件）&#xA;3.我沒有將配置文件的更改更新到本機。&#xA;4.我試圖將本機的程式碼推送到遠端。&#xA;因此在遠端伺服器的最後一個分支是有配置文件的，不過本機端沒有，因此衝突。&#xA;要解決git push衝突，需要先用git pull同步git repo。git pull會將遠端repo的最新內容下載到本機。這樣，本機的repo和遠端repo的內容就一致了，git push就可以成功了。&#xA;git pull 在git pull成功後，再執行git push命令，就可以將本機的repo推送到遠端伺服器了。&#xA;git push 總結 git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先用git pull同步git repo，以避免發生衝突。&#xA;在進行任何更改之前，先使用 git pull 命令從遠端拉取最新更改。</description>
+    </item>
     <item>
       <title>Chatgpt 新體驗與實測</title>
       <link>https://seansie0830.github.io/posts/chatgpt-new-exp/</link>
