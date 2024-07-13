@@ -6,8 +6,15 @@
     <description>Recent content in Posts on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Sat, 13 Jul 2024 10:06:11 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Jul 2024 12:05:17 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zerojudge a541 題解</title>
+      <link>https://seansie0830.github.io/posts/zj_a541/</link>
+      <pubDate>Sat, 13 Jul 2024 12:05:17 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a541/</guid>
+      <description>題解-基本版 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main(){ int n; set&amp;lt;string&amp;gt; st; string s; cin&amp;gt;&amp;gt;n; for(int i=0;i&amp;lt;n;i++) { cin&amp;gt;&amp;gt;s; st.insert(s); } cin&amp;gt;&amp;gt;n; for(int i=0;i&amp;lt;n;i++){ cin&amp;gt;&amp;gt;s; cout&amp;lt;&amp;lt;((st.find(s)==st.end())?&amp;#34;no\n&amp;#34;:&amp;#34;yes\n&amp;#34;); st.insert(s); } } 精益求精優化版 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&amp;lt;string&amp;gt; st; string s; cin&amp;gt;&amp;gt;n; st.reserve(n); for(int i=0;i&amp;lt;n;i++) { cin&amp;gt;&amp;gt;s; st.insert(s); } cin&amp;gt;&amp;gt;m; st.reserve(n+m); for(int i=0;i&amp;lt;m;i++){ cin&amp;gt;&amp;gt;s; bool flag=st.find(s)==st.end(); cout&amp;lt;&amp;lt;((flag)?&amp;#34;no\n&amp;#34;:&amp;#34;yes\n&amp;#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);&#xA;這兩個語句旨在優化 C++ 中的輸入輸出 (I/O) 操作。</description>
+    </item>
     <item>
       <title>茶包日常#1 git推送衝突與git push &amp; git pull 的用法</title>
       <link>https://seansie0830.github.io/posts/trouble-1/</link>
