@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -70,14 +70,14 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -93,7 +93,7 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -103,13 +103,66 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="清單與元組">
+  <meta itemprop="description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
+應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
+PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
+用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。">
+  <meta itemprop="datePublished" content="2024-07-16T15:32:47+08:00">
+  <meta itemprop="dateModified" content="2024-07-16T15:32:47+08:00">
+  <meta itemprop="wordCount" content="93">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/py-new-tutorial4/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="清單與元組">
+  <meta property="og:description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
+應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
+PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
+用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-16T15:32:47+08:00">
+    <meta property="article:modified_time" content="2024-07-16T15:32:47+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="清單與元組">
+<meta name="twitter:description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
+應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
+PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
+用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/py-new-tutorial4/" />
   
   
 </head>
@@ -119,7 +172,7 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -273,14 +326,14 @@ c
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/py-new-tutorial6/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial6/"
       ><span class="mr-1.5">←</span><span>字典(KV)資料庫</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/py-new-tutorial2/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial2/"
       ><span>迴圈與控制</span><span class="ml-1.5">→</span></a
     >
     
@@ -308,7 +361,7 @@ c
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

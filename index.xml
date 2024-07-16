@@ -2,122 +2,122 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>seansie&#39;s blog</title>
-    <link>http://localhost:1313/</link>
+    <link>https://seansie0830.github.io/</link>
     <description>Recent content on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
     <lastBuildDate>Tue, 16 Jul 2024 15:35:59 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://seansie0830.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>例外處理</title>
-      <link>http://localhost:1313/posts/py-new-tutorial8/</link>
+      <link>https://seansie0830.github.io/posts/py-new-tutorial8/</link>
       <pubDate>Tue, 16 Jul 2024 15:35:59 +0800</pubDate>
-      <guid>http://localhost:1313/posts/py-new-tutorial8/</guid>
+      <guid>https://seansie0830.github.io/posts/py-new-tutorial8/</guid>
       <description>在程式執行中，總會遇到一些不可預期的錯誤，例如資料損毀，網路不通，或是使用者打錯字等等，這個時候總不能直接讓程式當機吧。&#xA;因此python提供了一個機制可以有效的處理這些錯誤，也就是例外處理，又名 try-except ，格式如下。&#xA;try: (1) except 錯誤名稱： （2） 區塊（1）請填入要嘗試（也就是可能會發生錯誤需要處理的程式碼）的程式碼 區塊（2）是當 except 後面的填入的錯位出現時，要如何處理的程式碼，我把他叫做例外處理。 在執行期間，try中的程式碼（區塊1）會先被執行，若有發生符合 except的錯誤名稱之錯誤，就會執行except後面的例外處理的部分，來處理錯誤。&#xA;例子 以下程式以除法計算機爲例子，正常四則運算之下除數不得爲零，因此如果在 python 中執行該運算會發生 ZeroDivisionError 錯誤，因此會執行(2)的區塊，告訴使用者除數不得爲零。&#xA;try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&amp;#34;除數不得爲0&amp;#34;) #區塊（2） print(c) 以下提供兩種執行結果，一種是沒有錯誤的，另一種是有錯誤（除以0）因此有執行到例外處理的部分的。&#xA;錯誤列表 </description>
     </item>
     <item>
       <title>字典(KV)資料庫</title>
-      <link>http://localhost:1313/posts/py-new-tutorial6/</link>
+      <link>https://seansie0830.github.io/posts/py-new-tutorial6/</link>
       <pubDate>Tue, 16 Jul 2024 15:33:14 +0800</pubDate>
-      <guid>http://localhost:1313/posts/py-new-tutorial6/</guid>
+      <guid>https://seansie0830.github.io/posts/py-new-tutorial6/</guid>
       <description>在日常生活中，有時會常常需要處理一些事物的對應關係，舉一個最常見的例子，電話簿，就是聯絡人與手機號碼的對應關係，這種問題就很是合用python中的字典（dictionary )功能來解決。&#xA;這個在程式語言中也被稱作**KV資料庫，**是一種很常見的資料庫形式，像是C++中有個很相似的叫做map，由key(鍵）與value（值）組成，其中key是不能修改的，如同電話簿中的名字一樣，正常情況（改名例外，而且也不常見）下不會修改。&#xA;不過裏面的值是可以被修改的，就像電話簿中的手機號碼，常常會因爲某些原因會被更動。&#xA;對這個資料庫有興趣的讀者可以參考下面這個維基百科的連結。&#xA;https://zh.wikipedia.org/zh-tw/键-值存储&#xA;宣告 有兩種方式&#xA;法一 與正常變數一樣的方式宣告 phonebook = {&amp;#34;John Doe&amp;#34;: &amp;#34;123-456-7890&amp;#34;, &amp;#34;Jane Doe&amp;#34;: &amp;#34;987-654-3210&amp;#34;} 其中格式如下&#xA;{&amp;#34;鍵1” :&amp;#34;值1&amp;#34; , &amp;#34;鍵2” :&amp;#34;值2&amp;#34; ... &amp;#34;鍵n” :&amp;#34;值n&amp;#34; } 法二 用dict函數 這個函數接受了數種引數格式，第n個鍵或值分別用Kn與Vn來表示。&#xA;1.傳入一個有數個元組（格式： (鍵,值) ） 的清單，格式如下 。 dict=([(K1,V1),(K2,V2),........,(Kn,Vn)}} 2.用平常宣告變數的方式來當作引數的格式，只是變數名稱是鍵，變數數值是值。 口訣：名稱不能變是鍵，值是值。&#xA;dict(K1=V1,K2=V2 .....Kn=Vn) 存取 對單個元素 與清單的格式相同，只是索引值改成鍵值，清單填入數字，但字典可是填入資料，範例如下。&#xA;# 電話簿字典例子 phone_book = { &amp;#34;Alice&amp;#34;: &amp;#34;123-456-7890&amp;#34;, &amp;#34;Bob&amp;#34;: &amp;#34;234-567-8901&amp;#34;, &amp;#34;Charlie&amp;#34;: &amp;#34;345-678-9012&amp;#34;, &amp;#34;David&amp;#34;: &amp;#34;456-789-0123&amp;#34;, &amp;#34;Eva&amp;#34;: &amp;#34;567-890-1234&amp;#34; } print(phone_book[&amp;#34;Bob&amp;#34;]) 執行結果&#xA;&amp;#39;234-567-8901&amp;#39; 對多個元素的迴圈技巧 用item函數 item 函數是用來回傳指定元素字典的鍵值對的，用法如下，以下迴圈會遍歷 phone_book 中的所有元素，並以 item 函數回傳給 k v 。</description>
     </item>
     <item>
       <title>清單與元組</title>
-      <link>http://localhost:1313/posts/py-new-tutorial4/</link>
+      <link>https://seansie0830.github.io/posts/py-new-tutorial4/</link>
       <pubDate>Tue, 16 Jul 2024 15:32:47 +0800</pubDate>
-      <guid>http://localhost:1313/posts/py-new-tutorial4/</guid>
+      <guid>https://seansie0830.github.io/posts/py-new-tutorial4/</guid>
       <description>清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#&#xA;範例 我的飲料 = [&amp;#34;珍珠&amp;#34;, &amp;#34;鮮奶&amp;#34; ,&amp;#34;半糖&amp;#34; ,&amp;#34;去冰&amp;#34;] 外送清單 = [[&amp;#39;青茶&amp;#39;, &amp;#39;綠茶&amp;#39;, &amp;#39;仙草&amp;#39;, &amp;#39;正常冰&amp;#39;], [&amp;#39;少冰&amp;#39;, &amp;#39;紅豆&amp;#39;, &amp;#39;綠豆&amp;#39;, &amp;#39;熱飲&amp;#39;], [&amp;#39;寒天&amp;#39;, &amp;#39;熱飲&amp;#39;, &amp;#39;青茶&amp;#39;, &amp;#39;綠茶&amp;#39;], [&amp;#39;微糖&amp;#39;, &amp;#39;紅茶&amp;#39;, &amp;#39;紅豆&amp;#39;, &amp;#39;愛玉&amp;#39;], [&amp;#39;紅豆&amp;#39;, &amp;#39;青茶&amp;#39;, &amp;#39;椰果&amp;#39;, &amp;#39;正常冰&amp;#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。&#xA;裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &amp;#34;a&amp;#34;, &amp;#34;b&amp;#34; ,&amp;#34;c&amp;#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果&#xA;a b c 存取 即 清單名稱[元素編號] ，例如 print([0])&#xA;修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。&#xA;應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。&#xA;PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，&#xA;用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。</description>
     </item>
     <item>
       <title>迴圈與控制</title>
-      <link>http://localhost:1313/posts/py-new-tutorial2/</link>
+      <link>https://seansie0830.github.io/posts/py-new-tutorial2/</link>
       <pubDate>Tue, 16 Jul 2024 15:31:56 +0800</pubDate>
-      <guid>http://localhost:1313/posts/py-new-tutorial2/</guid>
+      <guid>https://seansie0830.github.io/posts/py-new-tutorial2/</guid>
       <description>if 陳述式 格式如下&#xA;if statement : do_something() elif statement: do something() else foo() 例子&#xA;x = int(input(&amp;#34;Please enter an integer: &amp;#34;)) if x &amp;lt; 0: x = 0 print(&amp;#39;Negative changed to zero&amp;#39;) elif x == 0: print(&amp;#39;Zero&amp;#39;) elif x == 1: print(&amp;#39;Single&amp;#39;) else: print(&amp;#39;More&amp;#39;) statement請填入布林變數( True False 記得要大寫)或是條件 e.g. 1+1==2 除了有 if elif else 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 if 條件式之後，有縮排的程式碼才是如果 if 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。 For statement 格式如下&#xA;for i in sequence: do_sometning() 再次提醒，記得要縮排，才不會造成歧義。&#xA;sequence爲一個序列，可以填入數種資料，像是字典，清單等等。 Range 函數 如果你會C++，會發現python與c++的for迴圈是不一樣的，在C++中，迴圈是有一個變數的，例如 for(int i=0;i&amp;lt;n;i++)之類的。</description>
     </item>
     <item>
       <title>Py New Tutorial1</title>
-      <link>http://localhost:1313/posts/py-new-tutorial1/</link>
+      <link>https://seansie0830.github.io/posts/py-new-tutorial1/</link>
       <pubDate>Tue, 16 Jul 2024 15:31:23 +0800</pubDate>
-      <guid>http://localhost:1313/posts/py-new-tutorial1/</guid>
+      <guid>https://seansie0830.github.io/posts/py-new-tutorial1/</guid>
       <description>學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。&#xA;首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。&#xA;線上編譯器資源 https://www.python.org/shell/&#xA;安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝&#xA;windows 使用套件管理工具winget，在終端機輸入 winget install -e --id Python.Python.3.11 即可。&#xA;Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。&#xA;Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。&#xA;如何使用終端機 windows 按下 win 鍵+ R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。&#xA;Mac 在 spotlight中搜尋 terminal.app 即可&#xA;Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋&#xA;未完待續 Reference https://winget.run/pkg/Python/Python.2&#xA;https://packages.ubuntu.com/search?keywords=python&amp;amp;searchon=names&amp;amp;suite=noble&amp;amp;section=all</description>
     </item>
     <item>
       <title>Zerojudge a541 題解</title>
-      <link>http://localhost:1313/posts/zj_a541/</link>
+      <link>https://seansie0830.github.io/posts/zj_a541/</link>
       <pubDate>Sat, 13 Jul 2024 12:05:17 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_a541/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_a541/</guid>
       <description>題解-基本版 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main(){ int n; set&amp;lt;string&amp;gt; st; string s; cin&amp;gt;&amp;gt;n; for(int i=0;i&amp;lt;n;i++) { cin&amp;gt;&amp;gt;s; st.insert(s); } cin&amp;gt;&amp;gt;n; for(int i=0;i&amp;lt;n;i++){ cin&amp;gt;&amp;gt;s; cout&amp;lt;&amp;lt;((st.find(s)==st.end())?&amp;#34;no\n&amp;#34;:&amp;#34;yes\n&amp;#34;); st.insert(s); } } 精益求精優化版 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&amp;lt;string&amp;gt; st; string s; cin&amp;gt;&amp;gt;n; st.reserve(n); for(int i=0;i&amp;lt;n;i++) { cin&amp;gt;&amp;gt;s; st.insert(s); } cin&amp;gt;&amp;gt;m; st.reserve(n+m); for(int i=0;i&amp;lt;m;i++){ cin&amp;gt;&amp;gt;s; bool flag=st.find(s)==st.end(); cout&amp;lt;&amp;lt;((flag)?&amp;#34;no\n&amp;#34;:&amp;#34;yes\n&amp;#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);&#xA;這兩個語句旨在優化 C++ 中的輸入輸出 (I/O) 操作。</description>
     </item>
     <item>
       <title>茶包日常#1 git推送衝突與git push &amp; git pull 的用法</title>
-      <link>http://localhost:1313/posts/trouble-1/</link>
+      <link>https://seansie0830.github.io/posts/trouble-1/</link>
       <pubDate>Sat, 13 Jul 2024 10:06:11 +0800</pubDate>
-      <guid>http://localhost:1313/posts/trouble-1/</guid>
+      <guid>https://seansie0830.github.io/posts/trouble-1/</guid>
       <description>昨天在用GitHub Page的時候，因為剛好在GitHub網頁版執行了操作，沒有跟本機的repo同步，導致git push發生衝突。這讓我重新理解了git push的原理，以及為什麼git push發生衝突的時候要先用git pull同步git repo再git push上去遠端伺服器。&#xA;git push是什麼？ git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先將本機的repo切換到要推送的分支上，然後再執行git push命令。&#xA;git checkout &amp;lt;branch-name&amp;gt; git push 例如，要將本機的master分支推送到名為“my-repo”的遠端repo，可以執行以下命令：&#xA;git checkout master git push origin master 為什麼git push發生衝突的時候要先用git pull同步git repo？ git push發生衝突的原因是，本機的repo和遠端repo的內容不一致。在這種情況下，git push會失敗，並提示發生衝突。&#xA;舉個例子&#xA;1.我在Github建立了一個新的 GitHub Action 工作流程，並將相關的配置文件存放在 .github/workflows 目錄下。&#xA;2.我在 GitHub 網頁版上編輯了配置文件，並提交了更改，因此在遠端伺服器中的分支比本機端多了一個（配置文件）&#xA;3.我沒有將配置文件的更改更新到本機。&#xA;4.我試圖將本機的程式碼推送到遠端。&#xA;因此在遠端伺服器的最後一個分支是有配置文件的，不過本機端沒有，因此衝突。&#xA;要解決git push衝突，需要先用git pull同步git repo。git pull會將遠端repo的最新內容下載到本機。這樣，本機的repo和遠端repo的內容就一致了，git push就可以成功了。&#xA;git pull 在git pull成功後，再執行git push命令，就可以將本機的repo推送到遠端伺服器了。&#xA;git push 總結 git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先用git pull同步git repo，以避免發生衝突。&#xA;在進行任何更改之前，先使用 git pull 命令從遠端拉取最新更改。</description>
     </item>
     <item>
       <title>Chatgpt 新體驗與實測</title>
-      <link>http://localhost:1313/posts/chatgpt-new-exp/</link>
+      <link>https://seansie0830.github.io/posts/chatgpt-new-exp/</link>
       <pubDate>Fri, 12 Jul 2024 22:09:47 +0800</pubDate>
-      <guid>http://localhost:1313/posts/chatgpt-new-exp/</guid>
+      <guid>https://seansie0830.github.io/posts/chatgpt-new-exp/</guid>
       <description>最近很紅的chatgpt，簡單來說就是個聊天機器人，但是是很厲害的ai，等等會來(聽他)介紹他，可以回答很多各種不同的問題，還會寫程式，等等會來實測，紅到有時候上面太多人，要等一下才能玩，話說他已經出付費版了，而且據說他還是google殺手，被學生拿來寫心得，文章品質明顯勝過唬爛產生器，讓人無法分辨是不是真人寫的，甚至可以通過大學考試。&#xA;以下是他的豐功偉業的文章&#xA;https://technews.tw/2023/02/04/chatgpt-passes-exams-from-top-universities/ 通過大學考試 https://www.cool3c.com/article/188936 google殺手 https://tw.news.yahoo.com/%E9%9D%A0chatgpt%E4%BB%A3%E5%AF%AB%E4%BD%9C%E6%A5%AD-%E6%95%99%E5%B8%AB%E6%86%82%E5%AD%B8%E7%94%9F%E8%A2%AB%E8%AA%A4%E5%B0%8E-121600651.html 被用來代寫作業 實測 接下來進入實測環節了，先來請他做自我介紹，可以用中文跟英文，不過他應該用英文比較聰明，因為英文的資料比較多。&#xA;我:自我介紹&#xA;chatgpt:你好，我是ChatGPT是OpenAI開發的一種語言模型。我受過訓練，可以根據輸入回答問題和生成文本。有什麼可以幫到你的嗎？&#xA;數學 這次更新官方說會改善他的數學能力，我來測試一下&#xA;小學程度 簡單四則 我:(2+3)*4&#xA;chatgpt: The expression (2+3)*4 equals 20.&#xA;#####　面積&#xA;我:直徑為10的圓形 面積多少&#xA;chatgpt::直徑为 10 的圆形的面积是约为 78.53975 平方单位，可以使用以下公式计算：π * (半径^2) = π * (10/2)^2 = π * 5^2 = 78.53975。&#xA;他有時候會輸出簡體字，應該是訓練資料的原因吧。&#xA;代數 我:solve for x in the equation ((x+2)*4-7=20)&#xA;chatgpt:Here&amp;rsquo;s one way to solve for x in the equation ((x+2)*4-7=20):&#xA;Start by expanding the expression inside the parentheses: (x+2)*4 = 4x + 8.</description>
     </item>
     <item>
       <title>C&#43;&#43; 教學 三元運算子</title>
-      <link>http://localhost:1313/posts/cpp-3opeator/</link>
+      <link>https://seansie0830.github.io/posts/cpp-3opeator/</link>
       <pubDate>Fri, 12 Jul 2024 21:35:57 +0800</pubDate>
-      <guid>http://localhost:1313/posts/cpp-3opeator/</guid>
+      <guid>https://seansie0830.github.io/posts/cpp-3opeator/</guid>
       <description>介紹 C++的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：&#xA;condition ? value1 : value2; 其中：&#xA;condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：&#xA;首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：&#xA;int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。</description>
     </item>
     <item>
       <title>Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</title>
-      <link>http://localhost:1313/posts/zj_a022/</link>
+      <link>https://seansie0830.github.io/posts/zj_a022/</link>
       <pubDate>Fri, 12 Jul 2024 21:03:53 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_a022/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_a022/</guid>
       <description>&amp;lsquo;Zerojudge a022. 迴文題目連結&#xA;法一 內建函數 //&#x9;AC (2ms, 332KB) #include &amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main() { string s; while (cin &amp;gt;&amp;gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &amp;lt;&amp;lt; ((s == t) ? &amp;#34;yes&amp;#34; : &amp;#34;no&amp;#34;); } return 0; } 程式碼分析&#xA;包含函式庫 #include &amp;lt;bits/stdc++.h&amp;gt; using namespace std; 此段程式碼包含了 C++ 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。&#xA;宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。&#xA;輸入字串 while (cin &amp;gt;&amp;gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。</description>
     </item>
     <item>
       <title>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</title>
-      <link>http://localhost:1313/posts/zj_d219/</link>
+      <link>https://seansie0830.github.io/posts/zj_d219/</link>
       <pubDate>Fri, 12 Jul 2024 21:00:01 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_d219/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_d219/</guid>
       <description>d219. 00374 - Big Mod 題目連結&#xA;基本版本 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int mod(int b,int p,int m){ int r=1,nr=b%m; while(p&amp;gt;0){ if(p&amp;amp;1) r=(r*nr)%m; nr=(nr*nr)%m, p=p&amp;gt;&amp;gt;1; } return (b&amp;gt;=0&amp;amp;&amp;amp;m&amp;gt;0)?r:-1; } int main(){ int b,p,m; while(cin&amp;gt;&amp;gt;b&amp;gt;&amp;gt;p&amp;gt;&amp;gt;m) cout&amp;lt;&amp;lt;mod(b,p,m)&amp;lt;&amp;lt;endl; } 程式碼說明 函數 mod&#xA;這個函數的功能是計算 b^p mod m 的值，也就是 b 的 p 次方對 m 取餘。&#xA;函數參數&#xA;b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數 函數返回值&#xA;如果 b 和 m 都是正整數，則返回 b^p mod m 的值 否則返回 -1 函數運作原理&#xA;這個函數使用二進位快速冪算法來計算 b^p mod m。二進位快速冪算法的基本思想是，將 p 分解為二進位表示，然後根據二進位表示來計算 b^p。</description>
     </item>
     <item>
       <title>zerojudge a020. 身分證檢驗 詳解</title>
-      <link>http://localhost:1313/posts/zj_a020/</link>
+      <link>https://seansie0830.github.io/posts/zj_a020/</link>
       <pubDate>Fri, 12 Jul 2024 20:44:20 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_a020/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_a020/</guid>
       <description>題目連結 a020. 身分證檢驗&#xA;//&#x9;AC (2ms, 116KB) #include &amp;lt;stdio.h&amp;gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&amp;#34;%c%s&amp;#34;, &amp;amp;city, num); if(city&amp;gt;=65 &amp;amp;&amp;amp; city&amp;lt;=72) city-=55; else if(city==&amp;#39;I&amp;#39;) city-=39; else if(city&amp;gt;=74 &amp;amp;&amp;amp; city&amp;lt;=78) city-=56; else if(city==&amp;#39;O&amp;#39;) city-=44; else if(city&amp;gt;=80 &amp;amp;&amp;amp; city&amp;lt;=86) city-=57; else if(city==&amp;#39;W&amp;#39;) city-=55; else if(city==&amp;#39;X&amp;#39; || city==&amp;#39;Y&amp;#39;) city-=58; else if(city==&amp;#39;Z&amp;#39;) city-=57; int sum=num[8]-48; for(int i=0;i&amp;lt;8;i++) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum+=(num[i]-48)*(8-i); sum+=city/10+(city%10)*9; if(sum%10==0) printf(&amp;#34;real&amp;#34;); else printf(&amp;#34;fake&amp;#34;); return 0; } 程式碼分析</description>
     </item>
     <item>
       <title>Zerojudge a009. 解碼器 C&#43;&#43;題解</title>
-      <link>http://localhost:1313/posts/zj_a009/</link>
+      <link>https://seansie0830.github.io/posts/zj_a009/</link>
       <pubDate>Fri, 12 Jul 2024 20:43:31 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_a009/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_a009/</guid>
       <description>Zerojudge a009. 解碼器 題目連結&#xA;程式碼：&#xA;C++&#xA;#include&amp;lt;iostream&amp;gt; #include&amp;lt;string&amp;gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&amp;lt;in.size();i++){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&amp;lt;&amp;lt;in; return 0; } 程式碼說明：&#xA;首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：</description>
     </item>
     <item>
       <title>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</title>
-      <link>http://localhost:1313/posts/zj_a001/</link>
+      <link>https://seansie0830.github.io/posts/zj_a001/</link>
       <pubDate>Fri, 12 Jul 2024 20:42:47 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_a001/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_a001/</guid>
       <description>Zerojudge a001. 哈囉題目連結&#xA;Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &amp;#34;hello, &amp;#34; + name # Print the output string print(output_string) 讀取使用者輸入&#xA;name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。&#xA;建構輸出字串&#xA;output_string = &amp;#34;hello, &amp;#34; + name 這行程式碼使用 + 運算子來將 &amp;ldquo;hello, &amp;quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。&#xA;輸出字串&#xA;print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。</description>
     </item>
     <item>
       <title>Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 </title>
-      <link>http://localhost:1313/posts/zj_a024/</link>
+      <link>https://seansie0830.github.io/posts/zj_a024/</link>
       <pubDate>Fri, 12 Jul 2024 20:36:28 +0800</pubDate>
-      <guid>http://localhost:1313/posts/zj_a024/</guid>
+      <guid>https://seansie0830.github.io/posts/zj_a024/</guid>
       <description>本題題目連結 Zerojudge a024. 最大公因數&#xA;法一 內建函數，最方便 #include &amp;lt;iostream&amp;gt; #include &amp;lt;algorithm&amp;gt; using namespace std; int main() { int a, b; cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; int gcd = __gcd(a, b); cout &amp;lt;&amp;lt; gcd &amp;lt;&amp;lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &amp;lt;iostream&amp;gt; 和 &amp;lt;algorithm&amp;gt;。&amp;lt;iostream&amp;gt; 頭文件用於輸入輸出，&amp;lt;algorithm&amp;gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。&#xA;在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。&#xA;以下是一些注意事項：&#xA;程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C++ 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; int gcd = gcd(a, b); cout &amp;lt;&amp;lt; gcd &amp;lt;&amp;lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。</description>
     </item>
     <item>
       <title>如何利用hugo套件建立靜態網頁型網誌並佈署在github page上</title>
-      <link>http://localhost:1313/posts/tutorial-hugo-frame-new/</link>
+      <link>https://seansie0830.github.io/posts/tutorial-hugo-frame-new/</link>
       <pubDate>Mon, 25 Jul 2022 23:33:38 +0800</pubDate>
-      <guid>http://localhost:1313/posts/tutorial-hugo-frame-new/</guid>
+      <guid>https://seansie0830.github.io/posts/tutorial-hugo-frame-new/</guid>
       <description>安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。&#xA;https://gohugo.io/getting-started/installing/&#xA;這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。&#xA;debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。&#xA;更新 (2022.10.15)&#xA;因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速&#xA;網址如下 https://github.com/gohugoio/hugo/releases&#xA;建議使用wget 下載 命令就是wget空一格+網址&#xA;接著用dpkg安裝，命令如下&#xA;dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&amp;#34; 需要curl與git 沒有記得安裝 sudo apt install curl git&#xA;安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。&#xA;安裝完畢會出現這些訊息，執行下面的命令&#xA;==&amp;gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &amp;#39;eval &amp;#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&amp;#34;&amp;#39; &amp;gt;&amp;gt; /root/.profile eval &amp;#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&amp;#34; - Install Homebrew&amp;#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝</description>
     </item>
   </channel>

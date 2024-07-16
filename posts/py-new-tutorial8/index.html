@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -68,14 +68,14 @@ try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -91,7 +91,7 @@ try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -101,13 +101,60 @@ try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="例外處理">
+  <meta itemprop="description" content="在程式執行中，總會遇到一些不可預期的錯誤，例如資料損毀，網路不通，或是使用者打錯字等等，這個時候總不能直接讓程式當機吧。
+因此python提供了一個機制可以有效的處理這些錯誤，也就是例外處理，又名 try-except ，格式如下。
+try: (1) except 錯誤名稱： （2） 區塊（1）請填入要嘗試（也就是可能會發生錯誤需要處理的程式碼）的程式碼 區塊（2）是當 except 後面的填入的錯位出現時，要如何處理的程式碼，我把他叫做例外處理。 在執行期間，try中的程式碼（區塊1）會先被執行，若有發生符合 except的錯誤名稱之錯誤，就會執行except後面的例外處理的部分，來處理錯誤。
+例子 以下程式以除法計算機爲例子，正常四則運算之下除數不得爲零，因此如果在 python 中執行該運算會發生 ZeroDivisionError 錯誤，因此會執行(2)的區塊，告訴使用者除數不得爲零。
+try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲0&#34;) #區塊（2） print(c) 以下提供兩種執行結果，一種是沒有錯誤的，另一種是有錯誤（除以0）因此有執行到例外處理的部分的。
+錯誤列表 ">
+  <meta itemprop="datePublished" content="2024-07-16T15:35:59+08:00">
+  <meta itemprop="dateModified" content="2024-07-16T15:35:59+08:00">
+  <meta itemprop="wordCount" content="31">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/py-new-tutorial8/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="例外處理">
+  <meta property="og:description" content="在程式執行中，總會遇到一些不可預期的錯誤，例如資料損毀，網路不通，或是使用者打錯字等等，這個時候總不能直接讓程式當機吧。
+因此python提供了一個機制可以有效的處理這些錯誤，也就是例外處理，又名 try-except ，格式如下。
+try: (1) except 錯誤名稱： （2） 區塊（1）請填入要嘗試（也就是可能會發生錯誤需要處理的程式碼）的程式碼 區塊（2）是當 except 後面的填入的錯位出現時，要如何處理的程式碼，我把他叫做例外處理。 在執行期間，try中的程式碼（區塊1）會先被執行，若有發生符合 except的錯誤名稱之錯誤，就會執行except後面的例外處理的部分，來處理錯誤。
+例子 以下程式以除法計算機爲例子，正常四則運算之下除數不得爲零，因此如果在 python 中執行該運算會發生 ZeroDivisionError 錯誤，因此會執行(2)的區塊，告訴使用者除數不得爲零。
+try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲0&#34;) #區塊（2） print(c) 以下提供兩種執行結果，一種是沒有錯誤的，另一種是有錯誤（除以0）因此有執行到例外處理的部分的。
+錯誤列表 ">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-16T15:35:59+08:00">
+    <meta property="article:modified_time" content="2024-07-16T15:35:59+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="例外處理">
+<meta name="twitter:description" content="在程式執行中，總會遇到一些不可預期的錯誤，例如資料損毀，網路不通，或是使用者打錯字等等，這個時候總不能直接讓程式當機吧。
+因此python提供了一個機制可以有效的處理這些錯誤，也就是例外處理，又名 try-except ，格式如下。
+try: (1) except 錯誤名稱： （2） 區塊（1）請填入要嘗試（也就是可能會發生錯誤需要處理的程式碼）的程式碼 區塊（2）是當 except 後面的填入的錯位出現時，要如何處理的程式碼，我把他叫做例外處理。 在執行期間，try中的程式碼（區塊1）會先被執行，若有發生符合 except的錯誤名稱之錯誤，就會執行except後面的例外處理的部分，來處理錯誤。
+例子 以下程式以除法計算機爲例子，正常四則運算之下除數不得爲零，因此如果在 python 中執行該運算會發生 ZeroDivisionError 錯誤，因此會執行(2)的區塊，告訴使用者除數不得爲零。
+try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲0&#34;) #區塊（2） print(c) 以下提供兩種執行結果，一種是沒有錯誤的，另一種是有錯誤（除以0）因此有執行到例外處理的部分的。
+錯誤列表 ">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/py-new-tutorial8/" />
   
   
 </head>
@@ -117,7 +164,7 @@ try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -245,7 +292,7 @@ except 錯誤名稱：
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/py-new-tutorial6/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial6/"
       ><span>字典(KV)資料庫</span><span class="ml-1.5">→</span></a
     >
     
@@ -273,7 +320,7 @@ except 錯誤名稱：
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

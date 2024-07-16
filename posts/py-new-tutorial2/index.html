@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -67,14 +67,14 @@ sequence爲一個序列，可以填入數種資料，像是字典，清單等等
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -90,7 +90,7 @@ sequence爲一個序列，可以填入數種資料，像是字典，清單等等
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -100,13 +100,57 @@ sequence爲一個序列，可以填入數種資料，像是字典，清單等等
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="迴圈與控制">
+  <meta itemprop="description" content="if 陳述式 格式如下
+if statement : do_something() elif statement: do something() else foo() 例子
+x = int(input(&#34;Please enter an integer: &#34;)) if x &lt; 0: x = 0 print(&#39;Negative changed to zero&#39;) elif x == 0: print(&#39;Zero&#39;) elif x == 1: print(&#39;Single&#39;) else: print(&#39;More&#39;) statement請填入布林變數( True False 記得要大寫)或是條件 e.g. 1&#43;1==2 除了有 if elif else 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 if 條件式之後，有縮排的程式碼才是如果 if 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。 For statement 格式如下
+for i in sequence: do_sometning() 再次提醒，記得要縮排，才不會造成歧義。
+sequence爲一個序列，可以填入數種資料，像是字典，清單等等。 Range 函數 如果你會C&#43;&#43;，會發現python與c&#43;&#43;的for迴圈是不一樣的，在C&#43;&#43;中，迴圈是有一個變數的，例如 for(int i=0;i&lt;n;i&#43;&#43;)之類的。">
+  <meta itemprop="datePublished" content="2024-07-16T15:31:56+08:00">
+  <meta itemprop="dateModified" content="2024-07-16T15:31:56+08:00">
+  <meta itemprop="wordCount" content="85">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/py-new-tutorial2/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="迴圈與控制">
+  <meta property="og:description" content="if 陳述式 格式如下
+if statement : do_something() elif statement: do something() else foo() 例子
+x = int(input(&#34;Please enter an integer: &#34;)) if x &lt; 0: x = 0 print(&#39;Negative changed to zero&#39;) elif x == 0: print(&#39;Zero&#39;) elif x == 1: print(&#39;Single&#39;) else: print(&#39;More&#39;) statement請填入布林變數( True False 記得要大寫)或是條件 e.g. 1&#43;1==2 除了有 if elif else 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 if 條件式之後，有縮排的程式碼才是如果 if 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。 For statement 格式如下
+for i in sequence: do_sometning() 再次提醒，記得要縮排，才不會造成歧義。
+sequence爲一個序列，可以填入數種資料，像是字典，清單等等。 Range 函數 如果你會C&#43;&#43;，會發現python與c&#43;&#43;的for迴圈是不一樣的，在C&#43;&#43;中，迴圈是有一個變數的，例如 for(int i=0;i&lt;n;i&#43;&#43;)之類的。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-16T15:31:56+08:00">
+    <meta property="article:modified_time" content="2024-07-16T15:31:56+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="迴圈與控制">
+<meta name="twitter:description" content="if 陳述式 格式如下
+if statement : do_something() elif statement: do something() else foo() 例子
+x = int(input(&#34;Please enter an integer: &#34;)) if x &lt; 0: x = 0 print(&#39;Negative changed to zero&#39;) elif x == 0: print(&#39;Zero&#39;) elif x == 1: print(&#39;Single&#39;) else: print(&#39;More&#39;) statement請填入布林變數( True False 記得要大寫)或是條件 e.g. 1&#43;1==2 除了有 if elif else 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 if 條件式之後，有縮排的程式碼才是如果 if 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。 For statement 格式如下
+for i in sequence: do_sometning() 再次提醒，記得要縮排，才不會造成歧義。
+sequence爲一個序列，可以填入數種資料，像是字典，清單等等。 Range 函數 如果你會C&#43;&#43;，會發現python與c&#43;&#43;的for迴圈是不一樣的，在C&#43;&#43;中，迴圈是有一個變數的，例如 for(int i=0;i&lt;n;i&#43;&#43;)之類的。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/py-new-tutorial2/" />
   
   
 </head>
@@ -116,7 +160,7 @@ sequence爲一個序列，可以填入數種資料，像是字典，清單等等
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -264,14 +308,14 @@ sequence爲一個序列，可以填入數種資料，像是字典，清單等等
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/py-new-tutorial4/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial4/"
       ><span class="mr-1.5">←</span><span>清單與元組</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/py-new-tutorial1/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial1/"
       ><span>Py New Tutorial1</span><span class="ml-1.5">→</span></a
     >
     
@@ -299,7 +343,7 @@ sequence爲一個序列，可以填入數種資料，像是字典，清單等等
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

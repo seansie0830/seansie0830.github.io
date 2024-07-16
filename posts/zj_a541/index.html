@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -64,14 +64,14 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -87,7 +87,7 @@
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -97,13 +97,48 @@
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="Zerojudge a541 題解">
+  <meta itemprop="description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);
+這兩個語句旨在優化 C&#43;&#43; 中的輸入輸出 (I/O) 操作。">
+  <meta itemprop="datePublished" content="2024-07-13T12:05:17+08:00">
+  <meta itemprop="dateModified" content="2024-07-13T12:05:17+08:00">
+  <meta itemprop="wordCount" content="145">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a541/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Zerojudge a541 題解">
+  <meta property="og:description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);
+這兩個語句旨在優化 C&#43;&#43; 中的輸入輸出 (I/O) 操作。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-13T12:05:17+08:00">
+    <meta property="article:modified_time" content="2024-07-13T12:05:17+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a541 題解">
+<meta name="twitter:description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);
+這兩個語句旨在優化 C&#43;&#43; 中的輸入輸出 (I/O) 操作。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a541/" />
   
   
 </head>
@@ -113,7 +148,7 @@
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -275,14 +310,14 @@
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/py-new-tutorial1/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial1/"
       ><span class="mr-1.5">←</span><span>Py New Tutorial1</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/trouble-1/"
+      href="https://seansie0830.github.io/posts/trouble-1/"
       ><span>茶包日常#1 git推送衝突與git push &amp; git pull 的用法</span><span class="ml-1.5">→</span></a
     >
     
@@ -310,7 +345,7 @@
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a
