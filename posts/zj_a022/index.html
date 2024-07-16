@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -67,14 +67,14 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
@@ -90,7 +90,7 @@
   
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -100,57 +100,13 @@
   
 
   
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
-  
-  
-  
-  
-
-
-  
-  
-  <meta itemprop="name" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
-  <meta itemprop="description" content="&lsquo;Zerojudge a022. 迴文題目連結
-法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
-包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
-宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
-輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
-  <meta itemprop="datePublished" content="2024-07-12T21:03:53+08:00">
-  <meta itemprop="dateModified" content="2024-07-12T21:03:53+08:00">
-  <meta itemprop="wordCount" content="425">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a022/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
-  <meta property="og:description" content="‘Zerojudge a022. 迴文題目連結
-法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
-包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
-宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
-輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
-  <meta property="og:locale" content="zh-tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-07-12T21:03:53+08:00">
-    <meta property="article:modified_time" content="2024-07-12T21:03:53+08:00">
-
-  
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
-<meta name="twitter:description" content="&lsquo;Zerojudge a022. 迴文題目連結
-法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
-包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
-宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
-輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
-
-  
-  
-  
-  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a022/" />
   
   
 </head>
@@ -160,7 +116,7 @@
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:1313/"
       >seansie&#39;s blog</a
     >
     <div
@@ -464,14 +420,14 @@
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/cpp-3opeator/"
+      href="http://localhost:1313/posts/cpp-3opeator/"
       ><span class="mr-1.5">←</span><span>C&#43;&#43; 教學 三元運算子</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/zj_d219/"
+      href="http://localhost:1313/posts/zj_d219/"
       ><span>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</span><span class="ml-1.5">→</span></a
     >
     
@@ -499,7 +455,7 @@
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

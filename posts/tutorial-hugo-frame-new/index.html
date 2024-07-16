@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -75,14 +75,14 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
@@ -98,7 +98,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
   
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -108,81 +108,13 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
   
 
   
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
-  
-  
-  
-  
-
-
-  
-  
-  <meta itemprop="name" content="如何利用hugo套件建立靜態網頁型網誌並佈署在github page上">
-  <meta itemprop="description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
-https://gohugo.io/getting-started/installing/
-這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。
-debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
-更新 (2022.10.15)
-因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速
-網址如下 https://github.com/gohugoio/hugo/releases
-建議使用wget 下載 命令就是wget空一格&#43;網址
-接著用dpkg安裝，命令如下
-dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 需要curl與git 沒有記得安裝 sudo apt install curl git
-安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。
-安裝完畢會出現這些訊息，執行下面的命令
-==&gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34; - Install Homebrew&#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝">
-  <meta itemprop="datePublished" content="2022-07-25T23:33:38+08:00">
-  <meta itemprop="dateModified" content="2022-07-25T23:33:38+08:00">
-  <meta itemprop="wordCount" content="204">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/tutorial-hugo-frame-new/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="如何利用hugo套件建立靜態網頁型網誌並佈署在github page上">
-  <meta property="og:description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
-https://gohugo.io/getting-started/installing/
-這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。
-debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
-更新 (2022.10.15)
-因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速
-網址如下 https://github.com/gohugoio/hugo/releases
-建議使用wget 下載 命令就是wget空一格&#43;網址
-接著用dpkg安裝，命令如下
-dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 需要curl與git 沒有記得安裝 sudo apt install curl git
-安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。
-安裝完畢會出現這些訊息，執行下面的命令
-==&gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34; - Install Homebrew&#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝">
-  <meta property="og:locale" content="zh-tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2022-07-25T23:33:38+08:00">
-    <meta property="article:modified_time" content="2022-07-25T23:33:38+08:00">
-
-  
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="如何利用hugo套件建立靜態網頁型網誌並佈署在github page上">
-<meta name="twitter:description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
-https://gohugo.io/getting-started/installing/
-這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。
-debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
-更新 (2022.10.15)
-因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速
-網址如下 https://github.com/gohugoio/hugo/releases
-建議使用wget 下載 命令就是wget空一格&#43;網址
-接著用dpkg安裝，命令如下
-dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 需要curl與git 沒有記得安裝 sudo apt install curl git
-安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。
-安裝完畢會出現這些訊息，執行下面的命令
-==&gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34; - Install Homebrew&#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝">
-
-  
-  
-  
-  <link rel="canonical" href="https://seansie0830.github.io/posts/tutorial-hugo-frame-new/" />
   
   
 </head>
@@ -192,7 +124,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:1313/"
       >seansie&#39;s blog</a
     >
     <div
@@ -396,7 +328,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/zj_a024/"
+      href="http://localhost:1313/posts/zj_a024/"
       ><span class="mr-1.5">←</span><span>Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 </span></a
     >
     
@@ -425,7 +357,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

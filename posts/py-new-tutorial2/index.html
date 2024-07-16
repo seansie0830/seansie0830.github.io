@@ -1,0 +1,317 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>迴圈與控制 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="if 陳述式 格式如下
+if statement : do_something() elif statement: do something() else foo() 例子
+x = int(input(&#34;Please enter an integer: &#34;)) if x &lt; 0: x = 0 print(&#39;Negative changed to zero&#39;) elif x == 0: print(&#39;Zero&#39;) elif x == 1: print(&#39;Single&#39;) else: print(&#39;More&#39;) statement請填入布林變數( True False 記得要大寫)或是條件 e.g. 1&#43;1==2 除了有 if elif else 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 if 條件式之後，有縮排的程式碼才是如果 if 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。 For statement 格式如下
+for i in sequence: do_sometning() 再次提醒，記得要縮排，才不會造成歧義。
+sequence爲一個序列，可以填入數種資料，像是字典，清單等等。 Range 函數 如果你會C&#43;&#43;，會發現python與c&#43;&#43;的for迴圈是不一樣的，在C&#43;&#43;中，迴圈是有一個變數的，例如 for(int i=0;i&lt;n;i&#43;&#43;)之類的。" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">迴圈與控制</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 16, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="if-陳述式">if 陳述式</h1>
+<p>格式如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> statement :
+</span></span><span style="display:flex;"><span>	do_something()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> statement:
+</span></span><span style="display:flex;"><span>	do something()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	foo()
+</span></span></code></pre></div><p>例子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> int(input(<span style="color:#e6db74">&#34;Please enter an integer: &#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Negative changed to zero&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Zero&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> x <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Single&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;More&#39;</span>)
+</span></span></code></pre></div><ul>
+<li>statement請填入布林變數( <code>True</code> <code>False</code> 記得要大寫)或是條件 e.g. <code>1+1==2</code></li>
+<li>除了有 <code>if</code>  <code>elif</code>  <code>else</code> 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 <code>if</code> 條件式之後，有縮排的程式碼才是如果 <code>if</code> 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。</li>
+</ul>
+<h1 id="for-statement">For statement</h1>
+<p>格式如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> sequence:
+</span></span><span style="display:flex;"><span>	do_sometning()
+</span></span></code></pre></div><p>再次提醒，記得要縮排，才不會造成歧義。</p>
+<ul>
+<li><code>sequence</code>爲一個序列，可以填入數種資料，像是字典，清單等等。</li>
+</ul>
+<h3 id="range-函數">Range 函數</h3>
+<p>如果你會C++，會發現python與c++的for迴圈是不一樣的，在C++中，迴圈是有一個變數的，例如 <code>for(int i=0;i&lt;n;i++)</code>之類的。</p>
+<p>然而，python中的for迴圈卻沒有這種功能，他只能遍歷給定的清單。因此需要用range函數來間接實現這個功能。</p>
+<p>原理如下， <code>range(a)</code>  函數會回傳一個<a href="https://www.notion.so/9ec4f576fec2465bb0560dcfb87801a3?pvs=21">清單</a>，內容根據引數而異。</p>
+<p>其中a，b，c皆爲整數。</p>
+<ul>
+<li><code>range(a)</code> 的話會回傳從0到a的所有整數</li>
+<li><code>range(a,b)</code> 的話會回傳從a到b的所有整數</li>
+<li><code>range(a,b,c)</code> 的話</li>
+</ul>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/py-new-tutorial4/"
+      ><span class="mr-1.5">←</span><span>清單與元組</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/py-new-tutorial1/"
+      ><span>Py New Tutorial1</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

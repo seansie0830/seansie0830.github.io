@@ -44,7 +44,7 @@
   />
 
   
-  <title>Zerojudge a009. 解碼器 C&#43;&#43;題解 - seansie&#39;s blog</title>
+  <title>Py New Tutorial1 - seansie&#39;s blog</title>
 
   
   <meta name="theme-color" />
@@ -53,11 +53,18 @@
   
   
   
-  <meta name="description" content="Zerojudge a009. 解碼器 題目連結
-程式碼：
-C&#43;&#43;
-#include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
-首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：" />
+  <meta name="description" content="學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
+首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
+線上編譯器資源 https://www.python.org/shell/
+安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝
+windows 使用套件管理工具winget，在終端機輸入 winget install -e --id Python.Python.3.11 即可。
+Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
+Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
+如何使用終端機 windows 按下 win 鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。
+Mac 在 spotlight中搜尋 terminal.app 即可
+Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋
+未完待續 Reference https://winget.run/pkg/Python/Python.2
+https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all" />
   <meta name="author" content="seansie&#39;s blog" />
   
 
@@ -195,12 +202,12 @@ C&#43;&#43;
 
 <article>
   <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">Zerojudge a009. 解碼器 C&#43;&#43;題解</h1>
+    <h1 class="!my-0 pb-2.5">Py New Tutorial1</h1>
 
     
     <div class="text-sm antialiased opacity-60">
       
-      <time>Jul 12, 2024</time>
+      <time>Jul 16, 2024</time>
       
       
       
@@ -209,43 +216,29 @@ C&#43;&#43;
     
   </header>
 
-  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a009"><strong>Zerojudge a009. 解碼器 題目連結</strong></a></p>
-<p><strong>程式碼：</strong></p>
-<p>C++</p>
-<pre tabindex="0"><code>#include&lt;iostream&gt;
-#include&lt;string&gt;
-using namespace std;
-
-int main (){
-    string in; // 宣告一個字串變數 in
-    int i; // 宣告一個整數變數 i
-
-    // 讀取輸入字串
-    getline(cin,in);
-
-    // 將每個字元減去 7
-    for(i=0;i&lt;in.size();i++){
-        in[i]=in[i]-7;
-    }
-
-    // 輸出解密後的字串
-    cout&lt;&lt;in;
-
-    return 0;
-}
-</code></pre><p><strong>程式碼說明：</strong></p>
-<ol>
-<li>首先，程式碼包含了 <code>iostream</code> 和 <code>string</code> 兩個標準函式庫，分別用於輸入輸出和字串操作。</li>
-<li>程式碼接著宣告了兩個變數：<code>in</code> 和 <code>i</code>。<code>in</code> 用於儲存輸入的密文字串，<code>i</code> 用於迴圈控制。</li>
-<li>使用 <code>getline</code> 函式讀取輸入字串並儲存在 <code>in</code> 變數中。</li>
-<li>使用 <code>for</code> 迴圈遍歷 <code>in</code> 字串中的每個字元。</li>
-<li>在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。</li>
-<li>最後，使用 <code>cout</code> 函式輸出解密後的字串。</li>
-</ol>
-<p><strong>密鑰推導：</strong></p>
-<p>根據題目敘述，密鑰是<strong>需要自行參照範例輸入和輸出推導出來</strong>。在範例輸入和輸出中，可以觀察到密文和明文的差異。例如，在第一個範例中，密文 <code>crrng</code> 和明文 <code>apple</code> 的每個字元相差 2。因此，可以推斷密鑰為 <strong>2</strong>。</p>
-<p><strong>結論：</strong></p>
-<p>這段程式碼實現了凱撒密碼的解密功能。使用者可以輸入一段密文，程式碼會根據密鑰將其解密成明文。</p>
+  <section><p>學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。</p>
+<p>首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。</p>
+<h2 id="線上編譯器資源">線上編譯器資源</h2>
+<p><a href="https://www.python.org/shell/">https://www.python.org/shell/</a></p>
+<h2 id="安裝到電腦">安裝到電腦</h2>
+<p>以下我推薦使用各式平臺內建的<a href="https://zh.wikipedia.org/zh-tw/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">套件管理工具</a>安裝</p>
+<h3 id="windows">windows</h3>
+<p>使用套件管理工具winget，在終端機輸入 <code>winget install -e --id Python.Python.3.11</code> 即可。</p>
+<h3 id="mac">Mac</h3>
+<p>使用套件管理工具homebrew，在終端機輸入 <code>brew install python</code> 即可。</p>
+<h3 id="linuxdebian-based">Linux(debian-based)</h3>
+<p>使用套件管理工具apt，在終端機輸入 <code>sudo apt install python3</code> 即可。</p>
+<h3 id="如何使用終端機">如何使用終端機</h3>
+<h3 id="windows-1">windows</h3>
+<p>按下 <code>win</code>  鍵+ <code>R</code> ，挑出執行的視窗，在裏面輸入 <code>powershell</code>  ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 <code>enter</code>  執行。</p>
+<h3 id="mac-1">Mac</h3>
+<p>在 <code>spotlight</code>中搜尋 <code>terminal.app</code>  即可</p>
+<h3 id="linux">Linux</h3>
+<p>因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋</p>
+<h1 id="未完待續">未完待續</h1>
+<h1 id="reference">Reference</h1>
+<p><a href="https://winget.run/pkg/Python/Python.2">https://winget.run/pkg/Python/Python.2</a></p>
+<p><a href="https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all">https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all</a></p>
 </section>
 
   
@@ -259,15 +252,15 @@ int main (){
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a020/"
-      ><span class="mr-1.5">←</span><span>zerojudge a020. 身分證檢驗 詳解</span></a
+      href="http://localhost:1313/posts/py-new-tutorial2/"
+      ><span class="mr-1.5">←</span><span>迴圈與控制</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a001/"
-      ><span>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</span><span class="ml-1.5">→</span></a
+      href="http://localhost:1313/posts/zj_a541/"
+      ><span>Zerojudge a541 題解</span><span class="ml-1.5">→</span></a
     >
     
   </nav>

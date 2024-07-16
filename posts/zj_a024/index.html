@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -67,14 +67,14 @@
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
@@ -90,7 +90,7 @@
   
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -100,57 +100,13 @@
   
 
   
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
-  
-  
-  
-  
-
-
-  
-  
-  <meta itemprop="name" content="Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 ">
-  <meta itemprop="description" content="本題題目連結 Zerojudge a024. 最大公因數
-法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
-在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
-以下是一些注意事項：
-程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。">
-  <meta itemprop="datePublished" content="2024-07-12T20:36:28+08:00">
-  <meta itemprop="dateModified" content="2024-07-12T20:36:28+08:00">
-  <meta itemprop="wordCount" content="388">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a024/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 ">
-  <meta property="og:description" content="本題題目連結 Zerojudge a024. 最大公因數
-法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
-在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
-以下是一些注意事項：
-程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。">
-  <meta property="og:locale" content="zh-tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-07-12T20:36:28+08:00">
-    <meta property="article:modified_time" content="2024-07-12T20:36:28+08:00">
-
-  
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 ">
-<meta name="twitter:description" content="本題題目連結 Zerojudge a024. 最大公因數
-法一 內建函數，最方便 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = __gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &lt;iostream&gt; 和 &lt;algorithm&gt;。&lt;iostream&gt; 頭文件用於輸入輸出，&lt;algorithm&gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。
-在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
-以下是一些注意事項：
-程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。">
-
-  
-  
-  
-  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a024/" />
   
   
 </head>
@@ -160,7 +116,7 @@
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:1313/"
       >seansie&#39;s blog</a
     >
     <div
@@ -413,14 +369,14 @@
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/zj_a001/"
+      href="http://localhost:1313/posts/zj_a001/"
       ><span class="mr-1.5">←</span><span>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/tutorial-hugo-frame-new/"
+      href="http://localhost:1313/posts/tutorial-hugo-frame-new/"
       ><span>如何利用hugo套件建立靜態網頁型網誌並佈署在github page上</span><span class="ml-1.5">→</span></a
     >
     
@@ -448,7 +404,7 @@
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a

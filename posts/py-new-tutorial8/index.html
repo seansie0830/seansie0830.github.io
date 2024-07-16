@@ -44,7 +44,7 @@
   />
 
   
-  <title>Zerojudge a009. 解碼器 C&#43;&#43;題解 - seansie&#39;s blog</title>
+  <title>例外處理 - seansie&#39;s blog</title>
 
   
   <meta name="theme-color" />
@@ -53,11 +53,12 @@
   
   
   
-  <meta name="description" content="Zerojudge a009. 解碼器 題目連結
-程式碼：
-C&#43;&#43;
-#include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
-首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：" />
+  <meta name="description" content="在程式執行中，總會遇到一些不可預期的錯誤，例如資料損毀，網路不通，或是使用者打錯字等等，這個時候總不能直接讓程式當機吧。
+因此python提供了一個機制可以有效的處理這些錯誤，也就是例外處理，又名 try-except ，格式如下。
+try: (1) except 錯誤名稱： （2） 區塊（1）請填入要嘗試（也就是可能會發生錯誤需要處理的程式碼）的程式碼 區塊（2）是當 except 後面的填入的錯位出現時，要如何處理的程式碼，我把他叫做例外處理。 在執行期間，try中的程式碼（區塊1）會先被執行，若有發生符合 except的錯誤名稱之錯誤，就會執行except後面的例外處理的部分，來處理錯誤。
+例子 以下程式以除法計算機爲例子，正常四則運算之下除數不得爲零，因此如果在 python 中執行該運算會發生 ZeroDivisionError 錯誤，因此會執行(2)的區塊，告訴使用者除數不得爲零。
+try: c=(a/b) #區塊（1） except ZeroDivisionError: print(&#34;除數不得爲0&#34;) #區塊（2） print(c) 以下提供兩種執行結果，一種是沒有錯誤的，另一種是有錯誤（除以0）因此有執行到例外處理的部分的。
+錯誤列表 " />
   <meta name="author" content="seansie&#39;s blog" />
   
 
@@ -195,12 +196,12 @@ C&#43;&#43;
 
 <article>
   <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">Zerojudge a009. 解碼器 C&#43;&#43;題解</h1>
+    <h1 class="!my-0 pb-2.5">例外處理</h1>
 
     
     <div class="text-sm antialiased opacity-60">
       
-      <time>Jul 12, 2024</time>
+      <time>Jul 16, 2024</time>
       
       
       
@@ -209,43 +210,27 @@ C&#43;&#43;
     
   </header>
 
-  <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a009"><strong>Zerojudge a009. 解碼器 題目連結</strong></a></p>
-<p><strong>程式碼：</strong></p>
-<p>C++</p>
-<pre tabindex="0"><code>#include&lt;iostream&gt;
-#include&lt;string&gt;
-using namespace std;
-
-int main (){
-    string in; // 宣告一個字串變數 in
-    int i; // 宣告一個整數變數 i
-
-    // 讀取輸入字串
-    getline(cin,in);
-
-    // 將每個字元減去 7
-    for(i=0;i&lt;in.size();i++){
-        in[i]=in[i]-7;
-    }
-
-    // 輸出解密後的字串
-    cout&lt;&lt;in;
-
-    return 0;
-}
-</code></pre><p><strong>程式碼說明：</strong></p>
-<ol>
-<li>首先，程式碼包含了 <code>iostream</code> 和 <code>string</code> 兩個標準函式庫，分別用於輸入輸出和字串操作。</li>
-<li>程式碼接著宣告了兩個變數：<code>in</code> 和 <code>i</code>。<code>in</code> 用於儲存輸入的密文字串，<code>i</code> 用於迴圈控制。</li>
-<li>使用 <code>getline</code> 函式讀取輸入字串並儲存在 <code>in</code> 變數中。</li>
-<li>使用 <code>for</code> 迴圈遍歷 <code>in</code> 字串中的每個字元。</li>
-<li>在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。</li>
-<li>最後，使用 <code>cout</code> 函式輸出解密後的字串。</li>
-</ol>
-<p><strong>密鑰推導：</strong></p>
-<p>根據題目敘述，密鑰是<strong>需要自行參照範例輸入和輸出推導出來</strong>。在範例輸入和輸出中，可以觀察到密文和明文的差異。例如，在第一個範例中，密文 <code>crrng</code> 和明文 <code>apple</code> 的每個字元相差 2。因此，可以推斷密鑰為 <strong>2</strong>。</p>
-<p><strong>結論：</strong></p>
-<p>這段程式碼實現了凱撒密碼的解密功能。使用者可以輸入一段密文，程式碼會根據密鑰將其解密成明文。</p>
+  <section><p>在程式執行中，總會遇到一些不可預期的錯誤，例如資料損毀，網路不通，或是使用者打錯字等等，這個時候總不能直接讓程式當機吧。</p>
+<p>因此python提供了一個機制可以有效的處理這些錯誤，也就是例外處理，又名 <code>try-except</code> ，格式如下。</p>
+<pre tabindex="0"><code>try:
+	(1)
+except 錯誤名稱：
+	（2）
+</code></pre><ul>
+<li>區塊（1）請填入要嘗試（也就是可能會發生錯誤需要處理的程式碼）的程式碼</li>
+<li>區塊（2）是當 <code>except</code>  後面的填入的錯位出現時，要如何處理的程式碼，我把他叫做例外處理。</li>
+</ul>
+<p>在執行期間，try中的程式碼（區塊1）會先被執行，若有發生符合 <code>except</code>的錯誤名稱之錯誤，就會執行<code>except</code>後面的例外處理的部分，來處理錯誤。</p>
+<h2 id="例子">例子</h2>
+<p>以下程式以除法計算機爲例子，正常四則運算之下除數不得爲零，因此如果在 <code>python</code>  中執行該運算會發生 <code>ZeroDivisionError</code> 錯誤，因此會執行(2)的區塊，告訴使用者除數不得爲零。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>	c<span style="color:#f92672">=</span>(a<span style="color:#f92672">/</span>b) <span style="color:#75715e">#區塊（1）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ZeroDivisionError</span>:
+</span></span><span style="display:flex;"><span>	print(<span style="color:#e6db74">&#34;除數不得爲0&#34;</span>) <span style="color:#75715e">#區塊（2）</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(c)
+</span></span></code></pre></div><p>以下提供兩種執行結果，一種是沒有錯誤的，另一種是有錯誤（除以0）因此有執行到例外處理的部分的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"></code></pre></div><h2 id="錯誤列表">錯誤列表</h2>
 </section>
 
   
@@ -257,17 +242,11 @@ int main (){
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a020/"
-      ><span class="mr-1.5">←</span><span>zerojudge a020. 身分證檢驗 詳解</span></a
-    >
-    
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/zj_a001/"
-      ><span>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</span><span class="ml-1.5">→</span></a
+      href="http://localhost:1313/posts/py-new-tutorial6/"
+      ><span>字典(KV)資料庫</span><span class="ml-1.5">→</span></a
     >
     
   </nav>

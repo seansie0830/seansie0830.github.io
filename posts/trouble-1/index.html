@@ -35,7 +35,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -76,14 +76,14 @@ git push 總結 git push是用來將本機的git repo推送到遠端伺服器的
   
   
   
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
 
   
   
@@ -99,7 +99,7 @@ git push 總結 git push是用來將本機的git repo推送到遠端伺服器的
   
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:1313/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -109,84 +109,13 @@ git push 總結 git push是用來將本機的git repo推送到遠端伺服器的
   
 
   
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
-  
-  
-  
-  
-
-
-  
-  
-  <meta itemprop="name" content="茶包日常#1 git推送衝突與git push &amp; git pull 的用法">
-  <meta itemprop="description" content="昨天在用GitHub Page的時候，因為剛好在GitHub網頁版執行了操作，沒有跟本機的repo同步，導致git push發生衝突。這讓我重新理解了git push的原理，以及為什麼git push發生衝突的時候要先用git pull同步git repo再git push上去遠端伺服器。
-git push是什麼？ git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先將本機的repo切換到要推送的分支上，然後再執行git push命令。
-git checkout &lt;branch-name&gt; git push 例如，要將本機的master分支推送到名為“my-repo”的遠端repo，可以執行以下命令：
-git checkout master git push origin master 為什麼git push發生衝突的時候要先用git pull同步git repo？ git push發生衝突的原因是，本機的repo和遠端repo的內容不一致。在這種情況下，git push會失敗，並提示發生衝突。
-舉個例子
-1.我在Github建立了一個新的 GitHub Action 工作流程，並將相關的配置文件存放在 .github/workflows 目錄下。
-2.我在 GitHub 網頁版上編輯了配置文件，並提交了更改，因此在遠端伺服器中的分支比本機端多了一個（配置文件）
-3.我沒有將配置文件的更改更新到本機。
-4.我試圖將本機的程式碼推送到遠端。
-因此在遠端伺服器的最後一個分支是有配置文件的，不過本機端沒有，因此衝突。
-要解決git push衝突，需要先用git pull同步git repo。git pull會將遠端repo的最新內容下載到本機。這樣，本機的repo和遠端repo的內容就一致了，git push就可以成功了。
-git pull 在git pull成功後，再執行git push命令，就可以將本機的repo推送到遠端伺服器了。
-git push 總結 git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先用git pull同步git repo，以避免發生衝突。
-在進行任何更改之前，先使用 git pull 命令從遠端拉取最新更改。">
-  <meta itemprop="datePublished" content="2024-07-13T10:06:11+08:00">
-  <meta itemprop="dateModified" content="2024-07-13T10:06:11+08:00">
-  <meta itemprop="wordCount" content="83">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/trouble-1/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="茶包日常#1 git推送衝突與git push &amp; git pull 的用法">
-  <meta property="og:description" content="昨天在用GitHub Page的時候，因為剛好在GitHub網頁版執行了操作，沒有跟本機的repo同步，導致git push發生衝突。這讓我重新理解了git push的原理，以及為什麼git push發生衝突的時候要先用git pull同步git repo再git push上去遠端伺服器。
-git push是什麼？ git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先將本機的repo切換到要推送的分支上，然後再執行git push命令。
-git checkout &lt;branch-name&gt; git push 例如，要將本機的master分支推送到名為“my-repo”的遠端repo，可以執行以下命令：
-git checkout master git push origin master 為什麼git push發生衝突的時候要先用git pull同步git repo？ git push發生衝突的原因是，本機的repo和遠端repo的內容不一致。在這種情況下，git push會失敗，並提示發生衝突。
-舉個例子
-1.我在Github建立了一個新的 GitHub Action 工作流程，並將相關的配置文件存放在 .github/workflows 目錄下。
-2.我在 GitHub 網頁版上編輯了配置文件，並提交了更改，因此在遠端伺服器中的分支比本機端多了一個（配置文件）
-3.我沒有將配置文件的更改更新到本機。
-4.我試圖將本機的程式碼推送到遠端。
-因此在遠端伺服器的最後一個分支是有配置文件的，不過本機端沒有，因此衝突。
-要解決git push衝突，需要先用git pull同步git repo。git pull會將遠端repo的最新內容下載到本機。這樣，本機的repo和遠端repo的內容就一致了，git push就可以成功了。
-git pull 在git pull成功後，再執行git push命令，就可以將本機的repo推送到遠端伺服器了。
-git push 總結 git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先用git pull同步git repo，以避免發生衝突。
-在進行任何更改之前，先使用 git pull 命令從遠端拉取最新更改。">
-  <meta property="og:locale" content="zh-tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-07-13T10:06:11+08:00">
-    <meta property="article:modified_time" content="2024-07-13T10:06:11+08:00">
-
-  
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="茶包日常#1 git推送衝突與git push &amp; git pull 的用法">
-<meta name="twitter:description" content="昨天在用GitHub Page的時候，因為剛好在GitHub網頁版執行了操作，沒有跟本機的repo同步，導致git push發生衝突。這讓我重新理解了git push的原理，以及為什麼git push發生衝突的時候要先用git pull同步git repo再git push上去遠端伺服器。
-git push是什麼？ git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先將本機的repo切換到要推送的分支上，然後再執行git push命令。
-git checkout &lt;branch-name&gt; git push 例如，要將本機的master分支推送到名為“my-repo”的遠端repo，可以執行以下命令：
-git checkout master git push origin master 為什麼git push發生衝突的時候要先用git pull同步git repo？ git push發生衝突的原因是，本機的repo和遠端repo的內容不一致。在這種情況下，git push會失敗，並提示發生衝突。
-舉個例子
-1.我在Github建立了一個新的 GitHub Action 工作流程，並將相關的配置文件存放在 .github/workflows 目錄下。
-2.我在 GitHub 網頁版上編輯了配置文件，並提交了更改，因此在遠端伺服器中的分支比本機端多了一個（配置文件）
-3.我沒有將配置文件的更改更新到本機。
-4.我試圖將本機的程式碼推送到遠端。
-因此在遠端伺服器的最後一個分支是有配置文件的，不過本機端沒有，因此衝突。
-要解決git push衝突，需要先用git pull同步git repo。git pull會將遠端repo的最新內容下載到本機。這樣，本機的repo和遠端repo的內容就一致了，git push就可以成功了。
-git pull 在git pull成功後，再執行git push命令，就可以將本機的repo推送到遠端伺服器了。
-git push 總結 git push是用來將本機的git repo推送到遠端伺服器的命令。在使用git push之前，需要先用git pull同步git repo，以避免發生衝突。
-在進行任何更改之前，先使用 git pull 命令從遠端拉取最新更改。">
-
-  
-  
-  
-  <link rel="canonical" href="https://seansie0830.github.io/posts/trouble-1/" />
   
   
 </head>
@@ -196,7 +125,7 @@ git push 總結 git push是用來將本機的git repo推送到遠端伺服器的
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:1313/"
       >seansie&#39;s blog</a
     >
     <div
@@ -344,14 +273,14 @@ git push origin master
     
     <a
       class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/zj_a541/"
+      href="http://localhost:1313/posts/zj_a541/"
       ><span class="mr-1.5">←</span><span>Zerojudge a541 題解</span></a
     >
     
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/chatgpt-new-exp/"
+      href="http://localhost:1313/posts/chatgpt-new-exp/"
       ><span>Chatgpt 新體驗與實測</span><span class="ml-1.5">→</span></a
     >
     
@@ -379,7 +308,7 @@ git push origin master
 >
   <div class="mr-auto">
     &copy; 2024
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a
