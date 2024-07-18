@@ -30,6 +30,8 @@
 
 
 
+
+
 <html
   class="not-ready lg:text-base"
   style="--bg: #faf8f1"
@@ -58,7 +60,7 @@
 C&#43;&#43;
 #include&lt;iostream&gt; #include&lt;string&gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&lt;in.size();i&#43;&#43;){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&lt;&lt;in; return 0; } 程式碼說明：
 首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：" />
-  <meta name="author" content="seansie&#39;s blog" />
+  <meta name="author" content="Sean Sie" />
   
 
   
@@ -83,6 +85,8 @@ C&#43;&#43;
   
 
   
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
   
   
 
@@ -227,6 +231,22 @@ C&#43;&#43;
     
     
 
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
     
   </div>
 </header>

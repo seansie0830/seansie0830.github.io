@@ -30,6 +30,8 @@
 
 
 
+
+
 <html
   class="not-ready lg:text-base"
   style="--bg: #faf8f1"
@@ -58,7 +60,7 @@
 在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。
 以下是一些注意事項：
 程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C&#43;&#43; 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; int gcd = gcd(a, b); cout &lt;&lt; gcd &lt;&lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。" />
-  <meta name="author" content="seansie&#39;s blog" />
+  <meta name="author" content="Sean Sie" />
   
 
   
@@ -83,6 +85,8 @@
   
 
   
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
   
   
 
@@ -227,6 +231,22 @@
     
     
 
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
     
   </div>
 </header>

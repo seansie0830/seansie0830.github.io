@@ -30,6 +30,8 @@
 
 
 
+
+
 <html
   class="not-ready lg:text-base"
   style="--bg: #faf8f1"
@@ -55,7 +57,7 @@
   
   <meta name="description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);
 這兩個語句旨在優化 C&#43;&#43; 中的輸入輸出 (I/O) 操作。" />
-  <meta name="author" content="seansie&#39;s blog" />
+  <meta name="author" content="Sean Sie" />
   
 
   
@@ -80,6 +82,8 @@
   
 
   
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
   
   
 
@@ -215,6 +219,22 @@
     
     
 
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
     
   </div>
 </header>

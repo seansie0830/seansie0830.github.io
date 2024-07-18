@@ -30,6 +30,8 @@
 
 
 
+
+
 <html
   class="not-ready lg:text-base"
   style="--bg: #faf8f1"
@@ -55,7 +57,7 @@
   
   <meta name="description" content="題目連結 a020. 身分證檢驗
 //	AC (2ms, 116KB) #include &lt;stdio.h&gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&#34;%c%s&#34;, &amp;city, num); if(city&gt;=65 &amp;&amp; city&lt;=72) city-=55; else if(city==&#39;I&#39;) city-=39; else if(city&gt;=74 &amp;&amp; city&lt;=78) city-=56; else if(city==&#39;O&#39;) city-=44; else if(city&gt;=80 &amp;&amp; city&lt;=86) city-=57; else if(city==&#39;W&#39;) city-=55; else if(city==&#39;X&#39; || city==&#39;Y&#39;) city-=58; else if(city==&#39;Z&#39;) city-=57; int sum=num[8]-48; for(int i=0;i&lt;8;i&#43;&#43;) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum&#43;=(num[i]-48)*(8-i); sum&#43;=city/10&#43;(city%10)*9; if(sum%10==0) printf(&#34;real&#34;); else printf(&#34;fake&#34;); return 0; } 程式碼分析" />
-  <meta name="author" content="seansie&#39;s blog" />
+  <meta name="author" content="Sean Sie" />
   
 
   
@@ -80,6 +82,8 @@
   
 
   
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
   
   
 
@@ -215,6 +219,22 @@
     
     
 
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
     
   </div>
 </header>
