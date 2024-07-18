@@ -1,0 +1,369 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範  - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="安裝 請先用 pip 安裝必要的套件 numpy （python中一個很重要的套件，專門處理高維陣列的），與今天的主角 matplotlib 。
+pip install numpy pip install matplotlib 安裝完後可以在 終端機下指令驗證，方法如下。
+pip show matplotlib pip show numpy 如果成功安裝會出現該模組的相關訊息。
+截錄一下
+Name: matplotlib Version: 3.9.1 Summary: Python plotting package Home-page: &lt;https://matplotlib.org&gt; Author: John D. Hunter, Michael Droettboom Author-email: Unknown &lt;matplotlib-users@python.org&gt; License: License agreement for matplotlib versions 1.3.0 and later ========================================================= 1. This LICENSE AGREEMENT is between the Matplotlib Development Team (&#34;MDT&#34;), and the Individual or Organization (&#34;Licensee&#34;) accessing and otherwise using matplotlib software in source or binary form and its associated documentation." />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 ">
+  <meta itemprop="description" content="安裝 請先用 pip 安裝必要的套件 numpy （python中一個很重要的套件，專門處理高維陣列的），與今天的主角 matplotlib 。
+pip install numpy pip install matplotlib 安裝完後可以在 終端機下指令驗證，方法如下。
+pip show matplotlib pip show numpy 如果成功安裝會出現該模組的相關訊息。
+截錄一下
+Name: matplotlib Version: 3.9.1 Summary: Python plotting package Home-page: &lt;https://matplotlib.org&gt; Author: John D. Hunter, Michael Droettboom Author-email: Unknown &lt;matplotlib-users@python.org&gt; License: License agreement for matplotlib versions 1.3.0 and later ========================================================= 1. This LICENSE AGREEMENT is between the Matplotlib Development Team (&#34;MDT&#34;), and the Individual or Organization (&#34;Licensee&#34;) accessing and otherwise using matplotlib software in source or binary form and its associated documentation.">
+  <meta itemprop="datePublished" content="2024-07-18T11:47:02+08:00">
+  <meta itemprop="dateModified" content="2024-07-18T11:47:02+08:00">
+  <meta itemprop="wordCount" content="155">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/pymodmatplotlibintro-1/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 ">
+  <meta property="og:description" content="安裝 請先用 pip 安裝必要的套件 numpy （python中一個很重要的套件，專門處理高維陣列的），與今天的主角 matplotlib 。
+pip install numpy pip install matplotlib 安裝完後可以在 終端機下指令驗證，方法如下。
+pip show matplotlib pip show numpy 如果成功安裝會出現該模組的相關訊息。
+截錄一下
+Name: matplotlib Version: 3.9.1 Summary: Python plotting package Home-page: &lt;https://matplotlib.org&gt; Author: John D. Hunter, Michael Droettboom Author-email: Unknown &lt;matplotlib-users@python.org&gt; License: License agreement for matplotlib versions 1.3.0 and later ========================================================= 1. This LICENSE AGREEMENT is between the Matplotlib Development Team (&#34;MDT&#34;), and the Individual or Organization (&#34;Licensee&#34;) accessing and otherwise using matplotlib software in source or binary form and its associated documentation.">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-18T11:47:02+08:00">
+    <meta property="article:modified_time" content="2024-07-18T11:47:02+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 ">
+<meta name="twitter:description" content="安裝 請先用 pip 安裝必要的套件 numpy （python中一個很重要的套件，專門處理高維陣列的），與今天的主角 matplotlib 。
+pip install numpy pip install matplotlib 安裝完後可以在 終端機下指令驗證，方法如下。
+pip show matplotlib pip show numpy 如果成功安裝會出現該模組的相關訊息。
+截錄一下
+Name: matplotlib Version: 3.9.1 Summary: Python plotting package Home-page: &lt;https://matplotlib.org&gt; Author: John D. Hunter, Michael Droettboom Author-email: Unknown &lt;matplotlib-users@python.org&gt; License: License agreement for matplotlib versions 1.3.0 and later ========================================================= 1. This LICENSE AGREEMENT is between the Matplotlib Development Team (&#34;MDT&#34;), and the Individual or Organization (&#34;Licensee&#34;) accessing and otherwise using matplotlib software in source or binary form and its associated documentation.">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/pymodmatplotlibintro-1/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 </h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 18, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="安裝">安裝</h1>
+<p>請先用 <code>pip</code> 安裝必要的套件 <code>numpy</code> （python中一個很重要的套件，專門處理高維陣列的），與今天的主角 <code>matplotlib</code> 。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pip install numpy 
+</span></span><span style="display:flex;"><span>pip install matplotlib
+</span></span></code></pre></div><p>安裝完後可以在 終端機下指令驗證，方法如下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>pip show matplotlib
+</span></span><span style="display:flex;"><span>pip show numpy
+</span></span></code></pre></div><p>如果成功安裝會出現該模組的相關訊息。</p>
+<p>截錄一下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Name: matplotlib
+</span></span><span style="display:flex;"><span>Version: <span style="color:#ae81ff">3.9.1</span>
+</span></span><span style="display:flex;"><span>Summary: Python plotting package
+</span></span><span style="display:flex;"><span>Home<span style="color:#f92672">-</span>page: <span style="color:#f92672">&lt;</span>https:<span style="color:#f92672">//</span>matplotlib<span style="color:#f92672">.</span>org<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>Author: John D<span style="color:#f92672">.</span> Hunter, Michael Droettboom
+</span></span><span style="display:flex;"><span>Author<span style="color:#f92672">-</span>email: Unknown <span style="color:#f92672">&lt;</span>matplotlib<span style="color:#f92672">-</span>users<span style="color:#a6e22e">@python.org</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>License: License agreement <span style="color:#66d9ef">for</span> matplotlib versions <span style="color:#ae81ff">1.3.0</span> <span style="color:#f92672">and</span> later
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">=========================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1.</span> This LICENSE AGREEMENT <span style="color:#f92672">is</span> between the Matplotlib Development Team
+</span></span><span style="display:flex;"><span>        (<span style="color:#e6db74">&#34;MDT&#34;</span>), <span style="color:#f92672">and</span> the Individual <span style="color:#f92672">or</span> Organization (<span style="color:#e6db74">&#34;Licensee&#34;</span>) accessing <span style="color:#f92672">and</span>
+</span></span><span style="display:flex;"><span>        otherwise using matplotlib software <span style="color:#f92672">in</span> source <span style="color:#f92672">or</span> binary form <span style="color:#f92672">and</span> its
+</span></span><span style="display:flex;"><span>        associated documentation<span style="color:#f92672">.</span>
+</span></span></code></pre></div><p>如果沒有成功安裝會出現以下字樣，我以 <code>pip show thepacknotexist</code>  爲例子。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>WARNING: Package(s) <span style="color:#f92672">not</span> found: thepacknotexist
+</span></span></code></pre></div><h1 id="基本用法">基本用法</h1>
+<p>在開始畫圖之前，首先要先有資料，不過這個套件是依賴於 <code>numpy</code> 這個套件的陣列功能的，所以這裏我來爲大家示範一下如何在numpy中建立一個陣列，表示x座標的資料</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span> ,<span style="color:#ae81ff">5</span>])
+</span></span></code></pre></div><p>也就是用 <code>np.array</code>  函數創造一個陣列( <code>&lt;class 'numpy.ndarray'&gt;</code> )物件，裏面的元素需用方括號包裹起來且用逗點區隔，並指定給變數 <code>x</code></p>
+<p>接著來用 <code>y</code>  座標的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>y<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">5</span> ,<span style="color:#ae81ff">4</span> ,<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>])
+</span></span></code></pre></div><p>準備好這兩個資料之後，要開始畫圖了，用 <code>plt.plot()</code> 來建立一個圖表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(x,y)
+</span></span></code></pre></div><p>其中引數格式如下 <code>plt.plot()**(x-axis, y-axis,style code)**</code></p>
+<ul>
+<li>x-axis：x軸資料</li>
+<li>y-axis：y軸資料</li>
+<li>style-code：進階樣式設定，例如線條的顏色等等，可以參見以下連結</li>
+</ul>
+<p><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html</a></p>
+<p>最後用<code>plt.show</code>函數展示</p>
+<p>效果如下</p>
+<p><img src="/image/1721274422a.png" alt=""></p>
+<h3 id="總程式碼">總程式碼</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>x<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>])
+</span></span><span style="display:flex;"><span>y<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">5</span> ,<span style="color:#ae81ff">4</span> ,<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(x,y)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html">https://numpy.org/doc/stable/reference/generated/numpy.array.html</a></li>
+<li><a href="https://pypi.org/project/matplotlib/">https://pypi.org/project/matplotlib/</a></li>
+<li><a href="https://homepage.ntu.edu.tw/~weitingc/fortran_lecture/Lecture_P_2_1Dplot.slides.html">https://homepage.ntu.edu.tw/~weitingc/fortran_lecture/Lecture_P_2_1Dplot.slides.html</a></li>
+<li><a href="https://zh.wikipedia.org/zh-tw/NumPy">https://zh.wikipedia.org/zh-tw/NumPy</a></li>
+</ul>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a002/"
+      ><span>zerojudge a002 C&#43;&#43; python 雙語言詳解</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

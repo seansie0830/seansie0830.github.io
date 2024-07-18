@@ -1,0 +1,397 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>zerojudge a002 C&#43;&#43; python 雙語言詳解 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="C&#43;&#43; #include &lt;iostream&gt; using namespace std; int main() { int a,b; cin&gt;&gt;a&gt;&gt;b; cout&lt;&lt;a&#43;b;//&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } 引入標頭檔案
+#include &lt;iostream&gt; 這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 cin 和 cout 進行輸入和輸出操作。
+使用命名空間
+using namespace std; 這行程式碼使用 std 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 cin 和 cout）而不需要加上 std:: 前綴。
+主函式
+int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; cout &lt;&lt; a &#43; b; //&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } int main() 是 C&#43;&#43; 程式的進入點，表示程式從這裡開始執行。
+宣告兩個整數變數 a 和 b：
+int a, b; 使用 cin 讀取兩個整數並將它們賦值給變數 a 和 b：" />
+  <meta name="author" content="seansie&#39;s blog" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="zerojudge a002 C&#43;&#43; python 雙語言詳解">
+  <meta itemprop="description" content="C&#43;&#43; #include &lt;iostream&gt; using namespace std; int main() { int a,b; cin&gt;&gt;a&gt;&gt;b; cout&lt;&lt;a&#43;b;//&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } 引入標頭檔案
+#include &lt;iostream&gt; 這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 cin 和 cout 進行輸入和輸出操作。
+使用命名空間
+using namespace std; 這行程式碼使用 std 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 cin 和 cout）而不需要加上 std:: 前綴。
+主函式
+int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; cout &lt;&lt; a &#43; b; //&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } int main() 是 C&#43;&#43; 程式的進入點，表示程式從這裡開始執行。
+宣告兩個整數變數 a 和 b：
+int a, b; 使用 cin 讀取兩個整數並將它們賦值給變數 a 和 b：">
+  <meta itemprop="datePublished" content="2024-07-18T09:48:13+08:00">
+  <meta itemprop="dateModified" content="2024-07-18T09:48:13+08:00">
+  <meta itemprop="wordCount" content="168">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a002/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="zerojudge a002 C&#43;&#43; python 雙語言詳解">
+  <meta property="og:description" content="C&#43;&#43; #include &lt;iostream&gt; using namespace std; int main() { int a,b; cin&gt;&gt;a&gt;&gt;b; cout&lt;&lt;a&#43;b;//&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } 引入標頭檔案
+#include &lt;iostream&gt; 這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 cin 和 cout 進行輸入和輸出操作。
+使用命名空間
+using namespace std; 這行程式碼使用 std 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 cin 和 cout）而不需要加上 std:: 前綴。
+主函式
+int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; cout &lt;&lt; a &#43; b; //&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } int main() 是 C&#43;&#43; 程式的進入點，表示程式從這裡開始執行。
+宣告兩個整數變數 a 和 b：
+int a, b; 使用 cin 讀取兩個整數並將它們賦值給變數 a 和 b：">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-18T09:48:13+08:00">
+    <meta property="article:modified_time" content="2024-07-18T09:48:13+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="zerojudge a002 C&#43;&#43; python 雙語言詳解">
+<meta name="twitter:description" content="C&#43;&#43; #include &lt;iostream&gt; using namespace std; int main() { int a,b; cin&gt;&gt;a&gt;&gt;b; cout&lt;&lt;a&#43;b;//&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } 引入標頭檔案
+#include &lt;iostream&gt; 這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 cin 和 cout 進行輸入和輸出操作。
+使用命名空間
+using namespace std; 這行程式碼使用 std 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 cin 和 cout）而不需要加上 std:: 前綴。
+主函式
+int main() { int a, b; cin &gt;&gt; a &gt;&gt; b; cout &lt;&lt; a &#43; b; //&lt;&lt;&#34;hello, &#34;&lt;&lt;in; return 0; } int main() 是 C&#43;&#43; 程式的進入點，表示程式從這裡開始執行。
+宣告兩個整數變數 a 和 b：
+int a, b; 使用 cin 讀取兩個整數並將它們賦值給變數 a 和 b：">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a002/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">zerojudge a002 C&#43;&#43; python 雙語言詳解</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jul 18, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="c">C++</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a,b;
+</span></span><span style="display:flex;"><span>    cin<span style="color:#f92672">&gt;&gt;</span>a<span style="color:#f92672">&gt;&gt;</span>b;
+</span></span><span style="display:flex;"><span>    cout<span style="color:#f92672">&lt;&lt;</span>a<span style="color:#f92672">+</span>b;<span style="color:#75715e">//&lt;&lt;&#34;hello, &#34;&lt;&lt;in;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>引入標頭檔案</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span></code></pre></div><p>這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 <code>cin</code> 和 <code>cout</code> 進行輸入和輸出操作。</p>
+<p><strong>使用命名空間</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span></code></pre></div><p>這行程式碼使用 <code>std</code> 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 <code>cin</code> 和 <code>cout</code>）而不需要加上 <code>std::</code> 前綴。</p>
+<p><strong>主函式</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a, b;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">+</span> b; <span style="color:#75715e">//&lt;&lt;&#34;hello, &#34;&lt;&lt;in;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>int main()</code> 是 C++ 程式的進入點，表示程式從這裡開始執行。</p>
+<p>宣告兩個整數變數 <code>a</code> 和 <code>b</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a, b;
+</span></span></code></pre></div><p>使用 <code>cin</code> 讀取兩個整數並將它們賦值給變數 <code>a</code> 和 <code>b</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span></code></pre></div><p><code>cin</code> 是標準輸入流，用於從標準輸入（通常是鍵盤）讀取資料。</p>
+<p>計算 <code>a</code> 和 <code>b</code> 的和，並將結果輸出到標準輸出（通常是螢幕）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">+</span> b;
+</span></span></code></pre></div><ul>
+<li><code>cout</code> 是標準輸出流，用於向標準輸出（通常是螢幕）輸出資料。</li>
+<li><code>a + b</code> 計算 <code>a</code> 和 <code>b</code> 的和。</li>
+</ul>
+<p>最後，程式返回 <code>0</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></code></pre></div><p><code>return 0;</code> 表示程式正常結束。</p>
+<h1 id="python">python</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>s<span style="color:#f92672">=</span>input()
+</span></span><span style="display:flex;"><span>li<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span>split()
+</span></span><span style="display:flex;"><span>print(int(li[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">+</span>int(li[<span style="color:#ae81ff">1</span>]))
+</span></span></code></pre></div><h2 id="程式碼解析">程式碼解析</h2>
+<p><strong>讀取輸入</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>s <span style="color:#f92672">=</span> input()
+</span></span></code></pre></div><p>這行程式碼使用 <code>input()</code> 函式讀取輸入。<code>input()</code> 會讀取來自標準輸入的一行文字，並將其賦值給變數 <code>s</code>。</p>
+<p>在這裡，<code>s</code> 將會是一個包含兩個以空白隔開的整數的字串。</p>
+<p><strong>分割字串</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>li <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span>split()
+</span></span></code></pre></div><p>這行程式碼使用 <code>split()</code> 方法將字串 <code>s</code> 分割成一個列表 <code>li</code>。</p>
+<p><code>split()</code> 方法會以空白字元（空格、tab等）為分隔符，將字串分割成多個部分，並返回這些部分組成的<a href="https://seansie0830.github.io/posts/py-new-tutorial4/">列表</a>。</p>
+<p>在這裡，<code>li</code> 將是一個包含兩個元素的列表，這兩個元素都是字串格式的數字。</p>
+<p><strong>計算和並輸出結果</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(int(li[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">+</span> int(li[<span style="color:#ae81ff">1</span>]))
+</span></span></code></pre></div><p>這行程式碼首先將列表 <code>li</code> 中的兩個元素轉換為整數。</p>
+<ul>
+<li><code>int(li[0])</code> 將列表 <code>li</code> 中的第一個元素轉換為整數。</li>
+<li><code>int(li[1])</code> 將列表 <code>li</code> 中的第二個元素轉換為整數。</li>
+</ul>
+<p>然後計算這兩個整數的和。</p>
+<p><code>print()</code> 函式將計算結果輸出到標準輸出（通常是螢幕）。</p>
+<h3 id="總結">總結</h3>
+<p>這段Python程式碼通過讀取一行包含兩個數字的輸入，將其分割成兩個獨立的數字，然後計算並輸出它們的和。使用了 <code>input()</code> 來讀取輸入，<code>split()</code> 來分割字串，以及 <code>int()</code> 來將字串轉換為整數。最後使用 <code>print()</code> 輸出結果。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/pymodmatplotlibintro-1/"
+      ><span class="mr-1.5">←</span><span>python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 </span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_a006/"
+      ><span>zerojudge a006 程式碼</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

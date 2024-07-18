@@ -6,8 +6,29 @@
     <description>Recent content in Posts on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Tue, 16 Jul 2024 15:35:59 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jul 2024 11:47:02 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 </title>
+      <link>https://seansie0830.github.io/posts/pymodmatplotlibintro-1/</link>
+      <pubDate>Thu, 18 Jul 2024 11:47:02 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/pymodmatplotlibintro-1/</guid>
+      <description>安裝 請先用 pip 安裝必要的套件 numpy （python中一個很重要的套件，專門處理高維陣列的），與今天的主角 matplotlib 。&#xA;pip install numpy pip install matplotlib 安裝完後可以在 終端機下指令驗證，方法如下。&#xA;pip show matplotlib pip show numpy 如果成功安裝會出現該模組的相關訊息。&#xA;截錄一下&#xA;Name: matplotlib Version: 3.9.1 Summary: Python plotting package Home-page: &amp;lt;https://matplotlib.org&amp;gt; Author: John D. Hunter, Michael Droettboom Author-email: Unknown &amp;lt;matplotlib-users@python.org&amp;gt; License: License agreement for matplotlib versions 1.3.0 and later ========================================================= 1. This LICENSE AGREEMENT is between the Matplotlib Development Team (&amp;#34;MDT&amp;#34;), and the Individual or Organization (&amp;#34;Licensee&amp;#34;) accessing and otherwise using matplotlib software in source or binary form and its associated documentation.</description>
+    </item>
+    <item>
+      <title>zerojudge a002 C&#43;&#43; python 雙語言詳解</title>
+      <link>https://seansie0830.github.io/posts/zj_a002/</link>
+      <pubDate>Thu, 18 Jul 2024 09:48:13 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a002/</guid>
+      <description>C++ #include &amp;lt;iostream&amp;gt; using namespace std; int main() { int a,b; cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b; cout&amp;lt;&amp;lt;a+b;//&amp;lt;&amp;lt;&amp;#34;hello, &amp;#34;&amp;lt;&amp;lt;in; return 0; } 引入標頭檔案&#xA;#include &amp;lt;iostream&amp;gt; 這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 cin 和 cout 進行輸入和輸出操作。&#xA;使用命名空間&#xA;using namespace std; 這行程式碼使用 std 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 cin 和 cout）而不需要加上 std:: 前綴。&#xA;主函式&#xA;int main() { int a, b; cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; cout &amp;lt;&amp;lt; a + b; //&amp;lt;&amp;lt;&amp;#34;hello, &amp;#34;&amp;lt;&amp;lt;in; return 0; } int main() 是 C++ 程式的進入點，表示程式從這裡開始執行。&#xA;宣告兩個整數變數 a 和 b：&#xA;int a, b; 使用 cin 讀取兩個整數並將它們賦值給變數 a 和 b：</description>
+    </item>
+    <item>
+      <title>zerojudge a006 程式碼</title>
+      <link>https://seansie0830.github.io/posts/zj_a006/</link>
+      <pubDate>Thu, 18 Jul 2024 09:33:40 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a006/</guid>
+      <description>#include&amp;lt;iostream&amp;gt; #include&amp;lt;cmath&amp;gt; using namespace std; int main (){ int a,b,c,delta,ans1,ans2,temp1,temp2; cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b&amp;gt;&amp;gt;c; delta=b*b-4*a*c; ans1=(-b+sqrt(b*b-4*a*c))/(2*a); ans2=(-b-sqrt(b*b-4*a*c))/(2*a); if(delta&amp;gt;0) { if(a&amp;gt;0)cout&amp;lt;&amp;lt;&amp;#34;Two different roots x1=&amp;#34;&amp;lt;&amp;lt;ans1&amp;lt;&amp;lt;&amp;#34; , x2=&amp;#34;&amp;lt;&amp;lt;ans2&amp;lt;&amp;lt;endl; else if (a&amp;lt;0) cout&amp;lt;&amp;lt;&amp;#34;Two different root x1=&amp;#34;&amp;lt;&amp;lt;ans2&amp;lt;&amp;lt;&amp;#34; , x2=&amp;#34;&amp;lt;&amp;lt;ans1&amp;lt;&amp;lt;endl; } else if (delta==0) cout&amp;lt;&amp;lt;&amp;#34;Two same roots x=&amp;#34;&amp;lt;&amp;lt;ans1&amp;lt;&amp;lt;endl; else cout&amp;lt;&amp;lt;&amp;#34;No real root&amp;#34;&amp;lt;&amp;lt;endl; return 0; } 解說 引入標頭檔與命名空間：&#xA;#include&amp;lt;iostream&amp;gt; #include&amp;lt;cmath&amp;gt; using namespace std; 引入 iostream 來進行輸入輸出操作。&#xA;引入 cmath 來使用數學函數，如 sqrt。&#xA;使用 std 命名空間，方便後續程式碼的書寫&#xA;主程式開始：&#xA;int main() { 定義主函式 main。&#xA;變數宣告與輸入：</description>
+    </item>
     <item>
       <title>例外處理</title>
       <link>https://seansie0830.github.io/posts/py-new-tutorial8/</link>
