@@ -46,7 +46,7 @@
   />
 
   
-  <title>清單與元組 - seansie&#39;s blog</title>
+  <title>清單與元組 python 新手教學#4 | seansie blog - seansie&#39;s blog</title>
 
   
   <meta name="theme-color" />
@@ -55,14 +55,13 @@
   
   
   
-  <meta name="description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+  <meta name="description" content="2024/7/21 第二次編輯
+清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
 範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
-裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
-a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引值（又稱元素編號等等）爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號，又稱索引值] ，例如 print([0])
 修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
-應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
-PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
-用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。" />
+應用 應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -122,30 +121,28 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
 
   
   
-  <meta itemprop="name" content="清單與元組">
-  <meta itemprop="description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+  <meta itemprop="name" content="清單與元組 python 新手教學#4 | seansie blog">
+  <meta itemprop="description" content="2024/7/21 第二次編輯
+清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
 範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
-裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
-a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引值（又稱元素編號等等）爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號，又稱索引值] ，例如 print([0])
 修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
-應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
-PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
-用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。">
+應用 應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。">
   <meta itemprop="datePublished" content="2024-07-16T15:32:47+08:00">
   <meta itemprop="dateModified" content="2024-07-16T15:32:47+08:00">
-  <meta itemprop="wordCount" content="93">
+  <meta itemprop="wordCount" content="230">
   
   <meta property="og:url" content="https://seansie0830.github.io/posts/py-new-tutorial4/">
   <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="清單與元組">
-  <meta property="og:description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+  <meta property="og:title" content="清單與元組 python 新手教學#4 | seansie blog">
+  <meta property="og:description" content="2024/7/21 第二次編輯
+清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
 範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
-裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
-a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引值（又稱元素編號等等）爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號，又稱索引值] ，例如 print([0])
 修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
-應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
-PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
-用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。">
+應用 應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。">
   <meta property="og:locale" content="zh-tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -153,15 +150,14 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
     <meta property="article:modified_time" content="2024-07-16T15:32:47+08:00">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="清單與元組">
-<meta name="twitter:description" content="清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="清單與元組 python 新手教學#4 | seansie blog">
+<meta name="twitter:description" content="2024/7/21 第二次編輯
+清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#
 範例 我的飲料 = [&#34;珍珠&#34;, &#34;鮮奶&#34; ,&#34;半糖&#34; ,&#34;去冰&#34;] 外送清單 = [[&#39;青茶&#39;, &#39;綠茶&#39;, &#39;仙草&#39;, &#39;正常冰&#39;], [&#39;少冰&#39;, &#39;紅豆&#39;, &#39;綠豆&#39;, &#39;熱飲&#39;], [&#39;寒天&#39;, &#39;熱飲&#39;, &#39;青茶&#39;, &#39;綠茶&#39;], [&#39;微糖&#39;, &#39;紅茶&#39;, &#39;紅豆&#39;, &#39;愛玉&#39;], [&#39;紅豆&#39;, &#39;青茶&#39;, &#39;椰果&#39;, &#39;正常冰&#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。
-裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
-a b c 存取 即 清單名稱[元素編號] ，例如 print([0])
+裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引值（又稱元素編號等等）爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &#34;a&#34;, &#34;b&#34; ,&#34;c&#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果
+a b c 存取 即 清單名稱[元素編號，又稱索引值] ，例如 print([0])
 修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。
-應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。
-PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，
-用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。">
+應用 應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。">
 
   
   
@@ -271,7 +267,7 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
 
 <article>
   <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">清單與元組</h1>
+    <h1 class="!my-0 pb-2.5">清單與元組 python 新手教學#4 | seansie blog</h1>
 
     
     <div class="text-sm antialiased opacity-60">
@@ -285,7 +281,10 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
     
   </header>
 
-  <section><h1 id="清單">清單</h1>
+  <section><blockquote>
+<p>2024/7/21 第二次編輯</p>
+</blockquote>
+<h1 id="清單">清單</h1>
 <p>在python中，有一個資料形態是 <code>list</code> ，是一個物件，由數個元素組成。#</p>
 <h2 id="範例">範例</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>我的飲料 <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;珍珠&#34;</span>, <span style="color:#e6db74">&#34;鮮奶&#34;</span> ,<span style="color:#e6db74">&#34;半糖&#34;</span> ,<span style="color:#e6db74">&#34;去冰&#34;</span>]
@@ -297,7 +296,7 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
 </span></span></code></pre></div><p>這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。</p>
 <ul>
 <li>裏面可以包含任何物件，包括<strong>自己（列表），重複物件。</strong></li>
-<li>第一個物件的索引爲 <code>0</code> 其他以此類推，第n個的索引爲 <code>n-1</code>，與大多數程式語言 <strong>陣列</strong> 這個物件的用法相同。</li>
+<li>第一個物件的索引值（又稱元素編號等等）爲 <code>0</code> 其他以此類推，第n個的索引爲 <code>n-1</code>，與大多數程式語言 <strong>陣列</strong> 這個物件的用法相同。</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>arr<span style="color:#f92672">=</span> [ <span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span> ,<span style="color:#e6db74">&#34;c&#34;</span> ]
 </span></span><span style="display:flex;"><span>print(arr[<span style="color:#ae81ff">0</span>])
@@ -308,31 +307,81 @@ PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要
 b
 c
 </code></pre><h3 id="存取">存取</h3>
-<p>即 <code>清單名稱[元素編號]</code> ，例如  <code>print([0]</code>)</p>
+<p>即 <code>清單名稱[元素編號，又稱索引值]</code> ，例如  <code>print([0]</code>)</p>
 <h3 id="修改">修改</h3>
 <p>直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 <code>a[0]=12 等等。</code></p>
 <h2 id="應用">應用</h2>
+<h2 id="應用-1">應用</h2>
 <p>在python的 <code>list</code> 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。</p>
 <p>PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，</p>
-<p>用法是 <code>清單名字.下列函數</code> ，其它依此類推，在本文中目標清單會統一用 <code>list</code>表示。</p>
+<p>用法是 <code>清單名字.下列函數</code> ，其它依此類推，對於函數名稱在第一次提到時會統一冠上 <code>list</code>前綴，以表示是 <code>list</code>物件的從屬函數，接著第二次提到時會酌情省略。</p>
 <p>e.g  針對 <code>arr</code>清單做 <code>append</code> 的操作，就要寫成<code>arr.append()</code> 的樣子。</p>
+<p>爲求簡潔，若沒有特別說明，則視爲用<code>arr</code>清單作爲例子，而且程式碼會省略清單宣告（如下）的部分。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> arr<span style="color:#f92672">=[</span>1,2,3,4,5<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h3 id="新增元素">新增元素</h3>
 <ul>
-<li>append()，顧名思義，就是增補，白話就是在清單後面新增元素，用法如下。</li>
-<li>clear()</li>
-<li>copy()</li>
-<li>extend()</li>
-<li>index()</li>
-<li>insert()</li>
-<li>pop()</li>
-<li>remove()</li>
-<li>reverse()</li>
-<li>sort()</li>
+<li>
+<p><code>list.append()</code>：</p>
+<p>顧名思義，就是增補，白話就是在清單後面新增元素，用法爲<code>arr.append(你要新增的元素)</code></p>
+<p>舉例來說，執行 <code>arr.append(6)</code> 後，<code>arr</code>變成了 <code>[1, 2, 3, 4, 5, 6]</code></p>
+</li>
+<li>
+<p><code>list.extend()</code>：</p>
+<p>與 <code>append()</code> ,大同小異，差別是若引數是序列物件的時候， <code>append()</code> 會直接將整個物件作爲一個元素放進去清單中，導致該清單變成巢狀清單，而 <code>extend()</code> 函數會先將該物件拆解爲元素再一一放入清單。</p>
+<p>舉例來說，如果把<code>[-1,-2]</code> 分別用 <code>append</code> 還有 <code>extend</code> 函式放入，則用 <code>append</code> 方式的結果是 <code>arr</code> 陣列會變成 <code>[1, 2, 3, 4, 5, [-1, -2]]</code> 也就是直接將<code>[-1,-2]</code> 視爲 <strong>一個元素.</strong></p>
+<p>反之用<code>extend</code>  的話會變成 <code>[1, 2, 3, 4, 5, -1, -2]</code> ，因爲 <code>[-1,-2]</code> 會被系統拆解成數個元素，再一一放入，因此才會變成這樣。</p>
+</li>
+<li>
+<p><code>list.insert()</code>：</p>
+<p>顧名思義，就是插入，其實可以視爲 <code>append</code> 的加強版，因爲可以指定新增元素的位置。</p>
+<p>引數格式爲 <code>(索引值,要插入的元素)</code> ，所謂插入是新增的元素會取代該索引值（引數）的元素，而其他受影響的元素索引值會順延一格。</p>
+<p>舉個例子， 執行完<code>arr.insert(1,True)</code> 之後，arr變成了 <code>[1, True, 2, 3, 4, 5]</code></p>
+</li>
 </ul>
+<h3 id="移除元素">移除元素</h3>
+<ul>
+<li>
+<p><code>list.pop()</code>：</p>
+<p>即彈出元素，白話來說就是刪除指定索引值（引數）的元素。引數格式爲想要刪除的元素索引值，順帶一提，此函數執行完會回傳被刪除的元素內容。</p>
+<p>舉例來說，執行完 <code>arr.pop(0)</code> 之後，arr 變成了 <code>[2, 3, 4, 5]</code></p>
+</li>
+<li>
+<p><code>list.clear()</code>：</p>
+<p>將清單的所有元素清除的意思執行 <code>arr.clear()</code> 之後，<code>arr</code>變成<code>[]</code></p>
+</li>
+</ul>
+<h3 id="存取元素">存取元素</h3>
+<ul>
+<li>
+<p><code>list.copy()</code>：</p>
+<p>回傳一個複製的新清單。例如執行  <code>print(arr.copy())</code> 後，螢幕上會出現 <code>[1, 2, 3, 4, 5]</code>，即<code>arr</code>陣列的副本</p>
+</li>
+<li>
+<p><code>list.index()</code>：</p>
+<p>回傳引數所在的索引值，如果沒找到，就會回傳 <code>ValueError</code> 錯誤，詳情可以看本人寫的 例外處理 的文章。</p>
+<p>例如執行 <code>arr.index(1)</code> 後，就會回傳 <code>0</code> ，因爲 <code>1</code> 這個元素在 <code>arr</code> 清單中的索引值是 <code>0</code> 。</p>
+</li>
+</ul>
+<h3 id="特殊操作">特殊操作</h3>
+<ul>
+<li><code>list.reverse()</code>：顧名思義，就是反轉，會修改 <code>arr</code> 清單，讓他裏面的內容反轉。</li>
+</ul>
+<p>舉例來說，若執行<code>arr.reverse()</code>，<code>arr</code>會被修改成 <code>[5, 4, 3, 2, 1]</code> 。</p>
+<ul>
+<li><code>list.sort()</code>：顧名思義，就是排序，因爲 <code>arr</code> 這個例子已經被排序了，所以在此函數的示範中，我會再宣告一個新清單，如下程式碼所示。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>li<span style="color:#f92672">=[</span>5,8,7,9,6,4,1,2,3<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>​		舉例來說，若執行<code>li.reverse()</code>，<code>li</code>會被修改成 <code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code>。</p>
 <h1 id="元組">元組</h1>
 <p>一言以蔽之，就是無法修改的清單，其他與清單都大同小異。</p>
 <h1 id="reference">Reference</h1>
 <p><a href="https://www.w3schools.com/python/python_lists.asp">https://www.w3schools.com/python/python_lists.asp</a></p>
 <p><a href="https://builtin.com/data-science/python-list">https://builtin.com/data-science/python-list</a></p>
+<p><a href="https://www.w3schools.com/python/ref_list_index.asp">https://www.w3schools.com/python/ref_list_index.asp</a></p>
+<p><a href="https://www.runoob.com/python3/python3-att-list-copy.html">https://www.runoob.com/python3/python3-att-list-copy.html</a></p>
+<p><a href="https://sean22492249.medium.com/python-list-">https://sean22492249.medium.com/python-list-</a>的-extend-append-的差別-5dd4a585aafe</p>
+<p><a href="https://www.programiz.com/python-programming/methods/list/index">https://www.programiz.com/python-programming/methods/list/index</a></p>
+<p><a href="https://www.w3schools.com/python/ref_list_pop.asp">https://www.w3schools.com/python/ref_list_pop.asp</a></p>
 </section>
 
   

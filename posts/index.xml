@@ -6,10 +6,17 @@
     <description>Recent content in Posts on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Sat, 20 Jul 2024 12:42:25 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jul 2024 14:40:45 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>ZjAnsNav</title>
+      <title>Python 電腦視覺模組 OpenCV 新手入門 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/pymodopencvintro0/</link>
+      <pubDate>Sun, 21 Jul 2024 14:40:45 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/pymodopencvintro0/</guid>
+      <description>安裝必要元件 pip install opencv-python 用OpenCV顯示第一張圖片 先把相關元件匯入一下 import numpy as np import cv2 其中numpy是一個用來操作高維陣列的函式庫陣列可以簡單的理解爲加速版清單，用法幾乎一樣，但是是特別爲提高效率目的最佳化過的。&#xA;至於爲何這次會需要用到他呢，是因爲圖片本質上就是一種高維陣列，舉例來說最常見的RGB圖片就是長*寬*色彩（RGB三色）的三維陣列，因此才會需要他。&#xA;讀入圖片 img = cv2.imread(&amp;#39;path\\to\\img.jpg&amp;#39;) 注意一下，這裏有點坑。&#xA;經本人於2024/7/19實測其中的路徑若在windows系統之下，請用 絕對路徑 也就是 C:\\....... 從磁碟機號開始算起。不然會有問題！！&#xA;顯示圖片 cv2.imshow(&amp;#34;0&amp;#34;,img) 其中那個 “0” 是視窗的名稱，可以任意修改成你喜歡的名稱， img 則是剛剛讀入圖片的物件，要填入後面的引數中。&#xA;但是如果只用這樣會發生一個問題，執行後雖然看到似乎有一個視窗跳出來，但是一下就消失了，這是因爲這個模組中的 cv2.imshow() 函式預設就是這樣的，是正常現象。&#xA;如果要解決這個問題，要另外加上這個指令才能讓他不會馬上關閉，如下所示&#xA;cv2.waitKey() 裏面的引數只有一個，就是等待秒數。時間到了視窗就會關閉，若不填入視爲無限久。&#xA;所有程式碼 import numpy as np import cv2 img = cv2.imread(&amp;#39;C:/Users/seans/codewhitelist/python/model/opencv/a.jpg&amp;#39;) cv2.imshow(&amp;#34;my first opencv program&amp;#34;,img) cv2.waitKey() OpenCV 常見應用 可以參考以下的精選文章&#xA;Reference https://medium.com/@PatHuang/初學python手記-1-資料前處理-相對-絕對路徑-資料選取-1a081fc38e56 https://opencv.org/get-started/ https://www.youtube.com/watch?v=xjrykYpaBBM </description>
+    </item>
+    <item>
+      <title>zerojudge 詳解大全（持續更新） | seansie blog</title>
       <link>https://seansie0830.github.io/posts/zjansnav/</link>
       <pubDate>Sat, 20 Jul 2024 12:42:25 +0800</pubDate>
       <guid>https://seansie0830.github.io/posts/zjansnav/</guid>
@@ -51,11 +58,11 @@
       <description>在日常生活中，有時會常常需要處理一些事物的對應關係，舉一個最常見的例子，電話簿，就是聯絡人與手機號碼的對應關係，這種問題就很是合用python中的字典（dictionary )功能來解決。&#xA;這個在程式語言中也被稱作**KV資料庫，**是一種很常見的資料庫形式，像是C++中有個很相似的叫做map，由key(鍵）與value（值）組成，其中key是不能修改的，如同電話簿中的名字一樣，正常情況（改名例外，而且也不常見）下不會修改。&#xA;不過裏面的值是可以被修改的，就像電話簿中的手機號碼，常常會因爲某些原因會被更動。&#xA;對這個資料庫有興趣的讀者可以參考下面這個維基百科的連結。&#xA;https://zh.wikipedia.org/zh-tw/键-值存储&#xA;宣告 有兩種方式&#xA;法一 與正常變數一樣的方式宣告 phonebook = {&amp;#34;John Doe&amp;#34;: &amp;#34;123-456-7890&amp;#34;, &amp;#34;Jane Doe&amp;#34;: &amp;#34;987-654-3210&amp;#34;} 其中格式如下&#xA;{&amp;#34;鍵1” :&amp;#34;值1&amp;#34; , &amp;#34;鍵2” :&amp;#34;值2&amp;#34; ... &amp;#34;鍵n” :&amp;#34;值n&amp;#34; } 法二 用dict函數 這個函數接受了數種引數格式，第n個鍵或值分別用Kn與Vn來表示。&#xA;1.傳入一個有數個元組（格式： (鍵,值) ） 的清單，格式如下 。 dict=([(K1,V1),(K2,V2),........,(Kn,Vn)}} 2.用平常宣告變數的方式來當作引數的格式，只是變數名稱是鍵，變數數值是值。 口訣：名稱不能變是鍵，值是值。&#xA;dict(K1=V1,K2=V2 .....Kn=Vn) 存取 對單個元素 與清單的格式相同，只是索引值改成鍵值，清單填入數字，但字典可是填入資料，範例如下。&#xA;# 電話簿字典例子 phone_book = { &amp;#34;Alice&amp;#34;: &amp;#34;123-456-7890&amp;#34;, &amp;#34;Bob&amp;#34;: &amp;#34;234-567-8901&amp;#34;, &amp;#34;Charlie&amp;#34;: &amp;#34;345-678-9012&amp;#34;, &amp;#34;David&amp;#34;: &amp;#34;456-789-0123&amp;#34;, &amp;#34;Eva&amp;#34;: &amp;#34;567-890-1234&amp;#34; } print(phone_book[&amp;#34;Bob&amp;#34;]) 執行結果&#xA;&amp;#39;234-567-8901&amp;#39; 對多個元素的迴圈技巧 用item函數 item 函數是用來回傳指定元素字典的鍵值對的，用法如下，以下迴圈會遍歷 phone_book 中的所有元素，並以 item 函數回傳給 k v 。</description>
     </item>
     <item>
-      <title>清單與元組</title>
+      <title>清單與元組 python 新手教學#4 | seansie blog</title>
       <link>https://seansie0830.github.io/posts/py-new-tutorial4/</link>
       <pubDate>Tue, 16 Jul 2024 15:32:47 +0800</pubDate>
       <guid>https://seansie0830.github.io/posts/py-new-tutorial4/</guid>
-      <description>清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#&#xA;範例 我的飲料 = [&amp;#34;珍珠&amp;#34;, &amp;#34;鮮奶&amp;#34; ,&amp;#34;半糖&amp;#34; ,&amp;#34;去冰&amp;#34;] 外送清單 = [[&amp;#39;青茶&amp;#39;, &amp;#39;綠茶&amp;#39;, &amp;#39;仙草&amp;#39;, &amp;#39;正常冰&amp;#39;], [&amp;#39;少冰&amp;#39;, &amp;#39;紅豆&amp;#39;, &amp;#39;綠豆&amp;#39;, &amp;#39;熱飲&amp;#39;], [&amp;#39;寒天&amp;#39;, &amp;#39;熱飲&amp;#39;, &amp;#39;青茶&amp;#39;, &amp;#39;綠茶&amp;#39;], [&amp;#39;微糖&amp;#39;, &amp;#39;紅茶&amp;#39;, &amp;#39;紅豆&amp;#39;, &amp;#39;愛玉&amp;#39;], [&amp;#39;紅豆&amp;#39;, &amp;#39;青茶&amp;#39;, &amp;#39;椰果&amp;#39;, &amp;#39;正常冰&amp;#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。&#xA;裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &amp;#34;a&amp;#34;, &amp;#34;b&amp;#34; ,&amp;#34;c&amp;#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果&#xA;a b c 存取 即 清單名稱[元素編號] ，例如 print([0])&#xA;修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。&#xA;應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。&#xA;PS：因爲一個程式可以有很多清單，所以要告訴電腦你打算要對那個清單操作，&#xA;用法是 清單名字.下列函數 ，其它依此類推，在本文中目標清單會統一用 list表示。</description>
+      <description>2024/7/21 第二次編輯&#xA;清單 在python中，有一個資料形態是 list ，是一個物件，由數個元素組成。#&#xA;範例 我的飲料 = [&amp;#34;珍珠&amp;#34;, &amp;#34;鮮奶&amp;#34; ,&amp;#34;半糖&amp;#34; ,&amp;#34;去冰&amp;#34;] 外送清單 = [[&amp;#39;青茶&amp;#39;, &amp;#39;綠茶&amp;#39;, &amp;#39;仙草&amp;#39;, &amp;#39;正常冰&amp;#39;], [&amp;#39;少冰&amp;#39;, &amp;#39;紅豆&amp;#39;, &amp;#39;綠豆&amp;#39;, &amp;#39;熱飲&amp;#39;], [&amp;#39;寒天&amp;#39;, &amp;#39;熱飲&amp;#39;, &amp;#39;青茶&amp;#39;, &amp;#39;綠茶&amp;#39;], [&amp;#39;微糖&amp;#39;, &amp;#39;紅茶&amp;#39;, &amp;#39;紅豆&amp;#39;, &amp;#39;愛玉&amp;#39;], [&amp;#39;紅豆&amp;#39;, &amp;#39;青茶&amp;#39;, &amp;#39;椰果&amp;#39;, &amp;#39;正常冰&amp;#39;]] 這個例子說明了清單的用法，其中我的飲料是基本的用法，裏面存放了數個飲料內容物的字串（物件），然後外送清單是進階用法，名稱是巢狀清單，在這個例子中外送清單中裏面還有清單，雖然可能有人會覺得很奇怪，但是這個用法也是被python允許的。&#xA;裏面可以包含任何物件，包括自己（列表），重複物件。 第一個物件的索引值（又稱元素編號等等）爲 0 其他以此類推，第n個的索引爲 n-1，與大多數程式語言 陣列 這個物件的用法相同。 arr= [ &amp;#34;a&amp;#34;, &amp;#34;b&amp;#34; ,&amp;#34;c&amp;#34; ] print(arr[0]) print(arr[1]) print(arr[2]) 執行結果&#xA;a b c 存取 即 清單名稱[元素編號，又稱索引值] ，例如 print([0])&#xA;修改 直接修改指定元素：跟修改變數一樣，只是要加上索引，例如 a[0]=12 等等。&#xA;應用 應用 在python的 list 物件中有許多方便的函數可以提供更便利的操作，以下皆會提供一個範例。</description>
     </item>
     <item>
       <title>迴圈與控制</title>
