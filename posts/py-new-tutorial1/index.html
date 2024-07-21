@@ -46,7 +46,7 @@
   />
 
   
-  <title>Py New Tutorial1 - seansie&#39;s blog</title>
+  <title>Python完全零基礎入門概念教學 | seansie blog - seansie&#39;s blog</title>
 
   
   <meta name="theme-color" />
@@ -55,7 +55,8 @@
   
   
   
-  <meta name="description" content="學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
+  <meta name="description" content="2024.7.21更新 第二版
+學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
 首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
 線上編譯器資源 https://www.python.org/shell/
 安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝
@@ -63,10 +64,10 @@ windows 使用套件管理工具winget，在終端機輸入 winget install -e --
 Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
 Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
 如何使用終端機 windows 按下 win 鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。
-Mac 在 spotlight中搜尋 terminal.app 即可
-Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋
-未完待續 Reference https://winget.run/pkg/Python/Python.2
-https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all" />
+Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
+Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
+sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3." />
   <meta name="author" content="Sean Sie" />
   
 
@@ -126,8 +127,9 @@ https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=
 
   
   
-  <meta itemprop="name" content="Py New Tutorial1">
-  <meta itemprop="description" content="學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
+  <meta itemprop="name" content="Python完全零基礎入門概念教學 | seansie blog">
+  <meta itemprop="description" content="2024.7.21更新 第二版
+學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
 首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
 線上編譯器資源 https://www.python.org/shell/
 安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝
@@ -135,18 +137,19 @@ windows 使用套件管理工具winget，在終端機輸入 winget install -e --
 Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
 Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
 如何使用終端機 windows 按下 win 鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。
-Mac 在 spotlight中搜尋 terminal.app 即可
-Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋
-未完待續 Reference https://winget.run/pkg/Python/Python.2
-https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all">
+Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
+Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
+sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.">
   <meta itemprop="datePublished" content="2024-07-16T15:31:23+08:00">
   <meta itemprop="dateModified" content="2024-07-16T15:31:23+08:00">
-  <meta itemprop="wordCount" content="49">
+  <meta itemprop="wordCount" content="95">
   
   <meta property="og:url" content="https://seansie0830.github.io/posts/py-new-tutorial1/">
   <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="Py New Tutorial1">
-  <meta property="og:description" content="學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
+  <meta property="og:title" content="Python完全零基礎入門概念教學 | seansie blog">
+  <meta property="og:description" content="2024.7.21更新 第二版
+學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
 首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
 線上編譯器資源 https://www.python.org/shell/
 安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝
@@ -154,10 +157,10 @@ windows 使用套件管理工具winget，在終端機輸入 winget install -e --
 Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
 Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
 如何使用終端機 windows 按下 win 鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。
-Mac 在 spotlight中搜尋 terminal.app 即可
-Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋
-未完待續 Reference https://winget.run/pkg/Python/Python.2
-https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all">
+Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
+Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
+sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.">
   <meta property="og:locale" content="zh-tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -165,8 +168,9 @@ https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=
     <meta property="article:modified_time" content="2024-07-16T15:31:23+08:00">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Py New Tutorial1">
-<meta name="twitter:description" content="學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Python完全零基礎入門概念教學 | seansie blog">
+<meta name="twitter:description" content="2024.7.21更新 第二版
+學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
 首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
 線上編譯器資源 https://www.python.org/shell/
 安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝
@@ -174,10 +178,10 @@ windows 使用套件管理工具winget，在終端機輸入 winget install -e --
 Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
 Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
 如何使用終端機 windows 按下 win 鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。
-Mac 在 spotlight中搜尋 terminal.app 即可
-Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋
-未完待續 Reference https://winget.run/pkg/Python/Python.2
-https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all">
+Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
+Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
+sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.">
 
   
   
@@ -287,7 +291,7 @@ https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=
 
 <article>
   <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">Py New Tutorial1</h1>
+    <h1 class="!my-0 pb-2.5">Python完全零基礎入門概念教學 | seansie blog</h1>
 
     
     <div class="text-sm antialiased opacity-60">
@@ -301,27 +305,53 @@ https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=
     
   </header>
 
-  <section><p>學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。</p>
+  <section><blockquote>
+<p>2024.7.21更新 第二版</p>
+</blockquote>
+<p>學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。</p>
 <p>首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。</p>
 <h2 id="線上編譯器資源">線上編譯器資源</h2>
 <p><a href="https://www.python.org/shell/">https://www.python.org/shell/</a></p>
+<p><img src="/image/1721115083a.png" alt="python官網貼心附設的線上編譯器"></p>
 <h2 id="安裝到電腦">安裝到電腦</h2>
 <p>以下我推薦使用各式平臺內建的<a href="https://zh.wikipedia.org/zh-tw/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">套件管理工具</a>安裝</p>
 <h3 id="windows">windows</h3>
-<p>使用套件管理工具winget，在終端機輸入 <code>winget install -e --id Python.Python.3.11</code> 即可。</p>
+<p><img src="/image/1721115083b.png" alt="python透過winget的windows套件管理器安裝的過程">
+<img src="/image/1721115083c.png" alt="python安裝的GUI">
+使用套件管理工具winget，在終端機輸入 <code>winget install -e --id Python.Python.3.11</code> 即可。</p>
 <h3 id="mac">Mac</h3>
 <p>使用套件管理工具homebrew，在終端機輸入 <code>brew install python</code> 即可。</p>
 <h3 id="linuxdebian-based">Linux(debian-based)</h3>
 <p>使用套件管理工具apt，在終端機輸入 <code>sudo apt install python3</code> 即可。</p>
 <h3 id="如何使用終端機">如何使用終端機</h3>
 <h3 id="windows-1">windows</h3>
-<p>按下 <code>win</code>  鍵+ <code>R</code> ，挑出執行的視窗，在裏面輸入 <code>powershell</code>  ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 <code>enter</code>  執行。</p>
+<p><img src="/image/1721115083d.png" alt="示範如何打開powershell">
+按下 <code>win</code>  鍵+ <code>R</code> ，挑出執行的視窗，在裏面輸入 <code>powershell</code>  ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 <code>enter</code>  執行。</p>
 <h3 id="mac-1">Mac</h3>
-<p>在 <code>spotlight</code>中搜尋 <code>terminal.app</code>  即可</p>
+<p>在 <code>spotlight</code>中搜尋 <code>terminal.app</code>  即可
+<img src="/image/1721115083e.png" alt="spotlight">
+source :<a href="https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac">https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac</a></p>
 <h3 id="linux">Linux</h3>
-<p>因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋</p>
-<h1 id="未完待續">未完待續</h1>
-<h1 id="reference">Reference</h1>
+<p>因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 <code>Ubuntu</code> 系統爲例，可以用一下命令在終端機中安裝，其中 <code>sudo</code> 指令需要用有 <code>root</code> 權限的帳號登入且輸入密碼。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#75715e">#更新apt套件管理器</span>
+</span></span><span style="display:flex;"><span>sudo apt install python3 <span style="color:#75715e">#安裝python3</span>
+</span></span></code></pre></div><h1 id="基本概念">基本概念</h1>
+<h3 id="套件介紹">套件介紹</h3>
+<p>安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。</p>
+<p><img src="/image/1721115083f.png" alt="pytohn元件列表"></p>
+<ul>
+<li>IDLE是python的整合式開發環境，其實某種程度上也可以取代 <code>python3.10</code>，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。</li>
+<li>Python 3.10 ，是python的執行環境，可以輸入指令的。與在開頭示範的線上編譯器功能大同小異，只是一個在線上，一個在本機。</li>
+<li>其他兩個是說明書。</li>
+</ul>
+<h1 id="hello-world-第一個程式示範">Hello World 第一個程式示範</h1>
+<p>以下用 python 內建的IDE（整合式開發環境）示範。</p>
+<p>啓動後，在上面的選單按下 <code>File</code>  → <code>Newfile</code>  ，建立一個新的python 程式檔案。</p>
+<p>接著輸入以下程式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello world&#34;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>輸入完，請按下 <code>F5</code> 執行，第一次執行他可能會要求要存檔，請找一個位置儲存它。執行結果如下。</p>
+<p><img src="/image/1721115083g.png" alt="Hello World程式碼在python內建的IDE的示範圖片"></p>
+<p>以上就是python的Hello World程式示範。</p>
 <p><a href="https://winget.run/pkg/Python/Python.2">https://winget.run/pkg/Python/Python.2</a></p>
 <p><a href="https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all">https://packages.ubuntu.com/search?keywords=python&amp;searchon=names&amp;suite=noble&amp;section=all</a></p>
 </section>

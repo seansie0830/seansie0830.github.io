@@ -6,8 +6,15 @@
     <description>Recent content in Posts on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 18 Jul 2024 11:47:02 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2024 12:42:25 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ZjAnsNav</title>
+      <link>https://seansie0830.github.io/posts/zjansnav/</link>
+      <pubDate>Sat, 20 Jul 2024 12:42:25 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zjansnav/</guid>
+      <description>目前有的詳解 a001 a002 a006</description>
+    </item>
     <item>
       <title>python畫圖模組Matplotlib簡介系列#1-- 基本畫圖功能示範 </title>
       <link>https://seansie0830.github.io/posts/pymodmatplotlibintro-1/</link>
@@ -58,11 +65,11 @@
       <description>if 陳述式 格式如下&#xA;if statement : do_something() elif statement: do something() else foo() 例子&#xA;x = int(input(&amp;#34;Please enter an integer: &amp;#34;)) if x &amp;lt; 0: x = 0 print(&amp;#39;Negative changed to zero&amp;#39;) elif x == 0: print(&amp;#39;Zero&amp;#39;) elif x == 1: print(&amp;#39;Single&amp;#39;) else: print(&amp;#39;More&amp;#39;) statement請填入布林變數( True False 記得要大寫)或是條件 e.g. 1+1==2 除了有 if elif else 在前面的程式碼以外，其他的記得要縮排，因爲python是用縮排來判斷執行區塊的的範圍，例如在 if 條件式之後，有縮排的程式碼才是如果 if 條件成立才能執行的，反之，如果沒有縮排，會被當作正常的程式碼來看待，就會被依序執行。 For statement 格式如下&#xA;for i in sequence: do_sometning() 再次提醒，記得要縮排，才不會造成歧義。&#xA;sequence爲一個序列，可以填入數種資料，像是字典，清單等等。 Range 函數 如果你會C++，會發現python與c++的for迴圈是不一樣的，在C++中，迴圈是有一個變數的，例如 for(int i=0;i&amp;lt;n;i++)之類的。</description>
     </item>
     <item>
-      <title>Py New Tutorial1</title>
+      <title>Python完全零基礎入門概念教學 | seansie blog</title>
       <link>https://seansie0830.github.io/posts/py-new-tutorial1/</link>
       <pubDate>Tue, 16 Jul 2024 15:31:23 +0800</pubDate>
       <guid>https://seansie0830.github.io/posts/py-new-tutorial1/</guid>
-      <description>學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。&#xA;首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。&#xA;線上編譯器資源 https://www.python.org/shell/&#xA;安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝&#xA;windows 使用套件管理工具winget，在終端機輸入 winget install -e --id Python.Python.3.11 即可。&#xA;Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。&#xA;Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。&#xA;如何使用終端機 windows 按下 win 鍵+ R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。&#xA;Mac 在 spotlight中搜尋 terminal.app 即可&#xA;Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋&#xA;未完待續 Reference https://winget.run/pkg/Python/Python.2&#xA;https://packages.ubuntu.com/search?keywords=python&amp;amp;searchon=names&amp;amp;suite=noble&amp;amp;section=all</description>
+      <description>2024.7.21更新 第二版&#xA;學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。&#xA;首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。&#xA;線上編譯器資源 https://www.python.org/shell/&#xA;安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝&#xA;windows 使用套件管理工具winget，在終端機輸入 winget install -e --id Python.Python.3.11 即可。&#xA;Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。&#xA;Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。&#xA;如何使用終端機 windows 按下 win 鍵+ R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。&#xA;Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac&#xA;Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。&#xA;sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。&#xA;IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.</description>
     </item>
     <item>
       <title>Zerojudge a541 題解</title>
