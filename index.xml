@@ -6,8 +6,15 @@
     <description>Recent content on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Sun, 21 Jul 2024 14:40:45 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2024 17:58:50 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python一行系簡潔程式碼技巧示範</title>
+      <link>https://seansie0830.github.io/posts/pycolonelinetip0/</link>
+      <pubDate>Sat, 07 Sep 2024 17:58:50 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/pycolonelinetip0/</guid>
+      <description>Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。&#xA;在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。&#xA;清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。&#xA;如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列&#xA;for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。&#xA;雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。&#xA;相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。&#xA;格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：&#xA;它是您希望對其每個元素進行操作的目標。 變數：&#xA;在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：&#xA;這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。&#xA;進階if用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。&#xA;範例&#xA;假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。&#xA;[int(i) for i in arr if i&amp;gt;0] 在這個例子中，我們使用 if int(i) &amp;gt; 0 來確保只轉換那些代表正整數的字串。</description>
+    </item>
     <item>
       <title>Python 電腦視覺模組 OpenCV 新手入門 | seansie blog</title>
       <link>https://seansie0830.github.io/posts/pymodopencvintro0/</link>

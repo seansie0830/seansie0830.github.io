@@ -1,0 +1,436 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>python一行系簡潔程式碼技巧示範 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
+清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
+如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
+for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
+雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
+相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
+格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
+它是您希望對其每個元素進行操作的目標。 變數：
+在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
+這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
+進階if用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
+範例
+假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
+[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="python一行系簡潔程式碼技巧示範">
+  <meta itemprop="description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
+清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
+如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
+for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
+雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
+相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
+格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
+它是您希望對其每個元素進行操作的目標。 變數：
+在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
+這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
+進階if用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
+範例
+假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
+[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
+  <meta itemprop="datePublished" content="2024-09-07T17:58:50+08:00">
+  <meta itemprop="dateModified" content="2024-09-07T17:58:50+08:00">
+  <meta itemprop="wordCount" content="146">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/pycolonelinetip0/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="python一行系簡潔程式碼技巧示範">
+  <meta property="og:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
+清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
+如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
+for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
+雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
+相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
+格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
+它是您希望對其每個元素進行操作的目標。 變數：
+在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
+這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
+進階if用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
+範例
+假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
+[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-07T17:58:50+08:00">
+    <meta property="article:modified_time" content="2024-09-07T17:58:50+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="python一行系簡潔程式碼技巧示範">
+<meta name="twitter:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
+清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
+如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
+for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
+雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
+相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
+格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
+它是您希望對其每個元素進行操作的目標。 變數：
+在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
+這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
+進階if用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
+範例
+假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
+[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/pycolonelinetip0/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">python一行系簡潔程式碼技巧示範</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Sep 7, 2024</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。</p>
+<p>在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。</p>
+<h1 id="清單推導式">清單推導式</h1>
+<p>有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不<strong>逐一</strong>使用 <code>int()</code> 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當<strong>繁瑣</strong>。</p>
+<p>如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(arr)):
+</span></span><span style="display:flex;"><span>	arr[i]<span style="color:#f92672">=</span>int(arr[i])
+</span></span></code></pre></div><p>稍微提醒一下，在 <code>for i in ?</code> 這種寫法中，<code>i</code> 實際上是 <code>arr</code> 中元素的<strong>副本</strong>，換句話說，修改 <code>i</code> 並<strong>不會</strong>影響到 <code>arr</code> 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 <code>range()</code> 函數建立一個儲存arr所有元素的索引陣列，然後<strong>逐一</strong>存取 <code>arr</code> 中的元素，才能成功地進行修改。</p>
+<p>雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再<strong>逐一</strong>複製元素，這種做法顯然更加複雜。</p>
+<p>相較之下，使用清單推導式，只需輸入 <code>[int(i) for i in arr]</code> 即可達成相同目的，效率<strong>顯著提升</strong>。</p>
+<h2 id="格式">格式</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[表達式 <span style="color:#66d9ef">for</span> 變數 <span style="color:#f92672">in</span> 可迭代物件 ]
+</span></span></code></pre></div><p><strong>可迭代物件</strong>：</p>
+<ul>
+<li>它是您希望對其每個元素進行操作的目標。</li>
+</ul>
+<p><strong>變數</strong>：</p>
+<ul>
+<li>在每次迭代中，它會依序代表可迭代物件中的每一個元素。</li>
+<li>您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。</li>
+</ul>
+<p><strong>運算式</strong>：</p>
+<ul>
+<li>這是您定義的規則，用來決定如何轉換每個元素。</li>
+<li>運算式的結果會被收集起來，形成一個全新的列表。</li>
+</ul>
+<p>最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。</p>
+<h2 id="進階if用法">進階if用法</h2>
+<p>Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。</p>
+<p><strong>範例</strong></p>
+<p>假設我們有一個列表 <code>arr</code>，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[int(i) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> arr <span style="color:#66d9ef">if</span> i<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>]
+</span></span></code></pre></div><p>在這個例子中，我們使用 <code>if int(i) &gt; 0</code> 來確保只轉換那些代表正整數的字串。</p>
+<p>如此一來就可以用相當簡潔的語法來實現複雜的運算邏輯了。</p>
+<h1 id="匿名函數">匿名函數</h1>
+<p>雖然我們習慣將程式中重複的部分封裝成函數，但有時函數本身並沒有複雜的邏輯，只是單純地回傳一個由參數組成的表達式。例如，在洪水填充演算法（floodfill）中，用來判斷邊界條件的布林函數就是一個很好的例子。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isvalid</span>(x,y,xMax,yMax):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> y<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> x<span style="color:#f92672">&lt;</span>xMax <span style="color:#f92672">and</span> y<span style="color:#f92672">&lt;</span>yMax
+</span></span></code></pre></div><p>在不使用匿名函數的情況下，這已經是最簡潔的寫法了。有些人甚至會使用 <code>if-elif-else</code> 判斷式來逐一檢查條件！</p>
+<p>然而，有了匿名函數，我們可以將其濃縮成一行程式碼，大幅提升效率和可讀性，讓程式更加優雅。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>isvalid <span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x,y,xMax,yMax:x<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> y<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> x<span style="color:#f92672">&lt;</span>xMax <span style="color:#f92672">and</span> y<span style="color:#f92672">&lt;</span>yMax
+</span></span></code></pre></div><p>你看，這樣一行程式碼就搞定了，是不是既簡潔又強大？此外，當需要將函數作為參數傳遞時，匿名函數更能展現其簡潔的優勢！</p>
+<h2 id="格式-1">格式</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">lambda</span> x1,x2 <span style="color:#f92672">....</span>xn:f(x1,x2<span style="color:#f92672">.....</span>xn) 
+</span></span></code></pre></div><ul>
+<li><code>lambda</code>關鍵字:告訴python這是匿名函數，使我們可以使用這個簡潔語法。</li>
+<li><code>x1,x2.....xn</code>:該函數的所有參數，參數間以逗點隔開</li>
+<li><code>f(x)</code> :該匿名函數索回傳的表達式，這裡以<code>f(x1,x2...xn)</code>表示。</li>
+</ul>
+<h1 id="連續動作示範">連續動作示範</h1>
+<p>有時可以結合數種技巧來達成一行解的目標</p>
+<h3 id="functoolsreduce函數">functools.reduce()函數</h3>
+<h3 id="基礎用法">基礎用法</h3>
+<p>例如求數個數字的最大公因數，常規作法是用for迴圈遍歷整個陣列，但是這個作法稍嫌繁瑣，畢竟不要重複發明輪子嘛!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gcd_of_array</span>(arr):
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">`</span> gcd <span style="color:#f92672">=</span> arr[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> num <span style="color:#f92672">in</span> arr[<span style="color:#ae81ff">1</span>:]:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> num:
+</span></span><span style="display:flex;"><span>            gcd, num <span style="color:#f92672">=</span> num, gcd <span style="color:#f92672">%</span> num
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> gcd
+</span></span></code></pre></div><p>如果用<code>reduce()</code>函數的話，就可以用一個函數解決這種問題。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>reduce(m<span style="color:#f92672">.</span>gcd(),arr)
+</span></span></code></pre></div><p>其他好用的內建函數，的近期再更新。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/pymodopencvintro0/"
+      ><span>Python 電腦視覺模組 OpenCV 新手入門 | seansie blog</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2024
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
