@@ -46,7 +46,7 @@
   />
 
   
-  <title>C/C&#43;&#43; IO 基本優化介紹(IO同步與取消進階函數) #0  | seansie blog - seansie&#39;s blog</title>
+  <title>C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog - seansie&#39;s blog</title>
 
   
   <meta name="theme-color" />
@@ -122,7 +122,7 @@
 
   
   
-  <meta itemprop="name" content="C/C&#43;&#43; IO 基本優化介紹(IO同步與取消進階函數) #0  | seansie blog">
+  <meta itemprop="name" content="C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog">
   <meta itemprop="description" content="在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C&#43;&#43; 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。
 基本版本（標配） 在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
 衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
@@ -137,7 +137,7 @@
   
   <meta property="og:url" content="https://seansie0830.github.io/posts/cppioopt0/">
   <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="C/C&#43;&#43; IO 基本優化介紹(IO同步與取消進階函數) #0  | seansie blog">
+  <meta property="og:title" content="C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog">
   <meta property="og:description" content="在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C&#43;&#43; 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。
 基本版本（標配） 在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
 衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
@@ -153,7 +153,7 @@
     <meta property="article:modified_time" content="2024-09-14T11:40:57+08:00">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C/C&#43;&#43; IO 基本優化介紹(IO同步與取消進階函數) #0  | seansie blog">
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog">
 <meta name="twitter:description" content="在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C&#43;&#43; 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。
 基本版本（標配） 在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
 衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
@@ -271,7 +271,7 @@
 
 <article>
   <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">C/C&#43;&#43; IO 基本優化介紹(IO同步與取消進階函數) #0  | seansie blog</h1>
+    <h1 class="!my-0 pb-2.5">C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog</h1>
 
     
     <div class="text-sm antialiased opacity-60">
