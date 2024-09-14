@@ -9,7 +9,7 @@
     <lastBuildDate>Sat, 14 Sep 2024 11:40:57 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>C/C&#43;&#43; IO 基本優化介紹(IO同步與consoleAPI) #0  | seansie blog</title>
+      <title>C/C&#43;&#43; IO 基本優化介紹(IO同步與取消進階函數) #0  | seansie blog</title>
       <link>https://seansie0830.github.io/posts/cppioopt0/</link>
       <pubDate>Sat, 14 Sep 2024 11:40:57 +0800</pubDate>
       <guid>https://seansie0830.github.io/posts/cppioopt0/</guid>
