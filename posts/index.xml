@@ -6,8 +6,15 @@
     <description>Recent content in Posts on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Sat, 14 Sep 2024 11:40:57 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Sep 2024 16:16:28 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL#0  新手入門：安裝、登入與新增使用者權限管理 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/dbmysqlintro0/</link>
+      <pubDate>Sun, 22 Sep 2024 16:16:28 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/dbmysqlintro0/</guid>
+      <description>mysql介紹 MySQL，一款開放原始碼的關聯式資料庫管理系統，以其卓越的效能、可靠性和彈性，在資料庫領域獨樹一幟。它不僅能高效處理巨量資料，滿足各類應用場景的需求，還具備跨平台相容性，為開發者提供廣闊的選擇空間。&#xA;MySQL 的強大功能體現在它對 SQL 標準的全面支援，使得複雜的資料操作變得輕而易舉。同時，它擁有龐大而活躍的社群，為使用者提供豐富的學習資源和技術支援。&#xA;mysql可以適用於多種應用情境，無論是建構動態網站、開發企業級應用，還是部署在資源受限的嵌入式系統中，MySQL 都能勝任。它在資料儲存、檢索和管理方面的出色表現，使其成為眾多開發者和企業的首選資料庫解決方案。&#xA;更重要的是，MySQL 始終保持著與時俱進的步伐，不斷推出新功能和優化，以適應雲端運算和大數據等新興技術的發展趨勢。&#xA;安裝 在ubuntu可以透過apt安裝， 因為該檔案頗小，所以速度應該挺快的。&#xA;sudo apt install mysql-server 接著要確認mysql是否有成功啟動，先用root身分執行一下 mysql ，如果不能用root可以用sudo，原因請見下一節，如果沒有成功啟動，會有如下的錯誤訊息。&#xA;root@LAPTOP-MBDVAQ4B:~# mysql ERROR 2002 (HY000): Can&amp;#39;t connect to local MySQL server through socket &amp;#39;/var/run/mysqld/mysqld.sock&amp;#39; (2) 如果沒有成功啟動的話，需要透過此命令來啟動。&#xA;seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start * Starting MySQL database server mysqld su: warning: cannot change directory to /nonexistent: No such file or directory 然後再以root身分來執行mysql這個命令，如果最後出現 mysql (詳情請見下節)就代表進入成功，可以輸入 exit 來離開這個環境。&#xA;以root身分登入 在 MySQL 中，root 帳號擁有最高權限，首次安裝 MySQL 時，預設只有 root 帳號可用。接下來，我們將說明如何使用 root 身分登入 MySQL 系統。請注意，此處的 root 帳號與 Linux 系統中的 root 帳號是不同的概念，請勿混淆。</description>
+    </item>
     <item>
       <title>C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog</title>
       <link>https://seansie0830.github.io/posts/cppioopt0/</link>
