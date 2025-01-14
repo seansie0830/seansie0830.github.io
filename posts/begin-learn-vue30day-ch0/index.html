@@ -1,0 +1,492 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 內容 **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。
+那好，且聽我娓娓道來。
+重複元素 舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 javascript 的話，難道要重複8次跟10次嗎?
+雖然是可以用迴圈&#43; Inner html 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。
+// Create a container element (you can replace this with your existing container) const container = document.createElement(&#39;div&#39;); document.body.appendChild(container); // Create and append 8 buttons with innerHTML for (let i = 1; i &lt;= 8; i&#43;&#43;) { const button = document.createElement(&#39;button&#39;); button.innerHTML = `Button ${i}`; container.appendChild(button); } 如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 html 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。
+此外， inner html 還有 XSS 的風險，例如你打算插入一個 &lt;p&gt;使用者輸入內容 &lt;/p&gt; 的標籤進入，可是有心的使用者輸入了 &lt;script&gt; alert(&quot;you are hacked&quot;)&lt;/script&gt; ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog">
+  <meta itemprop="description" content="大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 內容 **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。
+那好，且聽我娓娓道來。
+重複元素 舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 javascript 的話，難道要重複8次跟10次嗎?
+雖然是可以用迴圈&#43; Inner html 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。
+// Create a container element (you can replace this with your existing container) const container = document.createElement(&#39;div&#39;); document.body.appendChild(container); // Create and append 8 buttons with innerHTML for (let i = 1; i &lt;= 8; i&#43;&#43;) { const button = document.createElement(&#39;button&#39;); button.innerHTML = `Button ${i}`; container.appendChild(button); } 如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 html 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。
+此外， inner html 還有 XSS 的風險，例如你打算插入一個 &lt;p&gt;使用者輸入內容 &lt;/p&gt; 的標籤進入，可是有心的使用者輸入了 &lt;script&gt; alert(&quot;you are hacked&quot;)&lt;/script&gt; ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。">
+  <meta itemprop="datePublished" content="2025-01-14T18:40:37+08:00">
+  <meta itemprop="dateModified" content="2025-01-14T18:40:37+08:00">
+  <meta itemprop="wordCount" content="408">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog">
+  <meta property="og:description" content="大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 內容 **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。
+那好，且聽我娓娓道來。
+重複元素 舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 javascript 的話，難道要重複8次跟10次嗎?
+雖然是可以用迴圈&#43; Inner html 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。
+// Create a container element (you can replace this with your existing container) const container = document.createElement(&#39;div&#39;); document.body.appendChild(container); // Create and append 8 buttons with innerHTML for (let i = 1; i &lt;= 8; i&#43;&#43;) { const button = document.createElement(&#39;button&#39;); button.innerHTML = `Button ${i}`; container.appendChild(button); } 如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 html 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。
+此外， inner html 還有 XSS 的風險，例如你打算插入一個 &lt;p&gt;使用者輸入內容 &lt;/p&gt; 的標籤進入，可是有心的使用者輸入了 &lt;script&gt; alert(&#34;you are hacked&#34;)&lt;/script&gt; ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-14T18:40:37+08:00">
+    <meta property="article:modified_time" content="2025-01-14T18:40:37+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog">
+<meta name="twitter:description" content="大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 內容 **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。
+那好，且聽我娓娓道來。
+重複元素 舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 javascript 的話，難道要重複8次跟10次嗎?
+雖然是可以用迴圈&#43; Inner html 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。
+// Create a container element (you can replace this with your existing container) const container = document.createElement(&#39;div&#39;); document.body.appendChild(container); // Create and append 8 buttons with innerHTML for (let i = 1; i &lt;= 8; i&#43;&#43;) { const button = document.createElement(&#39;button&#39;); button.innerHTML = `Button ${i}`; container.appendChild(button); } 如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 html 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。
+此外， inner html 還有 XSS 的風險，例如你打算插入一個 &lt;p&gt;使用者輸入內容 &lt;/p&gt; 的標籤進入，可是有心的使用者輸入了 &lt;script&gt; alert(&quot;you are hacked&quot;)&lt;/script&gt; ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jan 14, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 <strong>內容</strong> **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。</p>
+<p>那好，且聽我娓娓道來。</p>
+<h3 id="重複元素">重複元素</h3>
+<p><img src="/image/1736852065a.png" alt=""></p>
+<p>舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 <code>javascript</code> 的話，難道要重複8次跟10次嗎?</p>
+<p>雖然是可以用迴圈+ <code>Inner html</code> 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// Create a container element (you can replace this with your existing container)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">container</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;div&#39;</span>);
+</span></span><span style="display:flex;"><span>document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">container</span>); 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Create and append 8 buttons with innerHTML
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">8</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;button&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">button</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`Button </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>; 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">button</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 <code>html</code> 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。</p>
+<p>此外， <code>inner html</code> 還有  <code>XSS</code> 的風險，例如你打算插入一個 <code>&lt;p&gt;使用者輸入內容 &lt;/p&gt;</code> 的標籤進入，可是有心的使用者輸入了 <code>&lt;script&gt; alert(&quot;you are hacked&quot;)&lt;/script&gt;</code> ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。</p>
+<p>最後，有時候在渲染樹狀結構(例如資料夾)的時候，剛剛的範例還需要加上遞迴，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">renderFolderTree</span>(<span style="color:#a6e22e">folder</span>, <span style="color:#a6e22e">parentElement</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">li</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;li&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">folder</span>.<span style="color:#a6e22e">name</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">classList</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">folder</span>.<span style="color:#a6e22e">type</span>); <span style="color:#75715e">// Add class for styling
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">folder</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;folder&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#34;click&#34;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">stopPropagation</span>(); <span style="color:#75715e">// Prevent event bubbling to parent folders
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">classList</span>.<span style="color:#a6e22e">toggle</span>(<span style="color:#e6db74">&#34;active&#34;</span>); <span style="color:#75715e">// Toggle visibility of children
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ul</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;ul&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">folder</span>.<span style="color:#a6e22e">items</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">folder</span>.<span style="color:#a6e22e">items</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">item</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">renderFolderTree</span>(<span style="color:#a6e22e">item</span>, <span style="color:#a6e22e">ul</span>); <span style="color:#75715e">// Recursive call for nested items
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">li</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">ul</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">parentElement</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">li</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">folderTreeContainer</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;folderTree&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">renderFolderTree</span>(<span style="color:#a6e22e">folderData</span>, <span style="color:#a6e22e">folderTreeContainer</span>);
+</span></span></code></pre></div><p>真的蠻難懂的吧</p>
+<p>而這時元件可以自我引用的優勢就出現了，元件有點像是專為html設計的函數，只要把元件自我引用，然後加上終止條件，就可以輕鬆實現這種效果了，反觀上面的 純 js實現還要處理比較底層的 DOM(html標籤)細節。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">v</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">for</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item in items&#34;</span> <span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">key</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item.name&#34;</span> <span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item.type&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">span</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;toggle(item)&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {{ <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">name</span> }}
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">span</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">folder</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">tree</span> <span style="color:#a6e22e">v</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item.type === &#39;folder&#39; &amp;&amp; item.isOpen&#34;</span> <span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">items</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;item.items&#34;</span> /&gt; 
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;!</span> <span style="color:#a6e22e">終止條件</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span></code></pre></div><h2 id="狀態管理">狀態管理</h2>
+<p>網站是事件導向的程式，有事件才會有動作。而人看不到狀態，需要被渲染到螢幕上人才能看到，如果不用框架大概長這樣</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#f92672">&lt;!</span><span style="color:#a6e22e">DOCTYPE</span> <span style="color:#a6e22e">html</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">title</span>&gt;<span style="color:#a6e22e">Button</span> <span style="color:#a6e22e">Click</span> <span style="color:#a6e22e">Counter</span>&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myButton&#34;</span>&gt;<span style="color:#a6e22e">Click</span> <span style="color:#a6e22e">Me</span>&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">p</span>&gt;<span style="color:#a6e22e">Clicked</span> &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;countDisplay&#34;</span>&gt;<span style="color:#ae81ff">0</span>&lt;/<span style="color:#f92672">span</span>&gt; <span style="color:#a6e22e">times</span>&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 狀態儲存在全域變數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">button</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;myButton&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">countDisplay</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;countDisplay&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 這邊其實都可以讓框架代勞
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">button</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">count</span><span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">countDisplay</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">count</span>; <span style="color:#75715e">// 手動更新 DOM
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 這邊其實都可以讓框架代勞
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>如果是簡單的網站，手動使用 DOM API來操作可能還算是一個權宜之計，但是這個前提是你要知道何時何地如何更新阿，如果專案一大基本上常人沒辦法掌握，根本搞不清楚到底甚麼時候要更新，如此一來恐怕是BUG連環爆。</p>
+<p>不過雖然也有一些 <code>getter</code> 代理物件 手動事件 訂閱模式等等比較進階的技巧可以實現等效框架功能，但是軟體界有一句話 不要重新發明輪子，既然已經有經過時間考驗的解決方案，而且又是MIT可商用授權的，幹嘛不要直接用。</p>
+<p>而在 <code>vuejs</code> 的作法是如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleClick&#34;</span>&gt;<span style="color:#a6e22e">Click</span> <span style="color:#a6e22e">Me</span>&lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">p</span>&gt;<span style="color:#a6e22e">Clicked</span> {{ <span style="color:#a6e22e">count</span> }} <span style="color:#a6e22e">times</span>&lt;/<span style="color:#f92672">p</span>&gt; {<span style="color:#75715e">/* Vue 會自動更新 DOM */</span>}
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">count</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>, <span style="color:#75715e">// 使用 data 屬性管理狀態
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    };
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">handleClick</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">count</span><span style="color:#f92672">++</span>; <span style="color:#75715e">// 通過 this.count 更新狀態
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>有看到 <code>&lt;template&gt;</code> 標籤之下有個 <code>{{count}}</code> 語法嗎，那個就是表示 <code>data()</code> 中裡面的 <code>count</code> 變數的站位字元，而這裡厲害之處就是他是基於虛擬DOM來渲染的，效能比普通的DOM操作更高，此外， <code>{{count}}</code> 這個地方只要 <code>count</code> 變數有更改，他就會在畫面用新的資料同步渲染。</p>
+<p>例如如果原本 <code>count=1</code> 那前端畫面就會顯示 Click 1 times，而如果 count變數突然變成2了，前端畫面也會跟著變成 click 2 times。</p>
+<p>這個非常方便的功能就像一個秘書一樣，幫忙處理 **把資料渲染到前端畫面上 ，**這種看似無聊但是很重要、需要細心注意何時何地怎麼渲染的瑣事。</p>
+<p>身為開發者，如果使用框架就能像老闆一樣，應該是只要專心在業務邏輯上就好，把資料送到變數上面，就會自動地被渲染出來，如一來可以大大提升開發效率。而不是專心在跟自己沒關係的東西上面，例如訂機票之類的。</p>
+<h2 id="為甚麼推薦vue">為甚麼推薦vue</h2>
+<p>因為 <code>vue</code> 是漸進式框架，漸進式，顧名思義，僅取所需，也代表他的學習曲線低。</p>
+<p>而且就算你可能 <code>javascipt</code> 語法不熟甚至根本不會， 都還蠻有機會學會 <code>vue</code> 的。</p>
+<p>此外它的設計真的是新手友善的，建立一個元件有點像是填表格，把 <code>&lt;template&gt;</code> <code>&lt;style&gt;</code> 跟 <code>&lt;script&gt;</code> 依樣畫葫蘆，分別對應內容、樣式跟互動，而元件的邏輯(也就是如何定義互動方式，在這裡通常會叫他邏輯)，也是遵循這種風格的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt; <span style="color:#75715e">// 有複數個用逗點隔開
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">你的變數</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;helloVue&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">你的函數</span>(){
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">函數內容</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>元件邏輯在 export default的 <code>{}</code> 中定義，有點像是元件的入口。</p>
+<p>裡免有許多清楚的元件邏輯函數，列舉如下(用法如上)</p>
+<ul>
+<li>data() 定義 資料(名詞) 可以在 <code>&lt;template&gt;</code> 透過雙大括號語法讓他同步渲染</li>
+<li>method() 定義方法(函數) 就像是動詞</li>
+<li>create()定義建立時的初始化操作 (有點像是前處理)</li>
+</ul>
+<p>等等</p>
+<p>反觀react光是要宣告元件資料，就用了一個  <code>useState</code> 這種需要許多 <code>js</code> 知識的機制，這個恐怕會勸退許多初學者</p>
+<p>此外 <code>angular</code> 是強制使用 <code>typescript</code> 的，也就是開發者需要明確知道 <code>js</code> 物件的資料型態，並且把它標住在旁邊，提供編譯器檢查，好處是錯誤很少啦，但是壞處也是顯而易見，就是學習曲線高，畢竟新手可能連 <code>js</code> 都有點搞不定了，遑論 <code>typesctipt</code> 。</p>
+<h2 id="總結">總結</h2>
+<p>隨著前端日益複雜，簡單的 <code>javascript</code> 已經無法滿足開發者對於效率的追求了，因此才會出現這麼多框架來解決問題，而 <code>vuejs</code> 我覺得是個對新手友善的框架，得益於他漸進式的特性而學習曲線平坦，非常推薦大家學習。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#34;.app&#34;</span>)
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div></section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/"
+      ><span class="mr-1.5">←</span><span>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/dbmysqlintro0/"
+      ><span>MySQL#0  新手入門：安裝、登入與新增使用者權限管理 | seansie blog</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

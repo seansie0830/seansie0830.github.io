@@ -1,0 +1,459 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog">
+  <meta itemprop="description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。">
+  <meta itemprop="datePublished" content="2025-01-14T18:45:00+08:00">
+  <meta itemprop="dateModified" content="2025-01-14T18:45:00+08:00">
+  <meta itemprop="wordCount" content="272">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog">
+  <meta property="og:description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-14T18:45:00+08:00">
+    <meta property="article:modified_time" content="2025-01-14T18:45:00+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog">
+<meta name="twitter:description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jan 14, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。</p>
+<p>本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念</p>
+<p>。</p>
+<p>而vuejs可以簡單地透過 <code>script</code> 標籤匯入，並且直接在 <!-- raw HTML omitted -->中使用，不像react還要操作各種繁複的終端機 <code>npm</code> 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。</p>
+<p>這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。</p>
+<h3 id="匯入">匯入</h3>
+<p>在你的 html檔案的<!-- raw HTML omitted -->之下，加上這個標籤就完成了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><h2 id="建立第一個網頁應用程式">建立第一個網頁應用程式</h2>
+<p>先在文字編輯器</p>
+<p>加入一個 script標籤 ，在裡面新增以下內容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">msg</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;hello world&#34;</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>簡介一下</p>
+<ul>
+<li><code>Vue.createApp</code> 從 <code>Vue</code> 模組中， 呼叫 <code>createApp</code> 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦</li>
+<li><code>data()</code> 函數可以想像成網頁記憶體，裡面可以儲存必要資料。</li>
+</ul>
+<p>接著新增 <code>html</code> 主幹</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">title</span>&gt;Document&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>	=&gt; vuejs要掛載在這裡
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>對了，這些主幹如果你是用 <code>vscode</code> 的(本人強推)，因為裡面內建 <code>emmet</code> ，可以透過快速簡寫來產生這些，方法如右  : 輸入 <code>:</code> +<code>Tab</code> ，就能產生了。</p>
+<h2 id="--語法介紹"><code>{{ }}</code> 語法介紹</h2>
+<p>剛剛在第零章有介紹到， vuejs有同步渲染內部物件到外部畫面的功能，那要怎麼用呢，很簡單，還記得剛剛的 <code>data()</code> 記憶體嗎，他就是內部物件的一種。</p>
+<p>只要用 <code>{{}}</code> 包住內部物件的名字，例如 <code>{{ msg}}</code> ，就可以把他跟內部物件同步起來。</p>
+<p>而外面的 <code>&lt;h1&gt;</code> 標籤代表 一級(最大)標題，如下圖所示。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>		&lt;<span style="color:#f92672">h1</span>&gt;hello {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span></code></pre></div><hr>
+<h3 id="div-標籤介紹">div 標籤介紹</h3>
+<p>剛剛完成了及時渲染之後，不過不覺得缺了甚麼嗎， <code>vuejs</code> 不會通靈，他需要你來指令需要渲染的區域在哪裡，舉第零章老闆和秘書的例子，就算聘請了祕書，還要讓他來公司上班才能真的幫到老闆嘛!。</p>
+<p>而這個指定區域的術語叫做掛載 <code>mount</code></p>
+<p>而掛載的位置是以 <strong>標籤</strong> 為單位的，你可能會想說，剛剛不是有 <code>&lt;h1&gt;</code> 標籤嗎?那可就錯了，因為還記得第0章提到，現代化的網頁都有數以萬計的標籤嗎(不信的話你按下 <code>F12</code> 看看)，怎麼可能一一掛載，而且 <code>vuejs</code> 也只能掛載一個標籤，一定顧此失彼。</p>
+<p>更務實的做法是用 <code>&lt;div&gt;</code> 標籤把所有標籤包在一起，就像袋子一樣，不論有多少東西，放進袋子就整體上變成一個東西了。</p>
+<p>此外， 如果有眾多的<code>div</code> 標籤要怎麼辦(這在網頁開發是很常見的事情喔)，直覺想到的方法就是取名字， <code>HTML</code> 所提供的方法就做 <code>id</code> 跟 <code>class</code> (類別)，語法如下，下面用 <code>class</code> 做為例子， <code>id</code> 亦同。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span> &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div><p>而不論 <code>id</code> 跟 <code>class</code> 在 <code>HTML</code> 中都被稱為屬性，可以簡單理解成html標籤的形容詞，而 <code>class=&quot;app&quot;</code> 的 app稱為屬性值。</p>
+<p>接著用剛剛完成的 <code>div</code> 標籤把全部需要的標籤包裹進來。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span> &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+</span></span><span style="display:flex;"><span> &lt;<span style="color:#f92672">h1</span>&gt;hello {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span> &lt;<span style="color:#f92672">h1</span>&gt;你好 {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span> &lt;<span style="color:#f92672">h1</span>&gt;久仰大名 {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span> &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div><p>最後回到 <code>&lt;script&gt;</code> 標籤，是裡面有 <code>createApp</code> 的那個，在最後加上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#34;.app&#34;</span>)
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>註: <code>.</code> 代表 <code>class</code> 、 <code>#</code> 代表 <code>id</code> ，例如 <code>.app</code> = <code>&lt;div class=”app”&gt;</code> 、 <code>#app</code> = <code>&lt;div id=&quot;app&quot;&gt;</code></p>
+<p>然後打開這個 <code>html</code> 檔案，如果是用 <code>vscode</code> 的可以按下 <code>F5</code> 執行</p>
+<p>如果沒有意外的話就會出現以下畫面</p>
+<p><img src="/image/1736852251a.png" alt="image.png"></p>
+<h2 id="常見錯誤示範">常見錯誤示範</h2>
+<p>如果內含 <code>vue</code> 程式碼的<code>&lt;script&gt;</code> 標籤在 <code>div#app</code> 標籤之前，例如下面錯誤例子，就會出現以下錯誤</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>	中略....
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>		}).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#34;.app&#34;</span>)
+</span></span><span style="display:flex;"><span>	&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;  // 目標掛載標籤
+</span></span><span style="display:flex;"><span>		&lt;<span style="color:#f92672">h1</span>&gt;hello {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>vue.global.js:2263 [Vue warn]: Failed to mount app: mount target selector &#34;.app&#34; returned null.
+</span></span><span style="display:flex;"><span>warn$1	@	vue.global.js:2263
+</span></span><span style="display:flex;"><span>normalizeContainer	@	vue.global.js:12270
+</span></span><span style="display:flex;"><span>app.mount	@	vue.global.js:12190
+</span></span><span style="display:flex;"><span>(anonymous)	@	vue.html:15
+</span></span></code></pre></div><p>這個原因就是網站是由上而下讀取的，如果 該標籤比 <code>div.app</code> 還早被讀到，當然沒辦法存取 <code>div#app</code>  (因為根本還沒讀到阿) ，所以就會出現錯誤。</p>
+<p>人非聖賢孰能無過，在使用 <code>vuejs</code> 的時候也會常常出現錯誤，學習怎麼獨立處理錯誤也是很重要的，本人預計會寫一篇文章專門講解。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/"
+      ><span>#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

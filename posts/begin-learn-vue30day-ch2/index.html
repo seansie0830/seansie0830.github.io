@@ -1,0 +1,495 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
+你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
+正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
+那說了這麼多，事不宜遲來開始介紹使用方法。
+終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
+而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
+甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
+其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
+如何安裝 nodejs 在終端機根據不同的作業系統輸入。
+windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
+安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="http://localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="http://localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="http://localhost:1313/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jan 14, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p>工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 <code>vue CLI</code> 。</p>
+<p>你可能在 第一章，透過 <code>script src</code> 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。</p>
+<p>正港的方法還是透過 <code>Vue CLI</code> 來進行 <code>vuejs</code> 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。</p>
+<p>那說了這麼多，事不宜遲來開始介紹使用方法。</p>
+<h3 id="終端機介紹">終端機介紹</h3>
+<p>應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 <code>vscode</code> 英文版的話，在最上面有個 <code>Terminal</code> 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機</p>
+<p>而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 <code>enter</code> 。</p>
+<p>甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 <code>mycommand</code> 命令等等比較模糊的詞彙、甚至直接用程式碼字形  (例如 <code>consolas</code>  )暗示為命令，別忘了就是輸入終端機+執行的意思</p>
+<p>其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。</p>
+<p><img src="/image/1736852379a.png" alt="image.png"></p>
+<h3 id="如何安裝-nodejs">如何安裝 nodejs</h3>
+<p>在終端機根據不同的作業系統輸入。</p>
+<ul>
+<li>windows   <code>winget install -e --id OpenJS.NodeJS</code></li>
+<li>mac  <code>brew install node</code></li>
+<li>linux (ubuntu) <code>sudo apt install nodejs</code> 如果無法安裝記得用 <code>sudo apt upgrade</code> 或 <code>sudo apt update</code> 更新。</li>
+</ul>
+<p><code>winget</code>  <code>brew</code>   <code>apt</code> 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。</p>
+<p>安裝後透過在終端機輸入 <code>node -v</code> 來驗證是否有安裝成功。</p>
+<p>正常安裝會出現</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">PS</span> <span style="color:#a6e22e">C</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Users</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">seans</span><span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">v</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">v21</span><span style="color:#ae81ff">.6.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">PS</span> <span style="color:#a6e22e">C</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Users</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">seans</span><span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>然後本人非常非常非常強烈推薦再安裝一個 <code>pnpm</code> 有點像是增強版的 <code>npm</code></p>
+<p>他的速度遠比 <code>npm</code> 快很多，因為它會重複使用已經下載過的資源，不過他依賴於 <code>npm</code> 所以要透過 <code>npm</code> 安裝。</p>
+<p>透過以下命令安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">npm</span> <span style="color:#a6e22e">install</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">g</span> <span style="color:#a6e22e">pnpm</span>
+</span></span></code></pre></div><p>安裝完畢後，輸入 <code>pnpm -v</code> 驗證安裝，如果有輸出版本編號就代表安裝成功，畫面跟 <code>node -v</code> 一模一樣。</p>
+<p>好，現在使用 <code>pnpm</code> 來使用vue CLI，對了，如果你的電腦語言是中文， <code>vuejs</code> 還很貼心的提供在地化，也就是會自動轉成中文版。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">pnpm</span> <span style="color:#a6e22e">create</span> <span style="color:#a6e22e">vue</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">latest</span> 
+</span></span></code></pre></div><p>然後這個CLI相當人性化，有互動式的介面來跟使用者提問，問題如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Vue.js - The Progressive JavaScript Framework
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>√ 請輸入專案名稱： ... vue-project
+</span></span><span style="display:flex;"><span>√ 是否使用 TypeScript？ ... 否 / 是
+</span></span><span style="display:flex;"><span>√ 是否啟用 JSX 支援？ ... 否 / 是
+</span></span><span style="display:flex;"><span>√ 是否引入 Vue Router 進行單頁應用程式開發？ ... 否 / 是
+</span></span><span style="display:flex;"><span>√ 是否引入 Pinia 用於狀態管理？ ... 否 / 是
+</span></span><span style="display:flex;"><span>√ 是否引入 Vitest 用於單元測試 ... 否 / 是
+</span></span><span style="display:flex;"><span>√ 是否要引入一款端對端（End to End）測試工具？ » 不需要
+</span></span><span style="display:flex;"><span>√ 是否引入 ESLint 用於程式碼品質檢測？ » 否
+</span></span></code></pre></div><p>其他其實選了也無彷啦，只是對於初學者 <strong>強烈建議</strong>  把 <code>typescript</code> 關掉，因為 <code>typescript</code> 強制要標註每個物件的資料型態(例如整數 字串等等)，雖然可以減少錯誤，但是這個對初學者相當不友善。</p>
+<p>這邊也可以看出vuejs漸進式的特質啦，從最基本的功能開始，然後漸漸地加上越來越進階的功能，這樣在保持核心簡潔的同時，功能也不失強大。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>正在建置專案 C:\Users\seans\codewhitelist\temp\vue-project...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>專案建置完成，可執行以下命令：
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cd vue-project
+</span></span><span style="display:flex;"><span>  pnpm install
+</span></span><span style="display:flex;"><span>  pnpm dev
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PS C:\Users\seans\codewhitelist\temp&gt;
+</span></span></code></pre></div><p>接下來他華語化的提示已經很清楚了吧，照著他的步驟執行就好了。</p>
+<p>如果沒有執行的話，貿然執行 <code>pnpm dev</code> 啟動開發伺服器，會出現以下錯誤訊息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&gt; vue-project@0.0.0 dev C:\Users\seans\codewhitelist\temp\vue-project
+</span></span><span style="display:flex;"><span>&gt; vite
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&#39;vite&#39; is not recognized as an internal or external command,
+</span></span><span style="display:flex;"><span>operable program or batch file.
+</span></span><span style="display:flex;"><span> ELIFECYCLE  Command failed with exit code 1.
+</span></span><span style="display:flex;"><span> WARN   Local package.json exists, but node_modules missing, did you mean to install?
+</span></span></code></pre></div><p>如果看到這個，記得補執行 <code>pnpm install</code></p>
+<h2 id="專案資料夾介紹">專案資料夾介紹</h2>
+<p>產生完成後，資料夾結構大致如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>├─.vscode
+</span></span><span style="display:flex;"><span>├─node_modules
+</span></span><span style="display:flex;"><span>├─public
+</span></span><span style="display:flex;"><span>└─src
+</span></span><span style="display:flex;"><span>    ├─assets
+</span></span><span style="display:flex;"><span>    └─components
+</span></span><span style="display:flex;"><span>        └─icons
+</span></span></code></pre></div><p>讓我一一介紹以上資料夾</p>
+<ul>
+<li>src 用來存放網站的<strong>原始碼</strong>的地方，例如主元件 <code>App.vue</code> 、入口腳本 <code>main.js</code> (註: <code>.vue</code> 格式是 <code>vuejs</code> 專門儲存元件的檔案格式，等一下會介紹)
+<ul>
+<li>components 用來儲存其他元件的地方</li>
+<li>assests 用來儲存靜態內容的地方，例如圖片等</li>
+</ul>
+</li>
+<li>node_modules : 用來儲存 <code>pnpm</code> 安裝的模組，例如等等會提到的 <code>vite</code> 網站編譯器等</li>
+<li><code>.vscode</code> : vscode的設定文件，用 vscode編輯器的人會有</li>
+</ul>
+<h3 id="常見命令">常見命令</h3>
+<ul>
+<li><code>pnpm dev</code> 啟動開發伺服器。</li>
+</ul>
+<p>輸入此命令後，會在終端機顯示本機網址(localhost:????)  ????是 埠號，以我為例，會出現</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&gt; vue-project@0.0.0 dev C:\Users\seans\codewhitelist\temp\vue-project
+</span></span><span style="display:flex;"><span>&gt; vite
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  VITE v6.0.7  ready in 2568 ms
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  ➜  Local:   http://localhost:5173/
+</span></span><span style="display:flex;"><span>  ➜  Network: use --host to expose
+</span></span><span style="display:flex;"><span>  ➜  Vue DevTools: Open http://localhost:5173/__devtools__/ as a separate window
+</span></span><span style="display:flex;"><span>  ➜  Vue DevTools: Press Alt(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
+</span></span><span style="display:flex;"><span>  ➜  press h + enter to show help
+</span></span></code></pre></div><p>而 <a href="http://localhost:5173/"><code>http://localhost:5173/</code></a> 就是所謂連線到自己的本機網址，僅本機可見而已，外面是連不到的。</p>
+<p>因為<code>vuejs</code> 每次建立專案就會自動插入 <code>hello vue</code> 的元件，所以如果是剛建立的專案 ，執行 <code>pnpm dev</code> 的時候，打開看到該元件所構成的歡迎畫面</p>
+<p>如下所示</p>
+<p><img src="/image/1736852379b.png" alt="image.png"></p>
+<p>不知道localhost是啥的可以參考這個</p>
+<p><a href="https://zh.wikipedia.org/zh-tw/Localhost">https://zh.wikipedia.org/zh-tw/Localhost</a></p>
+<h2 id="vue元件格式介紹">.vue元件格式介紹</h2>
+<p>在第一章，我們是用 <code>Vue.createApp({})</code> 的方式來建立 <code>vuejs</code> 應用程式，但是你仔細看看</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">title</span>&gt;Document&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>		&lt;<span style="color:#f92672">h1</span>&gt;hello {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#34;.app&#34;</span>)
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>看起來是不是挺複雜的，要是小專案還好，如果是大專案的話還得了，全部的功能混在一起，恐怕讓人顧此失彼，錯誤連篇。</p>
+<p>而如果用 <code>.vue</code> 元件檔案可把它轉換成主元件。</p>
+<p>元件就有點像是便當盒，把主菜，配菜、飯，全部裝到一個盒子裡，可以很方便的打包帶走，並且元件還可以使用其他元件，有點像便當盒中的便當盒。</p>
+<p>而最大的元件叫做值主元件，會存放在 <code>/src</code> 目錄之下，名稱通常叫做 <code>App.vue</code> ，透過 <code>main.js</code> 裡面的程式碼掛載(掛載定義第1章提過)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// main.js
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;./assets/main.css&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">createApp</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">App</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./App.vue&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">createApp</span>(<span style="color:#a6e22e">App</span>).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#39;#app&#39;</span>)
+</span></span></code></pre></div><p>而 <code>main.js</code> 中有一行可能沒看過，就是 <code>import App from './App.vue</code> 這個意思是把 <code>App.vue</code> 檔案當作物個物件匯入到 <code>main.js</code> ，然後命名為 <code>App</code> ，這個功能會在 <code>App.vue</code> 透過 <code>export default</code> 實現。</p>
+<p>一個完整的 vue元件檔案需要有以下三部分</p>
+<ul>
+<li><code>template</code> : 代表該元件的 <code>HTML</code> 元素，通常會有模板 <code>{{}}</code> 語法。</li>
+<li><code>script</code> : 代表該元件的邏輯(定義該元件要怎麼互動)</li>
+<li><code>style</code> : 代表 <code>CSS</code> ，而本系列文章不會過多著墨在 <code>CSS</code> ，而是使用 <code>bootstrap</code> 或 <code>vuetify</code> 等模組來避免繁瑣的 <code>CSS</code> 語法。</li>
+</ul>
+<p>然後開始轉換剛剛的版本成 <code>.vue</code> 檔案，先想想看， <code>&lt;template&gt;</code> 標籤裡面到底要放甚麼?</p>
+<p>仔細想想，這個元件不是要掛載的? 掛載是掛在 <code>div</code> 標籤上，那自然而然的 <code>template</code> 標籤就是放 <code>div</code> 標籤中的元素了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>app.vue
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">h1</span>&gt;hello {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
+</span></span></code></pre></div><p>然後 <code>&lt;script&gt;</code> 的部分，只要保留裡面的元件邏輯物件就好，複習一下。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({<span style="color:#a6e22e">從這裡</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">到這裡是元件邏輯物件</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">負責定義該元件怎麼動</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">是元件大腦</span>}).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#34;.app&#34;</span>)
+</span></span></code></pre></div><p>然後因為是外部檔案，按照 <code>js</code> 的家規，需要加上 <code>export default</code> 以利匯出，才能在 <code>main.js</code> 中順利以物件形式匯入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>(){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">meg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><h2 id="vite-網站編譯器介紹">Vite 網站編譯器介紹</h2>
+<h3 id="編譯介紹">編譯介紹</h3>
+<p>剛剛不知道有沒有發現 ，網站元件檔案是 <code>.vue</code> 不過天下可沒有瀏覽器打得開這種格式，說實在的， <code>.vue</code> 格式只是方便開發而已，如果是要真正使用還是只能接受 <code>html ,css,js</code> 等等檔案。</p>
+<p>有人就會說，那你剛剛瘋狂推薦 <code>vue CLI</code> ，結果搞出這種沒用的東西，不是在浪費我的時間嗎，等等還要把它復原回去，真是浪費時間，被騙了!</p>
+<p>誤會誤會! 其實這個過程有程式可以代勞，而且還是 <code>vue CLI</code> 內建的，就是標題所介紹的 <code>vite</code> 。</p>
+<p>它可以把 <code>vue html js css</code> 等等檔案自動還原成能被瀏覽器接收的形式，有點像是食品加工廠一樣，把原材料 (e.g. vue元件檔案) 加工成美食 (瀏覽器可以打開的形式)</p>
+<p>像剛剛執行 <code>pnpm dev</code> 的時候，看看終端機，不是有 <code>vite</code> 的字樣嗎，其實已經在用 <code>vite</code> 的功能了，它自動的編譯成瀏覽器可讀的格式，然後還貼心的為大家準備了開發用伺服器，輸入網址就能用。</p>
+<h3 id="熱重載">熱重載</h3>
+<p>此外，他還有熱重載(hot reload)功能，如果原始檔案 (e.g. <code>.vue</code> 檔案有變化，在瀏覽器上可以 <strong>及時</strong> 看到變化，不用重新啟動，在常常需要改來改去的情況特別實用。</p>
+<h3 id="最小化">最小化</h3>
+<p>而如果想要匯出靜態網頁，那需要輸入 <code>pnpm build</code> 命令，它就會把編譯完的成果輸出在 <code>/dist</code> 資料夾中，它的特點是有經過最小化 <code>minification</code> 跟 搖樹 (tree shaking)</p>
+<p>甚麼是最小化呢?舉個極端點的例子</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">aFuncHaveAverylooooooooooooooooooooooooooooooooooooooooooooooooooongname</span>(){
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;hello js&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">aFuncHaveAverylooooooooooooooooooooooooooooooooooooooooooooooooooongname</span>()
+</span></span></code></pre></div><p>看到這個變數名稱讀很久吧，電腦雖然快，但是他也是一個字一個字讀取的，如果常常發生這種變數名稱特別長的狀況，還是會引響效能的。</p>
+<p>因此，最小化的思路就是，把這個名字改掉，在不影響功能的前提之下，盡量縮小程式碼的長度，不僅名稱，包括不必要的空格換行註解都會被清除，確保該 <code>js</code> 檔案能以最高效率被瀏覽器讀取。</p>
+<p>而搖樹是把不必要的程式碼移除，也算是最小化的一種。</p>
+<h3 id="網站效能重要性">網站效能重要性</h3>
+<p>俗話說，天下武功，為快不破，這句話講到爛掉了啦，不過在網頁開發中真的如此，慢吞吞的網站速度會明顯的流失許多重要客戶，詳情可以看看這個網站介紹。</p>
+<p><a href="https://seo.whoops.com.tw/website-speed-matters/">https://seo.whoops.com.tw/website-speed-matters/</a></p>
+<p>所以網站效能也是很重樣的，而 <code>vite</code> 預設就會把這些東西用好，讓開發者不用煩惱這些事情，這也是我為甚麼推薦用 <code>vue cli</code> 的原因。</p>
+<p>順帶一提， <code>vite</code> 是跨框架的，它不僅可以編譯 <code>vue</code> 也可以用 react preact angular solid lit astro等等常見知名框架 ，詳情可以到它的官網看</p>
+<p><a href="https://vite.dev/">https://vite.dev/</a></p>
+<p>本章到此結束，欲知後事如何，請見下回分曉。</p>
+<p>下章介紹vue<strong>的元件系統</strong></p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="http://localhost:1313/posts/begin-learn-vue30day-ch1/"
+      ><span>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

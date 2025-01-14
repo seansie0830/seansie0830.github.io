@@ -6,8 +6,22 @@
     <description>Recent content on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Sun, 22 Sep 2024 16:16:28 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jan 2025 18:45:00 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/</link>
+      <pubDate>Tue, 14 Jan 2025 18:45:00 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/</guid>
+      <description>好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。&#xA;本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念&#xA;。&#xA;而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。&#xA;這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。&#xA;匯入 在你的 html檔案的之下，加上這個標籤就完成了。&#xA;&amp;lt;script src=&amp;#34;https://unpkg.com/vue@3/dist/vue.global.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 建立第一個網頁應用程式 先在文字編輯器&#xA;加入一個 script標籤 ，在裡面新增以下內容&#xA;&amp;lt;script&amp;gt; Vue.createApp({ data(){ return{ msg : &amp;#34;hello world&amp;#34; } } ); &amp;lt;/script&amp;gt; 簡介一下&#xA;Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹&#xA;&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&amp;gt; &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vue@3/dist/vue.global.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; =&amp;gt; vuejs要掛載在這裡 &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : +Tab ，就能產生了。</description>
+    </item>
+    <item>
+      <title>#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/</link>
+      <pubDate>Tue, 14 Jan 2025 18:40:37 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/</guid>
+      <description>大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 內容 **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。&#xA;那好，且聽我娓娓道來。&#xA;重複元素 舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 javascript 的話，難道要重複8次跟10次嗎?&#xA;雖然是可以用迴圈+ Inner html 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。&#xA;// Create a container element (you can replace this with your existing container) const container = document.createElement(&amp;#39;div&amp;#39;); document.body.appendChild(container); // Create and append 8 buttons with innerHTML for (let i = 1; i &amp;lt;= 8; i++) { const button = document.createElement(&amp;#39;button&amp;#39;); button.innerHTML = `Button ${i}`; container.appendChild(button); } 如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 html 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。&#xA;此外， inner html 還有 XSS 的風險，例如你打算插入一個 &amp;lt;p&amp;gt;使用者輸入內容 &amp;lt;/p&amp;gt; 的標籤進入，可是有心的使用者輸入了 &amp;lt;script&amp;gt; alert(&amp;quot;you are hacked&amp;quot;)&amp;lt;/script&amp;gt; ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。</description>
+    </item>
     <item>
       <title>MySQL#0  新手入門：安裝、登入與新增使用者權限管理 | seansie blog</title>
       <link>https://seansie0830.github.io/posts/dbmysqlintro0/</link>
