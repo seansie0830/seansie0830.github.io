@@ -1,0 +1,545 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog  - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="題目 https://zerojudge.tw/ShowProblem?problemid=f149
+總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。
+5 代表偵測器 0 代表空地 1 代表炸彈 偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )
+但不幸的是，如果在感測範圍有其他偵測器的話，感測器會一起失靈
+請輸出能被偵測到的炸彈根部能偵測到的。
+破題 這個題目看似簡單，裡面陷阱不少。
+首先先把地圖讀進去吧
+scanf(&#34;%d %d&#34;, &amp;r, &amp;c); for (int i = 0; i &lt; r; i&#43;&#43;) { for (int j = 0; j &lt; c; j&#43;&#43;) { scanf(&#34;%d&#34;, &amp;g[i][j]); } } 然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 bfield 二維矩陣，用來記錄有互相干擾的偵測器
+int bfield[r][c]; memset(bfield, 0, sizeof(bfield)); // 記得初始化 這個意思是把 bfiled 變數全部設定成 0 接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog ">
+  <meta itemprop="description" content="題目 https://zerojudge.tw/ShowProblem?problemid=f149
+總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。
+5 代表偵測器 0 代表空地 1 代表炸彈 偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )
+但不幸的是，如果在感測範圍有其他偵測器的話，感測器會一起失靈
+請輸出能被偵測到的炸彈根部能偵測到的。
+破題 這個題目看似簡單，裡面陷阱不少。
+首先先把地圖讀進去吧
+scanf(&#34;%d %d&#34;, &amp;r, &amp;c); for (int i = 0; i &lt; r; i&#43;&#43;) { for (int j = 0; j &lt; c; j&#43;&#43;) { scanf(&#34;%d&#34;, &amp;g[i][j]); } } 然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 bfield 二維矩陣，用來記錄有互相干擾的偵測器
+int bfield[r][c]; memset(bfield, 0, sizeof(bfield)); // 記得初始化 這個意思是把 bfiled 變數全部設定成 0 接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理">
+  <meta itemprop="datePublished" content="2025-01-24T15:12:14+08:00">
+  <meta itemprop="dateModified" content="2025-01-24T15:12:14+08:00">
+  <meta itemprop="wordCount" content="671">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_f149/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog ">
+  <meta property="og:description" content="題目 https://zerojudge.tw/ShowProblem?problemid=f149
+總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。
+5 代表偵測器 0 代表空地 1 代表炸彈 偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )
+但不幸的是，如果在感測範圍有其他偵測器的話，感測器會一起失靈
+請輸出能被偵測到的炸彈根部能偵測到的。
+破題 這個題目看似簡單，裡面陷阱不少。
+首先先把地圖讀進去吧
+scanf(&#34;%d %d&#34;, &amp;r, &amp;c); for (int i = 0; i &lt; r; i&#43;&#43;) { for (int j = 0; j &lt; c; j&#43;&#43;) { scanf(&#34;%d&#34;, &amp;g[i][j]); } } 然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 bfield 二維矩陣，用來記錄有互相干擾的偵測器
+int bfield[r][c]; memset(bfield, 0, sizeof(bfield)); // 記得初始化 這個意思是把 bfiled 變數全部設定成 0 接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-24T15:12:14+08:00">
+    <meta property="article:modified_time" content="2025-01-24T15:12:14+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog ">
+<meta name="twitter:description" content="題目 https://zerojudge.tw/ShowProblem?problemid=f149
+總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。
+5 代表偵測器 0 代表空地 1 代表炸彈 偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )
+但不幸的是，如果在感測範圍有其他偵測器的話，感測器會一起失靈
+請輸出能被偵測到的炸彈根部能偵測到的。
+破題 這個題目看似簡單，裡面陷阱不少。
+首先先把地圖讀進去吧
+scanf(&#34;%d %d&#34;, &amp;r, &amp;c); for (int i = 0; i &lt; r; i&#43;&#43;) { for (int j = 0; j &lt; c; j&#43;&#43;) { scanf(&#34;%d&#34;, &amp;g[i][j]); } } 然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 bfield 二維矩陣，用來記錄有互相干擾的偵測器
+int bfield[r][c]; memset(bfield, 0, sizeof(bfield)); // 記得初始化 這個意思是把 bfiled 變數全部設定成 0 接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_f149/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog </h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Jan 24, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="題目">題目</h1>
+<p><a href="https://zerojudge.tw/ShowProblem?problemid=f149">https://zerojudge.tw/ShowProblem?problemid=f149</a></p>
+<p>總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。</p>
+<ul>
+<li><code>5</code> 代表偵測器</li>
+<li><code>0</code> 代表空地</li>
+<li><code>1</code> 代表炸彈</li>
+</ul>
+<p>偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )</p>
+<p>但不幸的是，如果在感測範圍有其他偵測器的話，感測器會<strong>一起</strong>失靈</p>
+<p>請輸出能被偵測到的炸彈根部能偵測到的。</p>
+<h1 id="破題">破題</h1>
+<p>這個題目看似簡單，裡面陷阱不少。</p>
+<p>首先先把地圖讀進去吧</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>	scanf(<span style="color:#e6db74">&#34;%d %d&#34;</span>, <span style="color:#f92672">&amp;</span>r, <span style="color:#f92672">&amp;</span>c);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>g[i][j]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><p>然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 <code>bfield</code> 二維矩陣，用來記錄有互相干擾的偵測器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> bfield[r][c];
+</span></span><span style="display:flex;"><span>memset(bfield, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(bfield)); <span style="color:#75715e">// 記得初始化 這個意思是把 bfiled 變數全部設定成 0
+</span></span></span></code></pre></div><p>接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> dir[<span style="color:#ae81ff">8</span>][<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>}
+</span></span><span style="display:flex;"><span>		};
+</span></span></code></pre></div><p>很明顯在邊界的偵測器，會出現越界問題，因此還需要加上越界檢查，建議使用一個函數來處理</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isValid</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> c)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> x <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">&lt;</span> c); <span style="color:#75715e">//檢查上下左右界使否越界
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>然後開始逐偵測器掃描旁邊是否有偵測器(即地圖上的元素=5的情況)，若有，在 <code>bfield</code> 矩陣上標記 <code>-1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (g[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">8</span>; k<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (isValid(i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>], j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>], r, c))
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (g[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							bfield[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, g[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span></code></pre></div><p>為甚麼不直接修改 <code>g[i][j]</code> 呢，因為偵測器會互相影響，如果移除了其中一個，會漏移除剩下的互相干擾的偵測器。</p>
+<p>而裡面的8方位是透過以下的方式來處理的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">8</span>; k<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (isValid(i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>], j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>], r, c))
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (g[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							bfield[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, g[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span></code></pre></div><p>用迴圈來遍歷所有儲存在 <code>dir</code> 的方向，然後新方向用 <code>x+dir[k][0]</code>  <code>y+dir[k][1]</code> 表示</p>
+<p>x,y是目前座標</p>
+<p>接著基於 <code>bfiled</code> 的資訊來修改 <code>g[i]j[j]</code>，具體來說是把被干擾的偵測器，在地圖上從5改成0</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span>r;i<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;j<span style="color:#f92672">&lt;</span>c;j<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(bfield[i][j]<span style="color:#f92672">==-</span><span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>				g[i][j]<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><p>然後還要建立 <code>bomb</code> 二維矩陣，用來記錄炸彈被偵測的資訊，特別建立這個矩陣的原因是因為可能同一個炸彈會被不同偵測器偵測數次，如果只是單純計數的話，會多算不少炸彈。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> bomb[r][c]
+</span></span><span style="display:flex;"><span>memset(bomb, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(bomb)); <span style="color:#75715e">// 記得初始化 這個意思是把 bomb 變數全部設定成 0
+</span></span></span></code></pre></div><p>移除完受干擾的偵測器後，現在可以開始對元素一一處理了，現在有兩個東西要處理</p>
+<ul>
+<li>偵測器，掃描周圍至多8個方格，如果有炸彈，在 <code>bomb</code> 上標記 <code>1</code></li>
+<li>炸彈: 這個也要記錄，因為我們要輸出未偵測的炸彈數量，而這個數量可以透過全部減去偵測出來的炸彈計算出來。 計算方法就遇到 <code>g[i][j]==1</code> 的時候加1就好。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (g[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">8</span>; k<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (isValid(i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>], j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>], r, c))
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (g[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							bomb[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (g[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				all<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><p>最後基於剛剛計算出來的 <code>bomb</code> 來推測有幾顆炸彈被偵測出來。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (bomb[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>				detected<span style="color:#f92672">++</span>;
+</span></span></code></pre></div><p>最後印出來</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>printf(<span style="color:#e6db74">&#34;%d %d&#34;</span>, detected, all <span style="color:#f92672">-</span> detected);
+</span></span></code></pre></div><h1 id="完整程式碼">完整程式碼</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isValid</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> c)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (x <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> x <span style="color:#f92672">&lt;</span> r <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">&lt;</span> c);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	ios<span style="color:#f92672">::</span>sync_with_stdio(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	cin.tie(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> r, c, detected <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, all <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	scanf(<span style="color:#e6db74">&#34;%d %d&#34;</span>, <span style="color:#f92672">&amp;</span>r, <span style="color:#f92672">&amp;</span>c);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> dir[<span style="color:#ae81ff">8</span>][<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>}};
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> g[r][c], bomb[r][c], bfield[r][c];
+</span></span><span style="display:flex;"><span>	memset(bomb, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(bomb));
+</span></span><span style="display:flex;"><span>	memset(bfield, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(bfield));
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// bad -1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>g[i][j]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (g[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">8</span>; k<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (isValid(i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>], j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>], r, c))
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (g[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							bfield[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, g[i][j] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;i<span style="color:#f92672">&lt;</span>r;i<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;j<span style="color:#f92672">&lt;</span>c;j<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(bfield[i][j]<span style="color:#f92672">==-</span><span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>				g[i][j]<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (g[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">8</span>; k<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (isValid(i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>], j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>], r, c))
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (g[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							bomb[i <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">0</span>]][j <span style="color:#f92672">+</span> dir[k][<span style="color:#ae81ff">1</span>]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (g[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				all<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> r; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> c; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (bomb[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>				detected<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;%d %d&#34;</span>, detected, all <span style="color:#f92672">-</span> detected);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><a href="https://zerojudge.tw/Submissions?problemid=f149#"><strong>AC</strong></a> (3ms, 372KB)</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_d518/"
+      ><span>zerojudge d518 C&#43;&#43;詳解 文字抄寫 II</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

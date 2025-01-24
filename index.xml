@@ -6,14 +6,35 @@
     <description>Recent content on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 23 Jan 2025 20:30:24 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jan 2025 15:12:14 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog </title>
+      <link>https://seansie0830.github.io/posts/zj_f149/</link>
+      <pubDate>Fri, 24 Jan 2025 15:12:14 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_f149/</guid>
+      <description>題目 https://zerojudge.tw/ShowProblem?problemid=f149&#xA;總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。&#xA;5 代表偵測器 0 代表空地 1 代表炸彈 偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )&#xA;但不幸的是，如果在感測範圍有其他偵測器的話，感測器會一起失靈&#xA;請輸出能被偵測到的炸彈根部能偵測到的。&#xA;破題 這個題目看似簡單，裡面陷阱不少。&#xA;首先先把地圖讀進去吧&#xA;scanf(&amp;#34;%d %d&amp;#34;, &amp;amp;r, &amp;amp;c); for (int i = 0; i &amp;lt; r; i++) { for (int j = 0; j &amp;lt; c; j++) { scanf(&amp;#34;%d&amp;#34;, &amp;amp;g[i][j]); } } 然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 bfield 二維矩陣，用來記錄有互相干擾的偵測器&#xA;int bfield[r][c]; memset(bfield, 0, sizeof(bfield)); // 記得初始化 這個意思是把 bfiled 變數全部設定成 0 接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理</description>
+    </item>
+    <item>
+      <title>zerojudge d518 C&#43;&#43;詳解 文字抄寫 II</title>
+      <link>https://seansie0830.github.io/posts/zj_d518/</link>
+      <pubDate>Fri, 24 Jan 2025 15:06:22 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_d518/</guid>
+      <description>d518 題目 https://zerojudge.tw/ShowProblem?problemid=d518&#xA;Content 從機器中，不斷地出現 &amp;ldquo;?&amp;rdquo; 個英文字母的單字，現在要你抄寫下來， 倘若這個單字已經出現過，則會使用編號上的號碼直接書寫 倘若這個單字沒有出現過，則會賦予單字一個新的號碼&#xA;每組新的測資，代表不同事件，請勿將其納入新的號碼&#xA;Input 每組輸入的第一行 , 有一個數字 N ( 1 ≦ N ≦ 104 )&#xA;接下來會有瘋狂科學家講出的 N 行單字&#xA;每行由小寫字母 a 到 z 所構成的 ? 字單字. ( 1 ≦ ? ≦ 20 )&#xA;Output 若這個字串之前已經出現過,則輸出號碼,若沒有則輸出它將被編寫的號碼.&#xA;破題 看到這個問題，可以轉換成鍵值對問題，以字串為鍵，值隨便，因為本題利用鍵值對只是要看他有沒有存在而已，所以具體的值不重要。&#xA;那自然而然地要先宣告鍵值對物件，而C++中的鍵值對是 map，又我們不關心 map 中的順序，因此可以以用 unordered_map 加速。 並且順便宣告用來讀取輸入的字串 s ，題目的 n 還有序號(從1開始)&#xA;unordered_map&amp;lt;string,int&amp;gt; m; string s; int n,no; 然後在處理的時候，先把讀入的字串當作鍵，在 C++ 的 map 中透過 map.find() 查詢，然後如果沒有查詢到就把他加入 map ，反之如果有查詢到就輸出號碼。&#xA;程式碼如下</description>
+    </item>
     <item>
       <title>zerojudge b512 高維度稀疏向量 | seansie blog </title>
       <link>https://seansie0830.github.io/posts/zj_b512/</link>
       <pubDate>Thu, 23 Jan 2025 20:30:24 +0800</pubDate>
       <guid>https://seansie0830.github.io/posts/zj_b512/</guid>
       <description>題目 https://zerojudge.tw/ShowProblem?problemid=b512&#xA;輸入兩個向量，計算向量內積值。兩個向量的內積，是各項相乘然後加總。例如 [1,2,3] 和 [4,5,6] 內積是 14+25+3*6 = 32&#xA;我們考慮高維度的稀疏向量，也就是大多數的元素都是零，只有少數不為零。資料的表示方式如下 dim1: value1 dim2: value2 dim3:value3 &amp;hellip; 0:0 最後以 0:0 結束。例如&#xA;向量 [0,5,0,0,9,0,0,33] 是一個 8 維向量，可表示成 2:5 5:9 8:33 0:0 值為 0 的維度都可以忽略不需描述，只需記錄非零的維度。利用上述的表示法，讀取兩個向量，然後算出它們的內積。&#xA;Input 輸入兩行，分別對應到兩個整數向量。向量維度最高不超過 2 的 31 次方。記憶體用量不超過 32 MB。每一行都是以 0:0 結束&#xA;Output 內積值 最後記得換行&#xA;破題 如題所示，這種稀疏向量如果照著正常的方式來儲存，不僅浪費空間而且沒有效率，因此會採用題目所提到的格式來儲存 dim1: value1&#xA;而該格式自然而然的會讓人想到鍵值對(有點類似電話簿，名稱對應電話號碼，在這個例子中是維度對應數值)，而在 C++ 中的鍵值對就是 map 。&#xA;因此首先先宣告一個 map 物件&#xA;map&amp;lt;long long ,long long&amp;gt; m; 使用 long long 避免潛在的溢位問題&#xA;接下來，因為題目提到 **每一行都是以 0:0 結束 ，**所以要用個while迴圈持續接收資料，因此先宣告 dim 跟 val 變數，因為它在未初始化的前提下可能會等於 0 ，所以先給它強制初始化成 -1 ，避免潛在錯誤。而 prod 是用來儲存答案的變數，一樣先初始化成 0，因為從0開始。</description>
+    </item>
+    <item>
+      <title>#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/</link>
+      <pubDate>Tue, 14 Jan 2025 18:50:45 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/</guid>
+      <description>工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。&#xA;你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。&#xA;正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。&#xA;那說了這麼多，事不宜遲來開始介紹使用方法。&#xA;終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機&#xA;而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。&#xA;甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機+執行的意思&#xA;其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。&#xA;如何安裝 nodejs 在終端機根據不同的作業系統輸入。&#xA;windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。&#xA;安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。</description>
     </item>
     <item>
       <title>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</title>

@@ -37,7 +37,7 @@
   style="--bg: #faf8f1"
   lang="zh-tw"
 >
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -75,14 +75,14 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   
   
   
-  <link rel="preload stylesheet" as="style" href="http://localhost:1313/main.min.css" />
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
 
   
   
   
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
   
@@ -92,7 +92,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 
   
   
-  <link rel="preload" as="image" href="http://localhost:1313/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
   
   
 
@@ -100,7 +100,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   
   <script
     defer
-    src="http://localhost:1313/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad();"
   ></script>
   
@@ -110,13 +110,75 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   
 
   
-  <link rel="icon" href="http://localhost:1313/favicon.ico" />
-  <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png" />
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
   <meta name="generator" content="Hugo 0.125.4">
 
   
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
+  <meta itemprop="description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
+你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
+正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
+那說了這麼多，事不宜遲來開始介紹使用方法。
+終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
+而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
+甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
+其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
+如何安裝 nodejs 在終端機根據不同的作業系統輸入。
+windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
+安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
+  <meta itemprop="datePublished" content="2025-01-14T18:50:45+08:00">
+  <meta itemprop="dateModified" content="2025-01-14T18:50:45+08:00">
+  <meta itemprop="wordCount" content="611">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
+  <meta property="og:description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
+你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
+正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
+那說了這麼多，事不宜遲來開始介紹使用方法。
+終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
+而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
+甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
+其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
+如何安裝 nodejs 在終端機根據不同的作業系統輸入。
+windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
+安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-14T18:50:45+08:00">
+    <meta property="article:modified_time" content="2025-01-14T18:50:45+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
+<meta name="twitter:description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
+你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
+正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
+那說了這麼多，事不宜遲來開始介紹使用方法。
+終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
+而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
+甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
+其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
+如何安裝 nodejs 在終端機根據不同的作業系統輸入。
+windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
+安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/" />
   
   
 </head>
@@ -126,7 +188,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   <div class="relative z-50 mr-auto flex items-center">
     <a
       class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
-      href="http://localhost:1313/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -446,10 +508,16 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_b512/"
+      ><span class="mr-1.5">←</span><span>zerojudge b512 高維度稀疏向量 | seansie blog </span></a
+    >
+    
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="http://localhost:1313/posts/begin-learn-vue30day-ch1/"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/"
       ><span>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</span><span class="ml-1.5">→</span></a
     >
     
@@ -477,7 +545,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 >
   <div class="mr-auto">
     &copy; 2025
-    <a class="link" href="http://localhost:1313/">seansie&#39;s blog</a>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >Powered by Hugo️️</a
