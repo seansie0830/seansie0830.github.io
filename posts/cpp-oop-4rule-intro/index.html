@@ -1,0 +1,515 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title> 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&quot;取餐流程&quot;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content=" 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog">
+  <meta itemprop="description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&quot;取餐流程&quot;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。">
+  <meta itemprop="datePublished" content="2025-02-06T12:51:52+08:00">
+  <meta itemprop="dateModified" content="2025-02-06T12:51:52+08:00">
+  <meta itemprop="wordCount" content="266">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/cpp-oop-4rule-intro/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content=" 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog">
+  <meta property="og:description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&#34;取餐流程&#34;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-06T12:51:52+08:00">
+    <meta property="article:modified_time" content="2025-02-06T12:51:52+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content=" 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog">
+<meta name="twitter:description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&quot;取餐流程&quot;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/cpp-oop-4rule-intro/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5"> 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 6, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h1 id="甚麼是物件導向">甚麼是物件導向</h1>
+<p>簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。</p>
+<p>其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。</p>
+<p>舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。</p>
+<ul>
+<li>但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應<strong>封裝</strong>)</li>
+<li>簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應<strong>抽象</strong>)。</li>
+<li>以包裝為藍本進行客製化，像是客製化便當之類的，對應<strong>繼承</strong>。</li>
+<li>最後，不同的便當，可以透過相同的&quot;取餐流程&quot;交給顧客，例如取餐號碼牌，這就是<strong>多型</strong>。</li>
+</ul>
+<p>而 剛剛的比喻中，<strong>封裝、抽象、繼承跟多形</strong>這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。</p>
+<h1 id="封裝與抽象">封裝與抽象</h1>
+<p>這兩個要一起說。因為互為因果，<strong>為了抽象所以封裝</strong>。</p>
+<p>再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。</p>
+<p>為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。</p>
+<p>因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。</p>
+<p>對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?</p>
+<p>通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。</p>
+<p>那要如何存取被封裝的資料呢？這時候就輪到成員函數 <strong>(Member function)</strong> 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。</p>
+<p><strong>抽象 (Abstraction)</strong> 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。</p>
+<p>所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。</p>
+<h2 id="c-中的實作">C++ 中的實作</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">myClass</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>裡面的 <code>public</code>  跟 <code>private</code> 代表裡面對應的資源的可視性 (visibility) 。</p>
+<p>如果是 <code>public</code> 就可以被外界存取，而 <code>private</code>  只能被內部 (在 <code>{}</code> 之內的函數)存取。</p>
+<p>有沒有發現 <code>public</code>  跟 <code>private</code> 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 <code>private</code> 裡面基本上都是儲存資料。</p>
+<p>反觀 <code>public</code> 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。</p>
+<p>設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。</p>
+<p>順帶一提，還有一些抽象介面的準則要遵守，例如。</p>
+<ul>
+<li><strong>高內聚性：</strong> 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 <code>public</code> 方法，然後讓使用者自行計算球體面積，不如直接提供一個 <code>calculateSphereArea()</code> 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。</li>
+<li><strong>最少暴露原則 (Principle of Least Privilege)：</strong> 只有在真正需要被外部存取時，才將成員設為 <code>public</code>。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。</li>
+</ul>
+<h1 id="繼承與多形">繼承與多形</h1>
+<h2 id="繼承客製化便當的基礎">繼承：客製化便當的基礎</h2>
+<p>如果說物件導向是一家便當店，那麼<strong>繼承</strong>就是推出「客製化便當」的好方法。</p>
+<p>想像你的便當店推出了一款「招牌雞腿便當」，裡面有雞腿、白飯和三樣配菜。為了滿足更多顧客的需求，你決定推出「客製化便當」服務。客人可以選擇：</p>
+<ul>
+<li>更換主菜：例如把雞腿換成排骨</li>
+<li>加點配菜：例如加一顆滷蛋或一份燙青菜</li>
+</ul>
+<p>這就是<strong>繼承</strong>！你以「招牌雞腿便當」(父類別) 為基礎，創造了「客製化雞腿便當」(子類別)、「客製化排骨便當」(另一個子類別) 等，它們都繼承了「招牌雞腿便當」的基本內容（白飯和三樣配菜），並可以添加或修改一些內容。</p>
+<p>好處是什麼？當然是省時省力！你不需要為每一種客製化便當從零開始設計菜單和製作流程，只要基於「招牌雞腿便當」做調整就好，這就是<strong>程式碼複用</strong>。</p>
+<h2 id="c-中的實作-1">C++ 中的實作</h2>
+<p>C++</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SignatureChickenBento</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Bento { <span style="color:#75715e">// 招牌雞腿便當 繼承自 Bento
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    SignatureChickenBento() {
+</span></span><span style="display:flex;"><span>        setName(<span style="color:#e6db74">&#34;招牌雞腿便當&#34;</span>);
+</span></span><span style="display:flex;"><span>        mainDish_ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;雞腿&#34;</span>;
+</span></span><span style="display:flex;"><span>        sideDishes_ <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;配菜A&#34;</span>, <span style="color:#e6db74">&#34;配菜B&#34;</span>, <span style="color:#e6db74">&#34;配菜C&#34;</span>};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... 其他方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomizedBento</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Bento { <span style="color:#75715e">// 客製化便當 繼承自 Bento
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    CustomizedBento(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> mainDish) {
+</span></span><span style="display:flex;"><span>        setName(<span style="color:#e6db74">&#34;客製化便當&#34;</span>);
+</span></span><span style="display:flex;"><span>        mainDish_ <span style="color:#f92672">=</span> mainDish;
+</span></span><span style="display:flex;"><span>        sideDishes_ <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;配菜A&#34;</span>, <span style="color:#e6db74">&#34;配菜B&#34;</span>, <span style="color:#e6db74">&#34;配菜C&#34;</span>}; <span style="color:#75715e">// 預設配菜
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addSideDish</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> sideDish) {
+</span></span><span style="display:flex;"><span>        sideDishes_.push_back(sideDish);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... 其他方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>在這個例子中，<code>SignatureChickenBento</code> 和 <code>CustomizedBento</code> 都繼承自 <code>Bento</code> 類別。<code>SignatureChickenBento</code> 設定了預設的主菜和配菜，而 <code>CustomizedBento</code> 則允許顧客自訂主菜和加點配菜。</p>
+<h2 id="多型不同便當統一的處理流程">多型：不同便當，統一的處理流程</h2>
+<p>現在，讓我們來談談<strong>多型</strong>。如果說繼承讓「客製化」成為可能，那麼多型就是讓便當店可以「高效運作」的關鍵。</p>
+<p>想像一下，你的便當店裡同時有「招牌雞腿便當」、「客製化雞腿便當(加滷蛋)」、「客製化排骨便當」等等不同的便當訂單。但對於負責將便當交給顧客的店員來說，他不需要去記住每一種便當的具體內容，他只需要知道：</p>
+<ul>
+<li>每一個便當都有一個取餐號碼。</li>
+<li>叫到號碼的顧客，憑號碼牌來取餐。</li>
+</ul>
+<p>至於便當裡具體裝了什麼？那是廚房製作便當時該煩惱的事。這就是<strong>多型</strong>！</p>
+<p>不同的便當 (不同的物件) 對「交給顧客」這個指令 (方法) 可以有不同的反應 (實作)。「招牌雞腿便當」和「客製化排骨便當」的內容當然不同，但店員不需要知道這些細節，他只需要知道「憑取餐號碼交給對應的顧客」這個統一的流程就好。</p>
+<p><strong>換句話說，多型讓你可以用統一的方式處理不同的物件。</strong> 就像店員可以用相同的取餐流程處理所有類型的便當，而不需要針對每種便當都制定一套不同的流程。</p>
+<h2 id="c-中的實作---多型的體現">C++ 中的實作 - 多型的體現</h2>
+<p>雖然 C++ 的語法並不能直接反映出「取餐流程」，但我們可以透過一個概念性的函式 <code>deliverBento</code> 來理解多型的應用：</p>
+<p>C++</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// 假設 deliverBento 是一個負責將便當交給顧客的函式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">deliverBento</span>(Bento<span style="color:#f92672">*</span> bento) { 
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 根據便當的類型做不同的處理，例如列印出便當內容
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;將&#34;</span> <span style="color:#f92672">&lt;&lt;</span> bento<span style="color:#f92672">-&gt;</span>getName() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;交給顧客。&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 這裡的取餐號碼邏輯只是一個示意的虛擬碼
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> orderNumber <span style="color:#f92672">=</span> generateOrderNumber(bento); <span style="color:#75715e">// 假設這是一個可以取得便當取餐號碼的函式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;取餐號碼: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> orderNumber <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    SignatureChickenBento chickenBento;
+</span></span><span style="display:flex;"><span>    CustomizedBento customizedBento(<span style="color:#e6db74">&#34;排骨&#34;</span>);
+</span></span><span style="display:flex;"><span>    customizedBento.addSideDish(<span style="color:#e6db74">&#34;滷蛋&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    deliverBento(<span style="color:#f92672">&amp;</span>chickenBento);       <span style="color:#75715e">// 將招牌雞腿便當交給顧客
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    deliverBento(<span style="color:#f92672">&amp;</span>customizedBento);    <span style="color:#75715e">// 將客製化排骨便當交給顧客
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在這個例子中，<code>deliverBento</code> 函式可以接受任何 <code>Bento</code> 類型的指標 (包括 <code>SignatureChickenBento</code> 和 <code>CustomizedBento</code>)。由於 <code>getName()</code> 是一個公開方法，而且在 <code>Bento</code> 類別中存在，因此 <code>deliverBento</code> 函式可以呼叫它，而不需要知道 <code>bento</code> 指標實際指向的是哪種類型的便當。這就是多型的體現：<strong>對不同的物件執行相同的操作，但會產生不同的結果</strong>。</p>
+<p>而因為透過 <code>Bento</code> 指標來操作，因此可以當成同一種類型的物件。</p>
+<p>當然，如果需要根據便當的具體類型執行不同的操作，我們可以使用 <code>dynamic_cast</code> 或虛擬函式等進階技術，但這已經超出了目前討論的範圍。</p>
+<p><strong>總結：</strong></p>
+<ul>
+<li><strong>繼承</strong> 讓你基於現有的類別創建新的類別，實現程式碼複用和客製化。</li>
+<li><strong>多型</strong> 讓你用統一的方式處理不同的物件，簡化程式碼邏輯，提高程式碼的靈活性和可擴展性。</li>
+</ul>
+<h1 id="總結"><strong>總結</strong></h1>
+<p>封裝、抽象、繼承和多型是物件導向程式設計的四大基石。它們相互配合，使得我們能夠建立出更模組化、更可複用、更易維護和更具擴展性的軟體系統。在面對日益複雜的軟體開發需求時，物件導向程式設計提供了一套強大的工具和方法，幫助我們構建出高品質的軟體。透過深入理解和靈活運用這些概念，我們可以開發出更優雅、</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/"
+      ><span class="mr-1.5">←</span><span>#3 元件系統 30天學會 vue系列文 | seansie blog</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/zj_f149/"
+      ><span>zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog </span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,488 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>#3 元件系統 30天學會 vue系列文 | seansie blog - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
+舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
+這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
+反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
+有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
+同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
+vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
+舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
+其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
+題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
+而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
+而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
+如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
+不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
+對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
+舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
+&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
+這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
+這個之後會介紹
+元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
+vue元件其實大致上有兩種類別
+主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢?" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="#3 元件系統 30天學會 vue系列文 | seansie blog">
+  <meta itemprop="description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
+舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
+這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
+反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
+有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
+同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
+vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
+舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
+其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
+題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
+而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
+而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
+如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
+不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
+對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
+舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
+&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
+這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
+這個之後會介紹
+元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
+vue元件其實大致上有兩種類別
+主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢?">
+  <meta itemprop="datePublished" content="2025-02-06T15:29:36+08:00">
+  <meta itemprop="dateModified" content="2025-02-06T15:29:36+08:00">
+  <meta itemprop="wordCount" content="168">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="#3 元件系統 30天學會 vue系列文 | seansie blog">
+  <meta property="og:description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
+舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
+這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
+反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
+有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
+同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
+vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
+舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
+其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
+題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
+而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
+而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
+如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
+不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
+對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
+舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
+&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
+這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
+這個之後會介紹
+元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
+vue元件其實大致上有兩種類別
+主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢?">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-06T15:29:36+08:00">
+    <meta property="article:modified_time" content="2025-02-06T15:29:36+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="#3 元件系統 30天學會 vue系列文 | seansie blog">
+<meta name="twitter:description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
+舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
+這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
+反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
+有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
+同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
+vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
+舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
+其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
+題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
+而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
+而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
+如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
+不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
+對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
+舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
+&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
+這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
+這個之後會介紹
+元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
+vue元件其實大致上有兩種類別
+主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢?">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">#3 元件系統 30天學會 vue系列文 | seansie blog</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 6, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="何謂元件-抽象的超能力">何謂元件 抽象的超能力</h2>
+<p>常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。</p>
+<p>舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。</p>
+<p>這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。</p>
+<p>反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的</p>
+<p>有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。</p>
+<p>同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。</p>
+<h2 id="vuejs中的元件">vuejs中的元件</h2>
+<p>大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 <strong>重點在哪裡?</strong></p>
+<p>舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?</p>
+<p>其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。</p>
+<p>題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。</p>
+<p>而vuejs的抽象介面就是 <strong>元件</strong> 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。</p>
+<p>而元件使用方法就是 <code>&lt;元件名 屬性1=?  屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt;</code> 。</p>
+<p>如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。</p>
+<p>不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。</p>
+<p>對了，你有看到上面有屬性嗎，這是vue元件常用的 <strong>介面，</strong> 也就是前文所提到的重點事物的互動窗口。</p>
+<p>舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">選單</span> <span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">名稱</span><span style="color:#f92672">=</span><span style="color:#a6e22e">namArr</span> <span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">網址</span><span style="color:#f92672">=</span><span style="color:#a6e22e">URLarr</span>&gt;&lt;/<span style="color:#f92672">選單</span>&gt;
+</span></span></code></pre></div><p>注: 如果要綁定 <code>data()</code> 中的資料需要在屬性前面加上 <code>:</code> 。</p>
+<p>這個在 <code>vuejs</code> 中有專有名詞， 叫做<code>prop</code> ，直譯為屬性，不過本文通常會叫他的英文避免混淆。</p>
+<p>這個之後會介紹</p>
+<h2 id="元件使用介紹">元件使用介紹</h2>
+<p>剛剛在第二章已經介紹了 <code>.vue</code> 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。</p>
+<p>vue元件其實大致上有兩種類別</p>
+<ul>
+<li>主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。</li>
+<li>其他元件 : 是要被主元件或其他元件使用的元件，存在項目 <code>/src/components</code> 目錄之下，有點像是員工。</li>
+</ul>
+<h3 id="那怎麼使用呢">那怎麼使用呢?</h3>
+<p>要使用元件，必須在元件的使用者(也是元件，可以類比成程式語言的語言的函數呼叫函數)中的元件邏輯中註冊，註冊方法如下，在該元件 <code>.vue</code> 檔案中的 <code>script</code> 標籤中新增</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">myComp</span> <span style="color:#a6e22e">from</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>.<span style="color:#f92672">/</span><span style="color:#a6e22e">components</span><span style="color:#f92672">/</span><span style="color:#a6e22e">myComp</span>.<span style="color:#a6e22e">vue</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">components</span><span style="color:#f92672">:</span>{
+</span></span><span style="display:flex;"><span>	    <span style="color:#a6e22e">myComp</span> <span style="color:#75715e">// 將 myComp 註冊為元建，名稱可自訂，但建議與 import 的變數名稱相同
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="注意">注意!!</h3>
+<p>元件名稱不能跟html的所內建標籤名稱相同，例如不能把元件命名成 <code>&lt;p&gt;</code>  <code>&lt;article&gt;</code> 這種 HTML已經有的標籤名稱，不然會有不可預期的錯誤。</p>
+<p>然後因為”被使用”跟”使用別人”這兩個詞彙真的很拗口且容易讓人誤會，因此筆者不會使用者種方式來敘述而是會用 “母元件” 跟 “子元件” 來稱呼，而母元件使用子元件(（母元件使用子元件，即子元件被包含在母元件中，如同員工到公司任職）。</p>
+<h3 id="母元件程式碼">母元件程式碼</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>// 母元件程式碼
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">childComp</span>&gt; slot &lt;/<span style="color:#f92672">childComp</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span></code></pre></div><p>這樣經過 <code>vuejs</code> 處理過後，就會變成</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">childComp</span>&gt; 
+</span></span><span style="display:flex;"><span>		子元件的模板(template)內容 中略
+</span></span><span style="display:flex;"><span>	&lt;/<span style="color:#f92672">childComp</span>&gt;
+</span></span></code></pre></div><p>馬上就恢復原狀了，子元件內的內容完好如初! 這樣比直接複製貼上更有效率了!!</p>
+<h3 id="樹狀元件概念">樹狀元件概念</h3>
+<p>對於 <code>VUEJS</code> 的元件系統，也可以把他理解程樹狀的，最上面當然是主元件，是必須透過 <code>main.js</code> 掛載到 <code>div#id</code> 上面的，而子元件間接的透過子元件標籤掛在母元件上，所以子元件不需要掛載，已經透過母元件一次達成了。</p>
+<p>也就像一家公司，只要老闆帶頭上市一次就好，不用每個員工都去上市。</p>
+<p>而通常網頁的元件系統會長成這樣。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>app
+</span></span><span style="display:flex;"><span>	nav(導航)
+</span></span><span style="display:flex;"><span>		menu(主選單)
+</span></span><span style="display:flex;"><span>		search(搜尋)
+</span></span><span style="display:flex;"><span>		notification(通知)
+</span></span><span style="display:flex;"><span>		account(帳號)
+</span></span><span style="display:flex;"><span>	article (文章)
+</span></span><span style="display:flex;"><span>		post(推文)
+</span></span><span style="display:flex;"><span>			image(圖片)
+</span></span><span style="display:flex;"><span>			react(回應)
+</span></span><span style="display:flex;"><span>				like(讚)
+</span></span><span style="display:flex;"><span>				comment(留言)
+</span></span><span style="display:flex;"><span>				share(分享)
+</span></span><span style="display:flex;"><span>			comment-list(留言清單)
+</span></span><span style="display:flex;"><span>				comment-single-recursive(遞迴版單一留言，因為留言是樹狀的) 
+</span></span><span style="display:flex;"><span>			loader(讀取圖示)
+</span></span><span style="display:flex;"><span>	side (側邊欄)
+</span></span><span style="display:flex;"><span>		tools(工具欄)
+</span></span><span style="display:flex;"><span>	footer (註腳)
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></div><p>其中縮排的意思代表母元件根子元件的從屬關係</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">母元件</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#960050;background-color:#1e0010">子元件</span>
+</span></span></code></pre></div><h2 id="元件資料流">元件資料流</h2>
+<p>稍微起後一下，元件資料流的概念在 <code>vuejs</code> 中是非常重要的，也就是資料流向是有指定的，不可以亂流，因為這個可以降低軟體的複雜度。舉例來說，馬路上因為有紅綠燈管理車流方向才不會造成亂象，同理，元件間的通訊也要有標準，才不會發生混亂，之後會於 <code>prop</code> 跟 <code>emit</code> 等等觀念重新提及。</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/"
+      ><span class="mr-1.5">←</span><span>#4 事件處理 30天學會 vue系列文 | seansie blog</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/cpp-oop-4rule-intro/"
+      ><span> 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

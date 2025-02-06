@@ -1,0 +1,529 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>js中的this到底是甚麼 js隨筆 |seansie blog - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
+而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
+定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
+先來進行名詞解釋
+1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
+在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
+a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
+b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
+注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
+其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
+c 建構子呼叫 會指向新建立的物件
+d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
+舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.125.4">
+
+  
+  
+  
+  
+  
+
+
+  
+  
+  <meta itemprop="name" content="js中的this到底是甚麼 js隨筆 |seansie blog">
+  <meta itemprop="description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
+而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
+定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
+先來進行名詞解釋
+1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
+在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
+a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
+b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
+注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
+其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
+c 建構子呼叫 會指向新建立的物件
+d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
+舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
+  <meta itemprop="datePublished" content="2025-02-06T15:59:18+08:00">
+  <meta itemprop="dateModified" content="2025-02-06T15:59:18+08:00">
+  <meta itemprop="wordCount" content="355">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
+  <meta property="og:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
+而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
+定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
+先來進行名詞解釋
+1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
+在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
+a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
+b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
+注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
+其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
+c 建構子呼叫 會指向新建立的物件
+d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
+舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
+  <meta property="og:locale" content="zh-tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-06T15:59:18+08:00">
+    <meta property="article:modified_time" content="2025-02-06T15:59:18+08:00">
+
+  
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
+<meta name="twitter:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
+而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
+定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
+先來進行名詞解釋
+1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
+在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
+a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
+b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
+注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
+其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
+c 建構子呼叫 會指向新建立的物件
+d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
+舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">js中的this到底是甚麼 js隨筆 |seansie blog</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 6, 2025</time>
+      
+      
+      
+      
+    </div>
+    
+  </header>
+
+  <section><p><code>this</code> 這個關鍵字在 <code>js</code> 中令許多人困惑之處，尤其是在普通函數中，因為 <code>this</code> 所指向的物件是動態的取決於呼叫方式。</p>
+<p>重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。</p>
+<p>而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。</p>
+<h1 id="定義">定義</h1>
+<p><code>this</code> 指向取決於**被呼叫的函數物件(callable function object)<strong>的執行</strong>上下文(executing context)，**而上下文取決於呼叫方法的類型</p>
+<p>先來進行名詞解釋</p>
+<h2 id="1上下文">1.上下文</h2>
+<p>這個蠻重要的，也是 <code>js</code> 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。</p>
+<p>在 <code>js</code> 引擎中，每次呼叫 (也就是<code>()</code> 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 <code>this</code> 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。</p>
+<h3 id="a-全域呼叫">a. 全域呼叫</h3>
+<ul>
+<li>語法 : <code>函數物件()</code></li>
+</ul>
+<p>簡單粗暴直接呼叫，那自然而然沒有啥 <strong>上下文</strong> 可言，不過在非嚴格模式 <code>js</code> 會自動把他補成指向 <strong>全域物件</strong></p>
+<h3 id="b-透過物件呼叫">b. 透過物件呼叫</h3>
+<ul>
+<li>語法 : <code>物件.函數物件的屬性()</code></li>
+</ul>
+<p>既然是透過 <code>物件</code> 呼叫的，那該函數的上下文自然而然就會指向 <code>物件</code></p>
+<p>注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)</p>
+<p>其實關鍵在於函數物件的怎麼被呼叫的 <strong>形式</strong> (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其<strong>形式</strong>(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。</p>
+<h3 id="c-建構子呼叫">c 建構子呼叫</h3>
+<p>會指向新建立的物件</p>
+<h3 id="d-call-bind-apply-手動改變上下文">d. call bind apply (手動改變上下文)</h3>
+<p>進階用法，因為篇幅，等一下在子文章中會一一介紹。</p>
+<p>舉例來說，像是據說 <code>vuejs</code> 的vue元件實體透過 <code>bind</code> 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰</p>
+<h3 id="2被呼叫的函數物件">2.被呼叫的函數物件</h3>
+<p>先定義一下函數物件</p>
+<p>在 <code>js</code> 中 呼叫函數是這樣吧 <code>func()</code></p>
+<p>而可能有些人習慣靜態語言(例如我ww)可能會有點困擾，在 <code>js</code> 中因為萬物皆物件，所以其實 <code>func</code> 跟 <code>()</code> 是分開的 。</p>
+<p>可以理解成 <code>func</code> 是名詞(函數物件) 而 <code>()</code> 是動詞 (執行)。</p>
+<p>而假設 <code>func()</code> 能成功執行，那本文文所指的 <strong>被呼叫的函數物件</strong> 就是 <code>func</code> ，因為它既能也被呼叫了，也滿足了定義的一部份。</p>
+<p>而對於如何區分這四種，對於 1.a 1.b 兩點，他們的執行上下文會取決於 <code>()</code> 左邊的函數物件的長相，其他(1.cd)的特徵蠻明顯的，應該不用介紹。</p>
+<p>而他 <code>func()</code>的上下文據1.a.所示是全域物件。</p>
+<p>然後若是要呼叫 <code>obj.func()，</code>根據定義 1.b <code>obj()</code> 就是 <code>func()</code> 的上下文， 所以根據定義 this會指向 被呼叫函數物件( <code>func</code> )的 <code>obj</code> 。</p>
+<p><strong>1. 全域呼叫</strong></p>
+<ul>
+<li>
+<p>**牛刀小試：**JavaScript</p>
+<p>`function testThis() {
+console.log(this);
+}</p>
+<p>testThis(); // 在瀏覽器中，這裡的 this 會指向什麼？在 Node.js 環境中呢？`</p>
+</li>
+<li>
+<p><strong>解析：</strong></p>
+<ul>
+<li>在瀏覽器中，非嚴格模式下，<code>this</code> 指向 <code>window</code> 物件。</li>
+<li>在 Node.js 環境中，非嚴格模式下，<code>this</code> 指向 <code>global</code> 物件。</li>
+<li>在嚴格模式下（&lsquo;use strict&rsquo;），無論是瀏覽器或 Node.js，<code>this</code> 都會是 <code>undefined</code>。</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. 透過物件呼叫</strong></p>
+<ul>
+<li>
+<p>**牛刀小試：**JavaScript</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> obj <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  name: <span style="color:#960050;background-color:#1e0010">&#39;我是物件&#39;</span>,
+</span></span><span style="display:flex;"><span>  testThis: function() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#66d9ef">this</span>.name);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>obj.testThis(); <span style="color:#75715e">// 這裡的 this.name 會印出什麼？
+</span></span></span></code></pre></div></li>
+<li>
+<p><strong>解析：</strong></p>
+<ul>
+<li><code>this.name</code> 會印出 &ldquo;我是物件&rdquo;，因為 <code>testThis</code> 是透過 <code>obj</code> 物件呼叫的，<code>this</code> 指向 <code>obj</code>。</li>
+</ul>
+</li>
+<li>
+<p>**進階挑戰：**JavaScript</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> obj <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  name: <span style="color:#960050;background-color:#1e0010">&#39;我是物件&#39;</span>,
+</span></span><span style="display:flex;"><span>  testThis: function() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#66d9ef">this</span>.name);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> anotherFunc <span style="color:#f92672">=</span> obj.testThis;
+</span></span><span style="display:flex;"><span>anotherFunc(); <span style="color:#75715e">// 這裡的 this.name 會印出什麼？為什麼？
+</span></span></span></code></pre></div></li>
+<li>
+<p><strong>解析</strong></p>
+<ul>
+<li><code>anotherFunc()</code>是屬於全域呼叫，所以this是指向全域物件。</li>
+<li><code>anotherFunc</code>變數所指向的函數物件本身在被呼叫的時候，是以全域呼叫，而非透過物件呼叫。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. 建構子呼叫</strong></p>
+<ul>
+<li>
+<p>**牛刀小試：**JavaScript</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>function <span style="color:#a6e22e">Person</span>(name) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.name <span style="color:#f92672">=</span> name;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span>.greet <span style="color:#f92672">=</span> function() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#960050;background-color:#1e0010">&#39;你好，我是</span> <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.name);
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> p1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person(<span style="color:#960050;background-color:#1e0010">&#39;小明&#39;</span>);
+</span></span><span style="display:flex;"><span>p1.greet(); <span style="color:#75715e">// 這裡的 this.name 會印出什麼？
+</span></span></span></code></pre></div></li>
+<li>
+<p><strong>解析：</strong></p>
+<ul>
+<li><code>this.name</code> 會印出 &ldquo;小明&rdquo;，因為 <code>Person</code> 是作為建構函式使用 <code>new</code> 關鍵字呼叫的，<code>this</code> 指向新建立的物件 <code>p1</code>。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. call, bind, apply (手動改變上下文)</strong></p>
+<ul>
+<li>
+<p>**牛刀小試 (call)：**JavaScript</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>function <span style="color:#a6e22e">greet</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#960050;background-color:#1e0010">&#39;你好，我是</span> <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> person <span style="color:#f92672">=</span> { name: <span style="color:#960050;background-color:#1e0010">&#39;小華&#39;</span> };
+</span></span><span style="display:flex;"><span>greet.call(person); <span style="color:#75715e">// 這裡會印出什麼？
+</span></span></span></code></pre></div></li>
+<li>
+<p><strong>解析：</strong></p>
+<ul>
+<li>會印出 &ldquo;你好，我是 小華&rdquo;，因為 <code>call</code> 方法將 <code>greet</code> 函數的 <code>this</code> 設定為 <code>person</code> 物件。</li>
+</ul>
+</li>
+<li>
+<p>**牛刀小試 (bind)：**JavaScript</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>function <span style="color:#a6e22e">greet</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#960050;background-color:#1e0010">&#39;你好，我是</span> <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.name);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> person <span style="color:#f92672">=</span> { name: <span style="color:#960050;background-color:#1e0010">&#39;小美&#39;</span> };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> boundGreet <span style="color:#f92672">=</span> greet.bind(person);
+</span></span><span style="display:flex;"><span>boundGreet(); <span style="color:#75715e">// 這裡會印出什麼？
+</span></span></span></code></pre></div></li>
+<li>
+<p><strong>解析：</strong></p>
+<ul>
+<li>會印出 &ldquo;你好，我是 小美&rdquo;，因為 <code>bind</code> 方法創建了一個新函數 <code>boundGreet</code>，並將其 <code>this</code> 永久綁定到 <code>person</code> 物件。</li>
+</ul>
+</li>
+<li>
+<p>**牛刀小試 (apply)：**JavaScript</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>function <span style="color:#a6e22e">introduce</span>(greeting, punctuation) {
+</span></span><span style="display:flex;"><span>    console.log(greeting <span style="color:#f92672">+</span> <span style="color:#960050;background-color:#1e0010">&#39;，我是</span> <span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.name <span style="color:#f92672">+</span> punctuation);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> person <span style="color:#f92672">=</span> { name: <span style="color:#960050;background-color:#1e0010">&#39;老王&#39;</span> };
+</span></span><span style="display:flex;"><span>introduce.apply(person, [<span style="color:#960050;background-color:#1e0010">&#39;哈囉&#39;</span>, <span style="color:#e6db74">&#39;!&#39;</span>]); <span style="color:#75715e">// 這裡會印出什麼？
+</span></span></span></code></pre></div><ul>
+<li><strong>解析：</strong>
+會印出 &ldquo;哈囉，我是 老王!&quot;，因為<code>apply</code>方法的第一個引數是設定<code>this</code>的上下文，而第二個引數是陣列，會將陣列的內容當成參數傳入。</li>
+</ul>
+</li>
+</ul>
+</section>
+
+  
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/"
+      ><span>#4 事件處理 30天學會 vue系列文 | seansie blog</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2025
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
