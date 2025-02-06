@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vuejs on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/vuejs/</link>
+    <description>Recent content in Vuejs on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 06 Feb 2025 15:52:43 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/vuejs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#4 事件處理 30天學會 vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/</link>
+      <pubDate>Thu, 06 Feb 2025 15:52:43 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/</guid>
+      <description>4 v-on事件處理&amp;amp;methods元件邏輯函數 在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。&#xA;v-on介紹 如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 vuejs 中提供的一種方便功能，術語叫做 V指令， v-on 是裡面的其中一種，甚至還可以自訂自己的V指令&#xA;而 v-on 就是裡面在處理事件的，常常會跟按紐一起用，例如&#xA;&amp;lt;button v-on:click=&amp;#34;myfuncttion()&amp;#34;&amp;gt;GO&amp;lt;/button&amp;gt; 語法介紹 &amp;lt;標籤 v-on:事件名稱=&amp;#34;執行的js陳述&amp;#34;&amp;gt;&amp;lt;/標籤&amp;gt; 對了，這種在標籤中有 foo=&amp;quot;bar&amp;quot; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。&#xA;這個可以簡單離解成該標籤的性質(形容詞)。&#xA;因此所有 V指令都是一種特殊的屬性，用來微調該標籤的行為。&#xA;而 v-on 因為太常用了，還有一種簡寫的方法如下&#xA;&amp;lt;標籤 @事件名稱=&amp;#34;要執行的js陳述&amp;#34;&amp;gt;&amp;lt;/標籤&amp;gt; 直接在事件名稱前面加上 @ 的屬性就會被自動轉換成 v-on:事件名稱&#xA;舉個最簡單的，我們可以在按鈕物件上監聽 按下 這個事件，而按下這個事件在vue中叫做 click&#xA;因此可以寫成&#xA;&amp;lt;button @click=&amp;#34;alert(&amp;#39;按鈕被按下了&amp;#39;)&amp;#34;&amp;gt;點我&amp;lt;/button&amp;gt; 對了雙引號中的 &amp;quot;要執行的js陳述&amp;quot; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。&#xA;然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 按鈕被按下了 。&#xA;咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下&#xA;vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &amp;lt;anonymous&amp;gt;:15:29) at callWithErrorHandling (vue.</description>
+    </item>
+    <item>
+      <title>#3 元件系統 30天學會 vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/</link>
+      <pubDate>Thu, 06 Feb 2025 15:29:36 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/</guid>
+      <description>何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。&#xA;舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。&#xA;這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。&#xA;反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的&#xA;有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。&#xA;同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。&#xA;vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?&#xA;舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?&#xA;其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。&#xA;題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。&#xA;而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。&#xA;而元件使用方法就是 &amp;lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&amp;gt; &amp;lt;元件名/&amp;gt; 。&#xA;如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。&#xA;不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。&#xA;對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。&#xA;舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫&#xA;&amp;lt;選單 :名稱=namArr :網址=URLarr&amp;gt;&amp;lt;/選單&amp;gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。&#xA;這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。&#xA;這個之後會介紹&#xA;元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。&#xA;vue元件其實大致上有兩種類別&#xA;主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢?</description>
+    </item>
+    <item>
+      <title>#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/</link>
+      <pubDate>Tue, 14 Jan 2025 18:50:45 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/</guid>
+      <description>工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。&#xA;你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。&#xA;正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。&#xA;那說了這麼多，事不宜遲來開始介紹使用方法。&#xA;終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機&#xA;而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。&#xA;甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機+執行的意思&#xA;其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。&#xA;如何安裝 nodejs 在終端機根據不同的作業系統輸入。&#xA;windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。&#xA;安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。</description>
+    </item>
+    <item>
+      <title>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/</link>
+      <pubDate>Tue, 14 Jan 2025 18:45:00 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/</guid>
+      <description>好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。&#xA;本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念&#xA;。&#xA;而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。&#xA;這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。&#xA;匯入 在你的 html檔案的之下，加上這個標籤就完成了。&#xA;&amp;lt;script src=&amp;#34;https://unpkg.com/vue@3/dist/vue.global.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 建立第一個網頁應用程式 先在文字編輯器&#xA;加入一個 script標籤 ，在裡面新增以下內容&#xA;&amp;lt;script&amp;gt; Vue.createApp({ data(){ return{ msg : &amp;#34;hello world&amp;#34; } } ); &amp;lt;/script&amp;gt; 簡介一下&#xA;Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹&#xA;&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&amp;gt; &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vue@3/dist/vue.global.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; =&amp;gt; vuejs要掛載在這裡 &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : +Tab ，就能產生了。</description>
+    </item>
+    <item>
+      <title>#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/</link>
+      <pubDate>Tue, 14 Jan 2025 18:40:37 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/</guid>
+      <description>大概如果初入網頁設計領域的人都聽說過html、css跟javascript，分別對應 內容 **樣式 跟互動。**如此看來，網站的基本元素應該湊齊了阿，幹嘛還要加上框架，增加複雜度呢?。&#xA;那好，且聽我娓娓道來。&#xA;重複元素 舉google搜尋下面的按鈕為例，你看已經分別重複8次跟10次了，如果僅使用 javascript 的話，難道要重複8次跟10次嗎?&#xA;雖然是可以用迴圈+ Inner html 啦，但是非常難以維護，尤其是一旦專案複雜度很高的時候。&#xA;// Create a container element (you can replace this with your existing container) const container = document.createElement(&amp;#39;div&amp;#39;); document.body.appendChild(container); // Create and append 8 buttons with innerHTML for (let i = 1; i &amp;lt;= 8; i++) { const button = document.createElement(&amp;#39;button&amp;#39;); button.innerHTML = `Button ${i}`; container.appendChild(button); } 如下圖所示，這還只是產生8個按鈕的時候喔，別忘了還有樣式，而且你看上圖旁邊還有一個放大鏡icon要插入，這樣搞下來恐怕是一場災難，可能還要穿梭在 html 標籤之中，大概是不會來去自如而是寫出義大利麵程式碼，就是互相呼叫，毫無邏輯，基本上無法維護，想要修改就只能重寫的程式碼。筆者已經無法想像這種慘況了。&#xA;此外， inner html 還有 XSS 的風險，例如你打算插入一個 &amp;lt;p&amp;gt;使用者輸入內容 &amp;lt;/p&amp;gt; 的標籤進入，可是有心的使用者輸入了 &amp;lt;script&amp;gt; alert(&amp;quot;you are hacked&amp;quot;)&amp;lt;/script&amp;gt; ，這樣使用者瀏覽器就會彈出 you are hacked的對話框，這只是示範，既然能讓使用者彈出對話框，當然也可以 **執行任何程式碼 (ACE)，**這可是非常危險的，但是如果是手工進行安全防護，費時費力，不如讓框架代勞。</description>
+    </item>
+  </channel>
+</rss>

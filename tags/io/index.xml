@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>IO on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/io/</link>
+    <description>Recent content in IO on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 14 Sep 2024 11:40:57 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/cppioopt0/</link>
+      <pubDate>Sat, 14 Sep 2024 11:40:57 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/cppioopt0/</guid>
+      <description>在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C++ 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。&#xA;基本版本（標配） 在 C++ 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C++ 標準庫提供的 cin 和 cout。由於 C++ 是 C 的超集，也就是說 C++ 完全兼容 C 的語法和功能，這使得我們可以在 C++ 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。&#xA;衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。&#xA;常見的衝突情況&#xA;殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（&amp;rsquo;\n&amp;rsquo;）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。 確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。&#xA;取消輸入輸出流同步 C++ 預設會將 cin、cout 與 C 語言的 stdio（也就是 scanf、printf 所使用的標準輸入輸出庫）同步。這意味著每次進行 cin、cout 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 stdio 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。&#xA;取消同步的方法&#xA;您可以透過以下程式碼取消 cin、cout 與 stdio 的同步：</description>
+    </item>
+  </channel>
+</rss>

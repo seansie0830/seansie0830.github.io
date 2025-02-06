@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chatgpt on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/chatgpt/</link>
+    <description>Recent content in Chatgpt on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Fri, 12 Jul 2024 22:09:47 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/chatgpt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chatgpt 新體驗與實測</title>
+      <link>https://seansie0830.github.io/posts/chatgpt-new-exp/</link>
+      <pubDate>Fri, 12 Jul 2024 22:09:47 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/chatgpt-new-exp/</guid>
+      <description>最近很紅的chatgpt，簡單來說就是個聊天機器人，但是是很厲害的ai，等等會來(聽他)介紹他，可以回答很多各種不同的問題，還會寫程式，等等會來實測，紅到有時候上面太多人，要等一下才能玩，話說他已經出付費版了，而且據說他還是google殺手，被學生拿來寫心得，文章品質明顯勝過唬爛產生器，讓人無法分辨是不是真人寫的，甚至可以通過大學考試。&#xA;以下是他的豐功偉業的文章&#xA;https://technews.tw/2023/02/04/chatgpt-passes-exams-from-top-universities/ 通過大學考試 https://www.cool3c.com/article/188936 google殺手 https://tw.news.yahoo.com/%E9%9D%A0chatgpt%E4%BB%A3%E5%AF%AB%E4%BD%9C%E6%A5%AD-%E6%95%99%E5%B8%AB%E6%86%82%E5%AD%B8%E7%94%9F%E8%A2%AB%E8%AA%A4%E5%B0%8E-121600651.html 被用來代寫作業 實測 接下來進入實測環節了，先來請他做自我介紹，可以用中文跟英文，不過他應該用英文比較聰明，因為英文的資料比較多。&#xA;我:自我介紹&#xA;chatgpt:你好，我是ChatGPT是OpenAI開發的一種語言模型。我受過訓練，可以根據輸入回答問題和生成文本。有什麼可以幫到你的嗎？&#xA;數學 這次更新官方說會改善他的數學能力，我來測試一下&#xA;小學程度 簡單四則 我:(2+3)*4&#xA;chatgpt: The expression (2+3)*4 equals 20.&#xA;#####　面積&#xA;我:直徑為10的圓形 面積多少&#xA;chatgpt::直徑为 10 的圆形的面积是约为 78.53975 平方单位，可以使用以下公式计算：π * (半径^2) = π * (10/2)^2 = π * 5^2 = 78.53975。&#xA;他有時候會輸出簡體字，應該是訓練資料的原因吧。&#xA;代數 我:solve for x in the equation ((x+2)*4-7=20)&#xA;chatgpt:Here&amp;rsquo;s one way to solve for x in the equation ((x+2)*4-7=20):&#xA;Start by expanding the expression inside the parentheses: (x+2)*4 = 4x + 8.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>元件 on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/%E5%85%83%E4%BB%B6/</link>
+    <description>Recent content in 元件 on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 06 Feb 2025 15:29:36 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/%E5%85%83%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#3 元件系統 30天學會 vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/</link>
+      <pubDate>Thu, 06 Feb 2025 15:29:36 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/</guid>
+      <description>何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。&#xA;舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。&#xA;這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。&#xA;反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的&#xA;有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。&#xA;同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。&#xA;vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?&#xA;舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?&#xA;其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。&#xA;題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。&#xA;而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。&#xA;而元件使用方法就是 &amp;lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&amp;gt; &amp;lt;元件名/&amp;gt; 。&#xA;如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。&#xA;不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。&#xA;對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。&#xA;舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫&#xA;&amp;lt;選單 :名稱=namArr :網址=URLarr&amp;gt;&amp;lt;/選單&amp;gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。&#xA;這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。&#xA;這個之後會介紹&#xA;元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。&#xA;vue元件其實大致上有兩種類別&#xA;主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢?</description>
+    </item>
+  </channel>
+</rss>

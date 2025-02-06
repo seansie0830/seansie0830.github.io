@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>題解 on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/%E9%A1%8C%E8%A7%A3/</link>
+    <description>Recent content in 題解 on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Fri, 24 Jan 2025 15:12:14 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/%E9%A1%8C%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog </title>
+      <link>https://seansie0830.github.io/posts/zj_f149/</link>
+      <pubDate>Fri, 24 Jan 2025 15:12:14 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_f149/</guid>
+      <description>題目 https://zerojudge.tw/ShowProblem?problemid=f149&#xA;總之，題目會先給定兩個數字 R 跟C 分別代表 row 跟 column 的數目，然後會輸入地圖，如以下格式。&#xA;5 代表偵測器 0 代表空地 1 代表炸彈 偵測器的感測範圍是在他所在的座標，往外8方向延伸的8個格子(上下左右 左上 左下 右上 右下 )&#xA;但不幸的是，如果在感測範圍有其他偵測器的話，感測器會一起失靈&#xA;請輸出能被偵測到的炸彈根部能偵測到的。&#xA;破題 這個題目看似簡單，裡面陷阱不少。&#xA;首先先把地圖讀進去吧&#xA;scanf(&amp;#34;%d %d&amp;#34;, &amp;amp;r, &amp;amp;c); for (int i = 0; i &amp;lt; r; i++) { for (int j = 0; j &amp;lt; c; j++) { scanf(&amp;#34;%d&amp;#34;, &amp;amp;g[i][j]); } } 然後有個關鍵就是要處理互相干擾的問題，我的處理方法是再建立一個 bfield 二維矩陣，用來記錄有互相干擾的偵測器&#xA;int bfield[r][c]; memset(bfield, 0, sizeof(bfield)); // 記得初始化 這個意思是把 bfiled 變數全部設定成 0 接著對於外面的八個方向，建議儲存成陣列，然後用迴圈的方式一一處理</description>
+    </item>
+    <item>
+      <title>zerojudge d518 C&#43;&#43;詳解 文字抄寫 II</title>
+      <link>https://seansie0830.github.io/posts/zj_d518/</link>
+      <pubDate>Fri, 24 Jan 2025 15:06:22 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_d518/</guid>
+      <description>d518 題目 https://zerojudge.tw/ShowProblem?problemid=d518&#xA;Content 從機器中，不斷地出現 &amp;ldquo;?&amp;rdquo; 個英文字母的單字，現在要你抄寫下來， 倘若這個單字已經出現過，則會使用編號上的號碼直接書寫 倘若這個單字沒有出現過，則會賦予單字一個新的號碼&#xA;每組新的測資，代表不同事件，請勿將其納入新的號碼&#xA;Input 每組輸入的第一行 , 有一個數字 N ( 1 ≦ N ≦ 104 )&#xA;接下來會有瘋狂科學家講出的 N 行單字&#xA;每行由小寫字母 a 到 z 所構成的 ? 字單字. ( 1 ≦ ? ≦ 20 )&#xA;Output 若這個字串之前已經出現過,則輸出號碼,若沒有則輸出它將被編寫的號碼.&#xA;破題 看到這個問題，可以轉換成鍵值對問題，以字串為鍵，值隨便，因為本題利用鍵值對只是要看他有沒有存在而已，所以具體的值不重要。&#xA;那自然而然地要先宣告鍵值對物件，而C++中的鍵值對是 map，又我們不關心 map 中的順序，因此可以以用 unordered_map 加速。 並且順便宣告用來讀取輸入的字串 s ，題目的 n 還有序號(從1開始)&#xA;unordered_map&amp;lt;string,int&amp;gt; m; string s; int n,no; 然後在處理的時候，先把讀入的字串當作鍵，在 C++ 的 map 中透過 map.find() 查詢，然後如果沒有查詢到就把他加入 map ，反之如果有查詢到就輸出號碼。&#xA;程式碼如下</description>
+    </item>
+    <item>
+      <title>zerojudge b512 高維度稀疏向量 | seansie blog </title>
+      <link>https://seansie0830.github.io/posts/zj_b512/</link>
+      <pubDate>Thu, 23 Jan 2025 20:30:24 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_b512/</guid>
+      <description>題目 https://zerojudge.tw/ShowProblem?problemid=b512&#xA;輸入兩個向量，計算向量內積值。兩個向量的內積，是各項相乘然後加總。例如 [1,2,3] 和 [4,5,6] 內積是 14+25+3*6 = 32&#xA;我們考慮高維度的稀疏向量，也就是大多數的元素都是零，只有少數不為零。資料的表示方式如下 dim1: value1 dim2: value2 dim3:value3 &amp;hellip; 0:0 最後以 0:0 結束。例如&#xA;向量 [0,5,0,0,9,0,0,33] 是一個 8 維向量，可表示成 2:5 5:9 8:33 0:0 值為 0 的維度都可以忽略不需描述，只需記錄非零的維度。利用上述的表示法，讀取兩個向量，然後算出它們的內積。&#xA;Input 輸入兩行，分別對應到兩個整數向量。向量維度最高不超過 2 的 31 次方。記憶體用量不超過 32 MB。每一行都是以 0:0 結束&#xA;Output 內積值 最後記得換行&#xA;破題 如題所示，這種稀疏向量如果照著正常的方式來儲存，不僅浪費空間而且沒有效率，因此會採用題目所提到的格式來儲存 dim1: value1&#xA;而該格式自然而然的會讓人想到鍵值對(有點類似電話簿，名稱對應電話號碼，在這個例子中是維度對應數值)，而在 C++ 中的鍵值對就是 map 。&#xA;因此首先先宣告一個 map 物件&#xA;map&amp;lt;long long ,long long&amp;gt; m; 使用 long long 避免潛在的溢位問題&#xA;接下來，因為題目提到 **每一行都是以 0:0 結束 ，**所以要用個while迴圈持續接收資料，因此先宣告 dim 跟 val 變數，因為它在未初始化的前提下可能會等於 0 ，所以先給它強制初始化成 -1 ，避免潛在錯誤。而 prod 是用來儲存答案的變數，一樣先初始化成 0，因為從0開始。</description>
+    </item>
+    <item>
+      <title>zerojudge 詳解大全（持續更新） | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/zjansnav/</link>
+      <pubDate>Sat, 20 Jul 2024 12:42:25 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zjansnav/</guid>
+      <description>目前有的詳解 Zerojudge a001. 哈囉 詳解（C++，python，Java，C語言） zerojudge a002 簡易加法 C++ python 雙語言詳解 zerojudge a006一元二次方程式 程式碼 Zerojudge a009. 解碼器 C++題解 zerojudge a020. 身分證檢驗 詳解 Zerojudge a022. 迴文 C++多種方法的題解 Zerojudge a024. 最大公因數(GCD) C++多種解法（內建函數 遞迴 迴圈）題解 Zerojudge a541 題解 b512 高維度稀疏向量 d219. 00374 - Big Mod C++題解（正常版與極致優化版） </description>
+    </item>
+    <item>
+      <title>zerojudge a002 C&#43;&#43; python 雙語言詳解</title>
+      <link>https://seansie0830.github.io/posts/zj_a002/</link>
+      <pubDate>Thu, 18 Jul 2024 09:48:13 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a002/</guid>
+      <description>C++ #include &amp;lt;iostream&amp;gt; using namespace std; int main() { int a,b; cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b; cout&amp;lt;&amp;lt;a+b;//&amp;lt;&amp;lt;&amp;#34;hello, &amp;#34;&amp;lt;&amp;lt;in; return 0; } 引入標頭檔案&#xA;#include &amp;lt;iostream&amp;gt; 這行程式碼引入了標準輸入輸出流庫（iostream），這使得我們可以使用 cin 和 cout 進行輸入和輸出操作。&#xA;使用命名空間&#xA;using namespace std; 這行程式碼使用 std 命名空間。這樣我們就可以直接使用標準庫中的物件和函式（如 cin 和 cout）而不需要加上 std:: 前綴。&#xA;主函式&#xA;int main() { int a, b; cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; cout &amp;lt;&amp;lt; a + b; //&amp;lt;&amp;lt;&amp;#34;hello, &amp;#34;&amp;lt;&amp;lt;in; return 0; } int main() 是 C++ 程式的進入點，表示程式從這裡開始執行。&#xA;宣告兩個整數變數 a 和 b：&#xA;int a, b; 使用 cin 讀取兩個整數並將它們賦值給變數 a 和 b：</description>
+    </item>
+    <item>
+      <title>zerojudge a006 程式碼</title>
+      <link>https://seansie0830.github.io/posts/zj_a006/</link>
+      <pubDate>Thu, 18 Jul 2024 09:33:40 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a006/</guid>
+      <description>#include&amp;lt;iostream&amp;gt; #include&amp;lt;cmath&amp;gt; using namespace std; int main (){ int a,b,c,delta,ans1,ans2,temp1,temp2; cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b&amp;gt;&amp;gt;c; delta=b*b-4*a*c; ans1=(-b+sqrt(b*b-4*a*c))/(2*a); ans2=(-b-sqrt(b*b-4*a*c))/(2*a); if(delta&amp;gt;0) { if(a&amp;gt;0)cout&amp;lt;&amp;lt;&amp;#34;Two different roots x1=&amp;#34;&amp;lt;&amp;lt;ans1&amp;lt;&amp;lt;&amp;#34; , x2=&amp;#34;&amp;lt;&amp;lt;ans2&amp;lt;&amp;lt;endl; else if (a&amp;lt;0) cout&amp;lt;&amp;lt;&amp;#34;Two different root x1=&amp;#34;&amp;lt;&amp;lt;ans2&amp;lt;&amp;lt;&amp;#34; , x2=&amp;#34;&amp;lt;&amp;lt;ans1&amp;lt;&amp;lt;endl; } else if (delta==0) cout&amp;lt;&amp;lt;&amp;#34;Two same roots x=&amp;#34;&amp;lt;&amp;lt;ans1&amp;lt;&amp;lt;endl; else cout&amp;lt;&amp;lt;&amp;#34;No real root&amp;#34;&amp;lt;&amp;lt;endl; return 0; } 解說 引入標頭檔與命名空間：&#xA;#include&amp;lt;iostream&amp;gt; #include&amp;lt;cmath&amp;gt; using namespace std; 引入 iostream 來進行輸入輸出操作。&#xA;引入 cmath 來使用數學函數，如 sqrt。&#xA;使用 std 命名空間，方便後續程式碼的書寫&#xA;主程式開始：&#xA;int main() { 定義主函式 main。&#xA;變數宣告與輸入：</description>
+    </item>
+    <item>
+      <title>Zerojudge a541 題解</title>
+      <link>https://seansie0830.github.io/posts/zj_a541/</link>
+      <pubDate>Sat, 13 Jul 2024 12:05:17 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a541/</guid>
+      <description>題解-基本版 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main(){ int n; set&amp;lt;string&amp;gt; st; string s; cin&amp;gt;&amp;gt;n; for(int i=0;i&amp;lt;n;i++) { cin&amp;gt;&amp;gt;s; st.insert(s); } cin&amp;gt;&amp;gt;n; for(int i=0;i&amp;lt;n;i++){ cin&amp;gt;&amp;gt;s; cout&amp;lt;&amp;lt;((st.find(s)==st.end())?&amp;#34;no\n&amp;#34;:&amp;#34;yes\n&amp;#34;); st.insert(s); } } 精益求精優化版 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&amp;lt;string&amp;gt; st; string s; cin&amp;gt;&amp;gt;n; st.reserve(n); for(int i=0;i&amp;lt;n;i++) { cin&amp;gt;&amp;gt;s; st.insert(s); } cin&amp;gt;&amp;gt;m; st.reserve(n+m); for(int i=0;i&amp;lt;m;i++){ cin&amp;gt;&amp;gt;s; bool flag=st.find(s)==st.end(); cout&amp;lt;&amp;lt;((flag)?&amp;#34;no\n&amp;#34;:&amp;#34;yes\n&amp;#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);&#xA;這兩個語句旨在優化 C++ 中的輸入輸出 (I/O) 操作。</description>
+    </item>
+    <item>
+      <title>Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</title>
+      <link>https://seansie0830.github.io/posts/zj_a022/</link>
+      <pubDate>Fri, 12 Jul 2024 21:03:53 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a022/</guid>
+      <description>&amp;lsquo;Zerojudge a022. 迴文題目連結&#xA;法一 內建函數 //&#x9;AC (2ms, 332KB) #include &amp;lt;bits/stdc++.h&amp;gt; using namespace std; int main() { string s; while (cin &amp;gt;&amp;gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &amp;lt;&amp;lt; ((s == t) ? &amp;#34;yes&amp;#34; : &amp;#34;no&amp;#34;); } return 0; } 程式碼分析&#xA;包含函式庫 #include &amp;lt;bits/stdc++.h&amp;gt; using namespace std; 此段程式碼包含了 C++ 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。&#xA;宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。&#xA;輸入字串 while (cin &amp;gt;&amp;gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。</description>
+    </item>
+    <item>
+      <title>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</title>
+      <link>https://seansie0830.github.io/posts/zj_d219/</link>
+      <pubDate>Fri, 12 Jul 2024 21:00:01 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_d219/</guid>
+      <description>d219. 00374 - Big Mod 題目連結&#xA;基本版本 #include&amp;lt;bits/stdc++.h&amp;gt; using namespace std; int mod(int b,int p,int m){ int r=1,nr=b%m; while(p&amp;gt;0){ if(p&amp;amp;1) r=(r*nr)%m; nr=(nr*nr)%m, p=p&amp;gt;&amp;gt;1; } return (b&amp;gt;=0&amp;amp;&amp;amp;m&amp;gt;0)?r:-1; } int main(){ int b,p,m; while(cin&amp;gt;&amp;gt;b&amp;gt;&amp;gt;p&amp;gt;&amp;gt;m) cout&amp;lt;&amp;lt;mod(b,p,m)&amp;lt;&amp;lt;endl; } 程式碼說明 函數 mod&#xA;這個函數的功能是計算 b^p mod m 的值，也就是 b 的 p 次方對 m 取餘。&#xA;函數參數&#xA;b：要計算 p 次方的底數 p：要計算的 b 的次方 m：取餘的模數 函數返回值&#xA;如果 b 和 m 都是正整數，則返回 b^p mod m 的值 否則返回 -1 函數運作原理&#xA;這個函數使用二進位快速冪算法來計算 b^p mod m。二進位快速冪算法的基本思想是，將 p 分解為二進位表示，然後根據二進位表示來計算 b^p。</description>
+    </item>
+    <item>
+      <title>zerojudge a020. 身分證檢驗 詳解</title>
+      <link>https://seansie0830.github.io/posts/zj_a020/</link>
+      <pubDate>Fri, 12 Jul 2024 20:44:20 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a020/</guid>
+      <description>題目連結 a020. 身分證檢驗&#xA;//&#x9;AC (2ms, 116KB) #include &amp;lt;stdio.h&amp;gt; int main() { char city, num[10]; /*!身分證字號的數字雖然是整數型態， 但因為輸入的時候各數字間沒有空格，整個數列會被視為一個整數， 因此需用字元陣列偵測並儲存輸入*/ /*因為整數型態所佔的記憶體空間比字元大，可確保資料型態的轉換過程中不會有資料遺失， 因此字元型態的變數在遇到需要用整數型態判別或運算的時候，會自動轉為整數。 嚴謹的寫法是 : (轉換後的的資料型態)變數名稱... e.g. (int)city... */ scanf(&amp;#34;%c%s&amp;#34;, &amp;amp;city, num); if(city&amp;gt;=65 &amp;amp;&amp;amp; city&amp;lt;=72) city-=55; else if(city==&amp;#39;I&amp;#39;) city-=39; else if(city&amp;gt;=74 &amp;amp;&amp;amp; city&amp;lt;=78) city-=56; else if(city==&amp;#39;O&amp;#39;) city-=44; else if(city&amp;gt;=80 &amp;amp;&amp;amp; city&amp;lt;=86) city-=57; else if(city==&amp;#39;W&amp;#39;) city-=55; else if(city==&amp;#39;X&amp;#39; || city==&amp;#39;Y&amp;#39;) city-=58; else if(city==&amp;#39;Z&amp;#39;) city-=57; int sum=num[8]-48; for(int i=0;i&amp;lt;8;i++) /*!身分證字號數字共9碼，除去最後一碼共8碼，i值最大為7*/ sum+=(num[i]-48)*(8-i); sum+=city/10+(city%10)*9; if(sum%10==0) printf(&amp;#34;real&amp;#34;); else printf(&amp;#34;fake&amp;#34;); return 0; } 程式碼分析</description>
+    </item>
+    <item>
+      <title>Zerojudge a009. 解碼器 C&#43;&#43;題解</title>
+      <link>https://seansie0830.github.io/posts/zj_a009/</link>
+      <pubDate>Fri, 12 Jul 2024 20:43:31 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a009/</guid>
+      <description>Zerojudge a009. 解碼器 題目連結&#xA;程式碼：&#xA;C++&#xA;#include&amp;lt;iostream&amp;gt; #include&amp;lt;string&amp;gt; using namespace std; int main (){ string in; // 宣告一個字串變數 in int i; // 宣告一個整數變數 i // 讀取輸入字串 getline(cin,in); // 將每個字元減去 7 for(i=0;i&amp;lt;in.size();i++){ in[i]=in[i]-7; } // 輸出解密後的字串 cout&amp;lt;&amp;lt;in; return 0; } 程式碼說明：&#xA;首先，程式碼包含了 iostream 和 string 兩個標準函式庫，分別用於輸入輸出和字串操作。 程式碼接著宣告了兩個變數：in 和 i。in 用於儲存輸入的密文字串，i 用於迴圈控制。 使用 getline 函式讀取輸入字串並儲存在 in 變數中。 使用 for 迴圈遍歷 in 字串中的每個字元。 在迴圈內，將每個字元的 ASCII 碼值減去 7。由於 ASCII 碼表中可列印字元的範圍是 32 到 127，因此減去 7 後的結果仍然在可列印字元的範圍內。 最後，使用 cout 函式輸出解密後的字串。 密鑰推導：</description>
+    </item>
+    <item>
+      <title>Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）</title>
+      <link>https://seansie0830.github.io/posts/zj_a001/</link>
+      <pubDate>Fri, 12 Jul 2024 20:42:47 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a001/</guid>
+      <description>Zerojudge a001. 哈囉題目連結&#xA;Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &amp;#34;hello, &amp;#34; + name # Print the output string print(output_string) 讀取使用者輸入&#xA;name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。&#xA;建構輸出字串&#xA;output_string = &amp;#34;hello, &amp;#34; + name 這行程式碼使用 + 運算子來將 &amp;ldquo;hello, &amp;quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。&#xA;輸出字串&#xA;print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。</description>
+    </item>
+    <item>
+      <title>Zerojudge a024. 最大公因數(GCD) C&#43;&#43;多種解法（內建函數 遞迴 迴圈）題解 </title>
+      <link>https://seansie0830.github.io/posts/zj_a024/</link>
+      <pubDate>Fri, 12 Jul 2024 20:36:28 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/zj_a024/</guid>
+      <description>本題題目連結 Zerojudge a024. 最大公因數&#xA;法一 內建函數，最方便 #include &amp;lt;iostream&amp;gt; #include &amp;lt;algorithm&amp;gt; using namespace std; int main() { int a, b; cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; int gcd = __gcd(a, b); cout &amp;lt;&amp;lt; gcd &amp;lt;&amp;lt; endl; return 0; } 此程式碼首先包含了必要的頭文件 &amp;lt;iostream&amp;gt; 和 &amp;lt;algorithm&amp;gt;。&amp;lt;iostream&amp;gt; 頭文件用於輸入輸出，&amp;lt;algorithm&amp;gt; 頭文件提供了 __gcd() 函數來計算兩個整數的最大公因數。&#xA;在 main() 函數中，首先使用 cin 語句從標準輸入讀取兩個整數 a 和 b。然後，使用 __gcd() 函數計算 a 和 b 的最大公因數，並將結果存儲在變量 gcd 中。最後，使用 cout 語句將 gcd 的值輸出到標準輸出。&#xA;以下是一些注意事項：&#xA;程式碼假設輸入的兩個整數是有效的，即它們都大於 0 且小於 2^31。如果輸入的整數不符合此條件，程式碼可能會產生錯誤結果。 程式碼使用 __gcd() 函數來計算最大公因數。__gcd() 函數是 C++ 標準函式庫中提供的函數，它使用歐幾里得算法來計算兩個整數的最大公因數。 法二 遞迴函數，可讀性高 int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } } int main() { int a, b; cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; int gcd = gcd(a, b); cout &amp;lt;&amp;lt; gcd &amp;lt;&amp;lt; endl; return 0; } 此程式碼使用遞迴函數 gcd() 來計算最大公因數。函數 gcd() 的第一個參數是較大的整數，第二個參數是較小的整數。函數的基線情況是當第二個參數為 0 時，此時返回第一個參數。否則，函數將遞迴調用自身，使用第二個參數作為第一個參數，並使用第一個參數模第二個參數的結果作為第二個參數。</description>
+    </item>
+  </channel>
+</rss>

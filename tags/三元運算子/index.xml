@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>三元運算子 on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/%E4%B8%89%E5%85%83%E9%81%8B%E7%AE%97%E5%AD%90/</link>
+    <description>Recent content in 三元運算子 on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Fri, 12 Jul 2024 21:35:57 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/%E4%B8%89%E5%85%83%E9%81%8B%E7%AE%97%E5%AD%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43; 教學 三元運算子</title>
+      <link>https://seansie0830.github.io/posts/cpp-3opeator/</link>
+      <pubDate>Fri, 12 Jul 2024 21:35:57 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/cpp-3opeator/</guid>
+      <description>介紹 C++的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：&#xA;condition ? value1 : value2; 其中：&#xA;condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：&#xA;首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：&#xA;int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。</description>
+    </item>
+  </channel>
+</rss>

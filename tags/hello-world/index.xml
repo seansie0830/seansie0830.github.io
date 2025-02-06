@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hello World on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/hello-world/</link>
+    <description>Recent content in Hello World on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Tue, 14 Jan 2025 18:45:00 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/hello-world/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/</link>
+      <pubDate>Tue, 14 Jan 2025 18:45:00 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/</guid>
+      <description>好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。&#xA;本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念&#xA;。&#xA;而vuejs可以簡單地透過 script 標籤匯入，並且直接在 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。&#xA;這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。&#xA;匯入 在你的 html檔案的之下，加上這個標籤就完成了。&#xA;&amp;lt;script src=&amp;#34;https://unpkg.com/vue@3/dist/vue.global.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 建立第一個網頁應用程式 先在文字編輯器&#xA;加入一個 script標籤 ，在裡面新增以下內容&#xA;&amp;lt;script&amp;gt; Vue.createApp({ data(){ return{ msg : &amp;#34;hello world&amp;#34; } } ); &amp;lt;/script&amp;gt; 簡介一下&#xA;Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹&#xA;&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&amp;gt; &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vue@3/dist/vue.global.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; =&amp;gt; vuejs要掛載在這裡 &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : +Tab ，就能產生了。</description>
+    </item>
+  </channel>
+</rss>

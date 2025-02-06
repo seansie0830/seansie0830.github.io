@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>事件處理 on seansie&#39;s blog</title>
+    <link>https://seansie0830.github.io/tags/%E4%BA%8B%E4%BB%B6%E8%99%95%E7%90%86/</link>
+    <description>Recent content in 事件處理 on seansie&#39;s blog</description>
+    <generator>Hugo</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 06 Feb 2025 15:52:43 +0800</lastBuildDate>
+    <atom:link href="https://seansie0830.github.io/tags/%E4%BA%8B%E4%BB%B6%E8%99%95%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>#4 事件處理 30天學會 vue系列文 | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/</link>
+      <pubDate>Thu, 06 Feb 2025 15:52:43 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/</guid>
+      <description>4 v-on事件處理&amp;amp;methods元件邏輯函數 在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。&#xA;v-on介紹 如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 vuejs 中提供的一種方便功能，術語叫做 V指令， v-on 是裡面的其中一種，甚至還可以自訂自己的V指令&#xA;而 v-on 就是裡面在處理事件的，常常會跟按紐一起用，例如&#xA;&amp;lt;button v-on:click=&amp;#34;myfuncttion()&amp;#34;&amp;gt;GO&amp;lt;/button&amp;gt; 語法介紹 &amp;lt;標籤 v-on:事件名稱=&amp;#34;執行的js陳述&amp;#34;&amp;gt;&amp;lt;/標籤&amp;gt; 對了，這種在標籤中有 foo=&amp;quot;bar&amp;quot; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。&#xA;這個可以簡單離解成該標籤的性質(形容詞)。&#xA;因此所有 V指令都是一種特殊的屬性，用來微調該標籤的行為。&#xA;而 v-on 因為太常用了，還有一種簡寫的方法如下&#xA;&amp;lt;標籤 @事件名稱=&amp;#34;要執行的js陳述&amp;#34;&amp;gt;&amp;lt;/標籤&amp;gt; 直接在事件名稱前面加上 @ 的屬性就會被自動轉換成 v-on:事件名稱&#xA;舉個最簡單的，我們可以在按鈕物件上監聽 按下 這個事件，而按下這個事件在vue中叫做 click&#xA;因此可以寫成&#xA;&amp;lt;button @click=&amp;#34;alert(&amp;#39;按鈕被按下了&amp;#39;)&amp;#34;&amp;gt;點我&amp;lt;/button&amp;gt; 對了雙引號中的 &amp;quot;要執行的js陳述&amp;quot; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。&#xA;然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 按鈕被按下了 。&#xA;咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下&#xA;vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &amp;lt;anonymous&amp;gt;:15:29) at callWithErrorHandling (vue.</description>
+    </item>
+  </channel>
+</rss>
