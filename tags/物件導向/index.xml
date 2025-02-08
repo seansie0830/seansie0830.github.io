@@ -6,8 +6,15 @@
     <description>Recent content in 物件導向 on seansie&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 06 Feb 2025 12:51:52 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 08 Feb 2025 12:13:03 +0800</lastBuildDate>
     <atom:link href="https://seansie0830.github.io/tags/%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog</title>
+      <link>https://seansie0830.github.io/posts/cpp-overloading-intro/</link>
+      <pubDate>Sat, 08 Feb 2025 12:13:03 +0800</pubDate>
+      <guid>https://seansie0830.github.io/posts/cpp-overloading-intro/</guid>
+      <description>簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。&#xA;而C++的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。&#xA;函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C++有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。&#xA;int addInt(int a, int b) { return a + b; } double addDouble(double a, double b) { return a + b; } float addFloat(float a, float b) { return a + b; } string addString(string a, string b) { return a + b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。&#xA;int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.</description>
+    </item>
     <item>
       <title> 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog</title>
       <link>https://seansie0830.github.io/posts/cpp-oop-4rule-intro/</link>
