@@ -55,20 +55,35 @@
   
   
   
-  <meta name="description" content="4 v-on事件處理&amp;methods元件邏輯函數 在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。
-v-on介紹 如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 vuejs 中提供的一種方便功能，術語叫做 V指令， v-on 是裡面的其中一種，甚至還可以自訂自己的V指令
+  <meta name="description" content="4 v-on事件處理&amp;methods元件邏輯函數
+在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。
+v-on介紹
+如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 vuejs 中提供的一種方便功能，術語叫做 V指令， v-on 是裡面的其中一種，甚至還可以自訂自己的V指令
 而 v-on 就是裡面在處理事件的，常常會跟按紐一起用，例如
-&lt;button v-on:click=&#34;myfuncttion()&#34;&gt;GO&lt;/button&gt; 語法介紹 &lt;標籤 v-on:事件名稱=&#34;執行的js陳述&#34;&gt;&lt;/標籤&gt; 對了，這種在標籤中有 foo=&quot;bar&quot; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。
+&lt;button v-on:click=&#34;myfuncttion()&#34;&gt;GO&lt;/button&gt;
+語法介紹
+&lt;標籤 v-on:事件名稱=&#34;執行的js陳述&#34;&gt;&lt;/標籤&gt;
+對了，這種在標籤中有 foo=&quot;bar&quot; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。
 這個可以簡單離解成該標籤的性質(形容詞)。
 因此所有 V指令都是一種特殊的屬性，用來微調該標籤的行為。
 而 v-on 因為太常用了，還有一種簡寫的方法如下
-&lt;標籤 @事件名稱=&#34;要執行的js陳述&#34;&gt;&lt;/標籤&gt; 直接在事件名稱前面加上 @ 的屬性就會被自動轉換成 v-on:事件名稱
+&lt;標籤 @事件名稱=&#34;要執行的js陳述&#34;&gt;&lt;/標籤&gt;
+直接在事件名稱前面加上 @ 的屬性就會被自動轉換成 v-on:事件名稱
 舉個最簡單的，我們可以在按鈕物件上監聽 按下 這個事件，而按下這個事件在vue中叫做 click
 因此可以寫成
-&lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt; 對了雙引號中的 &quot;要執行的js陳述&quot; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
+&lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt;
+對了雙引號中的 &quot;要執行的js陳述&quot; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
 然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 按鈕被按下了 。
+
 咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下
-vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue." />
+vue.global.js:2479 Uncaught TypeError: alert is not a function
+    at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29)
+    at callWithErrorHandling (vue.global.js:2410:21)
+    at callWithAsyncErrorHandling (vue.global.js:2417:19)
+    at HTMLButtonElement.invoker (vue.global.js:11207:7)
+翻譯如下， alert 不是函數，這時你可能會想說， alert() 就是正派的函數阿，是被定義在MDN docs (前端開發最權威的免費使用手冊手冊之一)(連結如下)，怎麼會不認得呢?
+https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+原因就出在 @click=&quot;myfunc()&quot; 執行的時候，它的作用域(可以理解成社交圈)，就是在vue的元件內，換句話說，他只認得 export default {} 大括號中裡面的物件，如果是他之外的他是認不出來的，因此就沒辦法執行(因為不認識)" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -117,32 +132,31 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="#4 事件處理 30天學會 vue系列文 | seansie blog">
   <meta itemprop="description" content="4 v-on事件處理&amp;methods元件邏輯函數 在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。
 v-on介紹 如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 vuejs 中提供的一種方便功能，術語叫做 V指令， v-on 是裡面的其中一種，甚至還可以自訂自己的V指令
 而 v-on 就是裡面在處理事件的，常常會跟按紐一起用，例如
-&lt;button v-on:click=&#34;myfuncttion()&#34;&gt;GO&lt;/button&gt; 語法介紹 &lt;標籤 v-on:事件名稱=&#34;執行的js陳述&#34;&gt;&lt;/標籤&gt; 對了，這種在標籤中有 foo=&quot;bar&quot; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。
+&lt;button v-on:click=&#34;myfuncttion()&#34;&gt;GO&lt;/button&gt; 語法介紹 &lt;標籤 v-on:事件名稱=&#34;執行的js陳述&#34;&gt;&lt;/標籤&gt; 對了，這種在標籤中有 foo=&#34;bar&#34; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。
 這個可以簡單離解成該標籤的性質(形容詞)。
 因此所有 V指令都是一種特殊的屬性，用來微調該標籤的行為。
 而 v-on 因為太常用了，還有一種簡寫的方法如下
 &lt;標籤 @事件名稱=&#34;要執行的js陳述&#34;&gt;&lt;/標籤&gt; 直接在事件名稱前面加上 @ 的屬性就會被自動轉換成 v-on:事件名稱
 舉個最簡單的，我們可以在按鈕物件上監聽 按下 這個事件，而按下這個事件在vue中叫做 click
 因此可以寫成
-&lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt; 對了雙引號中的 &quot;要執行的js陳述&quot; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
+&lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt; 對了雙引號中的 &#34;要執行的js陳述&#34; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
 然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 按鈕被按下了 。
 咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下
-vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue.">
+vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue.global.js:2410:21) at callWithAsyncErrorHandling (vue.global.js:2417:19) at HTMLButtonElement.invoker (vue.global.js:11207:7) 翻譯如下， alert 不是函數，這時你可能會想說， alert() 就是正派的函數阿，是被定義在MDN docs (前端開發最權威的免費使用手冊手冊之一)(連結如下)，怎麼會不認得呢?
+https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+原因就出在 @click=&#34;myfunc()&#34; 執行的時候，它的作用域(可以理解成社交圈)，就是在vue的元件內，換句話說，他只認得 export default {} 大括號中裡面的物件，如果是他之外的他是認不出來的，因此就沒辦法執行(因為不認識)">
   <meta itemprop="datePublished" content="2025-02-06T15:52:43+08:00">
   <meta itemprop="dateModified" content="2025-02-06T15:52:43+08:00">
   <meta itemprop="wordCount" content="447">
@@ -164,8 +178,10 @@ v-on介紹 如果你是照順序看的，恐怕是第一次看到 v開頭的語�
 &lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt; 對了雙引號中的 &#34;要執行的js陳述&#34; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
 然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 按鈕被按下了 。
 咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下
-vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue.">
-  <meta property="og:locale" content="zh-tw">
+vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue.global.js:2410:21) at callWithAsyncErrorHandling (vue.global.js:2417:19) at HTMLButtonElement.invoker (vue.global.js:11207:7) 翻譯如下， alert 不是函數，這時你可能會想說， alert() 就是正派的函數阿，是被定義在MDN docs (前端開發最權威的免費使用手冊手冊之一)(連結如下)，怎麼會不認得呢?
+https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+原因就出在 @click=&#34;myfunc()&#34; 執行的時候，它的作用域(可以理解成社交圈)，就是在vue的元件內，換句話說，他只認得 export default {} 大括號中裡面的物件，如果是他之外的他是認不出來的，因此就沒辦法執行(因為不認識)">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-02-06T15:52:43+08:00">
@@ -175,21 +191,25 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
     <meta property="article:tag" content="30天">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="#4 事件處理 30天學會 vue系列文 | seansie blog">
-<meta name="twitter:description" content="4 v-on事件處理&amp;methods元件邏輯函數 在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="#4 事件處理 30天學會 vue系列文 | seansie blog">
+  <meta name="twitter:description" content="4 v-on事件處理&amp;methods元件邏輯函數 在第零章我提到，網頁是一種事件驅動的應用程式，因此， vuejs 對事件處理這方面下了不少功夫，也提供了許多開箱即用的好用功能。
 v-on介紹 如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 vuejs 中提供的一種方便功能，術語叫做 V指令， v-on 是裡面的其中一種，甚至還可以自訂自己的V指令
 而 v-on 就是裡面在處理事件的，常常會跟按紐一起用，例如
-&lt;button v-on:click=&#34;myfuncttion()&#34;&gt;GO&lt;/button&gt; 語法介紹 &lt;標籤 v-on:事件名稱=&#34;執行的js陳述&#34;&gt;&lt;/標籤&gt; 對了，這種在標籤中有 foo=&quot;bar&quot; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。
+&lt;button v-on:click=&#34;myfuncttion()&#34;&gt;GO&lt;/button&gt; 語法介紹 &lt;標籤 v-on:事件名稱=&#34;執行的js陳述&#34;&gt;&lt;/標籤&gt; 對了，這種在標籤中有 foo=&#34;bar&#34; 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。
 這個可以簡單離解成該標籤的性質(形容詞)。
 因此所有 V指令都是一種特殊的屬性，用來微調該標籤的行為。
 而 v-on 因為太常用了，還有一種簡寫的方法如下
 &lt;標籤 @事件名稱=&#34;要執行的js陳述&#34;&gt;&lt;/標籤&gt; 直接在事件名稱前面加上 @ 的屬性就會被自動轉換成 v-on:事件名稱
 舉個最簡單的，我們可以在按鈕物件上監聽 按下 這個事件，而按下這個事件在vue中叫做 click
 因此可以寫成
-&lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt; 對了雙引號中的 &quot;要執行的js陳述&quot; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
+&lt;button @click=&#34;alert(&#39;按鈕被按下了&#39;)&#34;&gt;點我&lt;/button&gt; 對了雙引號中的 &#34;要執行的js陳述&#34; ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。
 然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 按鈕被按下了 。
 咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下
-vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue.">
+vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval at compileToFunction (vue.global.js:17918:20), &lt;anonymous&gt;:15:29) at callWithErrorHandling (vue.global.js:2410:21) at callWithAsyncErrorHandling (vue.global.js:2417:19) at HTMLButtonElement.invoker (vue.global.js:11207:7) 翻譯如下， alert 不是函數，這時你可能會想說， alert() 就是正派的函數阿，是被定義在MDN docs (前端開發最權威的免費使用手冊手冊之一)(連結如下)，怎麼會不認得呢?
+https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+原因就出在 @click=&#34;myfunc()&#34; 執行的時候，它的作用域(可以理解成社交圈)，就是在vue的元件內，換句話說，他只認得 export default {} 大括號中裡面的物件，如果是他之外的他是認不出來的，因此就沒辦法執行(因為不認識)">
 
   
   
@@ -309,6 +329,9 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
@@ -318,23 +341,23 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
 <h2 id="v-on介紹">v-on介紹</h2>
 <p>如果你是照順序看的，恐怕是第一次看到 v開頭的語法吧，這是 <code>vuejs</code> 中提供的一種方便功能，術語叫做 V指令， <code>v-on</code> 是裡面的其中一種，甚至還可以自訂自己的V指令</p>
 <p>而 <code>v-on</code> 就是裡面在處理事件的，常常會跟按紐一起用，例如</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">v</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">on</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myfuncttion()&#34;</span>&gt;<span style="color:#a6e22e">GO</span>&lt;/<span style="color:#f92672">button</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">v</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">on</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myfuncttion()&#34;</span>&gt;<span style="color:#a6e22e">GO</span>&lt;/<span style="color:#f92672">button</span>&gt;
 </span></span></code></pre></div><h3 id="語法介紹">語法介紹</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">標籤</span> <span style="color:#a6e22e">v</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">on</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">事件名稱</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;執行的js陳述&#34;</span>&gt;&lt;/<span style="color:#f92672">標籤</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">標籤</span> <span style="color:#a6e22e">v</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">on</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">事件名稱</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;執行的js陳述&#34;</span>&gt;&lt;/<span style="color:#f92672">標籤</span>&gt;
 </span></span></code></pre></div><p>對了，這種在標籤中有 <code>foo=&quot;bar&quot;</code> 這種格式的東西，叫做屬性 (property)，爾後會用術語來描述。</p>
 <p>這個可以簡單離解成該標籤的性質(形容詞)。</p>
 <p>因此所有 V指令都是一種特殊的屬性，用來微調該標籤的行為。</p>
 <p>而 <code>v-on</code> 因為太常用了，還有一種簡寫的方法如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">標籤</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">事件名稱</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;要執行的js陳述&#34;</span>&gt;&lt;/<span style="color:#f92672">標籤</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">標籤</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">事件名稱</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;要執行的js陳述&#34;</span>&gt;&lt;/<span style="color:#f92672">標籤</span>&gt;
 </span></span></code></pre></div><p>直接在事件名稱前面加上 <code>@</code> 的屬性就會被自動轉換成 <code>v-on:事件名稱</code></p>
 <p>舉個最簡單的，我們可以在按鈕物件上監聽 <strong>按下</strong> 這個事件，而按下這個事件在vue中叫做 <code>click</code></p>
 <p>因此可以寫成</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alert(&#39;按鈕被按下了&#39;)&#34;</span>&gt;<span style="color:#a6e22e">點我</span>&lt;/<span style="color:#f92672">button</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alert(&#39;按鈕被按下了&#39;)&#34;</span>&gt;<span style="color:#a6e22e">點我</span>&lt;/<span style="color:#f92672">button</span>&gt;
 </span></span></code></pre></div><p>對了雙引號中的 <strong><code>&quot;要執行的js陳述&quot;</code></strong> ，如果js陳述式中有雙引號，請把它改成單引號，以免跟html屬性外面的雙引號相衝，在js中單引號跟雙引號幾乎相同。</p>
 <p>然後執行後，如果按下該按紐，就會彈出一個對話方塊，上面寫著 <strong>按鈕被按下了</strong> 。</p>
 <hr>
 <p>咦! 怎麼沒有? 還出現了一堆錯誤! 節錄如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">vue</span>.<span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">js</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2479</span> <span style="color:#a6e22e">Uncaught</span> <span style="color:#a6e22e">TypeError</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">alert</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#a6e22e">a</span> <span style="color:#66d9ef">function</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">vue</span>.<span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">js</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2479</span> <span style="color:#a6e22e">Uncaught</span> <span style="color:#a6e22e">TypeError</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">alert</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#a6e22e">a</span> <span style="color:#66d9ef">function</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">at</span> <span style="color:#a6e22e">onClick</span> (eval <span style="color:#a6e22e">at</span> <span style="color:#a6e22e">compileToFunction</span> (<span style="color:#a6e22e">vue</span>.<span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">js</span><span style="color:#f92672">:</span><span style="color:#ae81ff">17918</span><span style="color:#f92672">:</span><span style="color:#ae81ff">20</span>), &lt;<span style="color:#f92672">anonymous</span>&gt;<span style="color:#f92672">:</span><span style="color:#ae81ff">15</span><span style="color:#f92672">:</span><span style="color:#ae81ff">29</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">at</span> <span style="color:#a6e22e">callWithErrorHandling</span> (<span style="color:#a6e22e">vue</span>.<span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">js</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2410</span><span style="color:#f92672">:</span><span style="color:#ae81ff">21</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">at</span> <span style="color:#a6e22e">callWithAsyncErrorHandling</span> (<span style="color:#a6e22e">vue</span>.<span style="color:#a6e22e">global</span>.<span style="color:#a6e22e">js</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2417</span><span style="color:#f92672">:</span><span style="color:#ae81ff">19</span>)
@@ -344,7 +367,7 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
 <p>原因就出在 <code>@click=&quot;myfunc()&quot;</code> 執行的時候，它的作用域(可以理解成社交圈)，就是在vue的元件內，換句話說，他只認得 <code>export default {}</code> 大括號中裡面的物件，如果是他之外的他是認不出來的，因此就沒辦法執行(因為不認識)</p>
 <p>那怎麼辦呢? 可以透過<code>methods{}</code> !，也就是下一節的內容</p>
 <p>對了，題外話，剛剛提到只能操作元件內的物件，那如果你會舉一反三，肯定會想到能不能操作 <code>data()</code> ，當然可以，以下就來示範</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;msg+=&#39;@&#39;&#34;</span>&gt;<span style="color:#a6e22e">按鈕</span>&lt;/<span style="color:#f92672">button</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;msg+=&#39;@&#39;&#34;</span>&gt;<span style="color:#a6e22e">按鈕</span>&lt;/<span style="color:#f92672">button</span>&gt;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>(){
@@ -363,28 +386,28 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
 <p>以此類推</p>
 <h2 id="methods">methods:</h2>
 <p>在元件中，不僅可以定義靜態的物件在 <code>data()</code> 的回傳值 <code>return</code> 中，有點像名詞，也可以定義動態的函數在 <code>methods</code> 物件中，有點像動詞，定義如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">屬性名稱1</span> <span style="color:#f92672">:</span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">函數名稱</span>{
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">函數本體</span>
 </span></span><span style="display:flex;"><span>	}  
 </span></span></code></pre></div><p>例如可以依樣畫葫蘆，透過 <code>methods</code> 修正剛剛發生的 <code>alert()</code> 錯誤</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// &lt;template&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		&lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alertProp()&#34;</span>&gt;<span style="color:#a6e22e">按鈕</span>&lt;/<span style="color:#f92672">button</span>&gt;  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// &lt;template&gt;
+</span></span></span><span style="display:flex;"><span>		&lt;<span style="color:#f92672">button</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alertProp()&#34;</span>&gt;<span style="color:#a6e22e">按鈕</span>&lt;/<span style="color:#f92672">button</span>&gt;  
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 元件本體
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">data</span>(){
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">data</span>(){
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>{
 </span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
 </span></span><span style="display:flex;"><span>			}
 </span></span><span style="display:flex;"><span>		},
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">alertProp</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">alertName</span>(){  <span style="color:#75715e">// prop表示屬性簡寫，命名而已，不一定要跟我一樣
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#a6e22e">alert</span>()
+</span></span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">alert</span>()
 </span></span><span style="display:flex;"><span>			}
 </span></span><span style="display:flex;"><span>		}
 </span></span></code></pre></div><p>這樣就可以順利執行了!</p>
 <p>而因為當我們使用函數的時候，會透過屬姓名稱(例如 <code>alertProp</code>來呼叫)，基本上不會用到函數名稱，所以基本上可以把他們兩個寫成同名，而 <code>vuejs</code> 提供了一種方法來簡化，剛剛的函數可以進一步簡化為</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// 在元件本體中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// 在元件本體中
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span>{
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">alertName</span>(){
 </span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">alert</span>()
 </span></span><span style="display:flex;"><span>			}
@@ -395,7 +418,7 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
 <li><code>dblclick</code>：快速點擊兩下，常用於按鈕。</li>
 </ul>
 <blockquote>
-<p>如果是用在段落 (例如：<!-- raw HTML omitted -->) 可能不明顯，因為點擊兩次會選取文字，會對使用者造成干擾。
+<p>如果是用在段落 (例如：<code>&lt;p&gt;</code>) 可能不明顯，因為點擊兩次會選取文字，會對使用者造成干擾。
 此外，若混用 dblclick 跟 click 事件，要注意同步狀態，可能會發生不可預期的錯誤，因為 click 可能會被觸發兩次。</p>
 </blockquote>
 <ul>
@@ -454,7 +477,7 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
 <li><code>&lt;pre&gt;</code> 標籤的 CSS 樣式 <code>white-space: pre-line;</code> 可以保留換行。</li>
 </ul>
 <h2 id="解答">解答</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">template</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">template</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;</span>div id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app&#34;</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span>pre<span style="color:#f92672">&gt;</span>{{ logContent }}<span style="color:#f92672">&lt;/</span>pre<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;</span>div <span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">input</span><span style="color:#f92672">-</span>area<span style="color:#e6db74">&#34;&gt;</span>
@@ -574,7 +597,7 @@ vue.global.js:2479 Uncaught TypeError: alert is not a function at onClick (eval 
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

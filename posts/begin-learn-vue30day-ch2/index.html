@@ -59,12 +59,20 @@
 你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
 正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
 那說了這麼多，事不宜遲來開始介紹使用方法。
-終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
+終端機介紹
+應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
 而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
-甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
+甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形  (例如 consolas  )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
 其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
-如何安裝 nodejs 在終端機根據不同的作業系統輸入。
-windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
+
+如何安裝 nodejs
+在終端機根據不同的作業系統輸入。
+
+windows   winget install -e --id OpenJS.NodeJS
+mac  brew install node
+linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。
+
+winget  brew   apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
 安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。" />
   <meta name="author" content="Sean Sie" />
   
@@ -114,15 +122,12 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
@@ -156,7 +161,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 如何安裝 nodejs 在終端機根據不同的作業系統輸入。
 windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
 安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
-  <meta property="og:locale" content="zh-tw">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-01-14T18:50:45+08:00">
@@ -166,8 +171,10 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
     <meta property="article:tag" content="元件系統">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
-<meta name="twitter:description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
+  <meta name="twitter:description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
 你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
 正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
 那說了這麼多，事不宜遲來開始介紹使用方法。
@@ -297,6 +304,9 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
@@ -321,18 +331,18 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 <p><code>winget</code>  <code>brew</code>   <code>apt</code> 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。</p>
 <p>安裝後透過在終端機輸入 <code>node -v</code> 來驗證是否有安裝成功。</p>
 <p>正常安裝會出現</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">PS</span> <span style="color:#a6e22e">C</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Users</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">seans</span><span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">v</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">PS</span> <span style="color:#a6e22e">C</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Users</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">seans</span><span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">node</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">v</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">v21</span><span style="color:#ae81ff">.6.1</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">PS</span> <span style="color:#a6e22e">C</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Users</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">seans</span><span style="color:#f92672">&gt;</span>
 </span></span></code></pre></div><p>然後本人非常非常非常強烈推薦再安裝一個 <code>pnpm</code> 有點像是增強版的 <code>npm</code></p>
 <p>他的速度遠比 <code>npm</code> 快很多，因為它會重複使用已經下載過的資源，不過他依賴於 <code>npm</code> 所以要透過 <code>npm</code> 安裝。</p>
 <p>透過以下命令安裝</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">npm</span> <span style="color:#a6e22e">install</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">g</span> <span style="color:#a6e22e">pnpm</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">npm</span> <span style="color:#a6e22e">install</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">g</span> <span style="color:#a6e22e">pnpm</span>
 </span></span></code></pre></div><p>安裝完畢後，輸入 <code>pnpm -v</code> 驗證安裝，如果有輸出版本編號就代表安裝成功，畫面跟 <code>node -v</code> 一模一樣。</p>
 <p>好，現在使用 <code>pnpm</code> 來使用vue CLI，對了，如果你的電腦語言是中文， <code>vuejs</code> 還很貼心的提供在地化，也就是會自動轉成中文版。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">pnpm</span> <span style="color:#a6e22e">create</span> <span style="color:#a6e22e">vue</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">latest</span> 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">pnpm</span> <span style="color:#a6e22e">create</span> <span style="color:#a6e22e">vue</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">latest</span> 
 </span></span></code></pre></div><p>然後這個CLI相當人性化，有互動式的介面來跟使用者提問，問題如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Vue.js - The Progressive JavaScript Framework
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Vue.js - The Progressive JavaScript Framework
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>√ 請輸入專案名稱： ... vue-project
 </span></span><span style="display:flex;"><span>√ 是否使用 TypeScript？ ... 否 / 是
@@ -344,7 +354,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 </span></span><span style="display:flex;"><span>√ 是否引入 ESLint 用於程式碼品質檢測？ » 否
 </span></span></code></pre></div><p>其他其實選了也無彷啦，只是對於初學者 <strong>強烈建議</strong>  把 <code>typescript</code> 關掉，因為 <code>typescript</code> 強制要標註每個物件的資料型態(例如整數 字串等等)，雖然可以減少錯誤，但是這個對初學者相當不友善。</p>
 <p>這邊也可以看出vuejs漸進式的特質啦，從最基本的功能開始，然後漸漸地加上越來越進階的功能，這樣在保持核心簡潔的同時，功能也不失強大。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>正在建置專案 C:\Users\seans\codewhitelist\temp\vue-project...
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>正在建置專案 C:\Users\seans\codewhitelist\temp\vue-project...
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>專案建置完成，可執行以下命令：
 </span></span><span style="display:flex;"><span>
@@ -355,7 +365,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 </span></span><span style="display:flex;"><span>PS C:\Users\seans\codewhitelist\temp&gt;
 </span></span></code></pre></div><p>接下來他華語化的提示已經很清楚了吧，照著他的步驟執行就好了。</p>
 <p>如果沒有執行的話，貿然執行 <code>pnpm dev</code> 啟動開發伺服器，會出現以下錯誤訊息</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&gt; vue-project@0.0.0 dev C:\Users\seans\codewhitelist\temp\vue-project
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&gt; vue-project@0.0.0 dev C:\Users\seans\codewhitelist\temp\vue-project
 </span></span><span style="display:flex;"><span>&gt; vite
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>&#39;vite&#39; is not recognized as an internal or external command,
@@ -365,7 +375,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 </span></span></code></pre></div><p>如果看到這個，記得補執行 <code>pnpm install</code></p>
 <h2 id="專案資料夾介紹">專案資料夾介紹</h2>
 <p>產生完成後，資料夾結構大致如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>├─.vscode
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>├─.vscode
 </span></span><span style="display:flex;"><span>├─node_modules
 </span></span><span style="display:flex;"><span>├─public
 </span></span><span style="display:flex;"><span>└─src
@@ -388,7 +398,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 <li><code>pnpm dev</code> 啟動開發伺服器。</li>
 </ul>
 <p>輸入此命令後，會在終端機顯示本機網址(localhost:????)  ????是 埠號，以我為例，會出現</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&gt; vue-project@0.0.0 dev C:\Users\seans\codewhitelist\temp\vue-project
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&gt; vue-project@0.0.0 dev C:\Users\seans\codewhitelist\temp\vue-project
 </span></span><span style="display:flex;"><span>&gt; vite
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  VITE v6.0.7  ready in 2568 ms
@@ -406,7 +416,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 <p><a href="https://zh.wikipedia.org/zh-tw/Localhost">https://zh.wikipedia.org/zh-tw/Localhost</a></p>
 <h2 id="vue元件格式介紹">.vue元件格式介紹</h2>
 <p>在第一章，我們是用 <code>Vue.createApp({})</code> 的方式來建立 <code>vuejs</code> 應用程式，但是你仔細看看</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
 </span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>&gt;
@@ -433,8 +443,8 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 <p>而如果用 <code>.vue</code> 元件檔案可把它轉換成主元件。</p>
 <p>元件就有點像是便當盒，把主菜，配菜、飯，全部裝到一個盒子裡，可以很方便的打包帶走，並且元件還可以使用其他元件，有點像便當盒中的便當盒。</p>
 <p>而最大的元件叫做值主元件，會存放在 <code>/src</code> 目錄之下，名稱通常叫做 <code>App.vue</code> ，透過 <code>main.js</code> 裡面的程式碼掛載(掛載定義第1章提過)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// main.js
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;./assets/main.css&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#75715e">// main.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;./assets/main.css&#39;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">createApp</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">App</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./App.vue&#39;</span>
@@ -449,7 +459,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 </ul>
 <p>然後開始轉換剛剛的版本成 <code>.vue</code> 檔案，先想想看， <code>&lt;template&gt;</code> 標籤裡面到底要放甚麼?</p>
 <p>仔細想想，這個元件不是要掛載的? 掛載是掛在 <code>div</code> 標籤上，那自然而然的 <code>template</code> 標籤就是放 <code>div</code> 標籤中的元素了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>app.vue
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>app.vue
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
 </span></span><span style="display:flex;"><span>	&lt;<span style="color:#f92672">h1</span>&gt;hello {{ msg}} &lt;/<span style="color:#f92672">h1</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
@@ -457,7 +467,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
 </span></span></code></pre></div><p>然後 <code>&lt;script&gt;</code> 的部分，只要保留裡面的元件邏輯物件就好，複習一下。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({<span style="color:#a6e22e">從這裡</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#a6e22e">Vue</span>.<span style="color:#a6e22e">createApp</span>({<span style="color:#a6e22e">從這裡</span>
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>(){
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>{
 </span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">msg</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Vuejs&#34;</span>
@@ -465,7 +475,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 </span></span><span style="display:flex;"><span>		},
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">到這裡是元件邏輯物件</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">負責定義該元件怎麼動</span><span style="color:#960050;background-color:#1e0010">，</span><span style="color:#a6e22e">是元件大腦</span>}).<span style="color:#a6e22e">mount</span>(<span style="color:#e6db74">&#34;.app&#34;</span>)
 </span></span></code></pre></div><p>然後因為是外部檔案，按照 <code>js</code> 的家規，需要加上 <code>export default</code> 以利匯出，才能在 <code>main.js</code> 中順利以物件形式匯入</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>(){
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>{
@@ -486,7 +496,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 <h3 id="最小化">最小化</h3>
 <p>而如果想要匯出靜態網頁，那需要輸入 <code>pnpm build</code> 命令，它就會把編譯完的成果輸出在 <code>/dist</code> 資料夾中，它的特點是有經過最小化 <code>minification</code> 跟 搖樹 (tree shaking)</p>
 <p>甚麼是最小化呢?舉個極端點的例子</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">aFuncHaveAverylooooooooooooooooooooooooooooooooooooooooooooooooooongname</span>(){
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">aFuncHaveAverylooooooooooooooooooooooooooooooooooooooooooooooooooongname</span>(){
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;hello js&#34;</span>)
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">aFuncHaveAverylooooooooooooooooooooooooooooooooooooooooooooooooooongname</span>()
@@ -570,7 +580,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

@@ -55,19 +55,47 @@
   
   
   
-  <meta name="description" content="2024.7.21更新 第二版
+  <meta name="description" content="
+2024.7.21更新 第二版
+
 學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
 首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
-線上編譯器資源 https://www.python.org/shell/
-安裝到電腦 以下我推薦使用各式平臺內建的套件管理工具安裝
-windows 使用套件管理工具winget，在終端機輸入 winget install -e --id Python.Python.3.11 即可。
-Mac 使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
-Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
-如何使用終端機 windows 按下 win 鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter 執行。
-Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
-Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
-sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
-IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3." />
+線上編譯器資源
+https://www.python.org/shell/
+
+安裝到電腦
+以下我推薦使用各式平臺內建的套件管理工具安裝
+windows
+
+
+使用套件管理工具winget，在終端機輸入 winget install -e --id Python.Python.3.11 即可。
+Mac
+使用套件管理工具homebrew，在終端機輸入 brew install python 即可。
+Linux(debian-based)
+使用套件管理工具apt，在終端機輸入 sudo apt install python3 即可。
+如何使用終端機
+windows
+
+按下 win  鍵&#43; R ，挑出執行的視窗，在裏面輸入 powershell  ,接著就會挑出一個黑底白字的視窗，也就是終端機，在終端機輸入的意思就是在裏面輸入指令，並且按下 enter  執行。
+Mac
+在 spotlight中搜尋 terminal.app  即可
+
+source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
+Linux
+因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
+sudo apt update #更新apt套件管理器
+sudo apt install python3 #安裝python3
+基本概念
+套件介紹
+安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
+
+
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。
+Python 3.10 ，是python的執行環境，可以輸入指令的。與在開頭示範的線上編譯器功能大同小異，只是一個在線上，一個在本機。
+其他兩個是說明書。
+
+Hello World 第一個程式示範
+以下用 python 內建的IDE（整合式開發環境）示範。" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -116,15 +144,12 @@ IDLE是python的整合式開發環境，其實某種程度上也可以取代 pyt
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="Python完全零基礎入門概念教學 | seansie blog">
@@ -140,7 +165,7 @@ Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt in
 Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
 Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
 sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
-IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.">
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.10 ，是python的執行環境，可以輸入指令的。與在開頭示範的線上編譯器功能大同小異，只是一個在線上，一個在本機。 其他兩個是說明書。 Hello World 第一個程式示範 以下用 python 內建的IDE（整合式開發環境）示範。">
   <meta itemprop="datePublished" content="2024-07-16T15:31:23+08:00">
   <meta itemprop="dateModified" content="2024-07-16T15:31:23+08:00">
   <meta itemprop="wordCount" content="95">
@@ -161,8 +186,8 @@ Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt in
 Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
 Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
 sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
-IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.">
-  <meta property="og:locale" content="zh-tw">
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.10 ，是python的執行環境，可以輸入指令的。與在開頭示範的線上編譯器功能大同小異，只是一個在線上，一個在本機。 其他兩個是說明書。 Hello World 第一個程式示範 以下用 python 內建的IDE（整合式開發環境）示範。">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-07-16T15:31:23+08:00">
@@ -171,8 +196,10 @@ IDLE是python的整合式開發環境，其實某種程度上也可以取代 pyt
     <meta property="article:tag" content="入門">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Python完全零基礎入門概念教學 | seansie blog">
-<meta name="twitter:description" content="2024.7.21更新 第二版
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python完全零基礎入門概念教學 | seansie blog">
+  <meta name="twitter:description" content="2024.7.21更新 第二版
 學習Python程式設計是一個很好的開始，因為Python的語法簡單且易於理解。這門程式語言被廣泛應用於許多不同的領域，包括網頁開發、資料科學和機器學習。不管你是編程初學者還是已經有一定經驗，Python都可以幫助你解決各種問題。
 首先，我們會介紹如何安裝Python或者使用線上編譯器來開始寫程式，強烈建議如果要長期使用的話請在您的電腦安裝python，python是跨平臺的，因此幾乎所有作業系統都能安裝。這將幫助你順利地開始這段學習旅程。
 線上編譯器資源 https://www.python.org/shell/
@@ -184,7 +211,7 @@ Linux(debian-based) 使用套件管理工具apt，在終端機輸入 sudo apt in
 Mac 在 spotlight中搜尋 terminal.app 即可 source :https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
 Linux 因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 Ubuntu 系統爲例，可以用一下命令在終端機中安裝，其中 sudo 指令需要用有 root 權限的帳號登入且輸入密碼。
 sudo apt update #更新apt套件管理器 sudo apt install python3 #安裝python3 基本概念 套件介紹 安裝好python後，看看自己電腦的應用程式清單，會發現多了幾個程式，例如這些。
-IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.">
+IDLE是python的整合式開發環境，其實某種程度上也可以取代 python3.10，這個python執行環境了。不過我不推薦，因此我只會在第一次爲了示範而用它，因爲他真的很陽春，有更好地替代品，像是vscode，既輕量有功能強大。 Python 3.10 ，是python的執行環境，可以輸入指令的。與在開頭示範的線上編譯器功能大同小異，只是一個在線上，一個在本機。 其他兩個是說明書。 Hello World 第一個程式示範 以下用 python 內建的IDE（整合式開發環境）示範。">
 
   
   
@@ -304,6 +331,9 @@ IDLE是python的整合式開發環境，其實某種程度上也可以取代 pyt
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
@@ -336,7 +366,7 @@ IDLE是python的整合式開發環境，其實某種程度上也可以取代 pyt
 source :<a href="https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac">https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac</a></p>
 <h3 id="linux">Linux</h3>
 <p>因爲linux版本衆多，族繁不及備載，因此需要請讀者仔細搜尋。以我比較常用的 <code>Ubuntu</code> 系統爲例，可以用一下命令在終端機中安裝，其中 <code>sudo</code> 指令需要用有 <code>root</code> 權限的帳號登入且輸入密碼。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#75715e">#更新apt套件管理器</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#75715e">#更新apt套件管理器</span>
 </span></span><span style="display:flex;"><span>sudo apt install python3 <span style="color:#75715e">#安裝python3</span>
 </span></span></code></pre></div><h1 id="基本概念">基本概念</h1>
 <h3 id="套件介紹">套件介紹</h3>
@@ -351,7 +381,7 @@ source :<a href="https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
 <p>以下用 python 內建的IDE（整合式開發環境）示範。</p>
 <p>啓動後，在上面的選單按下 <code>File</code>  → <code>Newfile</code>  ，建立一個新的python 程式檔案。</p>
 <p>接著輸入以下程式。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello world&#34;</span><span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>print<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello world&#34;</span><span style="color:#f92672">)</span>
 </span></span></code></pre></div><p>輸入完，請按下 <code>F5</code> 執行，第一次執行他可能會要求要存檔，請找一個位置儲存它。執行結果如下。</p>
 <p><img src="/image/1721115083g.png" alt="Hello World程式碼在python內建的IDE的示範圖片"></p>
 <p>以上就是python的Hello World程式示範。</p>
@@ -420,7 +450,7 @@ source :<a href="https://support.apple.com/zh-tw/guide/terminal/trmld4c92d55/mac
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

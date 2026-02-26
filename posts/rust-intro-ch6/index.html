@@ -1,0 +1,517 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Ch6：閉包與迭代器 — 持續開出的支票 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="閉包 (Closure)：帶環境的匿名函數
+閉包語法很精簡：|參數| 表達式。它與普通函數 (fn) 的最大區別在於它能 「捕獲環境」。普通函數像是個冷酷的機器人，只看參數；閉包則像是個有感情的人，會記得周圍發生了什麼事。
+捕獲環境的三種姿勢
+Rust 的編譯器會根據你如何使用變數，自動決定最寬鬆（效能最高）的捕獲方式。這其實是借用檢查器在背後幫你操心：
+
+不可變借用 (&amp;T)：預設模式。只是拿來讀取，不改動。像是閉包隔著櫥窗看了一眼你手上的書，這對環境影響最小。
+可變借用 (&amp;mut T)：當閉包內部需要修改環境變數時觸發。注意，這會導致該變數在閉包存活期間被鎖定，不能有其他借用。
+所有權轉移 (move)：直接把環境變數「綁架」過來，強行轉移所有權。
+
+⚡ 為什麼要 move？ 最常見的場景是「跨執行緒」。當你把閉包丟進 thread::spawn 時，主執行緒可能在子執行緒跑完前就掛了（變數被銷毀）。透過 move，閉包把資料帶進自己的口袋，確保資料在閉包執行完畢前都是有效的.
+
+
+
+Fn 系列 Trait：閉包的證書
+閉包也有自己的階級制度，這決定了它們如何處理被捕獲的資料，也決定了它們能被呼叫幾次：
+
+Fn：最高等級. 可以被呼叫多次，且不會消耗或改變捕獲的環境. 它是「純讀取」，像是一張隨便看的照片.
+FnMut：次之. 可以呼叫多次，但會修改捕獲的環境. 因為它會改動內部狀態（例如一個 mut counter），所以呼叫者也必須擁有閉包的可變權限.
+FnOnce：最後一名. 只能呼叫一次. 通常是因為它在執行時會把捕獲的資料「吃掉」（轉移所有權）. 一旦吃掉，就再也沒有資料可以跑第二次了.
+
+💡 小知識： 這三者有繼承關係. 能當 Fn 的一定能當 FnMut，能當 FnMut 的一定能當 FnOnce. Rust 社群的建議是：傳入參數時盡量要求 Fn，真的不行才降級.
+迭代器 (Iterator)：懶惰就是力量
+迭代器是 Rust 的招牌. 別把它想得太玄，它本質上就是一個 「帶有 next() 方法的物件」 .
+⚡ 「支票」比喻：為什麼它這麼神？
+你可以把迭代器鏈想像成去銀行領錢的過程. 這套機制的核心在於 「懶惰求值 (Lazy Evaluation)」 ：
+
+開支票 (Creation)：例如 iter()、into_iter() .
+
+這時資料根本還沒開始跑. 這張支票只是個「承諾」，銀行還沒點錢，你口袋也還是空的. 你甚至可以開出一張「無限」的支票（例如 0.. ），只要你不去兌現，它就不會爆掉.
+
+
+換支票 (Adapters)：map、filter、take、skip 等.
+
+重點：這些動作是「懶惰的」. 你加註了再多規則（例如：過濾偶數、乘以二），只要你不去領錢，銀行員（編譯器）連動都不會動一下. 它們只是把新的邏輯封裝進一個新的迭代器物件裡.
+
+
+兌現 (Consumers)：collect、fold、sum、count、nth 等.
+
+直到這一步，你把支票拍在櫃檯說：「現在，給我領錢！」，程式才會真正開始跑 next() 迴圈，從頭到尾按照你剛才疊加的所有規則去計算資料.
+
+
+
+FP 高階函數深度解析
+這才是工程師展示「專業感」的地方. 學會這些組合技，你的程式碼會從三、四十行縮減到三、四行，而且更難寫錯." />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.156.0">
+
+  
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="Ch6：閉包與迭代器 — 持續開出的支票">
+  <meta itemprop="description" content="閉包 (Closure)：帶環境的匿名函數 閉包語法很精簡：|參數| 表達式。它與普通函數 (fn) 的最大區別在於它能 「捕獲環境」。普通函數像是個冷酷的機器人，只看參數；閉包則像是個有感情的人，會記得周圍發生了什麼事。
+捕獲環境的三種姿勢 Rust 的編譯器會根據你如何使用變數，自動決定最寬鬆（效能最高）的捕獲方式。這其實是借用檢查器在背後幫你操心：
+不可變借用 (&amp;T)：預設模式。只是拿來讀取，不改動。像是閉包隔著櫥窗看了一眼你手上的書，這對環境影響最小。 可變借用 (&amp;mut T)：當閉包內部需要修改環境變數時觸發。注意，這會導致該變數在閉包存活期間被鎖定，不能有其他借用。 所有權轉移 (move)：直接把環境變數「綁架」過來，強行轉移所有權。 ⚡ 為什麼要 move？ 最常見的場景是「跨執行緒」。當你把閉包丟進 thread::spawn 時，主執行緒可能在子執行緒跑完前就掛了（變數被銷毀）。透過 move，閉包把資料帶進自己的口袋，確保資料在閉包執行完畢前都是有效的. Fn 系列 Trait：閉包的證書 閉包也有自己的階級制度，這決定了它們如何處理被捕獲的資料，也決定了它們能被呼叫幾次：
+Fn：最高等級. 可以被呼叫多次，且不會消耗或改變捕獲的環境. 它是「純讀取」，像是一張隨便看的照片. FnMut：次之. 可以呼叫多次，但會修改捕獲的環境. 因為它會改動內部狀態（例如一個 mut counter），所以呼叫者也必須擁有閉包的可變權限. FnOnce：最後一名. 只能呼叫一次. 通常是因為它在執行時會把捕獲的資料「吃掉」（轉移所有權）. 一旦吃掉，就再也沒有資料可以跑第二次了. 💡 小知識： 這三者有繼承關係. 能當 Fn 的一定能當 FnMut，能當 FnMut 的一定能當 FnOnce. Rust 社群的建議是：傳入參數時盡量要求 Fn，真的不行才降級.
+迭代器 (Iterator)：懶惰就是力量 迭代器是 Rust 的招牌. 別把它想得太玄，它本質上就是一個 「帶有 next() 方法的物件」 .
+⚡ 「支票」比喻：為什麼它這麼神？ 你可以把迭代器鏈想像成去銀行領錢的過程. 這套機制的核心在於 「懶惰求值 (Lazy Evaluation)」 ：
+開支票 (Creation)：例如 iter()、into_iter() . 這時資料根本還沒開始跑. 這張支票只是個「承諾」，銀行還沒點錢，你口袋也還是空的. 你甚至可以開出一張「無限」的支票（例如 0.. ），只要你不去兌現，它就不會爆掉. 換支票 (Adapters)：map、filter、take、skip 等. 重點：這些動作是「懶惰的」. 你加註了再多規則（例如：過濾偶數、乘以二），只要你不去領錢，銀行員（編譯器）連動都不會動一下. 它們只是把新的邏輯封裝進一個新的迭代器物件裡. 兌現 (Consumers)：collect、fold、sum、count、nth 等. 直到這一步，你把支票拍在櫃檯說：「現在，給我領錢！」，程式才會真正開始跑 next() 迴圈，從頭到尾按照你剛才疊加的所有規則去計算資料. FP 高階函數深度解析 這才是工程師展示「專業感」的地方. 學會這些組合技，你的程式碼會從三、四十行縮減到三、四行，而且更難寫錯.">
+  <meta itemprop="datePublished" content="2026-02-26T09:45:00+08:00">
+  <meta itemprop="dateModified" content="2026-02-26T09:45:00+08:00">
+  <meta itemprop="wordCount" content="343">
+  <meta itemprop="keywords" content="Rust,30天">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch6/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Ch6：閉包與迭代器 — 持續開出的支票">
+  <meta property="og:description" content="閉包 (Closure)：帶環境的匿名函數 閉包語法很精簡：|參數| 表達式。它與普通函數 (fn) 的最大區別在於它能 「捕獲環境」。普通函數像是個冷酷的機器人，只看參數；閉包則像是個有感情的人，會記得周圍發生了什麼事。
+捕獲環境的三種姿勢 Rust 的編譯器會根據你如何使用變數，自動決定最寬鬆（效能最高）的捕獲方式。這其實是借用檢查器在背後幫你操心：
+不可變借用 (&amp;T)：預設模式。只是拿來讀取，不改動。像是閉包隔著櫥窗看了一眼你手上的書，這對環境影響最小。 可變借用 (&amp;mut T)：當閉包內部需要修改環境變數時觸發。注意，這會導致該變數在閉包存活期間被鎖定，不能有其他借用。 所有權轉移 (move)：直接把環境變數「綁架」過來，強行轉移所有權。 ⚡ 為什麼要 move？ 最常見的場景是「跨執行緒」。當你把閉包丟進 thread::spawn 時，主執行緒可能在子執行緒跑完前就掛了（變數被銷毀）。透過 move，閉包把資料帶進自己的口袋，確保資料在閉包執行完畢前都是有效的. Fn 系列 Trait：閉包的證書 閉包也有自己的階級制度，這決定了它們如何處理被捕獲的資料，也決定了它們能被呼叫幾次：
+Fn：最高等級. 可以被呼叫多次，且不會消耗或改變捕獲的環境. 它是「純讀取」，像是一張隨便看的照片. FnMut：次之. 可以呼叫多次，但會修改捕獲的環境. 因為它會改動內部狀態（例如一個 mut counter），所以呼叫者也必須擁有閉包的可變權限. FnOnce：最後一名. 只能呼叫一次. 通常是因為它在執行時會把捕獲的資料「吃掉」（轉移所有權）. 一旦吃掉，就再也沒有資料可以跑第二次了. 💡 小知識： 這三者有繼承關係. 能當 Fn 的一定能當 FnMut，能當 FnMut 的一定能當 FnOnce. Rust 社群的建議是：傳入參數時盡量要求 Fn，真的不行才降級.
+迭代器 (Iterator)：懶惰就是力量 迭代器是 Rust 的招牌. 別把它想得太玄，它本質上就是一個 「帶有 next() 方法的物件」 .
+⚡ 「支票」比喻：為什麼它這麼神？ 你可以把迭代器鏈想像成去銀行領錢的過程. 這套機制的核心在於 「懶惰求值 (Lazy Evaluation)」 ：
+開支票 (Creation)：例如 iter()、into_iter() . 這時資料根本還沒開始跑. 這張支票只是個「承諾」，銀行還沒點錢，你口袋也還是空的. 你甚至可以開出一張「無限」的支票（例如 0.. ），只要你不去兌現，它就不會爆掉. 換支票 (Adapters)：map、filter、take、skip 等. 重點：這些動作是「懶惰的」. 你加註了再多規則（例如：過濾偶數、乘以二），只要你不去領錢，銀行員（編譯器）連動都不會動一下. 它們只是把新的邏輯封裝進一個新的迭代器物件裡. 兌現 (Consumers)：collect、fold、sum、count、nth 等. 直到這一步，你把支票拍在櫃檯說：「現在，給我領錢！」，程式才會真正開始跑 next() 迴圈，從頭到尾按照你剛才疊加的所有規則去計算資料. FP 高階函數深度解析 這才是工程師展示「專業感」的地方. 學會這些組合技，你的程式碼會從三、四十行縮減到三、四行，而且更難寫錯.">
+  <meta property="og:locale" content="zh_tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-26T09:45:00+08:00">
+    <meta property="article:modified_time" content="2026-02-26T09:45:00+08:00">
+    <meta property="article:tag" content="Rust">
+    <meta property="article:tag" content="30天">
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ch6：閉包與迭代器 — 持續開出的支票">
+  <meta name="twitter:description" content="閉包 (Closure)：帶環境的匿名函數 閉包語法很精簡：|參數| 表達式。它與普通函數 (fn) 的最大區別在於它能 「捕獲環境」。普通函數像是個冷酷的機器人，只看參數；閉包則像是個有感情的人，會記得周圍發生了什麼事。
+捕獲環境的三種姿勢 Rust 的編譯器會根據你如何使用變數，自動決定最寬鬆（效能最高）的捕獲方式。這其實是借用檢查器在背後幫你操心：
+不可變借用 (&amp;T)：預設模式。只是拿來讀取，不改動。像是閉包隔著櫥窗看了一眼你手上的書，這對環境影響最小。 可變借用 (&amp;mut T)：當閉包內部需要修改環境變數時觸發。注意，這會導致該變數在閉包存活期間被鎖定，不能有其他借用。 所有權轉移 (move)：直接把環境變數「綁架」過來，強行轉移所有權。 ⚡ 為什麼要 move？ 最常見的場景是「跨執行緒」。當你把閉包丟進 thread::spawn 時，主執行緒可能在子執行緒跑完前就掛了（變數被銷毀）。透過 move，閉包把資料帶進自己的口袋，確保資料在閉包執行完畢前都是有效的. Fn 系列 Trait：閉包的證書 閉包也有自己的階級制度，這決定了它們如何處理被捕獲的資料，也決定了它們能被呼叫幾次：
+Fn：最高等級. 可以被呼叫多次，且不會消耗或改變捕獲的環境. 它是「純讀取」，像是一張隨便看的照片. FnMut：次之. 可以呼叫多次，但會修改捕獲的環境. 因為它會改動內部狀態（例如一個 mut counter），所以呼叫者也必須擁有閉包的可變權限. FnOnce：最後一名. 只能呼叫一次. 通常是因為它在執行時會把捕獲的資料「吃掉」（轉移所有權）. 一旦吃掉，就再也沒有資料可以跑第二次了. 💡 小知識： 這三者有繼承關係. 能當 Fn 的一定能當 FnMut，能當 FnMut 的一定能當 FnOnce. Rust 社群的建議是：傳入參數時盡量要求 Fn，真的不行才降級.
+迭代器 (Iterator)：懶惰就是力量 迭代器是 Rust 的招牌. 別把它想得太玄，它本質上就是一個 「帶有 next() 方法的物件」 .
+⚡ 「支票」比喻：為什麼它這麼神？ 你可以把迭代器鏈想像成去銀行領錢的過程. 這套機制的核心在於 「懶惰求值 (Lazy Evaluation)」 ：
+開支票 (Creation)：例如 iter()、into_iter() . 這時資料根本還沒開始跑. 這張支票只是個「承諾」，銀行還沒點錢，你口袋也還是空的. 你甚至可以開出一張「無限」的支票（例如 0.. ），只要你不去兌現，它就不會爆掉. 換支票 (Adapters)：map、filter、take、skip 等. 重點：這些動作是「懶惰的」. 你加註了再多規則（例如：過濾偶數、乘以二），只要你不去領錢，銀行員（編譯器）連動都不會動一下. 它們只是把新的邏輯封裝進一個新的迭代器物件裡. 兌現 (Consumers)：collect、fold、sum、count、nth 等. 直到這一步，你把支票拍在櫃檯說：「現在，給我領錢！」，程式才會真正開始跑 next() 迴圈，從頭到尾按照你剛才疊加的所有規則去計算資料. FP 高階函數深度解析 這才是工程師展示「專業感」的地方. 學會這些組合技，你的程式碼會從三、四十行縮減到三、四行，而且更難寫錯.">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch6/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Ch6：閉包與迭代器 — 持續開出的支票</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 26, 2026</time>
+      
+      
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="閉包-closure帶環境的匿名函數"><strong>閉包 (Closure)：帶環境的匿名函數</strong></h2>
+<p>閉包語法很精簡：<code>|參數| 表達式</code>。它與普通函數 (<code>fn</code>) 的最大區別在於它能 <strong>「捕獲環境」</strong>。普通函數像是個冷酷的機器人，只看參數；閉包則像是個有感情的人，會記得周圍發生了什麼事。</p>
+<h3 id="捕獲環境的三種姿勢"><strong>捕獲環境的三種姿勢</strong></h3>
+<p>Rust 的編譯器會根據你如何使用變數，自動決定最寬鬆（效能最高）的捕獲方式。這其實是借用檢查器在背後幫你操心：</p>
+<ul>
+<li><strong>不可變借用 (&amp;T)</strong>：預設模式。只是拿來讀取，不改動。像是閉包隔著櫥窗看了一眼你手上的書，這對環境影響最小。</li>
+<li><strong>可變借用 (&amp;mut T)</strong>：當閉包內部需要修改環境變數時觸發。注意，這會導致該變數在閉包存活期間被鎖定，不能有其他借用。</li>
+<li><strong>所有權轉移 (move)</strong>：直接把環境變數「綁架」過來，強行轉移所有權。
+<ul>
+<li><strong>⚡ 為什麼要 move？</strong> 最常見的場景是「跨執行緒」。當你把閉包丟進 <code>thread::spawn</code> 時，主執行緒可能在子執行緒跑完前就掛了（變數被銷毀）。透過 <code>move</code>，閉包把資料帶進自己的口袋，確保資料在閉包執行完畢前都是有效的.</li>
+</ul>
+</li>
+</ul>
+<h3 id="fn-系列-trait閉包的證書"><strong>Fn 系列 Trait：閉包的證書</strong></h3>
+<p>閉包也有自己的階級制度，這決定了它們如何處理被捕獲的資料，也決定了它們能被呼叫幾次：</p>
+<ol>
+<li><strong>Fn</strong>：最高等級. 可以被呼叫多次，且不會消耗或改變捕獲的環境. 它是「純讀取」，像是一張隨便看的照片.</li>
+<li><strong>FnMut</strong>：次之. 可以呼叫多次，但會修改捕獲的環境. 因為它會改動內部狀態（例如一個 <code>mut counter</code>），所以呼叫者也必須擁有閉包的可變權限.</li>
+<li><strong>FnOnce</strong>：最後一名. 只能呼叫一次. 通常是因為它在執行時會把捕獲的資料「吃掉」（轉移所有權）. 一旦吃掉，就再也沒有資料可以跑第二次了.</li>
+</ol>
+<p><strong>💡 小知識：</strong> 這三者有繼承關係. 能當 <code>Fn</code> 的一定能當 <code>FnMut</code>，能當 <code>FnMut</code> 的一定能當 <code>FnOnce</code>. Rust 社群的建議是：<strong>傳入參數時盡量要求 Fn，真的不行才降級.</strong></p>
+<h2 id="迭代器-iterator懶惰就是力量"><strong>迭代器 (Iterator)：懶惰就是力量</strong></h2>
+<p>迭代器是 Rust 的招牌. 別把它想得太玄，它本質上就是一個 <strong>「帶有 next() 方法的物件」</strong> .</p>
+<h3 id="-支票比喻為什麼它這麼神"><strong>⚡ 「支票」比喻：為什麼它這麼神？</strong></h3>
+<p>你可以把迭代器鏈想像成去銀行領錢的過程. 這套機制的核心在於 <strong>「懶惰求值 (Lazy Evaluation)」</strong> ：</p>
+<ol>
+<li><strong>開支票 (Creation)</strong>：例如 <code>iter()</code>、<code>into_iter()</code> .
+<ul>
+<li>這時資料根本還沒開始跑. 這張支票只是個「承諾」，銀行還沒點錢，你口袋也還是空的. 你甚至可以開出一張「無限」的支票（例如 <code>0..</code> ），只要你不去兌現，它就不會爆掉.</li>
+</ul>
+</li>
+<li><strong>換支票 (Adapters)</strong>：<code>map</code>、<code>filter</code>、<code>take</code>、<code>skip</code> 等.
+<ul>
+<li><strong>重點：這些動作是「懶惰的」</strong>. 你加註了再多規則（例如：過濾偶數、乘以二），只要你不去領錢，銀行員（編譯器）連動都不會動一下. 它們只是把新的邏輯封裝進一個新的迭代器物件裡.</li>
+</ul>
+</li>
+<li><strong>兌現 (Consumers)</strong>：<code>collect</code>、<code>fold</code>、<code>sum</code>、<code>count</code>、<code>nth</code> 等.
+<ul>
+<li>直到這一步，你把支票拍在櫃檯說：「現在，給我領錢！」，程式才會真正開始跑 <code>next()</code> 迴圈，從頭到尾按照你剛才疊加的所有規則去計算資料.</li>
+</ul>
+</li>
+</ol>
+<h2 id="fp-高階函數深度解析"><strong>FP 高階函數深度解析</strong></h2>
+<p>這才是工程師展示「專業感」的地方. 學會這些組合技，你的程式碼會從三、四十行縮減到三、四行，而且更難寫錯.</p>
+<h3 id="1-轉換與展平map-flatmap-與-filtermap"><strong>1. 轉換與展平：Map, FlatMap 與 FilterMap</strong></h3>
+<ul>
+<li><strong>map(f)</strong>：一對一. 把每個元素換成另一種樣貌.</li>
+<li><strong>flat_map(f)</strong>：一對多或一對零.
+<ul>
+<li><strong>⚡ 必學場景</strong>：如果轉換函數回傳的是一個 <code>Option</code> 或 <code>Vec</code> ， <code>flat_map</code> 它可以幫你把「包裹」拆開並把內容物攤平，自動過濾掉 <code>None</code> 或空的容器.</li>
+</ul>
+</li>
+<li><strong>filter_map(f)</strong>：轉換與過濾的結合體. 如果閉包回傳 <code>Some(v)</code> ，結果就是 <code>v</code> ；如果回傳 <code>None</code> ，該元素直接被踢掉.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> words <span style="color:#f92672">=</span> <span style="color:#a6e22e">vec!</span>[<span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#e6db74">&#34;123&#34;</span>];  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> numbers: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> words.iter()  
+</span></span><span style="display:flex;"><span>    .filter_map(<span style="color:#f92672">|</span>s<span style="color:#f92672">|</span> s.parse().ok()) <span style="color:#75715e">// 嘗試解析成數字，解析失敗的直接過濾掉  
+</span></span></span><span style="display:flex;"><span>    .collect();  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 結果: [123]
+</span></span></span></code></pre></div><h3 id="2-狀態摺疊fold-vs-scan"><strong>2. 狀態摺疊：Fold vs Scan</strong></h3>
+<ul>
+<li><strong>fold(init, f)</strong>：從初始值開始，把所有元素「揉」成一個最終結果. 這是所有迭代器消費者的老祖宗，連 <code>sum</code> 都是用它做的.</li>
+<li><strong>scan(init, f)</strong>：<code>fold</code> 的「中間過程版」 . 它會回傳一個迭代器，記錄每一次累計的結果.
+<ul>
+<li><strong>⚡ 實戰</strong>：計算「累計總合」或追蹤某個在處理過程中的狀態.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> nums <span style="color:#f92672">=</span> <span style="color:#a6e22e">vec!</span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>];  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> running_total: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">i32</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> nums.iter()  
+</span></span><span style="display:flex;"><span>    .scan(<span style="color:#ae81ff">0</span>, <span style="color:#f92672">|</span>state, <span style="color:#f92672">&amp;</span>x<span style="color:#f92672">|</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>state <span style="color:#f92672">+=</span> x;  
+</span></span><span style="display:flex;"><span>        Some(<span style="color:#f92672">*</span>state)  
+</span></span><span style="display:flex;"><span>    })  
+</span></span><span style="display:flex;"><span>    .collect();  
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 結果: [1, 3, 6, 10]
+</span></span></span></code></pre></div><h3 id="3-分類搜尋與判斷"><strong>3. 分類、搜尋與判斷</strong></h3>
+<ul>
+<li><strong>partition(f)</strong>：這是一個極其強大的 <code>Consumer</code>. 它會根據條件把資料流拆成兩個 <code>Vec</code>（一個 True，一個 False），一口氣分類完畢.</li>
+<li><strong>find(f)</strong>：搜尋第一個符合條件的元素. 它是 <strong>「短路 (Short-circuiting)」</strong> 的，只要找到了，後面的元素看都不看，效能極佳.</li>
+<li><strong>any(f) / all(f)</strong>：只要有一個符合 / 全部都符合. 同樣支援短路機制.</li>
+</ul>
+<h3 id="4-進階操作zip-rev-與-inspect"><strong>4. 進階操作：Zip, Rev 與 Inspect</strong></h3>
+<ul>
+<li><strong>zip(other)</strong>：把兩個迭代器像拉鍊一樣扣在一起，產生一對一的元組 <code>(a, b)</code> .</li>
+<li><strong>rev()</strong>：反轉迭代器. 注意：這只適用於 <strong>「雙向迭代器 (DoubleEndedIterator)」</strong> ，比如 <code>Vec</code> 可以，但某些串流就不行.</li>
+<li><strong>inspect(f)</strong>：<strong>除錯神招</strong> . 它不會改變資料，只是讓你在迭代器鏈的中間「偷看」一下現在資料長什麼樣子，非常適合拿來印 <code>println!</code> .</li>
+</ul>
+<h2 id="為什麼迭代器效能頂天"><strong>為什麼迭代器效能「頂天」？</strong></h2>
+<p>很多人覺得 FP 寫法經過這麼多層包裝一定會變慢，但在 Rust 裡這叫 <strong>「零成本抽象 (Zero-Cost Abstractions)」</strong> ：</p>
+<ol>
+<li><strong>內聯與優化</strong>：Rust 編譯器會把一長串的鏈接全部「展開」，把所有閉包的邏輯融合在一起. 產生的組合語言通常跟頂尖工程師手寫的 for 迴圈完全一樣.</li>
+<li><strong>消除邊界檢查 (Bound Check Elimination)</strong>：手寫 <code>v[i]</code> 時，Rust 每次都要檢查索引有沒有越界. 但迭代器是透過 <code>next()</code> 移動的，它天生知道資料在哪裡結束，所以編譯器可以安全地跳過這些檢查，這讓它甚至比手寫的 for 迴圈還要快！</li>
+<li><strong>迴圈融合 (Loop Fusion)</strong>：編譯器會將多個轉換步驟合併成一個單獨的迴圈，不會產生中間的臨時容器（除非你呼叫了 <code>collect</code> ）.</li>
+</ol>
+<h2 id="實戰手寫一個自己的迭代器"><strong>實戰：手寫一個自己的迭代器</strong></h2>
+<p>當標準庫不夠用時，你自己定義一個 <code>struct</code> 並實作 <code>Iterator</code> trait 就行了. 這就是 Rust 的美妙之處：一切皆可抽象.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Fibonacci</span> {  
+</span></span><span style="display:flex;"><span>    curr: <span style="color:#66d9ef">u32</span>,  
+</span></span><span style="display:flex;"><span>    next: <span style="color:#66d9ef">u32</span>,  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Iterator <span style="color:#66d9ef">for</span> Fibonacci {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Item</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">u32</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">next</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; Option<span style="color:#f92672">&lt;</span>Self::Item<span style="color:#f92672">&gt;</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> current <span style="color:#f92672">=</span> self.curr;  
+</span></span><span style="display:flex;"><span>        self.curr <span style="color:#f92672">=</span> self.next;  
+</span></span><span style="display:flex;"><span>        self.next <span style="color:#f92672">=</span> current <span style="color:#f92672">+</span> self.next;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Some(current)  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 使用它：拿取前 10 個費氏數列中是偶數的項  
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> fib <span style="color:#f92672">=</span> Fibonacci { curr: <span style="color:#ae81ff">0</span>, next: <span style="color:#ae81ff">1</span> };  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> even_fib: Vec<span style="color:#f92672">&lt;</span>_<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> fib.take(<span style="color:#ae81ff">10</span>).filter(<span style="color:#f92672">|</span>x<span style="color:#f92672">|</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>).collect();
+</span></span></code></pre></div><p><strong>總結建議</strong>：別再寫那種老掉牙的索引迴圈了. 練習把邏輯拆解成「開支票 -&gt; 換支票 -&gt; 兌現」，並搭配 <code>collect::&lt;Vec&lt;_&gt;&gt;()</code> 這種 <strong>Turbofish 語法</strong> 指定型別. 你的 Rust 程式碼不僅會變漂亮，執行速度也會讓其他語言汗顏！</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://seansie0830.github.io/tags/rust"
+      >rust</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      >30天</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/rust-intro-ch5/"
+      ><span>Ch5：特徵與泛型 — 行為與能力的模組化</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

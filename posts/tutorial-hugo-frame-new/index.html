@@ -55,19 +55,40 @@
   
   
   
-  <meta name="description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
+  <meta name="description" content="安裝
+本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
 https://gohugo.io/getting-started/installing/
 這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。
-debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
-更新 (2022.10.15)
+debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊
+與很多主題都無法相容。
+所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
+
+更新
+(2022.10.15)
 因為有些人在安裝homebrew時速度會很慢，建議可以直接下載hugo的deb包會更快速
 網址如下 https://github.com/gohugoio/hugo/releases
 建議使用wget 下載 命令就是wget空一格&#43;網址
 接著用dpkg安裝，命令如下
-dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; 需要curl與git 沒有記得安裝 sudo apt install curl git
+dpkg -i [YOUR PACKAGE]
+
+
+命令如下
+
+ /bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34;
+需要curl與git 沒有記得安裝  sudo apt install curl git
+
+
 安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。
 安裝完畢會出現這些訊息，執行下面的命令
-==&gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34; - Install Homebrew&#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝" />
+==&gt; Next steps:
+- Run these two commands in your terminal to add Homebrew to your PATH:
+    echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile
+    eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;
+- Install Homebrew&#39;s dependencies if you have sudo access:
+    sudo apt-get install build-essential
+
+
+最後輸入brew install hugo安裝" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -116,15 +137,12 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="如何利用hugo套件建立靜態網頁型網誌並佈署在github page上">
@@ -161,15 +179,17 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
 安裝完記得還要執行一段命令，來把homebrew加入PATH，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。
 安裝完畢會出現這些訊息，執行下面的命令
 ==&gt; Next steps: - Run these two commands in your terminal to add Homebrew to your PATH: echo &#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39; &gt;&gt; /root/.profile eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34; - Install Homebrew&#39;s dependencies if you have sudo access: sudo apt-get install build-essential 最後輸入brew install hugo安裝">
-  <meta property="og:locale" content="zh-tw">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-07-25T23:33:38+08:00">
     <meta property="article:modified_time" content="2022-07-25T23:33:38+08:00">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="如何利用hugo套件建立靜態網頁型網誌並佈署在github page上">
-<meta name="twitter:description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="如何利用hugo套件建立靜態網頁型網誌並佈署在github page上">
+  <meta name="twitter:description" content="安裝 本次全程linux作業系統（debian-based)上進行，windows的大概大同小異，可以參考官方說明。
 https://gohugo.io/getting-started/installing/
 這邊有遇到一些坑，也會會跟大家分享，希望有幫助到碰倒相同問題的人。
 debian-based的作業系統安裝軟體通常都會用apt這個工具，不過本人用apt 安裝的時候發現版本過舊 與很多主題都無法相容。 所以為了安裝到最新版本的hugo，建議使用homebrew這個工具(原本是macOS的工具，不過linux也可以用)，本人用這個才成功。
@@ -301,6 +321,9 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
@@ -324,13 +347,13 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
 <ul>
 <li>命令如下</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> /bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> /bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span></code></pre></div><p>需要<code>curl</code>與<code>git</code> 沒有記得安裝 <code> sudo apt install curl git</code></p>
 <ul>
 <li>
 <p>安裝完記得還要執行一段命令，來把<code>homebrew</code>加入<code>PATH</code>，如果沒有執行就無法使用，我就是因為沒注意到，試了一陣子才發現。</p>
 <p>安裝完畢會出現這些訊息，執行下面的命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">==</span>&gt; Next steps:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">==</span>&gt; Next steps:
 </span></span><span style="display:flex;"><span>- Run these two commands in your terminal to add Homebrew to your PATH:
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#39;eval &#34;$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)&#34;&#39;</span> &gt;&gt; /root/.profile
 </span></span><span style="display:flex;"><span>    eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>/home/linuxbrew/.linuxbrew/bin/brew shellenv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
@@ -355,7 +378,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
 <p>3.接著編輯<code>config.toml</code> <strong>設定檔</strong></p>
 <p>輸入<code>cd ..</code> 回到上層目錄，使用編輯器編輯<code>config.toml</code>設定檔，若在<strong>終端機</strong>環境，建議使用<code>nano</code>編輯器，簡單易懂。</p>
 <p><code>nano</code>編輯器使用<code>sudo apt install nano</code>安裝。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#39;http://example.org/&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#39;http://example.org/&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">languageCode</span> = <span style="color:#e6db74">&#39;en-us&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#39;My New Hugo Site&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#34;ananke&#34;</span>
@@ -376,7 +399,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
 <p>2.常見字體格式</p>
 <p>舉例</p>
 <pre tabindex="0"><code>**粗體**  *斜體*  &lt;u&gt;底線&lt;/u&gt; ***粗體&amp;斜體***
-</code></pre><p><strong>粗體</strong> <em>斜體</em> <!-- raw HTML omitted -->底線<!-- raw HTML omitted -->  <em><strong>粗體與斜體</strong></em></p>
+</code></pre><p><strong>粗體</strong> <em>斜體</em> <u>底線</u>  <em><strong>粗體與斜體</strong></em></p>
 <p>3.若沒有加記號，就是正常內文。</p>
 </li>
 </ol>
@@ -444,7 +467,7 @@ dpkg -i [YOUR PACKAGE] 命令如下 /bin/bash -c &#34;$(curl -fsSL https://raw.g
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

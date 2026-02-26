@@ -55,11 +55,43 @@
   
   
   
-  <meta name="description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
-condition ? value1 : value2; 其中：
-condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
-首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
-int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。" />
+  <meta name="description" content="介紹
+C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
+condition ? value1 : value2;
+其中：
+
+condition 是要判斷的條件表達式，其值必須為布林值。
+value1 是條件為真時要返回的值。
+value2 是條件為假時要返回的值。
+
+三元運算子的運作方式如下：
+
+首先計算 condition 的值。
+如果 condition 的值為真，則返回 value1。
+如果 condition 的值為假，則返回 value2。
+
+例子
+例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
+int number = 10;
+bool isEven = (number % 2 == 0) ? true : false;
+在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。
+限制
+三元運算子可以用來簡化程式碼，使其更易讀。但是，它也有一些限制：
+
+三元運算子只能用於簡單的條件判斷。
+三元運算子的可讀性可能會受到影響，尤其是當條件表達式或返回值較複雜時。
+
+在以下情況下，可以使用三元運算子：
+
+需要在一個程式碼行中進行簡單的條件判斷。
+需要在程式碼中嵌入條件判斷。
+
+在以下情況下，不建議使用三元運算子：
+
+需要進行複雜的條件判斷。
+需要提高程式碼的可讀性。
+
+以下是一些三元運算子的使用技巧：" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -108,15 +140,12 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="C&#43;&#43; 教學 三元運算子">
@@ -124,7 +153,11 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
 condition ? value1 : value2; 其中：
 condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
 首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
-int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。">
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。
+限制 三元運算子可以用來簡化程式碼，使其更易讀。但是，它也有一些限制：
+三元運算子只能用於簡單的條件判斷。 三元運算子的可讀性可能會受到影響，尤其是當條件表達式或返回值較複雜時。 在以下情況下，可以使用三元運算子：
+需要在一個程式碼行中進行簡單的條件判斷。 需要在程式碼中嵌入條件判斷。 在以下情況下，不建議使用三元運算子：
+需要進行複雜的條件判斷。 需要提高程式碼的可讀性。 以下是一些三元運算子的使用技巧：">
   <meta itemprop="datePublished" content="2024-07-12T21:35:57+08:00">
   <meta itemprop="dateModified" content="2024-07-12T21:35:57+08:00">
   <meta itemprop="wordCount" content="89">
@@ -137,8 +170,12 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
 condition ? value1 : value2; 其中：
 condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
 首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
-int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。">
-  <meta property="og:locale" content="zh-tw">
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。
+限制 三元運算子可以用來簡化程式碼，使其更易讀。但是，它也有一些限制：
+三元運算子只能用於簡單的條件判斷。 三元運算子的可讀性可能會受到影響，尤其是當條件表達式或返回值較複雜時。 在以下情況下，可以使用三元運算子：
+需要在一個程式碼行中進行簡單的條件判斷。 需要在程式碼中嵌入條件判斷。 在以下情況下，不建議使用三元運算子：
+需要進行複雜的條件判斷。 需要提高程式碼的可讀性。 以下是一些三元運算子的使用技巧：">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-07-12T21:35:57+08:00">
@@ -148,12 +185,18 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
     <meta property="article:tag" content="三元運算子">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C&#43;&#43; 教學 三元運算子">
-<meta name="twitter:description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43; 教學 三元運算子">
+  <meta name="twitter:description" content="介紹 C&#43;&#43;的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：
 condition ? value1 : value2; 其中：
 condition 是要判斷的條件表達式，其值必須為布林值。 value1 是條件為真時要返回的值。 value2 是條件為假時要返回的值。 三元運算子的運作方式如下：
 首先計算 condition 的值。 如果 condition 的值為真，則返回 value1。 如果 condition 的值為假，則返回 value2。 例子 例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：
-int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。">
+int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式碼中，condition 是 number % 2 == 0，它會檢查 number 是否為偶數。如果 number 為偶數，則 condition 的值為真，並將 true 賦值給 isEven。如果 number 為奇數，則 condition 的值為假，並將 false 賦值給 isEven。
+限制 三元運算子可以用來簡化程式碼，使其更易讀。但是，它也有一些限制：
+三元運算子只能用於簡單的條件判斷。 三元運算子的可讀性可能會受到影響，尤其是當條件表達式或返回值較複雜時。 在以下情況下，可以使用三元運算子：
+需要在一個程式碼行中進行簡單的條件判斷。 需要在程式碼中嵌入條件判斷。 在以下情況下，不建議使用三元運算子：
+需要進行複雜的條件判斷。 需要提高程式碼的可讀性。 以下是一些三元運算子的使用技巧：">
 
   
   
@@ -273,13 +316,16 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
 
   <section><h2 id="介紹">介紹</h2>
 <p>C++的三元運算子（ternary operator），又稱條件運算子，是一種簡潔的條件運算表達式，可以用來代替較長的 if-else 條件判斷。其語法如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>condition <span style="color:#f92672">?</span> value1 : value2;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>condition <span style="color:#f92672">?</span> value1 : value2;
 </span></span></code></pre></div><p>其中：</p>
 <ul>
 <li><code>condition</code> 是要判斷的條件表達式，其值必須為布林值。</li>
@@ -294,7 +340,7 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
 </ol>
 <h2 id="例子">例子</h2>
 <p>例如，以下程式碼使用三元運算子來判斷一個數字是否為偶數：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> isEven <span style="color:#f92672">=</span> (number <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">?</span> true <span style="color:#f92672">:</span> false;
 </span></span></code></pre></div><p>在這個程式碼中，<code>condition</code> 是 <code>number % 2 == 0</code>，它會檢查 <code>number</code> 是否為偶數。如果 <code>number</code> 為偶數，則 <code>condition</code> 的值為真，並將 <code>true</code> 賦值給 <code>isEven</code>。如果 <code>number</code> 為奇數，則 <code>condition</code> 的值為假，並將 <code>false</code> 賦值給 <code>isEven</code>。</p>
 <h2 id="限制">限制</h2>
@@ -393,7 +439,7 @@ int number = 10; bool isEven = (number % 2 == 0) ? true : false; 在這個程式
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

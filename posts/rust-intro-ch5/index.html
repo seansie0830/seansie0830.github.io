@@ -1,0 +1,568 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Ch5：特徵與泛型 — 行為與能力的模組化 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="impl：賦予資料靈魂
+Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
+方法與關聯函數
+在 impl 塊裡，函數分為兩類：
+
+方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。
+關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。
+
+struct Rectangle {  
+    width: u32,  
+    height: u32,  
+}
+
+impl Rectangle {  
+    // 關聯函數：用來創建物件  
+    fn new(width: u32, height: u32) -&gt; Self {  
+        Self { width, height }  
+    }
+
+    // 方法：計算面積。&amp;self 代表「唯讀借用」  
+    fn area(&amp;self) -&gt; u32 {  
+        self.width * self.height  
+    }
+
+    // 方法：修改大小。&amp;mut self 代表「可變借用」  
+    fn scale(&amp;mut self, factor: u32) {  
+        self.width *= factor;  
+        self.height *= factor;  
+    }  
+}
+
+fn main() {  
+    let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數  
+    println!(&#34;面積：{}&#34;, rect.area());    // 呼叫方法  
+    rect.scale(2);                        // 修改物件  
+}
+
+⚡ 極速講解：
+
+&amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。
+&amp;mut self：我想改這個物件。
+self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。
+
+
+常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&quot;blue&quot;).draw() 這種極具藝術感的漂亮代碼。
+
+泛型 (Generics)：寫一份代碼，跑遍所有型態
+不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。" />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.156.0">
+
+  
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="Ch5：特徵與泛型 — 行為與能力的模組化">
+  <meta itemprop="description" content="impl：賦予資料靈魂 Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
+方法與關聯函數 在 impl 塊裡，函數分為兩類：
+方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。 關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。 struct Rectangle { width: u32, height: u32, } impl Rectangle { // 關聯函數：用來創建物件 fn new(width: u32, height: u32) -&gt; Self { Self { width, height } } // 方法：計算面積。&amp;self 代表「唯讀借用」 fn area(&amp;self) -&gt; u32 { self.width * self.height } // 方法：修改大小。&amp;mut self 代表「可變借用」 fn scale(&amp;mut self, factor: u32) { self.width *= factor; self.height *= factor; } } fn main() { let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數 println!(&#34;面積：{}&#34;, rect.area()); // 呼叫方法 rect.scale(2); // 修改物件 } ⚡ 極速講解： &amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。 &amp;mut self：我想改這個物件。 self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。 常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&#34;blue&#34;).draw() 這種極具藝術感的漂亮代碼。 泛型 (Generics)：寫一份代碼，跑遍所有型態 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。">
+  <meta itemprop="datePublished" content="2026-02-26T09:44:00+08:00">
+  <meta itemprop="dateModified" content="2026-02-26T09:44:00+08:00">
+  <meta itemprop="wordCount" content="372">
+  <meta itemprop="keywords" content="Rust,30天">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch5/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Ch5：特徵與泛型 — 行為與能力的模組化">
+  <meta property="og:description" content="impl：賦予資料靈魂 Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
+方法與關聯函數 在 impl 塊裡，函數分為兩類：
+方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。 關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。 struct Rectangle { width: u32, height: u32, } impl Rectangle { // 關聯函數：用來創建物件 fn new(width: u32, height: u32) -&gt; Self { Self { width, height } } // 方法：計算面積。&amp;self 代表「唯讀借用」 fn area(&amp;self) -&gt; u32 { self.width * self.height } // 方法：修改大小。&amp;mut self 代表「可變借用」 fn scale(&amp;mut self, factor: u32) { self.width *= factor; self.height *= factor; } } fn main() { let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數 println!(&#34;面積：{}&#34;, rect.area()); // 呼叫方法 rect.scale(2); // 修改物件 } ⚡ 極速講解： &amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。 &amp;mut self：我想改這個物件。 self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。 常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&#34;blue&#34;).draw() 這種極具藝術感的漂亮代碼。 泛型 (Generics)：寫一份代碼，跑遍所有型態 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。">
+  <meta property="og:locale" content="zh_tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-26T09:44:00+08:00">
+    <meta property="article:modified_time" content="2026-02-26T09:44:00+08:00">
+    <meta property="article:tag" content="Rust">
+    <meta property="article:tag" content="30天">
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ch5：特徵與泛型 — 行為與能力的模組化">
+  <meta name="twitter:description" content="impl：賦予資料靈魂 Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
+方法與關聯函數 在 impl 塊裡，函數分為兩類：
+方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。 關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。 struct Rectangle { width: u32, height: u32, } impl Rectangle { // 關聯函數：用來創建物件 fn new(width: u32, height: u32) -&gt; Self { Self { width, height } } // 方法：計算面積。&amp;self 代表「唯讀借用」 fn area(&amp;self) -&gt; u32 { self.width * self.height } // 方法：修改大小。&amp;mut self 代表「可變借用」 fn scale(&amp;mut self, factor: u32) { self.width *= factor; self.height *= factor; } } fn main() { let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數 println!(&#34;面積：{}&#34;, rect.area()); // 呼叫方法 rect.scale(2); // 修改物件 } ⚡ 極速講解： &amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。 &amp;mut self：我想改這個物件。 self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。 常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&#34;blue&#34;).draw() 這種極具藝術感的漂亮代碼。 泛型 (Generics)：寫一份代碼，跑遍所有型態 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch5/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Ch5：特徵與泛型 — 行為與能力的模組化</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 26, 2026</time>
+      
+      
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="impl賦予資料靈魂"><strong>impl：賦予資料靈魂</strong></h2>
+<p>Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 <code>impl</code> 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。</p>
+<h3 id="方法與關聯函數"><strong>方法與關聯函數</strong></h3>
+<p>在 <code>impl</code> 塊裡，函數分為兩類：</p>
+<ol>
+<li><strong>方法 (Methods)</strong>：第一個參數是 <code>self</code>（或是 <code>&amp;self</code>、<code>&amp;mut self</code>），需要透過執行個體來呼叫。</li>
+<li><strong>關聯函數 (Associated Functions)</strong>：沒有 <code>self</code> 參數。最常見的就是 <code>new()</code>，類似其他語言的「靜態方法」或「建構子」。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Rectangle</span> {  
+</span></span><span style="display:flex;"><span>    width: <span style="color:#66d9ef">u32</span>,  
+</span></span><span style="display:flex;"><span>    height: <span style="color:#66d9ef">u32</span>,  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Rectangle {  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 關聯函數：用來創建物件  
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(width: <span style="color:#66d9ef">u32</span>, height: <span style="color:#66d9ef">u32</span>) -&gt; <span style="color:#a6e22e">Self</span> {  
+</span></span><span style="display:flex;"><span>        Self { width, height }  
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 方法：計算面積。&amp;self 代表「唯讀借用」  
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">area</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">u32</span> {  
+</span></span><span style="display:flex;"><span>        self.width <span style="color:#f92672">*</span> self.height  
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 方法：修改大小。&amp;mut self 代表「可變借用」  
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">scale</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, factor: <span style="color:#66d9ef">u32</span>) {  
+</span></span><span style="display:flex;"><span>        self.width <span style="color:#f92672">*=</span> factor;  
+</span></span><span style="display:flex;"><span>        self.height <span style="color:#f92672">*=</span> factor;  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> rect <span style="color:#f92672">=</span> Rectangle::new(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>); <span style="color:#75715e">// 呼叫關聯函數  
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;面積：</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, rect.area());    <span style="color:#75715e">// 呼叫方法  
+</span></span></span><span style="display:flex;"><span>    rect.scale(<span style="color:#ae81ff">2</span>);                        <span style="color:#75715e">// 修改物件  
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><strong>⚡ 極速講解</strong>：
+<ul>
+<li><code>&amp;self</code>：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。</li>
+<li><code>&amp;mut self</code>：我想改這個物件。</li>
+<li><code>self</code>：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。</li>
+</ul>
+</li>
+<li><strong>常用模式</strong>：<strong>鍊式調用（Chain Calling / Builder Pattern）</strong>。讓方法最後回傳 <code>Self</code>，你就能寫出像 <code>rect.resize(100, 100).color(&quot;blue&quot;).draw()</code> 這種極具藝術感的漂亮代碼。</li>
+</ul>
+<h2 id="泛型-generics寫一份代碼跑遍所有型態"><strong>泛型 (Generics)：寫一份代碼，跑遍所有型態</strong></h2>
+<p>不想為 <code>i32</code> 寫一遍 add，又為 <code>f64</code> 寫一遍一模一樣的 add？泛型 <code>T</code> 是你的救星。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {  
+</span></span><span style="display:flex;"><span>    x: <span style="color:#a6e22e">T</span>,  
+</span></span><span style="display:flex;"><span>    y: <span style="color:#a6e22e">T</span>,  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Point<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">x</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">T</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self.x  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="零成本抽象的祕密單態化-monomorphization"><strong>零成本抽象的祕密：單態化 (Monomorphization)</strong></h3>
+<p>Rust 的泛型為什麼效能頂級？因為編譯器在編譯時會玩「複製貼上」。如果你用了 <code>Point&lt;i32&gt;</code> 和 <code>Point&lt;f64&gt;</code>，編譯器會幫你生成兩份專屬的機器碼.</p>
+<ul>
+<li><strong>優點</strong>：執行速度跟手寫特定型別一模一樣，沒有任何執行時期的開銷.</li>
+<li><strong>缺點</strong>：如果泛型用得太濫，編譯出的執行檔體積會變大（二進制膨脹）.</li>
+</ul>
+<h2 id="特徵-trait定義能力的介面"><strong>特徵 (Trait)：定義能力的介面</strong></h2>
+<p>特徵就像是「證書」。只要你實作了某個特徵，你就向編譯器保證了你擁有了某種「能力」。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">trait</span> Speak {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">say</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 預設實作：如果你不寫，預設就是這個  
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">introduce</span>(<span style="color:#f92672">&amp;</span>self) -&gt; String {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">format!</span>(<span style="color:#e6db74">&#34;大家好，我說：</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, self.say())  
+</span></span><span style="display:flex;"><span>    }  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這在開發時非常強大，因為你可以針對「行為」而非「型別」來寫函數. 只要會動、會叫的東西，都能傳進來處理.</p>
+<h2 id="泛型約束-trait-bounds"><strong>泛型約束 (Trait Bounds)</strong></h2>
+<p>如果你寫 <code>fn process&lt;T&gt;(item: T)</code>，編譯器會報錯，因為它不知道 <code>T</code> 到底能不能印、能不能加. 這時候你需要「約束」：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::fmt::Display;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 告訴編譯器：T 必須要有「會列印」的能力  
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">print_it</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Display</span><span style="color:#f92672">&gt;</span>(item: <span style="color:#a6e22e">T</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, item);  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 多重約束：T 必須能印出來，且必須能複製  
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">complex_process</span><span style="color:#f92672">&lt;</span>T: <span style="color:#a6e22e">Display</span> <span style="color:#f92672">+</span> Clone<span style="color:#f92672">&gt;</span>(item: <span style="color:#a6e22e">T</span>) {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> copy <span style="color:#f92672">=</span> item.clone();  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;複製品：</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, copy);  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="讓代碼更優雅where-語句"><strong>讓代碼更優雅：where 語句</strong></h3>
+<p>當約束太多時，函數簽名會變得像天書. 這時候請出 <code>where</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 亂成一團的寫法  
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">some_fn</span><span style="color:#f92672">&lt;</span>T: Clone <span style="color:#f92672">+</span> Display, U: <span style="color:#a6e22e">Debug</span> <span style="color:#f92672">+</span> Add<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>, u: <span style="color:#a6e22e">U</span>) { <span style="color:#f92672">..</span>. }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 優雅的寫法  
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">some_fn</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span>(t: <span style="color:#a6e22e">T</span>, u: <span style="color:#a6e22e">U</span>)  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>  
+</span></span><span style="display:flex;"><span>    T: Clone <span style="color:#f92672">+</span> Display,  
+</span></span><span style="display:flex;"><span>    U: <span style="color:#a6e22e">Debug</span> <span style="color:#f92672">+</span> Add,  
+</span></span><span style="display:flex;"><span>{  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...  
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="系統核心特徵rust-內建的超能力"><strong>系統核心特徵：Rust 內建的超能力</strong></h2>
+<ol>
+<li><strong>Display vs Debug</strong>：
+<ul>
+<li><strong>Debug</strong> (<code>{:?}</code>)：開發者專用，通常用 <code>#[derive(Debug)]</code> 自動生成.</li>
+<li><strong>Display</strong> (<code>{}</code>)：給最終使用者看的，必須手動定義怎麼呈現.</li>
+</ul>
+</li>
+<li><strong>Add/Sub/Mul</strong>：運算子多載. 想要你的結構體支援 <code>+</code> 號？實作 <code>std::ops::Add</code> 就行了.</li>
+<li><strong>Deref (解參考)</strong>：這是 Rust 的魔法. 它讓 <code>String</code> 能在需要 <code>&amp;str</code> 的地方自動轉換. 這叫「Deref 強制轉換（Deref Coercion）」.</li>
+<li><strong>Drop</strong>：解構子. 當變數離開作用域時要做什麼？（比如關閉檔案、斷開網路連接），都在這裡定義.</li>
+<li><strong>Clone vs Copy</strong>：
+<ul>
+<li><strong>Clone</strong>：深拷貝（Deep Copy），會有開銷，需要顯式呼叫 <code>.clone()</code> .</li>
+<li><strong>Copy</strong>：淺拷貝（Shallow Copy），發生在賦值時，只有 Stack 上的簡單型態能實作.</li>
+</ul>
+</li>
+</ol>
+<h2 id="裝飾性特徵-marker-traits編譯器的標籤"><strong>裝飾性特徵 (Marker Traits)：編譯器的標籤</strong></h2>
+<p>有些特徵根本沒有方法，它們只是「標記」，是用來跟編譯器溝通的：</p>
+<ul>
+<li><strong>Sized</strong>：標記型別的大小在編譯期是否已知（預設所有泛型都是 <code>Sized</code> ）。</li>
+<li><strong>Sync</strong>：標記此型別可以在執行緒間安全地「共享」借用（<code>&amp;T</code>）。</li>
+<li><strong>Send</strong>：標記此型別的所有權可以在執行緒間安全地「傳遞」。</li>
+</ul>
+<p>這些標記就像是 VIP 會員卡. 如果你的資料沒有 <code>Send</code> 標籤，你想把它傳到另一個執行緒？編譯器會直接把你攔下來.</p>
+<h2 id="dyn-dynamic-dispatch動態分派"><strong>dyn (Dynamic Dispatch)：動態分派</strong></h2>
+<p>這是在處理「異質清單」時的終極大招. 例如你有一堆不同的動物，它們都實作了 <code>Speak</code> 特徵，你想把它們塞進同一個 <code>Vec</code> ：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> animals: Vec<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> Speak<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">vec!</span>[  
+</span></span><span style="display:flex;"><span>    Box::new(Dog {}),  
+</span></span><span style="display:flex;"><span>    Box::new(Cat {}),  
+</span></span><span style="display:flex;"><span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> animal <span style="color:#66d9ef">in</span> animals {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, animal.say());  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="靜態分派-vs-動態分派"><strong>靜態分派 vs 動態分派</strong></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left">泛型 (靜態分派)</th>
+          <th style="text-align: left">dyn (動態分派)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>運作時間</strong></td>
+          <td style="text-align: left">編譯期確定</td>
+          <td style="text-align: left">執行期確定</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>效能</strong></td>
+          <td style="text-align: left">極快（可內聯優化）</td>
+          <td style="text-align: left">較慢（需查虛擬表 VTable）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>代碼體積</strong></td>
+          <td style="text-align: left">可能膨脹（多份拷貝）</td>
+          <td style="text-align: left">較小（一份代碼）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>靈活性</strong></td>
+          <td style="text-align: left">同一個 Vec 只能放同一型別</td>
+          <td style="text-align: left">同一個 Vec 可以放不同型別</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>原則</strong>：優先用泛型（靜態分發），只有在「真的沒辦法確定型態」時才用 <code>dyn</code>（動態分發）. 記住， <code>dyn</code> 的物件必須是<strong>物件安全</strong>的：不能有泛型方法，也不能回傳 <code>Self</code>，因為編譯器在那張虛擬表裡放不下這些變動的資訊.</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://seansie0830.github.io/tags/rust"
+      >rust</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      >30天</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/rust-intro-ch6/"
+      ><span class="mr-1.5">←</span><span>Ch6：閉包與迭代器 — 持續開出的支票</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/rust-intro-ch4/"
+      ><span>Ch4：所有權避坑指南與智慧指標 — 記憶體權力的分配</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>

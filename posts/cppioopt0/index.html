@@ -56,11 +56,17 @@
   
   
   <meta name="description" content="在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C&#43;&#43; 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。
-基本版本（標配） 在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
-衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
+基本版本（標配）
+在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
+衝突的根源
+這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
 常見的衝突情況
-殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（&rsquo;\n&rsquo;）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。 確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。
-取消輸入輸出流同步 C&#43;&#43; 預設會將 cin、cout 與 C 語言的 stdio（也就是 scanf、printf 所使用的標準輸入輸出庫）同步。這意味著每次進行 cin、cout 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 stdio 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。
+
+殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（&rsquo;\n&rsquo;）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。
+
+確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。
+取消輸入輸出流同步
+C&#43;&#43; 預設會將 cin、cout 與 C 語言的 stdio（也就是 scanf、printf 所使用的標準輸入輸出庫）同步。這意味著每次進行 cin、cout 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 stdio 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。
 取消同步的方法
 您可以透過以下程式碼取消 cin、cout 與 stdio 的同步：" />
   <meta name="author" content="Sean Sie" />
@@ -111,15 +117,12 @@
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog">
@@ -127,7 +130,7 @@
 基本版本（標配） 在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
 衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
 常見的衝突情況
-殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（&rsquo;\n&rsquo;）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。 確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。
+殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（’\n’）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。 確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。
 取消輸入輸出流同步 C&#43;&#43; 預設會將 cin、cout 與 C 語言的 stdio（也就是 scanf、printf 所使用的標準輸入輸出庫）同步。這意味著每次進行 cin、cout 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 stdio 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。
 取消同步的方法
 您可以透過以下程式碼取消 cin、cout 與 stdio 的同步：">
@@ -147,7 +150,7 @@
 取消輸入輸出流同步 C&#43;&#43; 預設會將 cin、cout 與 C 語言的 stdio（也就是 scanf、printf 所使用的標準輸入輸出庫）同步。這意味著每次進行 cin、cout 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 stdio 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。
 取消同步的方法
 您可以透過以下程式碼取消 cin、cout 與 stdio 的同步：">
-  <meta property="og:locale" content="zh-tw">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-09-14T11:40:57+08:00">
@@ -160,12 +163,14 @@
     <meta property="article:tag" content="競程">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog">
-<meta name="twitter:description" content="在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C&#43;&#43; 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog">
+  <meta name="twitter:description" content="在競程解題時，有些題目會刻意設計大量資料，這時 I/O（輸入輸出）優化就變得格外重要。雖然 C/C&#43;&#43; 相比其他直譯式語言，I/O 效率已經相當不錯，但仍有進一步提升的空間。本文將介紹各種 I/O 優化技巧，從入門的安全方法到進階但可能帶有風險的技巧，讓您在競程中更上一層樓。
 基本版本（標配） 在 C&#43;&#43; 中，我們同時擁有來自 C 語言的 scanf 和 printf，以及 C&#43;&#43; 標準庫提供的 cin 和 cout。由於 C&#43;&#43; 是 C 的超集，也就是說 C&#43;&#43; 完全兼容 C 的語法和功能，這使得我們可以在 C&#43;&#43; 中自由使用這兩套輸入輸出函式。然而，這樣的便利性也帶來了潛在的衝突。
 衝突的根源 這些衝突主要源自於它們對於輸入緩衝區（input buffer）的處理方式不同。scanf 和 cin 在讀取輸入時，都會從輸入緩衝區中獲取資料。如果我們在程式中混合使用這兩者，可能會導致輸入緩衝區的狀態混亂，進而產生非預期的結果。
 常見的衝突情況
-殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（&rsquo;\n&rsquo;）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。 確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。
+殘留的換行符號：當我們使用 scanf 讀取數字後，按下 Enter 鍵會在輸入緩衝區中留下一個換行符號（’\n’）。如果接下來使用 cin 讀取字串，cin 會直接讀取這個換行符號，導致讀取的字串為空。 確實，在多數情況下，開發者會傾向於統一使用 cin、cout 或 scanf、printf，避免混用的麻煩。如果您追求程式的輸出效率，取消輸入輸出流同步是個值得考慮的優化策略。
 取消輸入輸出流同步 C&#43;&#43; 預設會將 cin、cout 與 C 語言的 stdio（也就是 scanf、printf 所使用的標準輸入輸出庫）同步。這意味著每次進行 cin、cout 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 stdio 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。
 取消同步的方法
 您可以透過以下程式碼取消 cin、cout 與 stdio 的同步：">
@@ -288,6 +293,9 @@
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
@@ -306,7 +314,7 @@
 <p>C++ 預設會將 <code>cin</code>、<code>cout</code> 與 C 語言的 <code>stdio</code>（也就是 <code>scanf</code>、<code>printf</code> 所使用的標準輸入輸出庫）同步。這意味著每次進行 <code>cin</code>、<code>cout</code> 操作時，都會強制刷新底層的輸入輸出緩衝區，確保與 <code>stdio</code> 的操作保持一致。雖然這增加了安全性，但也可能導致一些效能損耗，尤其是在頻繁進行輸入輸出操作的情況下。</p>
 <p><strong>取消同步的方法</strong></p>
 <p>您可以透過以下程式碼取消 <code>cin</code>、<code>cout</code> 與 <code>stdio</code> 的同步：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>ios_base<span style="color:#f92672">::</span>sync_with_stdio(false);
 </span></span></code></pre></div><p>這行程式碼會告知 C++ 標準庫，<code>cin</code>、<code>cout</code> 不需要再與 <code>stdio</code> 同步。如此一來，<code>cin</code>、<code>cout</code> 可以更自由地管理自己的緩衝區，從而提升輸入輸出的效率。</p>
 <p><strong>注意事項</strong></p>
 <ul>
@@ -322,7 +330,7 @@
 <p><code>cin.tie(0)</code> 通常會與 <code>std::ios::sync_with_stdio(false)</code> 一起使用。<code>std::ios::sync_with_stdio(false)</code> 用於解除 C++ 的輸入輸出流與 C 語言標準輸入輸出庫 (stdio) 之間的同步。這使得 C++ 的輸入輸出流獨立於 stdio，從而實現更快的操作。</p>
 <h4 id="取消綁定關係的方法">取消綁定關係的方法</h4>
 <p>在<code>main</code>函數加上加上此段程式碼即可。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>cin.tie(<span style="color:#ae81ff">0</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>cin.tie(<span style="color:#ae81ff">0</span>)
 </span></span></code></pre></div><p><strong>注意事項</strong></p>
 <ul>
 <li>使用 <code>std::ios::sync_with_stdio(false)</code> 和 <code>cin.tie(0)</code> 後，不應混用 C++ 的輸入輸出流和 C 語言的標準輸入輸出庫 (例如：不要同時使用 <code>cout</code> 和 <code>printf</code>)。</li>
@@ -339,11 +347,11 @@
 </li>
 <li>
 <p>用法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    puts(<span style="color:#e6db74">&#34;Hello, world!&#34;</span>);  <span style="color:#75715e">// 輸出 &#34;Hello, world!&#34; 並換行
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div></li>
 </ul>
@@ -354,11 +362,11 @@
 </li>
 <li>
 <p>用法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    putchar(<span style="color:#e6db74">&#39;A&#39;</span>);  <span style="color:#75715e">// 輸出字元 &#39;A&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div></li>
 </ul>
@@ -372,13 +380,13 @@
 </li>
 <li>
 <p>用法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> name[<span style="color:#ae81ff">50</span>];
 </span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;請輸入您的名字：&#34;</span>);
 </span></span><span style="display:flex;"><span>    gets(name);  <span style="color:#75715e">// 從鍵盤讀取名字，並儲存到 name 陣列中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;您好，%s！</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, name);
+</span></span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;您好，%s！</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, name);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div></li>
@@ -390,8 +398,8 @@
 </li>
 <li>
 <p>用法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ch;
 </span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;請輸入一個字元：&#34;</span>);
@@ -510,7 +518,7 @@
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

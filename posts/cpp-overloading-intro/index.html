@@ -55,11 +55,39 @@
   
   
   
-  <meta name="description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
+  <meta name="description" content="簡介
+多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
 而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
-函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
-int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
-int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2." />
+函數多載
+為什麼要用這個?
+想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
+int addInt(int a, int b) {
+    return a &#43; b;
+}
+
+double addDouble(double a, double b) {
+    return a &#43; b;
+}
+
+float addFloat(float a, float b) {
+    return a &#43; b;
+}
+
+string addString(string a, string b) {
+    return a &#43; b;
+}
+然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
+int main() {
+    int intResult = addInt(5, 3);          // 使用 addInt
+    double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble
+    float floatResult = addFloat(1.0f, 2.0f);   //使用addFloat
+    std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString
+
+    // ... (使用這些結果) ...
+    return 0;
+}
+多載解決方案
+其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -108,23 +136,20 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
   
-
-
   
-  
-  <meta itemprop="name" content="C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog">
+  <meta itemprop="name" content="C&#43;&#43; 多載介紹 (運算子多載&函數多載) | seansie blog">
   <meta itemprop="description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
 而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
 函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
 int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
-int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.">
+int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble float floatResult = addFloat(1.0f, 2.0f); //使用addFloat std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString // ... (使用這些結果) ... return 0; } 多載解決方案 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。">
   <meta itemprop="datePublished" content="2025-02-08T12:13:03+08:00">
   <meta itemprop="dateModified" content="2025-02-08T12:13:03+08:00">
   <meta itemprop="wordCount" content="1014">
@@ -132,13 +157,13 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
   
   <meta property="og:url" content="https://seansie0830.github.io/posts/cpp-overloading-intro/">
   <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog">
+  <meta property="og:title" content="C&#43;&#43; 多載介紹 (運算子多載&函數多載) | seansie blog">
   <meta property="og:description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
 而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
 函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
 int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
-int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.">
-  <meta property="og:locale" content="zh-tw">
+int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble float floatResult = addFloat(1.0f, 2.0f); //使用addFloat std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString // ... (使用這些結果) ... return 0; } 多載解決方案 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-02-08T12:13:03+08:00">
@@ -151,12 +176,14 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
     <meta property="article:tag" content="簡介">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog">
-<meta name="twitter:description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C&#43;&#43; 多載介紹 (運算子多載&函數多載) | seansie blog">
+  <meta name="twitter:description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
 而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
 函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
 int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
-int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.">
+int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble float floatResult = addFloat(1.0f, 2.0f); //使用addFloat std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString // ... (使用這些結果) ... return 0; } 多載解決方案 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。">
 
   
   
@@ -276,6 +303,9 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
@@ -286,7 +316,7 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 <h2 id="函數多載">函數多載</h2>
 <h3 id="為什麼要用這個">為什麼要用這個?</h3>
 <p>想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C++有不同的 <strong>資料型態</strong> ，所以每個資料型態都要分別定義自己的函數。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">addInt</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">addInt</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -302,35 +332,35 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>然後要使用的時候，還要分別記住 <code>addInt</code>、<code>addDouble</code>、<code>addFloat</code> 和 <code>addString</code>，不僅沒有效率，這樣要用的時候<strong>還容易出錯，且程式碼會變得冗長、難以維護。</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> intResult <span style="color:#f92672">=</span> addInt(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>);          <span style="color:#75715e">// 使用 addInt
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> doubleResult <span style="color:#f92672">=</span> addDouble(<span style="color:#ae81ff">2.5</span>, <span style="color:#ae81ff">1.5</span>); <span style="color:#75715e">// 使用 addDouble
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> floatResult <span style="color:#f92672">=</span> addFloat(<span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">2.0f</span>);   <span style="color:#75715e">//使用addFloat
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>string stringResult <span style="color:#f92672">=</span> addString(<span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34; World&#34;</span>); <span style="color:#75715e">// 使用 addString
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> doubleResult <span style="color:#f92672">=</span> addDouble(<span style="color:#ae81ff">2.5</span>, <span style="color:#ae81ff">1.5</span>); <span style="color:#75715e">// 使用 addDouble
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> floatResult <span style="color:#f92672">=</span> addFloat(<span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">2.0f</span>);   <span style="color:#75715e">//使用addFloat
+</span></span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>string stringResult <span style="color:#f92672">=</span> addString(<span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34; World&#34;</span>); <span style="color:#75715e">// 使用 addString
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... (使用這些結果) ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="多載解決方案">多載解決方案</h3>
 <p>其實在C++中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。</p>
 <p>那怎麼分辨呢? 用 **函數原型  ，**來分辨，如下所示。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// int version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// int version
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// double version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">double</span> a, <span style="color:#66d9ef">double</span> b) {
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">double</span> a, <span style="color:#66d9ef">double</span> b) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// float version
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">float</span> a, <span style="color:#66d9ef">float</span> b) {
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">float</span> a, <span style="color:#66d9ef">float</span> b) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// string version (concatenation)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>std<span style="color:#f92672">::</span>string add(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> b) {
+</span></span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string add(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> b) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>在上面這個程式碼中，讓我們來看看每個函數的原型。</p>
@@ -342,11 +372,11 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 </ul>
 <p>很明顯，每個原型都不一樣，而多載的上下文就是原型，因此這四個 <strong>同名</strong> 函數是可以合法的存在的。</p>
 <p>而怎麼使用呢，如下所示</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> add(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;          <span style="color:#75715e">// Output: 8 (int)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> add(<span style="color:#ae81ff">2.5</span>, <span style="color:#ae81ff">3.7</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;      <span style="color:#75715e">// Output: 6.2 (double)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> add(<span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34; World&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// Output: Hello World (string)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> add(<span style="color:#ae81ff">2.5</span>, <span style="color:#ae81ff">3.7</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;      <span style="color:#75715e">// Output: 6.2 (double)
+</span></span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> add(<span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34; World&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// Output: Hello World (string)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>在這個例子中，第一行中 <code>add(5,3)</code> ，裡面的參數可以被識別出來是 <code>(int,int)</code> 的資料型態，因此能根據剛剛的上下文，推論出要執行這個<code>int add(int,int)</code> 對應的函數。</p>
 <blockquote>
@@ -354,24 +384,24 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 </blockquote>
 <h3 id="預設參數">預設參數</h3>
 <p>有時候，有些約定俗成的東西，一直重複真的很麻煩 (請完成這個句子) <strong>，不如直接設定成預設參數，省時省力。</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">greet</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> name, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> greeting <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> punctuation <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;!&#34;</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">greet</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> name, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> greeting <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> punctuation <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;!&#34;</span>) {
 </span></span><span style="display:flex;"><span>  std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> greeting <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> punctuation <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>在這個打招呼的函數 <code>greet</code> ，大家打招呼除非另有要求，不然大概都是千篇一律的 <code>&quot;Hello&quot;</code> 吧，此外，結尾的標點符號，也通常是 <code>!</code> ，這些在上面的函數就可以設定成 <strong>預設參數</strong></p>
 <p>而設定的方法就是在函數定義中，在參數定義後面加上 <code>std::string&amp; greeting = &quot;Hello&quot;</code> ，就是後面的 <code>= &quot;Hello&quot;</code> 。</p>
 <p>如此一來，如果這個參數沒有填入，就會自動填入預設值，極為 <code>&quot;Hello&quot;</code> 。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用所有參數
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  greet(<span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;Good morning&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>);
+</span></span></span><span style="display:flex;"><span>  greet(<span style="color:#e6db74">&#34;Alice&#34;</span>, <span style="color:#e6db74">&#34;Good morning&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 只提供名字，使用預設的問候語和標點符號
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  greet(<span style="color:#e6db74">&#34;Bob&#34;</span>);
+</span></span></span><span style="display:flex;"><span>  greet(<span style="color:#e6db74">&#34;Bob&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 提供名字和問候語，使用預設的標點符號
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  greet(<span style="color:#e6db74">&#34;Charlie&#34;</span>, <span style="color:#e6db74">&#34;Hi&#34;</span>);
+</span></span></span><span style="display:flex;"><span>  greet(<span style="color:#e6db74">&#34;Charlie&#34;</span>, <span style="color:#e6db74">&#34;Hi&#34;</span>);
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">//不好的做法，一直重複&#34;How are you&#34;, &#34;?&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  greet(<span style="color:#e6db74">&#34;Dave&#34;</span>, <span style="color:#e6db74">&#34;How are you&#34;</span>, <span style="color:#e6db74">&#34;?&#34;</span>);
+</span></span></span><span style="display:flex;"><span>  greet(<span style="color:#e6db74">&#34;Dave&#34;</span>, <span style="color:#e6db74">&#34;How are you&#34;</span>, <span style="color:#e6db74">&#34;?&#34;</span>);
 </span></span><span style="display:flex;"><span>  greet(<span style="color:#e6db74">&#34;Eve&#34;</span>, <span style="color:#e6db74">&#34;How are you&#34;</span>, <span style="color:#e6db74">&#34;?&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
@@ -379,15 +409,15 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 </span></span></code></pre></div><h1 id="運算子多載">運算子多載</h1>
 <h2 id="最常見的例子">最常見的例子</h2>
 <p>在C+++中， <code>string</code> 這個物件應該非常常用吧，應該不少人已經用過了其運算子多載的功能。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>string s1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello, &#34;</span>;
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>string s2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;world!&#34;</span>;
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>string s3 <span style="color:#f92672">=</span> s1 <span style="color:#f92672">+</span> s2;       <span style="color:#75715e">// 使用 + 连接
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> s3 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 输出: Hello, world!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> s3 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 输出: Hello, world!
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>可是在C++運算子的介紹， <code>+</code> 理論上只能針對數字阿，字串怎麼能相加呢?</p>
 <p>因此，其實字串根本沒有數學意義上的相加，而是呼叫了類似 <code>strcat</code> 的字串合併函數，並且多載到 <code>+</code> 運算子上，其上下文是該運算子的左邊跟右邊的運算元，這個例子下是 <code>string+string</code> 。</p>
@@ -395,14 +425,14 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 <h2 id="怎麼使用">怎麼使用</h2>
 <p>這裡以分數運算的例子為例，然後因為篇幅考量，本次只實作輸入輸出、乘法與除法，因為比較簡單。</p>
 <p>首先先定義分數的類別</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">frac</span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">frac</span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>		frac(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b){
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>nu<span style="color:#f92672">=</span>a;
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>de<span style="color:#f92672">=</span>b;
 </span></span><span style="display:flex;"><span>			 <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Denominator cannot be zero.&#34;</span>); <span style="color:#75715e">// 分母不可為0
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	    }
+</span></span></span><span style="display:flex;"><span>	    }
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getNu</span>(){
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> nu;
@@ -412,13 +442,13 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> nu,de <span style="color:#75715e">// nu=numerator (分子) de=demoninator (分母)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>其中，按照慣例資料要封裝起來，因此 <code>nu</code> 跟 <code>de</code> 即分母與分子，要被放在 <code>private</code> 中，限制存取。</p>
 <p>而分母跟分子還是要有介面可供外界存取，因此在 <code>public</code> 中提供個兩個函數(介面)，即 <code>getNu</code> 與 <code>getDe</code> 。</p>
 <p>然後還要有建構子來方便的初始化分數物件，順帶一題 <code>this</code> 關鍵字在建構子是個指標，指向欲建立的新物件，因此如果要透過 <code>this</code> 來存取其內部成員，會用 <code>this-&gt;nu</code> 裡面的 <code>-&gt;</code> 箭頭運算子。</p>
 <h3 id="多載運算子語法">多載運算子語法</h3>
 <p>在類別定義內，如果要定義多載函數，語法如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">friend</span> <span style="color:#960050;background-color:#1e0010">回傳的物件</span> <span style="color:#66d9ef">operator</span> <span style="color:#960050;background-color:#1e0010">要多載的運算子</span> (<span style="color:#66d9ef">const</span> <span style="color:#960050;background-color:#1e0010">物件參考</span> , <span style="color:#66d9ef">const</span> <span style="color:#960050;background-color:#1e0010">物件參考</span> ,,,,,,){<span style="color:#960050;background-color:#1e0010">函數本體</span>}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">friend</span> <span style="color:#960050;background-color:#1e0010">回傳的物件</span> <span style="color:#66d9ef">operator</span> <span style="color:#960050;background-color:#1e0010">要多載的運算子</span> (<span style="color:#66d9ef">const</span> <span style="color:#960050;background-color:#1e0010">物件參考</span> , <span style="color:#66d9ef">const</span> <span style="color:#960050;background-color:#1e0010">物件參考</span> ,,,,,,){<span style="color:#960050;background-color:#1e0010">函數本體</span>}
 </span></span></code></pre></div><ul>
 <li><code>friend</code> 是 <code>C++</code> 的關鍵字，是讓這個函數宣告既在類別定義中，而又可以存取類別內部的私有成員，就如同朋友一樣。</li>
 <li><code>operator 要多載的運算子</code> : 例如 <code>string</code> 的相加多載運算子就要寫成 <code>operator +</code></li>
@@ -430,12 +460,12 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 <p>為甚麼要用參考? 因為有些時候物件很大，用參考可以減少複製的時間提升效率。</p>
 </blockquote>
 <h3 id="分數物件多載乘除實作">分數物件多載乘除實作</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">friend</span> frac <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> lhs, <span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> rhs) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">friend</span> frac <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>(<span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> lhs, <span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> rhs) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">frac</span>(lhs.nu <span style="color:#f92672">*</span> rhs.nu, lhs.de <span style="color:#f92672">*</span> rhs.de);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Friend function definition for division (inside the class)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">friend</span> frac <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> lhs, <span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> rhs) {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">friend</span> frac <span style="color:#66d9ef">operator</span><span style="color:#f92672">/</span>(<span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> lhs, <span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> rhs) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (rhs.nu <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Cannot divide by zero-fraction.&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
@@ -448,44 +478,44 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 <h3 id="分物數件輸入輸出實作">分物數件輸入輸出實作</h3>
 <p>為了讓 <code>frac</code> 類別更完整，我們需要能夠方便地輸入和輸出分數。這可以透過多載 <code>&lt;&lt;</code> (輸出運算子) 和 <code>&gt;&gt;</code> (輸入運算子) 來實現。</p>
 <p><strong>C++</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#**include** &lt;iostream&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#**include** &lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#**include** &lt;sstream&gt; </span><span style="color:#75715e">// 用於 stringstream#**include** &lt;numeric&gt; // 用於 std::gcd (C++17) 或 __gcd (C++11/14)class frac {
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>.... <span style="color:#960050;background-color:#1e0010">中略</span>
+</span></span></span><span style="display:flex;"><span>.... <span style="color:#960050;background-color:#1e0010">中略</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... (其他程式碼保持不變) ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    frac(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span></span><span style="display:flex;"><span>    frac(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>nu <span style="color:#f92672">=</span> a;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>de <span style="color:#f92672">=</span> b;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (b <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Denominator cannot be zero.&#34;</span>); <span style="color:#75715e">// 分母不可為0
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        reduce(); <span style="color:#75715e">// 在建構子中加入化簡
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Friend function for output (&lt;&lt; operator)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>ostream<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(std<span style="color:#f92672">::</span>ostream<span style="color:#f92672">&amp;</span> os, <span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> f) {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>ostream<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&lt;&lt;</span>(std<span style="color:#f92672">::</span>ostream<span style="color:#f92672">&amp;</span> os, <span style="color:#66d9ef">const</span> frac<span style="color:#f92672">&amp;</span> f) {
 </span></span><span style="display:flex;"><span>        os <span style="color:#f92672">&lt;&lt;</span> f.nu <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">&lt;&lt;</span> f.de;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> os;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Friend function for input (&gt;&gt; operator)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>istream<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&gt;&gt;</span>(std<span style="color:#f92672">::</span>istream<span style="color:#f92672">&amp;</span> is, frac<span style="color:#f92672">&amp;</span> f) {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">friend</span> std<span style="color:#f92672">::</span>istream<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">&gt;&gt;</span>(std<span style="color:#f92672">::</span>istream<span style="color:#f92672">&amp;</span> is, frac<span style="color:#f92672">&amp;</span> f) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> slash; <span style="color:#75715e">// 用來讀取 &#39;/&#39; 字元
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        is <span style="color:#f92672">&gt;&gt;</span> f.nu <span style="color:#f92672">&gt;&gt;</span> slash <span style="color:#f92672">&gt;&gt;</span> f.de;
+</span></span></span><span style="display:flex;"><span>        is <span style="color:#f92672">&gt;&gt;</span> f.nu <span style="color:#f92672">&gt;&gt;</span> slash <span style="color:#f92672">&gt;&gt;</span> f.de;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (slash <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;/&#39;</span>) {
 </span></span><span style="display:flex;"><span>            is.setstate(std<span style="color:#f92672">::</span>ios<span style="color:#f92672">::</span>failbit); <span style="color:#75715e">// 設定錯誤狀態
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (f.de <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Denominator cannot be zero.&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        f.reduce(); <span style="color:#75715e">// 輸入後化簡
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> is;
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> is;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> nu, de; <span style="color:#75715e">// nu = numerator (分子), de = denominator (分母)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><p><strong>程式碼說明：</strong></p>
 <ol>
 <li><strong><code>operator&lt;&lt;</code> (輸出運算子多載):</strong>
@@ -527,25 +557,25 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
 </ol>
 <p><strong>使用範例：</strong></p>
 <p><strong>C++</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#**include** &lt;iostream&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#**include** &lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#**include** &lt;stdexcept&gt;</span><span style="color:#75715e">// ... (frac 類別定義) ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    frac f1(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>); <span style="color:#75715e">// 建立分數 3/6
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    frac f2(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>); <span style="color:#75715e">// 建立分數 1/-2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>    frac f2(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>); <span style="color:#75715e">// 建立分數 1/-2
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f1: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> f1 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 輸出: f1: 1/2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f2: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> f2 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 輸出: f2: -1/2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f2: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> f2 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 輸出: f2: -1/2
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    frac f3;
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Enter a fraction (numerator/denominator): &#34;</span>;
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cin <span style="color:#f92672">&gt;&gt;</span> f3; <span style="color:#75715e">// 輸入分數
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (std<span style="color:#f92672">::</span>cin.fail()) {
 </span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Invalid input format!&#34;</span> <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;You entered: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> f3 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 輸出輸入的分數
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    frac f4 <span style="color:#f92672">=</span> f1 <span style="color:#f92672">*</span> f2;
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f1 * f2: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> f4 <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
@@ -616,6 +646,12 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
   
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/rust-intro-ch1/"
+      ><span class="mr-1.5">←</span><span>Ch1：為什麼是 Rust？記憶體安全的暴力美學</span></a
+    >
+    
     
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
@@ -646,7 +682,7 @@ int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult 
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"

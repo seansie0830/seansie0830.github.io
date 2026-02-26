@@ -56,12 +56,32 @@
   
   
   <meta name="description" content="Zerojudge a001. 哈囉題目連結
-Python 題解 # 結果：AC (18ms, 3.3MB) # Prompt the user for input with a message name = input() # Construct the output string using concatenation output_string = &#34;hello, &#34; &#43; name # Print the output string print(output_string) 讀取使用者輸入
-name = input() 這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。
+Python 題解
+# 結果：AC (18ms, 3.3MB)
+# Prompt the user for input with a message
+name = input()
+
+# Construct the output string using concatenation
+output_string = &#34;hello, &#34; &#43; name
+
+# Print the output string
+print(output_string)
+
+
+讀取使用者輸入
+name = input()
+這行程式碼使用 input() 函式來讀取使用者的輸入。input() 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 name 變數中。
+
+
 建構輸出字串
-output_string = &#34;hello, &#34; &#43; name 這行程式碼使用 &#43; 運算子來將 &ldquo;hello, &quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。
+output_string = &#34;hello, &#34; &#43; name
+這行程式碼使用 &#43; 運算子來將 &ldquo;hello, &quot; 和 name 變數中的值連接在一起。連接後的字串會被儲存在 output_string 變數中。
+
+
 輸出字串
-print(output_string) 這行程式碼使用 print() 函式來輸出 output_string 變數中的值。" />
+print(output_string)
+這行程式碼使用 print() 函式來輸出 output_string 變數中的值。
+程式碼範例" />
   <meta name="author" content="Sean Sie" />
   
 
@@ -110,15 +130,12 @@ print(output_string) 這行程式碼使用 print() 函式來輸出 output_string
   <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
 
   
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.156.0">
 
   
   
   
   
-  
-
-
   
   
   <meta itemprop="name" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
@@ -132,7 +149,7 @@ print(output_string) 這行程式碼使用 print() 函式來輸出 output_string
   <meta property="og:site_name" content="seansie&#39;s blog">
   <meta property="og:title" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
   <meta property="og:description" content="介紹了Zerojudge a001. 哈囉這個題目的解題方法，並提供三個不同程式語言（Python、C&#43;&#43;、Java、C）的程式碼，用於解決一個簡單的程式設計問題：讀取使用者的輸入，並將其與一個固定的字串連接在一起輸出。">
-  <meta property="og:locale" content="zh-tw">
+  <meta property="og:locale" content="zh_tw">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-07-12T20:42:47+08:00">
@@ -141,8 +158,10 @@ print(output_string) 這行程式碼使用 print() 函式來輸出 output_string
     <meta property="article:tag" content="題解">
 
   
-  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
-<meta name="twitter:description" content="介紹了Zerojudge a001. 哈囉這個題目的解題方法，並提供三個不同程式語言（Python、C&#43;&#43;、Java、C）的程式碼，用於解決一個簡單的程式設計問題：讀取使用者的輸入，並將其與一個固定的字串連接在一起輸出。">
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Zerojudge a001. 哈囉 詳解（C&#43;&#43;，python，Java，C語言）">
+  <meta name="twitter:description" content="介紹了Zerojudge a001. 哈囉這個題目的解題方法，並提供三個不同程式語言（Python、C&#43;&#43;、Java、C）的程式碼，用於解決一個簡單的程式設計問題：讀取使用者的輸入，並將其與一個固定的字串連接在一起輸出。">
 
   
   
@@ -262,13 +281,16 @@ print(output_string) 這行程式碼使用 print() 函式來輸出 output_string
       
       
       
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
     </div>
     
   </header>
 
   <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a001">Zerojudge a001. 哈囉題目連結</a></p>
 <h2 id="python-題解">Python 題解</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 結果：AC (18ms, 3.3MB)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 結果：AC (18ms, 3.3MB)</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Prompt the user for input with a message</span>
 </span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> input()
 </span></span><span style="display:flex;"><span>
@@ -280,17 +302,17 @@ print(output_string) 這行程式碼使用 print() 函式來輸出 output_string
 </span></span></code></pre></div><ol>
 <li>
 <p><strong>讀取使用者輸入</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>name <span style="color:#f92672">=</span> input()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>name <span style="color:#f92672">=</span> input()
 </span></span></code></pre></div><p>這行程式碼使用 <code>input()</code> 函式來讀取使用者的輸入。<code>input()</code> 函式會顯示一個提示訊息，並等待使用者輸入字串。使用者輸入的字串會被儲存在 <code>name</code> 變數中。</p>
 </li>
 <li>
 <p><strong>建構輸出字串</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>output_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> name
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>output_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> name
 </span></span></code></pre></div><p>這行程式碼使用 <code>+</code> 運算子來將 &ldquo;hello, &quot; 和 <code>name</code> 變數中的值連接在一起。連接後的字串會被儲存在 <code>output_string</code> 變數中。</p>
 </li>
 <li>
 <p><strong>輸出字串</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(output_string)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(output_string)
 </span></span></code></pre></div><p>這行程式碼使用 <code>print()</code> 函式來輸出 <code>output_string</code> 變數中的值。</p>
 <p><strong>程式碼範例</strong></p>
 <p>以下是程式碼的範例輸出：</p>
@@ -305,9 +327,9 @@ hello, world
 </li>
 </ol>
 <h2 id="c-題解">C++ 題解</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 324KB)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 324KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
@@ -332,7 +354,7 @@ Hello, world
 <li><code>cout &lt;&lt; &quot;Hello, &quot; &lt;&lt; input &lt;&lt; endl;</code>：這行程式碼使用 <code>cout</code> 函數輸出字串 &ldquo;Hello, &ldquo;，然後輸出 <code>input</code> 變數的值，最後輸出換行符。</li>
 </ul>
 <h2 id="java-詳解">Java 詳解</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//	AC (0.2s, 1.7MB)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//	AC (0.2s, 1.7MB)</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Scanner;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorld</span> {
@@ -347,7 +369,7 @@ Hello, world
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="程式碼分析">程式碼分析</h3>
 <p>1.<strong>匯入 Scanner 類別</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Scanner;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Scanner;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">**</span>程式碼重點<span style="color:#f92672">**</span>
 </span></span></code></pre></div><ul>
 <li>
@@ -358,13 +380,13 @@ Hello, world
 </li>
 </ul>
 <p><strong>2.宣告 Scanner 物件</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Scanner scanner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Scanner(System.<span style="color:#a6e22e">in</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Scanner scanner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Scanner(System.<span style="color:#a6e22e">in</span>);
 </span></span></code></pre></div><p>這行程式碼會宣告一個新的 <code>Scanner</code> 物件，並將其命名為 <code>scanner</code>。此物件將用於讀取使用者輸入的資料。</p>
 <p><strong>3.讀取使用者輸入的字串</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String inputString <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextLine</span>();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String inputString <span style="color:#f92672">=</span> scanner.<span style="color:#a6e22e">nextLine</span>();
 </span></span></code></pre></div><p>這行程式碼會使用 <code>scanner.nextLine()</code> 方法讀取使用者輸入的字串。讀取的字串會儲存在 <code>inputString</code> 變數中。</p>
 <p><strong>4.輸出字串</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> inputString);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;hello, &#34;</span> <span style="color:#f92672">+</span> inputString);
 </span></span></code></pre></div><p>這行程式碼會使用 <code>System.out.println()</code> 方法輸出字串。輸出字串為 &ldquo;hello, &ldquo;，後面接上 <code>inputString</code> 變數的值。</p>
 <p>範例輸出</p>
 <pre tabindex="0"><code>輸入：world
@@ -381,9 +403,9 @@ Hello, world
 <li>如何使用 <code>System.out.println()</code> 方法輸出字串。</li>
 </ul>
 <h2 id="c語言詳解">C語言詳解</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 92KB)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//	AC (2ms, 92KB)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">100</span>];
 </span></span><span style="display:flex;"><span>
@@ -471,7 +493,7 @@ Hello, world
   class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
 >
   <div class="mr-auto">
-    &copy; 2025
+    &copy; 2026
     <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
   </div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
