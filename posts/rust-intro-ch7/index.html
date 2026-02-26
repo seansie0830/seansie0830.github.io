@@ -1,0 +1,514 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg: #faf8f1"
+  lang="zh-tw"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Ch7：併發、隧道與巨集 — 跨時空的對話 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  
+  
+  
+  
+  <meta name="description" content="併發 (Concurrency)：安全的多執行緒
+Rust 是目前唯一敢號稱「無畏併發」（Fearless Concurrency）的語言。為什麼？因為在其他語言中，併發像是走鋼絲，稍微不注意就會發生「資料競爭」（Data Race）。但在 Rust，它的所有權系統與借用檢查器直接在編譯階段就幫你把這些隱患掐死了.
+thread::spawn：開啟平行時空
+在 Rust 開啟一個新執行緒非常簡單，但你會遇到第一個門檻：move 閉包.
+use std::thread;
+
+fn main() {  
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(move || {  
+        println!(&#34;在子執行緒中使用 vector: {:?}&#34;, v);  
+    });
+
+    // v 在這裡已經不能用了，因為所有權已經 move 進去了  
+    handle.join().unwrap(); // 等待子執行緒跑完，這叫「同步」  
+}
+⚡ 極速講解
+
+move 的必要性：Rust 無法確定子執行緒會活多久. 如果沒有 move ，子執行緒可能在主執行緒銷毀 v 之後還在嘗試讀取它. 為了安全，Rust 強制要求把所有權「打包帶走」 .
+JoinHandle： spawn 會回傳一個 handle . 如果你不 join ，主執行緒結束時，子執行緒會直接被強制關閉（像被拔掉電源一樣） .
+
+thread::scope：借用大解放
+如果你覺得 move 太暴力，想要在子執行緒裡「借用」主執行緒的東西怎麼辦？傳統 spawn 會報錯. 這時候就要出動 scope 了." />
+  <meta name="author" content="Sean Sie" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
+
+  
+  
+  
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+  
+  
+  
+  
+
+  
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  
+  
+
+  
+  
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+  
+  
+
+  
+  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.156.0">
+
+  
+  
+  
+  
+  
+  
+  <meta itemprop="name" content="Ch7：併發、隧道與巨集 — 跨時空的對話">
+  <meta itemprop="description" content="併發 (Concurrency)：安全的多執行緒 Rust 是目前唯一敢號稱「無畏併發」（Fearless Concurrency）的語言。為什麼？因為在其他語言中，併發像是走鋼絲，稍微不注意就會發生「資料競爭」（Data Race）。但在 Rust，它的所有權系統與借用檢查器直接在編譯階段就幫你把這些隱患掐死了.
+thread::spawn：開啟平行時空 在 Rust 開啟一個新執行緒非常簡單，但你會遇到第一個門檻：move 閉包.
+use std::thread; fn main() { let v = vec![1, 2, 3]; let handle = thread::spawn(move || { println!(&#34;在子執行緒中使用 vector: {:?}&#34;, v); }); // v 在這裡已經不能用了，因為所有權已經 move 進去了 handle.join().unwrap(); // 等待子執行緒跑完，這叫「同步」 } ⚡ 極速講解
+move 的必要性：Rust 無法確定子執行緒會活多久. 如果沒有 move ，子執行緒可能在主執行緒銷毀 v 之後還在嘗試讀取它. 為了安全，Rust 強制要求把所有權「打包帶走」 . JoinHandle： spawn 會回傳一個 handle . 如果你不 join ，主執行緒結束時，子執行緒會直接被強制關閉（像被拔掉電源一樣） . thread::scope：借用大解放 如果你覺得 move 太暴力，想要在子執行緒裡「借用」主執行緒的東西怎麼辦？傳統 spawn 會報錯. 這時候就要出動 scope 了.">
+  <meta itemprop="datePublished" content="2026-02-26T09:46:00+08:00">
+  <meta itemprop="dateModified" content="2026-02-26T09:46:00+08:00">
+  <meta itemprop="wordCount" content="372">
+  <meta itemprop="keywords" content="Rust,30天">
+  
+  <meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch7/">
+  <meta property="og:site_name" content="seansie&#39;s blog">
+  <meta property="og:title" content="Ch7：併發、隧道與巨集 — 跨時空的對話">
+  <meta property="og:description" content="併發 (Concurrency)：安全的多執行緒 Rust 是目前唯一敢號稱「無畏併發」（Fearless Concurrency）的語言。為什麼？因為在其他語言中，併發像是走鋼絲，稍微不注意就會發生「資料競爭」（Data Race）。但在 Rust，它的所有權系統與借用檢查器直接在編譯階段就幫你把這些隱患掐死了.
+thread::spawn：開啟平行時空 在 Rust 開啟一個新執行緒非常簡單，但你會遇到第一個門檻：move 閉包.
+use std::thread; fn main() { let v = vec![1, 2, 3]; let handle = thread::spawn(move || { println!(&#34;在子執行緒中使用 vector: {:?}&#34;, v); }); // v 在這裡已經不能用了，因為所有權已經 move 進去了 handle.join().unwrap(); // 等待子執行緒跑完，這叫「同步」 } ⚡ 極速講解
+move 的必要性：Rust 無法確定子執行緒會活多久. 如果沒有 move ，子執行緒可能在主執行緒銷毀 v 之後還在嘗試讀取它. 為了安全，Rust 強制要求把所有權「打包帶走」 . JoinHandle： spawn 會回傳一個 handle . 如果你不 join ，主執行緒結束時，子執行緒會直接被強制關閉（像被拔掉電源一樣） . thread::scope：借用大解放 如果你覺得 move 太暴力，想要在子執行緒裡「借用」主執行緒的東西怎麼辦？傳統 spawn 會報錯. 這時候就要出動 scope 了.">
+  <meta property="og:locale" content="zh_tw">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-26T09:46:00+08:00">
+    <meta property="article:modified_time" content="2026-02-26T09:46:00+08:00">
+    <meta property="article:tag" content="Rust">
+    <meta property="article:tag" content="30天">
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ch7：併發、隧道與巨集 — 跨時空的對話">
+  <meta name="twitter:description" content="併發 (Concurrency)：安全的多執行緒 Rust 是目前唯一敢號稱「無畏併發」（Fearless Concurrency）的語言。為什麼？因為在其他語言中，併發像是走鋼絲，稍微不注意就會發生「資料競爭」（Data Race）。但在 Rust，它的所有權系統與借用檢查器直接在編譯階段就幫你把這些隱患掐死了.
+thread::spawn：開啟平行時空 在 Rust 開啟一個新執行緒非常簡單，但你會遇到第一個門檻：move 閉包.
+use std::thread; fn main() { let v = vec![1, 2, 3]; let handle = thread::spawn(move || { println!(&#34;在子執行緒中使用 vector: {:?}&#34;, v); }); // v 在這裡已經不能用了，因為所有權已經 move 進去了 handle.join().unwrap(); // 等待子執行緒跑完，這叫「同步」 } ⚡ 極速講解
+move 的必要性：Rust 無法確定子執行緒會活多久. 如果沒有 move ，子執行緒可能在主執行緒銷毀 v 之後還在嘗試讀取它. 為了安全，Rust 強制要求把所有權「打包帶走」 . JoinHandle： spawn 會回傳一個 handle . 如果你不 join ，主執行緒結束時，子執行緒會直接被強制關閉（像被拔掉電源一樣） . thread::scope：借用大解放 如果你覺得 move 太暴力，想要在子執行緒裡「借用」主執行緒的東西怎麼辦？傳統 spawn 會報錯. 這時候就要出動 scope 了.">
+
+  
+  
+  
+  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch7/" />
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+    <nav
+      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    >
+      
+      <a
+        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >
+        github
+      </a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Ch7：併發、隧道與巨集 — 跨時空的對話</h1>
+
+    
+    <div class="text-sm antialiased opacity-60">
+      
+      <time>Feb 26, 2026</time>
+      
+      
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Sean Sie</span>
+      
+    </div>
+    
+  </header>
+
+  <section><h2 id="併發-concurrency安全的多執行緒"><strong>併發 (Concurrency)：安全的多執行緒</strong></h2>
+<p>Rust 是目前唯一敢號稱「無畏併發」（Fearless Concurrency）的語言。為什麼？因為在其他語言中，併發像是走鋼絲，稍微不注意就會發生「資料競爭」（Data Race）。但在 Rust，它的<strong>所有權系統</strong>與<strong>借用檢查器</strong>直接在編譯階段就幫你把這些隱患掐死了.</p>
+<h3 id="threadspawn開啟平行時空"><strong>thread::spawn：開啟平行時空</strong></h3>
+<p>在 Rust 開啟一個新執行緒非常簡單，但你會遇到第一個門檻：<code>move</code> 閉包.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::thread;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> v <span style="color:#f92672">=</span> <span style="color:#a6e22e">vec!</span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> handle <span style="color:#f92672">=</span> thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;在子執行緒中使用 vector: </span><span style="color:#e6db74">{:?}</span><span style="color:#e6db74">&#34;</span>, v);  
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// v 在這裡已經不能用了，因為所有權已經 move 進去了  
+</span></span></span><span style="display:flex;"><span>    handle.join().unwrap(); <span style="color:#75715e">// 等待子執行緒跑完，這叫「同步」  
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>⚡ <strong>極速講解</strong></p>
+<ul>
+<li><strong>move 的必要性</strong>：Rust 無法確定子執行緒會活多久. 如果沒有 <code>move</code> ，子執行緒可能在主執行緒銷毀 <code>v</code> 之後還在嘗試讀取它. 為了安全，Rust 強制要求把所有權「打包帶走」 .</li>
+<li><strong>JoinHandle</strong>： <code>spawn</code> 會回傳一個 <code>handle</code> . 如果你不 <code>join</code> ，主執行緒結束時，子執行緒會直接被強制關閉（像被拔掉電源一樣） .</li>
+</ul>
+<h3 id="threadscope借用大解放"><strong>thread::scope：借用大解放</strong></h3>
+<p>如果你覺得 <code>move</code> 太暴力，想要在子執行緒裡「借用」主執行緒的東西怎麼辦？傳統 <code>spawn</code> 會報錯. 這時候就要出動 <code>scope</code> 了.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>thread::scope(<span style="color:#f92672">|</span>s<span style="color:#f92672">|</span> {  
+</span></span><span style="display:flex;"><span>    s.spawn(<span style="color:#f92672">||</span> {  
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;我可以借用主執行緒的 v: </span><span style="color:#e6db74">{:?}</span><span style="color:#e6db74">&#34;</span>, <span style="color:#f92672">&amp;</span>v);  
+</span></span><span style="display:flex;"><span>    });  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// scope 結束前，保證所有 s.spawn 跑完，所以借用是安全的！  
+</span></span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>💡 <strong>深度分析</strong>： <code>scope</code> 建立了一個保險箱環境，它保證在閉包結束前所有執行緒都會歸位. 編譯器知道這點，所以它才敢放心地讓你進行非靜態（non-static）的借用.</p>
+<h2 id="隧道-channel訊息傳遞"><strong>隧道 (Channel)：訊息傳遞</strong></h2>
+<p>Rust 的併發哲學深受 Go 語言影響：「<strong>不要透過共享記憶體來通訊，要透過通訊來共享記憶體。</strong>」這就是 <code>mpsc</code> 隧道（通道）.</p>
+<ul>
+<li><strong>mpsc 代表什麼？</strong>：Multi-Producer, Single-Consumer（多生產者，單消費者）. 你可以複製很多個發送端（tx），但接收端（rx）只能有一個.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::sync::mpsc;  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::thread;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> mpsc::channel();  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> tx1 <span style="color:#f92672">=</span> tx.clone(); <span style="color:#75715e">// 複製發送端，現在有兩個人可以傳訊息
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {  
+</span></span><span style="display:flex;"><span>    tx.send(<span style="color:#e6db74">&#34;來自發送端 A 的問候&#34;</span>).unwrap();  
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {  
+</span></span><span style="display:flex;"><span>    tx1.send(<span style="color:#e6db74">&#34;來自發送端 B 的反擊&#34;</span>).unwrap();  
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> received <span style="color:#66d9ef">in</span> rx {  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;收到訊息: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, received);  
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>⚡ <strong>生存指南</strong></p>
+<ul>
+<li><strong>阻塞與非阻塞</strong>： <code>rx.recv()</code> 會一直等（阻塞），直到收到訊息. 如果你不想等，可以用 <code>try_recv()</code> ，沒東西它會立刻回傳 <code>Err</code> .</li>
+<li><strong>隧道的關閉</strong>：當所有發送端都銷毀（drop）後，接收端的 for 迴圈就會自動停止.</li>
+</ul>
+<h2 id="原子操作與鎖共享狀態的交通管制"><strong>原子操作與鎖：共享狀態的交通管制</strong></h2>
+<p>當你真的需要多個人同時改同一個東西時，你需要強大的同步工具.</p>
+<h3 id="arc"><strong>Arc<T>與原子操作</strong></h3>
+<p><code>Rc</code> 在多執行緒下會崩潰，你需要 <code>Arc</code> (Atomic Reference Counting). 而對於基本型態（如 <code>usize</code> ），可以直接用 <code>std::sync::atomic</code> ，這是硬體等級的互斥鎖，效能極高.</p>
+<h3 id="mutex-與-rwlock"><strong>Mutex 與 RwLock</strong></h3>
+<ul>
+<li><strong>Mutex<T></strong>：互斥鎖. 想拿資料？先敲門拿 Lock. 拿不到就排隊.</li>
+<li><strong>RwLock<T></strong>：讀寫鎖. 支援「多人同時看」或是「一人專心改」. 如果你的資料是「多讀少寫」，這比 <code>Mutex</code> 快得多.</li>
+</ul>
+<h2 id="系統函數與作業系統的硬核對話"><strong>系統函數：與作業系統的硬核對話</strong></h2>
+<p>Rust 提供了一套極其強大且嚴謹的作業系統 API. 因為這些操作可能因為權限、空間等問題失敗，所以它們的回傳值幾乎都是 <code>Result</code> .</p>
+<h3 id="1-檔案管理-file-system"><strong>1. 檔案管理 (File System)</strong></h3>
+<p>使用 <code>std::fs::File</code> . 你可以像在玩積木一樣設定檔案權限.</p>
+<ul>
+<li><strong>基礎開檔</strong>： <code>File::create(path)</code> (新建) 或 <code>File::open(path)</code> (唯讀開啟) .</li>
+<li><strong>進階選項 (OpenOptions)</strong>：這是建造者模式的展現.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>  <span style="color:#66d9ef">use</span> std::fs::OpenOptions;  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> file <span style="color:#f92672">=</span> OpenOptions::new()  
+</span></span><span style="display:flex;"><span>      .read(<span style="color:#66d9ef">true</span>)  
+</span></span><span style="display:flex;"><span>      .append(<span style="color:#66d9ef">true</span>)  
+</span></span><span style="display:flex;"><span>      .create(<span style="color:#66d9ef">true</span>) <span style="color:#75715e">// 檔案不存在就建一個  
+</span></span></span><span style="display:flex;"><span>      .open(<span style="color:#e6db74">&#34;log.txt&#34;</span>)<span style="color:#f92672">?</span>;
+</span></span></code></pre></div><ul>
+<li><strong>快速讀寫</strong>：Rust 提供了一鍵完成的 API：
+<ul>
+<li><code>fs::write(&quot;file.txt&quot;, &quot;內容&quot;)?</code> ：快速寫入.</li>
+<li><code>fs::read_to_string(&quot;file.txt&quot;)?</code> ：直接讀成字串.</li>
+</ul>
+</li>
+<li><strong>緩衝讀取 (BufReader)</strong>：如果你要讀超大檔案，請務必用 <code>BufReader</code> ，它會幫你預讀，避免頻繁請求作業系統，效能差好幾倍.</li>
+</ul>
+<h3 id="2-行程管理-process-management"><strong>2. 行程管理 (Process Management)</strong></h3>
+<p>這讓你可以操控作業系統中的其他程式，像是命令列工具.</p>
+<ul>
+<li><strong>Command 建造者</strong>：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>  <span style="color:#66d9ef">use</span> std::process::{Command, Stdio};  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> output <span style="color:#f92672">=</span> Command::new(<span style="color:#e6db74">&#34;ls&#34;</span>) <span style="color:#75715e">// 啟動 ls 指令  
+</span></span></span><span style="display:flex;"><span>      .arg(<span style="color:#e6db74">&#34;-l&#34;</span>) <span style="color:#75715e">// 帶參數  
+</span></span></span><span style="display:flex;"><span>      .current_dir(<span style="color:#e6db74">&#34;/&#34;</span>) <span style="color:#75715e">// 設定工作路徑  
+</span></span></span><span style="display:flex;"><span>      .output()<span style="color:#f92672">?</span>; <span style="color:#75715e">// 阻塞並「收割」所有結果
+</span></span></span></code></pre></div><ul>
+<li><strong>三大「收割」模式</strong>：
+<ul>
+<li><code>.spawn()</code> ：放手模式. 執行後不管它，回傳一個 <code>Child</code> 句柄，你可以之後再殺掉（ <code>.kill()</code> ）或等待它.</li>
+<li><code>.status()</code> ：等待模式. 父行程會停下來，直到子行程跑完，只關心最後成功沒.</li>
+<li><code>.output()</code> ：全面模式. 阻塞並把所有輸出的內容（stdout/stderr）抓回記憶體.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-網路系統-networking"><strong>3. 網路系統 (Networking)</strong></h3>
+<p><code>std::net</code> 分成三個層次：位址表示、TCP、以及 UDP.</p>
+<ul>
+<li><strong>IP 與地址</strong>： <code>IpAddr</code> (v4/v6) 與 <code>SocketAddr</code> (IP + Port).</li>
+<li><strong>TCP 伺服器</strong>：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>  <span style="color:#66d9ef">use</span> std::net::TcpListener;  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> listener <span style="color:#f92672">=</span> TcpListener::bind(<span style="color:#e6db74">&#34;127.0.0.1:8080&#34;</span>)<span style="color:#f92672">?</span>;  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> stream <span style="color:#66d9ef">in</span> listener.incoming() { <span style="color:#75715e">// 像水龍頭一樣持續接收連線  
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> stream <span style="color:#f92672">=</span> stream<span style="color:#f92672">?</span>;  
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 讀取與寫入操作...  
+</span></span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><ul>
+<li><strong>UDP Socket</strong>：不分 <code>Listener</code> 和 <code>Stream</code> ，統一用 <code>UdpSocket</code> .</li>
+</ul>
+<h3 id="4-時間處理-time"><strong>4. 時間處理 (Time)</strong></h3>
+<ul>
+<li><strong>Instant</strong>：碼錶. 單調遞增，適合用來<strong>計時</strong>（計算函數跑多快）. 不受系統調時影響.</li>
+<li><strong>Duration</strong>：時間段. 比如「5 秒鐘」.</li>
+<li><strong>SystemTime</strong>：掛鐘. 與電腦的時間同步，適合紀錄「檔案創立日期」.</li>
+</ul>
+<h2 id="巨集-macro代碼的代碼"><strong>巨集 (Macro)：代碼的代碼</strong></h2>
+<p>巨集是 Rust 的黑魔法，本質上是「寫一段程式碼來幫你寫程式碼」.</p>
+<h3 id="1-宣告式巨集-macro_"><strong>1. 宣告式巨集 (macro_rules!)</strong></h3>
+<p>像模式匹配一樣，把重複的代碼模組化. 例如一個自定義的 <code>map!</code> 巨集.</p>
+<h3 id="2-衍生巨集-derive"><strong>2. 衍生巨集 (Derive)</strong></h3>
+<p>這是最常用的黑魔法. 只要在結構體加上 <code>#[derive(Debug, Clone)]</code> ，編譯器就會自動幫你寫完那些無聊的介面實作.</p>
+<h3 id="3-屬性巨集與函數式巨集"><strong>3. 屬性巨集與函數式巨集</strong></h3>
+<p>這類巨集像 Python 的裝飾器，能直接修改或生成函數體. 著名的 <code>serde</code> 或 <code>tokio</code> 都是靠這個撐起來的.</p>
+<p><strong>💡 溫馨提醒</strong>：巨集雖然爽，但它會增加編譯時間，且錯誤訊息有時候像天書. <strong>如果普通函數能解決，請優先使用函數.</strong></p>
+<p><strong>總結</strong>：Ch7 是 Rust 展現硬實力的章節. 併發保證安全，巨集保證簡潔，系統 API 保證效能. 學會這章，你才算真正踏入 Rust 的高階領域！</p>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://seansie0830.github.io/tags/rust"
+      >rust</a
+    >
+     
+    <a
+      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      >30天</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a
+      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/rust-intro-ch8/"
+      ><span class="mr-1.5">←</span><span>Ch8：生態系、模組與你的 Rust 之路</span></a
+    >
+    
+    
+    <a
+      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+      href="https://seansie0830.github.io/posts/rust-intro-ch6/"
+      ><span>Ch6：閉包與迭代器 — 持續開出的支票</span><span class="ml-1.5">→</span></a
+    >
+    
+  </nav>
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >✎ Paper</a
+  >
+</footer>
+
+  </body>
+</html>
