@@ -1,0 +1,593 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>三分鐘掌握 Express.js 權限驗證：JWT 與 RBAC 中介軟體實作範例 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在 Express.js（ES Modules 模式）中處理基於 RBAC（Role-Based Access Control，基於角色的存取控制） 的使用者登入與權限驗證架構，通常分為四個核心層次：
+
+認證（Authentication）：驗證身分（如帳號/密碼）並簽發權杖（如 JWT 或 Session Cookie）。
+認證中介軟體（Auth Middleware）：解析並驗證 Token，將解密後的 user 物件附加至 req.user。
+授權中介軟體（RBAC Middleware）：檢查 req.user.role 或使用者權限清單是否具備存取該路由的資格。
+路由保護（Route Guarding）：將上述中介軟體串接至受保護的 API 端點。
+
+
+1. 專案配置 (package.json)
+確保 package.json 中啟用了 &quot;type&quot;: &quot;module&quot;，以原生支援 ES Modules (import/export)。
+{
+  &#34;name&#34;: &#34;express-rbac-esm&#34;,
+  &#34;version&#34;: &#34;1.0.0&#34;,
+  &#34;type&#34;: &#34;module&#34;,
+  &#34;scripts&#34;: {
+    &#34;start&#34;: &#34;node server.js&#34;
+  },
+  &#34;dependencies&#34;: {
+    &#34;express&#34;: &#34;^4.19.2&#34;,
+    &#34;jsonwebtoken&#34;: &#34;^9.0.2&#34;
+  }
+}
+
+2. 核心程式碼實作 (server.js)
+import express from &#39;express&#39;;
+import jwt from &#39;jsonwebtoken&#39;;
+
+const app = express();
+app.use(express.json());
+
+const JWT_SECRET = &#39;your_jwt_secret_key_placeholder&#39;;
+
+// ==========================================
+// 1. RBAC 權限角色定義與驗證 Placeholder 函數
+// ==========================================
+
+export const ROLES = Object.freeze({
+  ADMIN: &#39;ADMIN&#39;,
+  MANAGER: &#39;MANAGER&#39;,
+  USER: &#39;USER&#39;,
+});
+
+/**
+ * 驗證使用者帳密 Placeholder
+ * 實際環境中應替換為資料庫查詢與密碼雜湊比對（如 bcrypt.compare）
+ * 
+ * @param {string} username 
+ * @param {string} password 
+ * @returns {Promise&lt;{ id: string, username: string, role: string } | null&gt;}
+ */
+async function verifyCredentialsPlaceholder(username, password) {
+  // 模擬資料庫查詢延遲
+  await new Promise((resolve) =&gt; setTimeout(resolve, 50));
+
+  // 測試用假資料
+  const mockUsers = [
+    { id: &#39;u_1&#39;, username: &#39;admin_user&#39;, password: &#39;password123&#39;, role: ROLES.ADMIN },
+    { id: &#39;u_2&#39;, username: &#39;manager_user&#39;, password: &#39;password123&#39;, role: ROLES.MANAGER },
+    { id: &#39;u_3&#39;, username: &#39;normal_user&#39;, password: &#39;password123&#39;, role: ROLES.USER },
+  ];
+
+  const foundUser = mockUsers.find((u) =&gt; u.username === username &amp;&amp; u.password === password);
+  if (!foundUser) return null;
+
+  return { id: foundUser.id, username: foundUser.username, role: foundUser.role };
+}
+
+// ==========================================
+// 2. 中介軟體 (Middlewares)
+// ==========================================
+
+/**
+ * 身分驗證中介軟體：解析 Bearer Token 並掛載至 req.user
+ */
+export function authenticateToken(req, res, next) {
+  const authHeader = req.headers[&#39;authorization&#39;];
+  const token = authHeader &amp;&amp; authHeader.split(&#39; &#39;)[1]; // 格式: Bearer &lt;TOKEN&gt;
+
+  if (!token) {
+    return res.status(401).json({ error: &#39;Unauthorized: 未提供 Access Token&#39; });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, decodedUser) =&gt; {
+    if (err) {
+      return res.status(403).json({ error: &#39;Forbidden: Token 無效或已過期&#39; });
+    }
+    req.user = decodedUser;
+    next();
+  });
+}
+
+/**
+ * RBAC 授權中介軟體生成器：檢查使用者是否具備指定角色
+ * @param {string[]} allowedRoles - 允許存取的角色陣列
+ */
+export function authorizeRoles(...allowedRoles) {
+  return (req, res, next) =&gt; {
+    if (!req.user || !req.user.role) {
+      return res.status(403).json({ error: &#39;Forbidden: 無法確認使用者身分與權限&#39; });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ 
+        error: &#39;Forbidden: 權限不足&#39;,
+        requiredRoles: allowedRoles,
+        currentRole: req.user.role 
+      });
+    }
+
+    next();
+  };
+}
+
+// ==========================================
+// 3. API 路由定義
+// ==========================================
+
+// 登入路由
+app.post(&#39;/api/login&#39;, async (req, res) =&gt; {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: &#39;請提供帳號與密碼&#39; });
+  }
+
+  try {
+    // 呼叫驗證 Placeholder
+    const user = await verifyCredentialsPlaceholder(username, password);
+
+    if (!user) {
+      return res.status(401).json({ error: &#39;帳號或密碼錯誤&#39; });
+    }
+
+    // 簽發包含 Role 資訊的 JWT
+    const payload = { id: user.id, username: user.username, role: user.role };
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: &#39;2h&#39; });
+
+    return res.json({
+      message: &#39;登入成功&#39;,
+      accessToken: token,
+      user: payload
+    });
+  } catch (error) {
+    return res.status(500).json({ error: &#39;伺服器內部錯誤&#39; });
+  }
+});
+
+// 公開/一般受保護端點（所有已登入角色皆可存取）
+app.get(&#39;/api/profile&#39;, authenticateToken, (req, res) =&gt; {
+  res.json({ message: &#39;個人檔案資料&#39;, user: req.user });
+});
+
+// 管理端點（僅限 MANAGER 或 ADMIN 存取）
+app.get(&#39;/api/reports&#39;, authenticateToken, authorizeRoles(ROLES.MANAGER, ROLES.ADMIN), (req, res) =&gt; {
+  res.json({ message: &#39;管理報表數據（Manager 與 Admin 可見）&#39; });
+});
+
+// 最高權限端點（僅限 ADMIN 存取）
+app.delete(&#39;/api/users/:id&#39;, authenticateToken, authorizeRoles(ROLES.ADMIN), (req, res) =&gt; {
+  res.json({ message: `使用者 ${req.params.id} 已由系統管理員刪除` });
+});
+
+// 啟動伺服器
+const PORT = 3000;
+app.listen(PORT, () =&gt; {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+3. RBAC 架構實作重點解析
+
+	
+			
+					組件
+					職責
+					說明
+			
+	
+	
+			
+					verifyCredentialsPlaceholder
+					身分比對
+					封裝資料庫查詢與密碼驗證邏輯，回傳包含 role 欄位的使用者實體。
+			
+			
+					authenticateToken
+					身分鑑別 (AuthN)
+					攔截請求並解析 HTTP Header 中的 JWT，將 Payload 儲存至 req.user。
+			
+			
+					authorizeRoles(...roles)
+					權限判定 (AuthZ)
+					高階函式（Higher-Order Function），依據各路由定義傳入白名單角色，驗證 req.user.role。
+			
+			
+					Token Payload
+					狀態傳遞
+					將 role 內嵌於 JWT Payload 中，使中介軟體無需每次存取資料庫即可完成粗粒度（Coarse-grained）角色驗證。
+			
+	
+" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="三分鐘掌握 Express.js 權限驗證：JWT 與 RBAC 中介軟體實作範例">
+	<meta itemprop="description" content="在 Express.js（ES Modules 模式）中處理基於 RBAC（Role-Based Access Control，基於角色的存取控制） 的使用者登入與權限驗證架構，通常分為四個核心層次：
+認證（Authentication）：驗證身分（如帳號/密碼）並簽發權杖（如 JWT 或 Session Cookie）。 認證中介軟體（Auth Middleware）：解析並驗證 Token，將解密後的 user 物件附加至 req.user。 授權中介軟體（RBAC Middleware）：檢查 req.user.role 或使用者權限清單是否具備存取該路由的資格。 路由保護（Route Guarding）：將上述中介軟體串接至受保護的 API 端點。 1. 專案配置 (package.json) 確保 package.json 中啟用了 &#34;type&#34;: &#34;module&#34;，以原生支援 ES Modules (import/export)。
+{ &#34;name&#34;: &#34;express-rbac-esm&#34;, &#34;version&#34;: &#34;1.0.0&#34;, &#34;type&#34;: &#34;module&#34;, &#34;scripts&#34;: { &#34;start&#34;: &#34;node server.js&#34; }, &#34;dependencies&#34;: { &#34;express&#34;: &#34;^4.19.2&#34;, &#34;jsonwebtoken&#34;: &#34;^9.0.2&#34; } } 2. 核心程式碼實作 (server.js) import express from &#39;express&#39;; import jwt from &#39;jsonwebtoken&#39;; const app = express(); app.use(express.json()); const JWT_SECRET = &#39;your_jwt_secret_key_placeholder&#39;; // ========================================== // 1. RBAC 權限角色定義與驗證 Placeholder 函數 // ========================================== export const ROLES = Object.freeze({ ADMIN: &#39;ADMIN&#39;, MANAGER: &#39;MANAGER&#39;, USER: &#39;USER&#39;, }); /** * 驗證使用者帳密 Placeholder * 實際環境中應替換為資料庫查詢與密碼雜湊比對（如 bcrypt.compare） * * @param {string} username * @param {string} password * @returns {Promise&lt;{ id: string, username: string, role: string } | null&gt;} */ async function verifyCredentialsPlaceholder(username, password) { // 模擬資料庫查詢延遲 await new Promise((resolve) =&gt; setTimeout(resolve, 50)); // 測試用假資料 const mockUsers = [ { id: &#39;u_1&#39;, username: &#39;admin_user&#39;, password: &#39;password123&#39;, role: ROLES.ADMIN }, { id: &#39;u_2&#39;, username: &#39;manager_user&#39;, password: &#39;password123&#39;, role: ROLES.MANAGER }, { id: &#39;u_3&#39;, username: &#39;normal_user&#39;, password: &#39;password123&#39;, role: ROLES.USER }, ]; const foundUser = mockUsers.find((u) =&gt; u.username === username &amp;&amp; u.password === password); if (!foundUser) return null; return { id: foundUser.id, username: foundUser.username, role: foundUser.role }; } // ========================================== // 2. 中介軟體 (Middlewares) // ========================================== /** * 身分驗證中介軟體：解析 Bearer Token 並掛載至 req.user */ export function authenticateToken(req, res, next) { const authHeader = req.headers[&#39;authorization&#39;]; const token = authHeader &amp;&amp; authHeader.split(&#39; &#39;)[1]; // 格式: Bearer &lt;TOKEN&gt; if (!token) { return res.status(401).json({ error: &#39;Unauthorized: 未提供 Access Token&#39; }); } jwt.verify(token, JWT_SECRET, (err, decodedUser) =&gt; { if (err) { return res.status(403).json({ error: &#39;Forbidden: Token 無效或已過期&#39; }); } req.user = decodedUser; next(); }); } /** * RBAC 授權中介軟體生成器：檢查使用者是否具備指定角色 * @param {string[]} allowedRoles - 允許存取的角色陣列 */ export function authorizeRoles(...allowedRoles) { return (req, res, next) =&gt; { if (!req.user || !req.user.role) { return res.status(403).json({ error: &#39;Forbidden: 無法確認使用者身分與權限&#39; }); } if (!allowedRoles.includes(req.user.role)) { return res.status(403).json({ error: &#39;Forbidden: 權限不足&#39;, requiredRoles: allowedRoles, currentRole: req.user.role }); } next(); }; } // ========================================== // 3. API 路由定義 // ========================================== // 登入路由 app.post(&#39;/api/login&#39;, async (req, res) =&gt; { const { username, password } = req.body; if (!username || !password) { return res.status(400).json({ error: &#39;請提供帳號與密碼&#39; }); } try { // 呼叫驗證 Placeholder const user = await verifyCredentialsPlaceholder(username, password); if (!user) { return res.status(401).json({ error: &#39;帳號或密碼錯誤&#39; }); } // 簽發包含 Role 資訊的 JWT const payload = { id: user.id, username: user.username, role: user.role }; const token = jwt.sign(payload, JWT_SECRET, { expiresIn: &#39;2h&#39; }); return res.json({ message: &#39;登入成功&#39;, accessToken: token, user: payload }); } catch (error) { return res.status(500).json({ error: &#39;伺服器內部錯誤&#39; }); } }); // 公開/一般受保護端點（所有已登入角色皆可存取） app.get(&#39;/api/profile&#39;, authenticateToken, (req, res) =&gt; { res.json({ message: &#39;個人檔案資料&#39;, user: req.user }); }); // 管理端點（僅限 MANAGER 或 ADMIN 存取） app.get(&#39;/api/reports&#39;, authenticateToken, authorizeRoles(ROLES.MANAGER, ROLES.ADMIN), (req, res) =&gt; { res.json({ message: &#39;管理報表數據（Manager 與 Admin 可見）&#39; }); }); // 最高權限端點（僅限 ADMIN 存取） app.delete(&#39;/api/users/:id&#39;, authenticateToken, authorizeRoles(ROLES.ADMIN), (req, res) =&gt; { res.json({ message: `使用者 ${req.params.id} 已由系統管理員刪除` }); }); // 啟動伺服器 const PORT = 3000; app.listen(PORT, () =&gt; { console.log(`Server running on http://localhost:${PORT}`); }); 3. RBAC 架構實作重點解析 組件 職責 說明 verifyCredentialsPlaceholder 身分比對 封裝資料庫查詢與密碼驗證邏輯，回傳包含 role 欄位的使用者實體。 authenticateToken 身分鑑別 (AuthN) 攔截請求並解析 HTTP Header 中的 JWT，將 Payload 儲存至 req.user。 authorizeRoles(...roles) 權限判定 (AuthZ) 高階函式（Higher-Order Function），依據各路由定義傳入白名單角色，驗證 req.user.role。 Token Payload 狀態傳遞 將 role 內嵌於 JWT Payload 中，使中介軟體無需每次存取資料庫即可完成粗粒度（Coarse-grained）角色驗證。">
+	<meta itemprop="datePublished" content="2026-08-18T20:48:48+08:00">
+	<meta itemprop="dateModified" content="2026-08-18T20:48:48+08:00">
+	<meta itemprop="wordCount" content="534"><meta property="og:url" content="https://seansie0830.github.io/posts/logindesginatexpress/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="三分鐘掌握 Express.js 權限驗證：JWT 與 RBAC 中介軟體實作範例">
+	<meta property="og:description" content="在 Express.js（ES Modules 模式）中處理基於 RBAC（Role-Based Access Control，基於角色的存取控制） 的使用者登入與權限驗證架構，通常分為四個核心層次：
+認證（Authentication）：驗證身分（如帳號/密碼）並簽發權杖（如 JWT 或 Session Cookie）。 認證中介軟體（Auth Middleware）：解析並驗證 Token，將解密後的 user 物件附加至 req.user。 授權中介軟體（RBAC Middleware）：檢查 req.user.role 或使用者權限清單是否具備存取該路由的資格。 路由保護（Route Guarding）：將上述中介軟體串接至受保護的 API 端點。 1. 專案配置 (package.json) 確保 package.json 中啟用了 &#34;type&#34;: &#34;module&#34;，以原生支援 ES Modules (import/export)。
+{ &#34;name&#34;: &#34;express-rbac-esm&#34;, &#34;version&#34;: &#34;1.0.0&#34;, &#34;type&#34;: &#34;module&#34;, &#34;scripts&#34;: { &#34;start&#34;: &#34;node server.js&#34; }, &#34;dependencies&#34;: { &#34;express&#34;: &#34;^4.19.2&#34;, &#34;jsonwebtoken&#34;: &#34;^9.0.2&#34; } } 2. 核心程式碼實作 (server.js) import express from &#39;express&#39;; import jwt from &#39;jsonwebtoken&#39;; const app = express(); app.use(express.json()); const JWT_SECRET = &#39;your_jwt_secret_key_placeholder&#39;; // ========================================== // 1. RBAC 權限角色定義與驗證 Placeholder 函數 // ========================================== export const ROLES = Object.freeze({ ADMIN: &#39;ADMIN&#39;, MANAGER: &#39;MANAGER&#39;, USER: &#39;USER&#39;, }); /** * 驗證使用者帳密 Placeholder * 實際環境中應替換為資料庫查詢與密碼雜湊比對（如 bcrypt.compare） * * @param {string} username * @param {string} password * @returns {Promise&lt;{ id: string, username: string, role: string } | null&gt;} */ async function verifyCredentialsPlaceholder(username, password) { // 模擬資料庫查詢延遲 await new Promise((resolve) =&gt; setTimeout(resolve, 50)); // 測試用假資料 const mockUsers = [ { id: &#39;u_1&#39;, username: &#39;admin_user&#39;, password: &#39;password123&#39;, role: ROLES.ADMIN }, { id: &#39;u_2&#39;, username: &#39;manager_user&#39;, password: &#39;password123&#39;, role: ROLES.MANAGER }, { id: &#39;u_3&#39;, username: &#39;normal_user&#39;, password: &#39;password123&#39;, role: ROLES.USER }, ]; const foundUser = mockUsers.find((u) =&gt; u.username === username &amp;&amp; u.password === password); if (!foundUser) return null; return { id: foundUser.id, username: foundUser.username, role: foundUser.role }; } // ========================================== // 2. 中介軟體 (Middlewares) // ========================================== /** * 身分驗證中介軟體：解析 Bearer Token 並掛載至 req.user */ export function authenticateToken(req, res, next) { const authHeader = req.headers[&#39;authorization&#39;]; const token = authHeader &amp;&amp; authHeader.split(&#39; &#39;)[1]; // 格式: Bearer &lt;TOKEN&gt; if (!token) { return res.status(401).json({ error: &#39;Unauthorized: 未提供 Access Token&#39; }); } jwt.verify(token, JWT_SECRET, (err, decodedUser) =&gt; { if (err) { return res.status(403).json({ error: &#39;Forbidden: Token 無效或已過期&#39; }); } req.user = decodedUser; next(); }); } /** * RBAC 授權中介軟體生成器：檢查使用者是否具備指定角色 * @param {string[]} allowedRoles - 允許存取的角色陣列 */ export function authorizeRoles(...allowedRoles) { return (req, res, next) =&gt; { if (!req.user || !req.user.role) { return res.status(403).json({ error: &#39;Forbidden: 無法確認使用者身分與權限&#39; }); } if (!allowedRoles.includes(req.user.role)) { return res.status(403).json({ error: &#39;Forbidden: 權限不足&#39;, requiredRoles: allowedRoles, currentRole: req.user.role }); } next(); }; } // ========================================== // 3. API 路由定義 // ========================================== // 登入路由 app.post(&#39;/api/login&#39;, async (req, res) =&gt; { const { username, password } = req.body; if (!username || !password) { return res.status(400).json({ error: &#39;請提供帳號與密碼&#39; }); } try { // 呼叫驗證 Placeholder const user = await verifyCredentialsPlaceholder(username, password); if (!user) { return res.status(401).json({ error: &#39;帳號或密碼錯誤&#39; }); } // 簽發包含 Role 資訊的 JWT const payload = { id: user.id, username: user.username, role: user.role }; const token = jwt.sign(payload, JWT_SECRET, { expiresIn: &#39;2h&#39; }); return res.json({ message: &#39;登入成功&#39;, accessToken: token, user: payload }); } catch (error) { return res.status(500).json({ error: &#39;伺服器內部錯誤&#39; }); } }); // 公開/一般受保護端點（所有已登入角色皆可存取） app.get(&#39;/api/profile&#39;, authenticateToken, (req, res) =&gt; { res.json({ message: &#39;個人檔案資料&#39;, user: req.user }); }); // 管理端點（僅限 MANAGER 或 ADMIN 存取） app.get(&#39;/api/reports&#39;, authenticateToken, authorizeRoles(ROLES.MANAGER, ROLES.ADMIN), (req, res) =&gt; { res.json({ message: &#39;管理報表數據（Manager 與 Admin 可見）&#39; }); }); // 最高權限端點（僅限 ADMIN 存取） app.delete(&#39;/api/users/:id&#39;, authenticateToken, authorizeRoles(ROLES.ADMIN), (req, res) =&gt; { res.json({ message: `使用者 ${req.params.id} 已由系統管理員刪除` }); }); // 啟動伺服器 const PORT = 3000; app.listen(PORT, () =&gt; { console.log(`Server running on http://localhost:${PORT}`); }); 3. RBAC 架構實作重點解析 組件 職責 說明 verifyCredentialsPlaceholder 身分比對 封裝資料庫查詢與密碼驗證邏輯，回傳包含 role 欄位的使用者實體。 authenticateToken 身分鑑別 (AuthN) 攔截請求並解析 HTTP Header 中的 JWT，將 Payload 儲存至 req.user。 authorizeRoles(...roles) 權限判定 (AuthZ) 高階函式（Higher-Order Function），依據各路由定義傳入白名單角色，驗證 req.user.role。 Token Payload 狀態傳遞 將 role 內嵌於 JWT Payload 中，使中介軟體無需每次存取資料庫即可完成粗粒度（Coarse-grained）角色驗證。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-18T20:48:48+08:00">
+		<meta property="article:modified_time" content="2026-08-18T20:48:48+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="三分鐘掌握 Express.js 權限驗證：JWT 與 RBAC 中介軟體實作範例">
+	<meta name="twitter:description" content="在 Express.js（ES Modules 模式）中處理基於 RBAC（Role-Based Access Control，基於角色的存取控制） 的使用者登入與權限驗證架構，通常分為四個核心層次：
+認證（Authentication）：驗證身分（如帳號/密碼）並簽發權杖（如 JWT 或 Session Cookie）。 認證中介軟體（Auth Middleware）：解析並驗證 Token，將解密後的 user 物件附加至 req.user。 授權中介軟體（RBAC Middleware）：檢查 req.user.role 或使用者權限清單是否具備存取該路由的資格。 路由保護（Route Guarding）：將上述中介軟體串接至受保護的 API 端點。 1. 專案配置 (package.json) 確保 package.json 中啟用了 &#34;type&#34;: &#34;module&#34;，以原生支援 ES Modules (import/export)。
+{ &#34;name&#34;: &#34;express-rbac-esm&#34;, &#34;version&#34;: &#34;1.0.0&#34;, &#34;type&#34;: &#34;module&#34;, &#34;scripts&#34;: { &#34;start&#34;: &#34;node server.js&#34; }, &#34;dependencies&#34;: { &#34;express&#34;: &#34;^4.19.2&#34;, &#34;jsonwebtoken&#34;: &#34;^9.0.2&#34; } } 2. 核心程式碼實作 (server.js) import express from &#39;express&#39;; import jwt from &#39;jsonwebtoken&#39;; const app = express(); app.use(express.json()); const JWT_SECRET = &#39;your_jwt_secret_key_placeholder&#39;; // ========================================== // 1. RBAC 權限角色定義與驗證 Placeholder 函數 // ========================================== export const ROLES = Object.freeze({ ADMIN: &#39;ADMIN&#39;, MANAGER: &#39;MANAGER&#39;, USER: &#39;USER&#39;, }); /** * 驗證使用者帳密 Placeholder * 實際環境中應替換為資料庫查詢與密碼雜湊比對（如 bcrypt.compare） * * @param {string} username * @param {string} password * @returns {Promise&lt;{ id: string, username: string, role: string } | null&gt;} */ async function verifyCredentialsPlaceholder(username, password) { // 模擬資料庫查詢延遲 await new Promise((resolve) =&gt; setTimeout(resolve, 50)); // 測試用假資料 const mockUsers = [ { id: &#39;u_1&#39;, username: &#39;admin_user&#39;, password: &#39;password123&#39;, role: ROLES.ADMIN }, { id: &#39;u_2&#39;, username: &#39;manager_user&#39;, password: &#39;password123&#39;, role: ROLES.MANAGER }, { id: &#39;u_3&#39;, username: &#39;normal_user&#39;, password: &#39;password123&#39;, role: ROLES.USER }, ]; const foundUser = mockUsers.find((u) =&gt; u.username === username &amp;&amp; u.password === password); if (!foundUser) return null; return { id: foundUser.id, username: foundUser.username, role: foundUser.role }; } // ========================================== // 2. 中介軟體 (Middlewares) // ========================================== /** * 身分驗證中介軟體：解析 Bearer Token 並掛載至 req.user */ export function authenticateToken(req, res, next) { const authHeader = req.headers[&#39;authorization&#39;]; const token = authHeader &amp;&amp; authHeader.split(&#39; &#39;)[1]; // 格式: Bearer &lt;TOKEN&gt; if (!token) { return res.status(401).json({ error: &#39;Unauthorized: 未提供 Access Token&#39; }); } jwt.verify(token, JWT_SECRET, (err, decodedUser) =&gt; { if (err) { return res.status(403).json({ error: &#39;Forbidden: Token 無效或已過期&#39; }); } req.user = decodedUser; next(); }); } /** * RBAC 授權中介軟體生成器：檢查使用者是否具備指定角色 * @param {string[]} allowedRoles - 允許存取的角色陣列 */ export function authorizeRoles(...allowedRoles) { return (req, res, next) =&gt; { if (!req.user || !req.user.role) { return res.status(403).json({ error: &#39;Forbidden: 無法確認使用者身分與權限&#39; }); } if (!allowedRoles.includes(req.user.role)) { return res.status(403).json({ error: &#39;Forbidden: 權限不足&#39;, requiredRoles: allowedRoles, currentRole: req.user.role }); } next(); }; } // ========================================== // 3. API 路由定義 // ========================================== // 登入路由 app.post(&#39;/api/login&#39;, async (req, res) =&gt; { const { username, password } = req.body; if (!username || !password) { return res.status(400).json({ error: &#39;請提供帳號與密碼&#39; }); } try { // 呼叫驗證 Placeholder const user = await verifyCredentialsPlaceholder(username, password); if (!user) { return res.status(401).json({ error: &#39;帳號或密碼錯誤&#39; }); } // 簽發包含 Role 資訊的 JWT const payload = { id: user.id, username: user.username, role: user.role }; const token = jwt.sign(payload, JWT_SECRET, { expiresIn: &#39;2h&#39; }); return res.json({ message: &#39;登入成功&#39;, accessToken: token, user: payload }); } catch (error) { return res.status(500).json({ error: &#39;伺服器內部錯誤&#39; }); } }); // 公開/一般受保護端點（所有已登入角色皆可存取） app.get(&#39;/api/profile&#39;, authenticateToken, (req, res) =&gt; { res.json({ message: &#39;個人檔案資料&#39;, user: req.user }); }); // 管理端點（僅限 MANAGER 或 ADMIN 存取） app.get(&#39;/api/reports&#39;, authenticateToken, authorizeRoles(ROLES.MANAGER, ROLES.ADMIN), (req, res) =&gt; { res.json({ message: &#39;管理報表數據（Manager 與 Admin 可見）&#39; }); }); // 最高權限端點（僅限 ADMIN 存取） app.delete(&#39;/api/users/:id&#39;, authenticateToken, authorizeRoles(ROLES.ADMIN), (req, res) =&gt; { res.json({ message: `使用者 ${req.params.id} 已由系統管理員刪除` }); }); // 啟動伺服器 const PORT = 3000; app.listen(PORT, () =&gt; { console.log(`Server running on http://localhost:${PORT}`); }); 3. RBAC 架構實作重點解析 組件 職責 說明 verifyCredentialsPlaceholder 身分比對 封裝資料庫查詢與密碼驗證邏輯，回傳包含 role 欄位的使用者實體。 authenticateToken 身分鑑別 (AuthN) 攔截請求並解析 HTTP Header 中的 JWT，將 Payload 儲存至 req.user。 authorizeRoles(...roles) 權限判定 (AuthZ) 高階函式（Higher-Order Function），依據各路由定義傳入白名單角色，驗證 req.user.role。 Token Payload 狀態傳遞 將 role 內嵌於 JWT Payload 中，使中介軟體無需每次存取資料庫即可完成粗粒度（Coarse-grained）角色驗證。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/logindesginatexpress/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">三分鐘掌握 Express.js 權限驗證：JWT 與 RBAC 中介軟體實作範例</h1><div class="text-xs antialiased opacity-60"><time>Aug 18, 2026</time></div></header>
+
+  <section><p>在 Express.js（ES Modules 模式）中處理基於 <strong>RBAC（Role-Based Access Control，基於角色的存取控制）</strong> 的使用者登入與權限驗證架構，通常分為四個核心層次：</p>
+<ol>
+<li><strong>認證（Authentication）</strong>：驗證身分（如帳號/密碼）並簽發權杖（如 JWT 或 Session Cookie）。</li>
+<li><strong>認證中介軟體（Auth Middleware）</strong>：解析並驗證 Token，將解密後的 user 物件附加至 <code>req.user</code>。</li>
+<li><strong>授權中介軟體（RBAC Middleware）</strong>：檢查 <code>req.user.role</code> 或使用者權限清單是否具備存取該路由的資格。</li>
+<li><strong>路由保護（Route Guarding）</strong>：將上述中介軟體串接至受保護的 API 端點。</li>
+</ol>
+<hr>
+<h3 id="1-專案配置-packagejson">1. 專案配置 (<code>package.json</code>)</h3>
+<p>確保 <code>package.json</code> 中啟用了 <code>&quot;type&quot;: &quot;module&quot;</code>，以原生支援 ES Modules (<code>import</code>/<code>export</code>)。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;express-rbac-esm&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.0.0&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;module&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;scripts&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;start&#34;</span>: <span style="color:#e6db74">&#34;node server.js&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dependencies&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;express&#34;</span>: <span style="color:#e6db74">&#34;^4.19.2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;jsonwebtoken&#34;</span>: <span style="color:#e6db74">&#34;^9.0.2&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h3 id="2-核心程式碼實作-serverjs">2. 核心程式碼實作 (<code>server.js</code>)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">express</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;express&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">jwt</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;jsonwebtoken&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">express</span>.<span style="color:#a6e22e">json</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">JWT_SECRET</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_jwt_secret_key_placeholder&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==========================================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 1. RBAC 權限角色定義與驗證 Placeholder 函數
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ==========================================
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ROLES</span> <span style="color:#f92672">=</span> Object.<span style="color:#a6e22e">freeze</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ADMIN</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;ADMIN&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">MANAGER</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;MANAGER&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">USER</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;USER&#39;</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 驗證使用者帳密 Placeholder
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 實際環境中應替換為資料庫查詢與密碼雜湊比對（如 bcrypt.compare）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {string} username 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {string} password 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @returns {Promise&lt;{ id: string, username: string, role: string } | null&gt;}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">verifyCredentialsPlaceholder</span>(<span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 模擬資料庫查詢延遲
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; <span style="color:#a6e22e">setTimeout</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#ae81ff">50</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 測試用假資料
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">mockUsers</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;u_1&#39;</span>, <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;admin_user&#39;</span>, <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;password123&#39;</span>, <span style="color:#a6e22e">role</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ROLES</span>.<span style="color:#a6e22e">ADMIN</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;u_2&#39;</span>, <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;manager_user&#39;</span>, <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;password123&#39;</span>, <span style="color:#a6e22e">role</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ROLES</span>.<span style="color:#a6e22e">MANAGER</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;u_3&#39;</span>, <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;normal_user&#39;</span>, <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;password123&#39;</span>, <span style="color:#a6e22e">role</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ROLES</span>.<span style="color:#a6e22e">USER</span> },
+</span></span><span style="display:flex;"><span>  ];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">foundUser</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">mockUsers</span>.<span style="color:#a6e22e">find</span>((<span style="color:#a6e22e">u</span>) =&gt; <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">username</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">username</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">password</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">password</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">foundUser</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">foundUser</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">foundUser</span>.<span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">role</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">foundUser</span>.<span style="color:#a6e22e">role</span> };
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==========================================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 2. 中介軟體 (Middlewares)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ==========================================
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 身分驗證中介軟體：解析 Bearer Token 並掛載至 req.user
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">authenticateToken</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">authHeader</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span>[<span style="color:#e6db74">&#39;authorization&#39;</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">authHeader</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">authHeader</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39; &#39;</span>)[<span style="color:#ae81ff">1</span>]; <span style="color:#75715e">// 格式: Bearer &lt;TOKEN&gt;
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">token</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">401</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Unauthorized: 未提供 Access Token&#39;</span> });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">verify</span>(<span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">JWT_SECRET</span>, (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">decodedUser</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">403</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Forbidden: Token 無效或已過期&#39;</span> });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">decodedUser</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * RBAC 授權中介軟體生成器：檢查使用者是否具備指定角色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {string[]} allowedRoles - 允許存取的角色陣列
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">authorizeRoles</span>(...<span style="color:#a6e22e">allowedRoles</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">role</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">403</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Forbidden: 無法確認使用者身分與權限&#39;</span> });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">allowedRoles</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">role</span>)) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">403</span>).<span style="color:#a6e22e">json</span>({ 
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Forbidden: 權限不足&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">requiredRoles</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">allowedRoles</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">currentRole</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">role</span> 
+</span></span><span style="display:flex;"><span>      });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ==========================================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 3. API 路由定義
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ==========================================
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 登入路由
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/api/login&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">username</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">password</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">400</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;請提供帳號與密碼&#39;</span> });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 呼叫驗證 Placeholder
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">verifyCredentialsPlaceholder</span>(<span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">user</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">401</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;帳號或密碼錯誤&#39;</span> });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 簽發包含 Role 資訊的 JWT
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">payload</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">username</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">role</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">role</span> };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">sign</span>(<span style="color:#a6e22e">payload</span>, <span style="color:#a6e22e">JWT_SECRET</span>, { <span style="color:#a6e22e">expiresIn</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;2h&#39;</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;登入成功&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">accessToken</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">token</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">payload</span>
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">500</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;伺服器內部錯誤&#39;</span> });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 公開/一般受保護端點（所有已登入角色皆可存取）
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/api/profile&#39;</span>, <span style="color:#a6e22e">authenticateToken</span>, (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;個人檔案資料&#39;</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 管理端點（僅限 MANAGER 或 ADMIN 存取）
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/api/reports&#39;</span>, <span style="color:#a6e22e">authenticateToken</span>, <span style="color:#a6e22e">authorizeRoles</span>(<span style="color:#a6e22e">ROLES</span>.<span style="color:#a6e22e">MANAGER</span>, <span style="color:#a6e22e">ROLES</span>.<span style="color:#a6e22e">ADMIN</span>), (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;管理報表數據（Manager 與 Admin 可見）&#39;</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 最高權限端點（僅限 ADMIN 存取）
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#66d9ef">delete</span>(<span style="color:#e6db74">&#39;/api/users/:id&#39;</span>, <span style="color:#a6e22e">authenticateToken</span>, <span style="color:#a6e22e">authorizeRoles</span>(<span style="color:#a6e22e">ROLES</span>.<span style="color:#a6e22e">ADMIN</span>), (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`使用者 </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> 已由系統管理員刪除`</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 啟動伺服器
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">PORT</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3000</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#a6e22e">PORT</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Server running on http://localhost:</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">PORT</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h3 id="3-rbac-架構實作重點解析">3. RBAC 架構實作重點解析</h3>
+<table>
+	<thead>
+			<tr>
+					<th>組件</th>
+					<th>職責</th>
+					<th>說明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong><code>verifyCredentialsPlaceholder</code></strong></td>
+					<td>身分比對</td>
+					<td>封裝資料庫查詢與密碼驗證邏輯，回傳包含 <code>role</code> 欄位的使用者實體。</td>
+			</tr>
+			<tr>
+					<td><strong><code>authenticateToken</code></strong></td>
+					<td>身分鑑別 (AuthN)</td>
+					<td>攔截請求並解析 HTTP Header 中的 JWT，將 Payload 儲存至 <code>req.user</code>。</td>
+			</tr>
+			<tr>
+					<td><strong><code>authorizeRoles(...roles)</code></strong></td>
+					<td>權限判定 (AuthZ)</td>
+					<td>高階函式（Higher-Order Function），依據各路由定義傳入白名單角色，驗證 <code>req.user.role</code>。</td>
+			</tr>
+			<tr>
+					<td><strong>Token Payload</strong></td>
+					<td>狀態傳遞</td>
+					<td>將 <code>role</code> 內嵌於 JWT Payload 中，使中介軟體無需每次存取資料庫即可完成粗粒度（Coarse-grained）角色驗證。</td>
+			</tr>
+	</tbody>
+</table>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/autocannonbasic/"
+      ><span>autocannon API 端點壓力測試套件介紹 </span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
