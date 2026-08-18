@@ -1,0 +1,5 @@
+# Ensure text files use LF line endings so Subresource Integrity (SRI) hashes remain consistent across environments
+* text=auto eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.html text eol=lf
