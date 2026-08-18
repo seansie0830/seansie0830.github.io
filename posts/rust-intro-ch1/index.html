@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -75,32 +75,72 @@ fn main() {
     // println!(&#34;a = {}&#34;, a); ❌ 報鎖！a 已經失去所有權，它現在是個空殼。  
 }
 為什麼要這麼麻煩？" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="Ch1：為什麼是 Rust？記憶體安全的暴力美學">
+	<meta itemprop="description" content="Why Rust? 既然你都點進來了，原因你應該很清楚。不管是為了效能、記憶體安全，還是單純想在簡歷上看起來比較厲害，Rust 都是你的不二之選。至於細節？不知道的可以去問 ChatGPT，我們這裡只講重點。
+Hello World：注意那個「!」 廢話不多說，直接看程式碼：
+fn main() { println!(&#34;hello world&#34;); } ⚡ 極速講解
+fn main()：這不用解釋吧？這是程式的起點。 println!()：這是標準輸出，但嚴格來說它是巨集 (Macro)，關鍵就在那個 !。 為什麼要用巨集？ 因為 Rust 編譯器要在編譯期就檢查你的格式化字串。普通函數做不到這種程度的靈活度，巨集能讓你在編譯階段就少掉一堆 Bug。 記憶體戰場：Stack vs Heap Rust 對記憶體非常講究，這是它「反直覺」的來源。你必須先搞懂這兩塊地盤：
+Stack (棧)： 這裡存「大小固定」的資料（如整數、布林值）。 像疊盤子，速度極快。 Heap (堆)： 這裡存「大小不固定」或「超巨大」的資料（如 String、動態陣列）。 Stack 只會存下一個指向 Heap 的「指標」與長度資訊。 這就是 Rust 講究的地方，也是新手最容易撞牆的地方：Heap 的管理。
+所有權 (Ownership)：Rust 的靈魂 在 Rust，每個物件都必須有一個「主人」，也就是識別字。
+規則一：每個物件只能屬於 一個 主人。 規則二：當你透過 = 賦值時，會根據資料存在哪而有不同反應： Stack 資料：預設會「複製」一份。因為資料小，Copy 一下沒負擔。 Heap 資料：預設會「轉移所有權 (Move)」。 ⚡ 轉移所有權的慘案 fn main() { let a = String::from(&#34;rust&#34;); let b = a; // &#34;rust&#34; 的歸屬從 a 轉移到 b 了 (a ==&gt; b) // println!(&#34;a = {}&#34;, a); ❌ 報鎖！a 已經失去所有權，它現在是個空殼。 } 為什麼要這麼麻煩？">
+	<meta itemprop="datePublished" content="2026-02-26T09:40:00+08:00">
+	<meta itemprop="dateModified" content="2026-02-26T09:40:00+08:00">
+	<meta itemprop="wordCount" content="178">
+	<meta itemprop="keywords" content="Rust,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch1/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="Ch1：為什麼是 Rust？記憶體安全的暴力美學">
+	<meta property="og:description" content="Why Rust? 既然你都點進來了，原因你應該很清楚。不管是為了效能、記憶體安全，還是單純想在簡歷上看起來比較厲害，Rust 都是你的不二之選。至於細節？不知道的可以去問 ChatGPT，我們這裡只講重點。
+Hello World：注意那個「!」 廢話不多說，直接看程式碼：
+fn main() { println!(&#34;hello world&#34;); } ⚡ 極速講解
+fn main()：這不用解釋吧？這是程式的起點。 println!()：這是標準輸出，但嚴格來說它是巨集 (Macro)，關鍵就在那個 !。 為什麼要用巨集？ 因為 Rust 編譯器要在編譯期就檢查你的格式化字串。普通函數做不到這種程度的靈活度，巨集能讓你在編譯階段就少掉一堆 Bug。 記憶體戰場：Stack vs Heap Rust 對記憶體非常講究，這是它「反直覺」的來源。你必須先搞懂這兩塊地盤：
+Stack (棧)： 這裡存「大小固定」的資料（如整數、布林值）。 像疊盤子，速度極快。 Heap (堆)： 這裡存「大小不固定」或「超巨大」的資料（如 String、動態陣列）。 Stack 只會存下一個指向 Heap 的「指標」與長度資訊。 這就是 Rust 講究的地方，也是新手最容易撞牆的地方：Heap 的管理。
+所有權 (Ownership)：Rust 的靈魂 在 Rust，每個物件都必須有一個「主人」，也就是識別字。
+規則一：每個物件只能屬於 一個 主人。 規則二：當你透過 = 賦值時，會根據資料存在哪而有不同反應： Stack 資料：預設會「複製」一份。因為資料小，Copy 一下沒負擔。 Heap 資料：預設會「轉移所有權 (Move)」。 ⚡ 轉移所有權的慘案 fn main() { let a = String::from(&#34;rust&#34;); let b = a; // &#34;rust&#34; 的歸屬從 a 轉移到 b 了 (a ==&gt; b) // println!(&#34;a = {}&#34;, a); ❌ 報鎖！a 已經失去所有權，它現在是個空殼。 } 為什麼要這麼麻煩？">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-02-26T09:40:00+08:00">
+		<meta property="article:modified_time" content="2026-02-26T09:40:00+08:00">
+		<meta property="article:tag" content="Rust">
+		<meta property="article:tag" content="30天">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Ch1：為什麼是 Rust？記憶體安全的暴力美學">
+	<meta name="twitter:description" content="Why Rust? 既然你都點進來了，原因你應該很清楚。不管是為了效能、記憶體安全，還是單純想在簡歷上看起來比較厲害，Rust 都是你的不二之選。至於細節？不知道的可以去問 ChatGPT，我們這裡只講重點。
+Hello World：注意那個「!」 廢話不多說，直接看程式碼：
+fn main() { println!(&#34;hello world&#34;); } ⚡ 極速講解
+fn main()：這不用解釋吧？這是程式的起點。 println!()：這是標準輸出，但嚴格來說它是巨集 (Macro)，關鍵就在那個 !。 為什麼要用巨集？ 因為 Rust 編譯器要在編譯期就檢查你的格式化字串。普通函數做不到這種程度的靈活度，巨集能讓你在編譯階段就少掉一堆 Bug。 記憶體戰場：Stack vs Heap Rust 對記憶體非常講究，這是它「反直覺」的來源。你必須先搞懂這兩塊地盤：
+Stack (棧)： 這裡存「大小固定」的資料（如整數、布林值）。 像疊盤子，速度極快。 Heap (堆)： 這裡存「大小不固定」或「超巨大」的資料（如 String、動態陣列）。 Stack 只會存下一個指向 Heap 的「指標」與長度資訊。 這就是 Rust 講究的地方，也是新手最容易撞牆的地方：Heap 的管理。
+所有權 (Ownership)：Rust 的靈魂 在 Rust，每個物件都必須有一個「主人」，也就是識別字。
+規則一：每個物件只能屬於 一個 主人。 規則二：當你透過 = 賦值時，會根據資料存在哪而有不同反應： Stack 資料：預設會「複製」一份。因為資料小，Copy 一下沒負擔。 Heap 資料：預設會「轉移所有權 (Move)」。 ⚡ 轉移所有權的慘案 fn main() { let a = String::from(&#34;rust&#34;); let b = a; // &#34;rust&#34; 的歸屬從 a 轉移到 b 了 (a ==&gt; b) // println!(&#34;a = {}&#34;, a); ❌ 報鎖！a 已經失去所有權，它現在是個空殼。 } 為什麼要這麼麻煩？">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch1/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -110,7 +150,7 @@ fn main() {
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -278,25 +318,25 @@ fn main() {
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/rust"
+      href="https://seansie0830.github.io/tags/rust"
       >rust</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/30%E5%A4%A9"
+      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/rust-intro-ch2/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/rust-intro-ch2/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Ch2：變數、結構、列舉 — 各種資料的形狀</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/cpp-overloading-intro/"
+      href="https://seansie0830.github.io/posts/cpp-overloading-intro/"
       ><span>C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

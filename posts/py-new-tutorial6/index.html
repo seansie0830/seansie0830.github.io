@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -75,32 +75,87 @@ phone_book = {
 for k, v in phone_book.items():
     print(k, v)
 執行結果(即爲遍歷所有字典序列的鍵值對，並列印出來）" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="字典(KV)資料庫">
+	<meta itemprop="description" content="在日常生活中，有時會常常需要處理一些事物的對應關係，舉一個最常見的例子，電話簿，就是聯絡人與手機號碼的對應關係，這種問題就很是合用python中的字典（dictionary )功能來解決。
+這個在程式語言中也被稱作**KV資料庫，**是一種很常見的資料庫形式，像是C&#43;&#43;中有個很相似的叫做map，由key(鍵）與value（值）組成，其中key是不能修改的，如同電話簿中的名字一樣，正常情況（改名例外，而且也不常見）下不會修改。
+不過裏面的值是可以被修改的，就像電話簿中的手機號碼，常常會因爲某些原因會被更動。
+對這個資料庫有興趣的讀者可以參考下面這個維基百科的連結。
+https://zh.wikipedia.org/zh-tw/键-值存储
+宣告 有兩種方式
+法一 與正常變數一樣的方式宣告 phonebook = {&#34;John Doe&#34;: &#34;123-456-7890&#34;, &#34;Jane Doe&#34;: &#34;987-654-3210&#34;} 其中格式如下
+{&#34;鍵1” :&#34;值1&#34; , &#34;鍵2” :&#34;值2&#34; ... &#34;鍵n” :&#34;值n&#34; } 法二 用dict函數 這個函數接受了數種引數格式，第n個鍵或值分別用Kn與Vn來表示。
+1.傳入一個有數個元組（格式： (鍵,值) ） 的清單，格式如下 。 dict=([(K1,V1),(K2,V2),........,(Kn,Vn)}} 2.用平常宣告變數的方式來當作引數的格式，只是變數名稱是鍵，變數數值是值。 口訣：名稱不能變是鍵，值是值。
+dict(K1=V1,K2=V2 .....Kn=Vn) 存取 對單個元素 與清單的格式相同，只是索引值改成鍵值，清單填入數字，但字典可是填入資料，範例如下。
+# 電話簿字典例子 phone_book = { &#34;Alice&#34;: &#34;123-456-7890&#34;, &#34;Bob&#34;: &#34;234-567-8901&#34;, &#34;Charlie&#34;: &#34;345-678-9012&#34;, &#34;David&#34;: &#34;456-789-0123&#34;, &#34;Eva&#34;: &#34;567-890-1234&#34; } print(phone_book[&#34;Bob&#34;]) 執行結果
+&#39;234-567-8901&#39; 對多個元素的迴圈技巧 用item函數 item 函數是用來回傳指定元素字典的鍵值對的，用法如下，以下迴圈會遍歷 phone_book 中的所有元素，並以 item 函數回傳給 k v 。
+phone_book = { &#34;Alice&#34;: &#34;123-456-7890&#34;, &#34;Bob&#34;: &#34;234-567-8901&#34;, &#34;Charlie&#34;: &#34;345-678-9012&#34;, &#34;David&#34;: &#34;456-789-0123&#34;, &#34;Eva&#34;: &#34;567-890-1234&#34; } for k, v in phone_book.items(): print(k, v) 執行結果(即爲遍歷所有字典序列的鍵值對，並列印出來）">
+	<meta itemprop="datePublished" content="2024-07-16T15:33:14+08:00">
+	<meta itemprop="dateModified" content="2024-07-16T15:33:14+08:00">
+	<meta itemprop="wordCount" content="110"><meta property="og:url" content="https://seansie0830.github.io/posts/py-new-tutorial6/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="字典(KV)資料庫">
+	<meta property="og:description" content="在日常生活中，有時會常常需要處理一些事物的對應關係，舉一個最常見的例子，電話簿，就是聯絡人與手機號碼的對應關係，這種問題就很是合用python中的字典（dictionary )功能來解決。
+這個在程式語言中也被稱作**KV資料庫，**是一種很常見的資料庫形式，像是C&#43;&#43;中有個很相似的叫做map，由key(鍵）與value（值）組成，其中key是不能修改的，如同電話簿中的名字一樣，正常情況（改名例外，而且也不常見）下不會修改。
+不過裏面的值是可以被修改的，就像電話簿中的手機號碼，常常會因爲某些原因會被更動。
+對這個資料庫有興趣的讀者可以參考下面這個維基百科的連結。
+https://zh.wikipedia.org/zh-tw/键-值存储
+宣告 有兩種方式
+法一 與正常變數一樣的方式宣告 phonebook = {&#34;John Doe&#34;: &#34;123-456-7890&#34;, &#34;Jane Doe&#34;: &#34;987-654-3210&#34;} 其中格式如下
+{&#34;鍵1” :&#34;值1&#34; , &#34;鍵2” :&#34;值2&#34; ... &#34;鍵n” :&#34;值n&#34; } 法二 用dict函數 這個函數接受了數種引數格式，第n個鍵或值分別用Kn與Vn來表示。
+1.傳入一個有數個元組（格式： (鍵,值) ） 的清單，格式如下 。 dict=([(K1,V1),(K2,V2),........,(Kn,Vn)}} 2.用平常宣告變數的方式來當作引數的格式，只是變數名稱是鍵，變數數值是值。 口訣：名稱不能變是鍵，值是值。
+dict(K1=V1,K2=V2 .....Kn=Vn) 存取 對單個元素 與清單的格式相同，只是索引值改成鍵值，清單填入數字，但字典可是填入資料，範例如下。
+# 電話簿字典例子 phone_book = { &#34;Alice&#34;: &#34;123-456-7890&#34;, &#34;Bob&#34;: &#34;234-567-8901&#34;, &#34;Charlie&#34;: &#34;345-678-9012&#34;, &#34;David&#34;: &#34;456-789-0123&#34;, &#34;Eva&#34;: &#34;567-890-1234&#34; } print(phone_book[&#34;Bob&#34;]) 執行結果
+&#39;234-567-8901&#39; 對多個元素的迴圈技巧 用item函數 item 函數是用來回傳指定元素字典的鍵值對的，用法如下，以下迴圈會遍歷 phone_book 中的所有元素，並以 item 函數回傳給 k v 。
+phone_book = { &#34;Alice&#34;: &#34;123-456-7890&#34;, &#34;Bob&#34;: &#34;234-567-8901&#34;, &#34;Charlie&#34;: &#34;345-678-9012&#34;, &#34;David&#34;: &#34;456-789-0123&#34;, &#34;Eva&#34;: &#34;567-890-1234&#34; } for k, v in phone_book.items(): print(k, v) 執行結果(即爲遍歷所有字典序列的鍵值對，並列印出來）">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2024-07-16T15:33:14+08:00">
+		<meta property="article:modified_time" content="2024-07-16T15:33:14+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="字典(KV)資料庫">
+	<meta name="twitter:description" content="在日常生活中，有時會常常需要處理一些事物的對應關係，舉一個最常見的例子，電話簿，就是聯絡人與手機號碼的對應關係，這種問題就很是合用python中的字典（dictionary )功能來解決。
+這個在程式語言中也被稱作**KV資料庫，**是一種很常見的資料庫形式，像是C&#43;&#43;中有個很相似的叫做map，由key(鍵）與value（值）組成，其中key是不能修改的，如同電話簿中的名字一樣，正常情況（改名例外，而且也不常見）下不會修改。
+不過裏面的值是可以被修改的，就像電話簿中的手機號碼，常常會因爲某些原因會被更動。
+對這個資料庫有興趣的讀者可以參考下面這個維基百科的連結。
+https://zh.wikipedia.org/zh-tw/键-值存储
+宣告 有兩種方式
+法一 與正常變數一樣的方式宣告 phonebook = {&#34;John Doe&#34;: &#34;123-456-7890&#34;, &#34;Jane Doe&#34;: &#34;987-654-3210&#34;} 其中格式如下
+{&#34;鍵1” :&#34;值1&#34; , &#34;鍵2” :&#34;值2&#34; ... &#34;鍵n” :&#34;值n&#34; } 法二 用dict函數 這個函數接受了數種引數格式，第n個鍵或值分別用Kn與Vn來表示。
+1.傳入一個有數個元組（格式： (鍵,值) ） 的清單，格式如下 。 dict=([(K1,V1),(K2,V2),........,(Kn,Vn)}} 2.用平常宣告變數的方式來當作引數的格式，只是變數名稱是鍵，變數數值是值。 口訣：名稱不能變是鍵，值是值。
+dict(K1=V1,K2=V2 .....Kn=Vn) 存取 對單個元素 與清單的格式相同，只是索引值改成鍵值，清單填入數字，但字典可是填入資料，範例如下。
+# 電話簿字典例子 phone_book = { &#34;Alice&#34;: &#34;123-456-7890&#34;, &#34;Bob&#34;: &#34;234-567-8901&#34;, &#34;Charlie&#34;: &#34;345-678-9012&#34;, &#34;David&#34;: &#34;456-789-0123&#34;, &#34;Eva&#34;: &#34;567-890-1234&#34; } print(phone_book[&#34;Bob&#34;]) 執行結果
+&#39;234-567-8901&#39; 對多個元素的迴圈技巧 用item函數 item 函數是用來回傳指定元素字典的鍵值對的，用法如下，以下迴圈會遍歷 phone_book 中的所有元素，並以 item 函數回傳給 k v 。
+phone_book = { &#34;Alice&#34;: &#34;123-456-7890&#34;, &#34;Bob&#34;: &#34;234-567-8901&#34;, &#34;Charlie&#34;: &#34;345-678-9012&#34;, &#34;David&#34;: &#34;456-789-0123&#34;, &#34;Eva&#34;: &#34;567-890-1234&#34; } for k, v in phone_book.items(): print(k, v) 執行結果(即爲遍歷所有字典序列的鍵值對，並列印出來）">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/py-new-tutorial6/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -110,7 +165,7 @@ for k, v in phone_book.items():
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -255,17 +310,17 @@ for k, v in phone_book.items():
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/py-new-tutorial8/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/py-new-tutorial8/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>例外處理</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/py-new-tutorial4/"
+      href="https://seansie0830.github.io/posts/py-new-tutorial4/"
       ><span>清單與元組 python 新手教學#4 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

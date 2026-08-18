@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -49,32 +49,66 @@ let result = loop {
     }  
 };
 💡 祕技：迴圈標籤 (Loop Labels)" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="Ch3：控制流與解構術 — 邏輯的對稱之美">
+	<meta itemprop="description" content="條件判斷：不僅是判斷，還是表達式 在 Rust，if-else 不是單純的語句（Statement），它是一種可以回傳值的表達式（Expression）。這意味著你可以直接把 if 的結果賦值給變數。
+let condition = true; let x = if condition { &#34;成功&#34; } else { &#34;失敗&#34; }; ⚡ 進階講解 分號是關鍵：括號內最後一行如果不加分號，它就是回傳值。如果加了分號，它就變成語句，回傳的是空元組 ()。 型態必須一致：Rust 是強型態語言，if 分支回傳字串，else 分支就不能回傳整數。編譯器必須在編譯時期就知道 x 的精確型態。 取代三元運算子：Rust 沒有 a ? b : c 這種語法，因為 if 表達式已經完美取代了它，且可讀性更高。 迴圈：三種武器 Rust 提供了三種迴圈，每一種都有其獨特的應用場景。
+1. while：最傳統的守衛 當你需要先判斷條件再執行時使用。但在 Rust 中，while 比較少用來遍歷陣列，因為 for 更安全且更快（少了邊界檢查的開銷）。
+2. loop：無限的可能 loop 是最純粹的無限迴圈。它最酷的地方在於可以配合 break 回傳值。這在需要重試某些操作（如網路連接或獲取鎖）直到成功為止的場景非常強大。
+let mut counter = 0; let result = loop { counter &#43;= 1; if counter == 10 { break counter * 2; // 跳出迴圈並帶走數值 20 } }; 💡 祕技：迴圈標籤 (Loop Labels)">
+	<meta itemprop="datePublished" content="2026-02-26T09:42:00+08:00">
+	<meta itemprop="dateModified" content="2026-02-26T09:42:00+08:00">
+	<meta itemprop="wordCount" content="354">
+	<meta itemprop="keywords" content="Rust,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch3/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="Ch3：控制流與解構術 — 邏輯的對稱之美">
+	<meta property="og:description" content="條件判斷：不僅是判斷，還是表達式 在 Rust，if-else 不是單純的語句（Statement），它是一種可以回傳值的表達式（Expression）。這意味著你可以直接把 if 的結果賦值給變數。
+let condition = true; let x = if condition { &#34;成功&#34; } else { &#34;失敗&#34; }; ⚡ 進階講解 分號是關鍵：括號內最後一行如果不加分號，它就是回傳值。如果加了分號，它就變成語句，回傳的是空元組 ()。 型態必須一致：Rust 是強型態語言，if 分支回傳字串，else 分支就不能回傳整數。編譯器必須在編譯時期就知道 x 的精確型態。 取代三元運算子：Rust 沒有 a ? b : c 這種語法，因為 if 表達式已經完美取代了它，且可讀性更高。 迴圈：三種武器 Rust 提供了三種迴圈，每一種都有其獨特的應用場景。
+1. while：最傳統的守衛 當你需要先判斷條件再執行時使用。但在 Rust 中，while 比較少用來遍歷陣列，因為 for 更安全且更快（少了邊界檢查的開銷）。
+2. loop：無限的可能 loop 是最純粹的無限迴圈。它最酷的地方在於可以配合 break 回傳值。這在需要重試某些操作（如網路連接或獲取鎖）直到成功為止的場景非常強大。
+let mut counter = 0; let result = loop { counter &#43;= 1; if counter == 10 { break counter * 2; // 跳出迴圈並帶走數值 20 } }; 💡 祕技：迴圈標籤 (Loop Labels)">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-02-26T09:42:00+08:00">
+		<meta property="article:modified_time" content="2026-02-26T09:42:00+08:00">
+		<meta property="article:tag" content="Rust">
+		<meta property="article:tag" content="30天">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Ch3：控制流與解構術 — 邏輯的對稱之美">
+	<meta name="twitter:description" content="條件判斷：不僅是判斷，還是表達式 在 Rust，if-else 不是單純的語句（Statement），它是一種可以回傳值的表達式（Expression）。這意味著你可以直接把 if 的結果賦值給變數。
+let condition = true; let x = if condition { &#34;成功&#34; } else { &#34;失敗&#34; }; ⚡ 進階講解 分號是關鍵：括號內最後一行如果不加分號，它就是回傳值。如果加了分號，它就變成語句，回傳的是空元組 ()。 型態必須一致：Rust 是強型態語言，if 分支回傳字串，else 分支就不能回傳整數。編譯器必須在編譯時期就知道 x 的精確型態。 取代三元運算子：Rust 沒有 a ? b : c 這種語法，因為 if 表達式已經完美取代了它，且可讀性更高。 迴圈：三種武器 Rust 提供了三種迴圈，每一種都有其獨特的應用場景。
+1. while：最傳統的守衛 當你需要先判斷條件再執行時使用。但在 Rust 中，while 比較少用來遍歷陣列，因為 for 更安全且更快（少了邊界檢查的開銷）。
+2. loop：無限的可能 loop 是最純粹的無限迴圈。它最酷的地方在於可以配合 break 回傳值。這在需要重試某些操作（如網路連接或獲取鎖）直到成功為止的場景非常強大。
+let mut counter = 0; let result = loop { counter &#43;= 1; if counter == 10 { break counter * 2; // 跳出迴圈並帶走數值 20 } }; 💡 祕技：迴圈標籤 (Loop Labels)">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch3/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -84,7 +118,7 @@ let result = loop {
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -290,25 +324,25 @@ let result = loop {
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/rust"
+      href="https://seansie0830.github.io/tags/rust"
       >rust</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/30%E5%A4%A9"
+      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/rust-intro-ch4/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/rust-intro-ch4/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Ch4：所有權避坑指南與智慧指標 — 記憶體權力的分配</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/rust-intro-ch2/"
+      href="https://seansie0830.github.io/posts/rust-intro-ch2/"
       ><span>Ch2：變數、結構、列舉 — 各種資料的形狀</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

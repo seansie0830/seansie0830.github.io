@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -58,32 +58,70 @@ int main() {
 }
 多載解決方案
 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="C&#43;&#43; 多載介紹 (運算子多載&函數多載) | seansie blog">
+	<meta itemprop="description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
+而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
+函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
+int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
+int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble float floatResult = addFloat(1.0f, 2.0f); //使用addFloat std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString // ... (使用這些結果) ... return 0; } 多載解決方案 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。">
+	<meta itemprop="datePublished" content="2025-02-08T12:13:03+08:00">
+	<meta itemprop="dateModified" content="2025-02-08T12:13:03+08:00">
+	<meta itemprop="wordCount" content="1014">
+	<meta itemprop="keywords" content="C&#43;&#43;,多載,運算子,參數,物件導向,簡介"><meta property="og:url" content="https://seansie0830.github.io/posts/cpp-overloading-intro/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="C&#43;&#43; 多載介紹 (運算子多載&函數多載) | seansie blog">
+	<meta property="og:description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
+而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
+函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
+int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
+int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble float floatResult = addFloat(1.0f, 2.0f); //使用addFloat std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString // ... (使用這些結果) ... return 0; } 多載解決方案 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2025-02-08T12:13:03+08:00">
+		<meta property="article:modified_time" content="2025-02-08T12:13:03+08:00">
+		<meta property="article:tag" content="C&#43;&#43;">
+		<meta property="article:tag" content="多載">
+		<meta property="article:tag" content="運算子">
+		<meta property="article:tag" content="參數">
+		<meta property="article:tag" content="物件導向">
+		<meta property="article:tag" content="簡介">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="C&#43;&#43; 多載介紹 (運算子多載&函數多載) | seansie blog">
+	<meta name="twitter:description" content="簡介 多載(overloading)這個概念有點像是 破音字 的概念，例如”吃”這個字，在”吃東西”這個語境下，念(音:痴)，而在”口吃”這個字念(音 : 級)，同一個字，可以根據上下文來決定不同意義。
+而C&#43;&#43;的多載也一樣，也就是同一個東西(例如函數、運算子等等)，可能會根據上下文來決定不同的意義。
+函數多載 為什麼要用這個? 想像一下，我們要實作一個相加(這只是為了舉例方便而已，實際上更難)的函數，而因為 C&#43;&#43;有不同的 資料型態 ，所以每個資料型態都要分別定義自己的函數。
+int addInt(int a, int b) { return a &#43; b; } double addDouble(double a, double b) { return a &#43; b; } float addFloat(float a, float b) { return a &#43; b; } string addString(string a, string b) { return a &#43; b; } 然後要使用的時候，還要分別記住 addInt、addDouble、addFloat 和 addString，不僅沒有效率，這樣要用的時候還容易出錯，且程式碼會變得冗長、難以維護。
+int main() { int intResult = addInt(5, 3); // 使用 addInt double doubleResult = addDouble(2.5, 1.5); // 使用 addDouble float floatResult = addFloat(1.0f, 2.0f); //使用addFloat std::string stringResult = addString(&#34;Hello&#34;, &#34; World&#34;); // 使用 addString // ... (使用這些結果) ... return 0; } 多載解決方案 其實在C&#43;&#43;中，編譯器是允許相同名字的函數的，如同開頭的破音字譬喻一樣，名字一樣沒關係，只要有能分辨的上下文就可以。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/cpp-overloading-intro/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -93,7 +131,7 @@ int main() {
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -462,41 +500,41 @@ int main() {
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/c&#43;&#43;"
+      href="https://seansie0830.github.io/tags/c&#43;&#43;"
       >C&#43;&#43;</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E5%A4%9A%E8%BC%89"
+      href="https://seansie0830.github.io/tags/%E5%A4%9A%E8%BC%89"
       >多載</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E9%81%8B%E7%AE%97%E5%AD%90"
+      href="https://seansie0830.github.io/tags/%E9%81%8B%E7%AE%97%E5%AD%90"
       >運算子</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E5%8F%83%E6%95%B8"
+      href="https://seansie0830.github.io/tags/%E5%8F%83%E6%95%B8"
       >參數</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91"
+      href="https://seansie0830.github.io/tags/%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91"
       >物件導向</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E7%B0%A1%E4%BB%8B"
+      href="https://seansie0830.github.io/tags/%E7%B0%A1%E4%BB%8B"
       >簡介</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/rust-intro-ch1/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/rust-intro-ch1/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Ch1：為什麼是 Rust？記憶體安全的暴力美學</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/js-tips-what-is-the-keyword-this/"
+      href="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/"
       ><span>js中的this到底是甚麼 js隨筆 |seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

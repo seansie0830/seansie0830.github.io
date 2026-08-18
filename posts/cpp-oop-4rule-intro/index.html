@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -66,32 +66,113 @@ class myClass{
 繼承與多形
 繼承：客製化便當的基礎
 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content=" 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog">
+	<meta itemprop="description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&#34;取餐流程&#34;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。">
+	<meta itemprop="datePublished" content="2025-02-06T12:51:52+08:00">
+	<meta itemprop="dateModified" content="2025-02-06T12:51:52+08:00">
+	<meta itemprop="wordCount" content="266">
+	<meta itemprop="keywords" content="C&#43;&#43;,抽象,物件導向,簡介"><meta property="og:url" content="https://seansie0830.github.io/posts/cpp-oop-4rule-intro/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content=" 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog">
+	<meta property="og:description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&#34;取餐流程&#34;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2025-02-06T12:51:52+08:00">
+		<meta property="article:modified_time" content="2025-02-06T12:51:52+08:00">
+		<meta property="article:tag" content="C&#43;&#43;">
+		<meta property="article:tag" content="抽象">
+		<meta property="article:tag" content="物件導向">
+		<meta property="article:tag" content="簡介">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content=" 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog">
+	<meta name="twitter:description" content="甚麼是物件導向 簡而言之，物件導向是一種抽象化的概念。在當今軟體開發需求快速變遷的時代，物件導向所帶來的便利性至關重要。
+其實，「抽象」並不可怕，它反而能簡化問題，讓開發者專注於真正核心的業務邏輯。
+舉個例子，其實物件導向就像日常生活的包裝，沒有了他其實也沒什麼大不了的，甚至對於生產者來說更方便，因為不用準備包裝的成本。
+但是對於消費者來說，包裝對於日常使用的方便性是非常重要的，它可以保護內部重要部分(也就是對應封裝) 簡化功能，例如像是鋁箔飲料，保留一個孔洞提供吸管插入(對應抽象)。 以包裝為藍本進行客製化，像是客製化便當之類的，對應繼承。 最後，不同的便當，可以透過相同的&#34;取餐流程&#34;交給顧客，例如取餐號碼牌，這就是多型。 而 剛剛的比喻中，封裝、抽象、繼承跟多形這四個重要概念是物件導向的基石，讓開發者能更靈活的面對各種變動的需求。
+封裝與抽象 這兩個要一起說。因為互為因果，為了抽象所以封裝。
+再舉個例子，大家使用電腦的時候，應該都是用鍵盤滑鼠操作吧，而不是打開主機板，用電流來操作裡面的晶片，這種如此荒唐的操作方法。
+為甚麼不行呢? 因為裡面的電路與晶片非常脆弱阿，一不小心搞到短路還是怎樣，就會整台報銷了。
+因此這些東西會被一個外殼保護起來，這個外殼在物件導向的世界中叫做封裝。
+對了，那物件中哪個東西就如同電腦主機板一樣脆弱呢?
+通常是資料，因為可以任意修改，沒辦法驗證，比如說把年齡設成負數，或是把金額設成無限大，這些不合理的數值，都有可能導致程式出錯甚至崩潰。因此，我們會將資料封裝起來，不讓外部直接存取。
+那要如何存取被封裝的資料呢？這時候就輪到成員函數 (Member function) 登場了。方法就像是電腦的鍵盤滑鼠，提供一個安全的介面，讓外部可以間接地操作資料。在方法中，我們可以加入邏輯判斷，確保資料的正確性，例如：在設定年齡的方法中，我們可以檢查傳入的值是否為正整數；在設定金額的方法中，我們可以檢查是否超過預算上限。
+抽象 (Abstraction) 則是將複雜的內部實作細節隱藏起來，只暴露必要的資訊給外部。使用者不需要知道電腦內部是如何運作的，只需要知道如何透過鍵盤滑鼠來操作電腦即可。同樣地，使用者也不需要知道物件內部的資料是如何儲存和處理的，只需要知道如何透過物件提供的方法來操作物件即可。
+所以，封裝的目的是為了保護資料，而抽象的目的是為了簡化操作。兩者相輔相成，共同構成了物件導向程式設計的基石。透過封裝和抽象，我們可以建立出更安全、更易用、更易維護的程式。
+C&#43;&#43; 中的實作 class myClass{ public: private: } 裡面的 public 跟 private 代表裡面對應的資源的可視性 (visibility) 。
+如果是 public 就可以被外界存取，而 private 只能被內部 (在 {} 之內的函數)存取。
+有沒有發現 public 跟 private 剛好對應到對外的抽象與對內封裝，並且剛剛又提到資料因為更改不可驗證而很脆弱，因此要被封裝起來，所以 private 裡面基本上都是儲存資料。
+反觀 public 是給外部用的，對應到向外的抽象介面，也就是公開的成員函數，函數是介面的一種。
+設計的原則是，如同電腦的鍵盤滑鼠一樣，當使用者使用介面的時候，只需要知道意圖，而裡面的細節是介面要自己完成的，要盡量隱藏瑣碎的細節。
+順帶一提，還有一些抽象介面的準則要遵守，例如。
+高內聚性： 每個公開方法應該負責單一且明確的任務。例如，與其提供一個只取得半徑的 public 方法，然後讓使用者自行計算球體面積，不如直接提供一個 calculateSphereArea() 方法，讓使用者可以直接取得球體面積，提高程式碼的可讀性和易用性。 最少暴露原則 (Principle of Least Privilege)： 只有在真正需要被外部存取時，才將成員設為 public。這有助於降低程式碼之間的耦合度，並提高程式碼的可維護性。 繼承與多形 繼承：客製化便當的基礎 如果說物件導向是一家便當店，那麼繼承就是推出「客製化便當」的好方法。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/cpp-oop-4rule-intro/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -101,7 +182,7 @@ class myClass{
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -301,33 +382,33 @@ class myClass{
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/c&#43;&#43;"
+      href="https://seansie0830.github.io/tags/c&#43;&#43;"
       >C&#43;&#43;</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E6%8A%BD%E8%B1%A1"
+      href="https://seansie0830.github.io/tags/%E6%8A%BD%E8%B1%A1"
       >抽象</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91"
+      href="https://seansie0830.github.io/tags/%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91"
       >物件導向</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E7%B0%A1%E4%BB%8B"
+      href="https://seansie0830.github.io/tags/%E7%B0%A1%E4%BB%8B"
       >簡介</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/begin-learn-vue30day-ch3/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>#3 元件系統 30天學會 vue系列文 | seansie blog</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/zj_f149/"
+      href="https://seansie0830.github.io/posts/zj_f149/"
       ><span>zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog </span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

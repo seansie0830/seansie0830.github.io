@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -57,32 +57,87 @@ int n,no;
 				no&#43;&#43;;
 			}
 據題目”每組新的測資，代表不同事件，請勿將其納入新的號碼”，因此每次回合是為獨立的查詢，因此要做初始化" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="zerojudge d518 C&#43;&#43;詳解 文字抄寫 II">
+	<meta itemprop="description" content="d518 題目 https://zerojudge.tw/ShowProblem?problemid=d518
+Content 從機器中，不斷地出現 “?” 個英文字母的單字，現在要你抄寫下來， 倘若這個單字已經出現過，則會使用編號上的號碼直接書寫 倘若這個單字沒有出現過，則會賦予單字一個新的號碼
+每組新的測資，代表不同事件，請勿將其納入新的號碼
+Input 每組輸入的第一行 , 有一個數字 N ( 1 ≦ N ≦ 104 )
+接下來會有瘋狂科學家講出的 N 行單字
+每行由小寫字母 a 到 z 所構成的 ? 字單字. ( 1 ≦ ? ≦ 20 )
+Output 若這個字串之前已經出現過,則輸出號碼,若沒有則輸出它將被編寫的號碼.
+破題 看到這個問題，可以轉換成鍵值對問題，以字串為鍵，值隨便，因為本題利用鍵值對只是要看他有沒有存在而已，所以具體的值不重要。
+那自然而然地要先宣告鍵值對物件，而C&#43;&#43;中的鍵值對是 map，又我們不關心 map 中的順序，因此可以以用 unordered_map 加速。 並且順便宣告用來讀取輸入的字串 s ，題目的 n 還有序號(從1開始)
+unordered_map&lt;string,int&gt; m; string s; int n,no; 然後在處理的時候，先把讀入的字串當作鍵，在 C&#43;&#43; 的 map 中透過 map.find() 查詢，然後如果沒有查詢到就把他加入 map ，反之如果有查詢到就輸出號碼。
+程式碼如下
+cin&gt;&gt;s; if(m.find(s)!=m.end()){ cout&lt;&lt;&#34;Old! &#34;&lt;&lt;m[s]&lt;&lt;endl; } else{ cout&lt;&lt;&#34;New! &#34;&lt;&lt;no&lt;&lt;endl; m[s]=no; no&#43;&#43;; } 據題目”每組新的測資，代表不同事件，請勿將其納入新的號碼”，因此每次回合是為獨立的查詢，因此要做初始化">
+	<meta itemprop="datePublished" content="2025-01-24T15:06:22+08:00">
+	<meta itemprop="dateModified" content="2025-01-24T15:06:22+08:00">
+	<meta itemprop="wordCount" content="120">
+	<meta itemprop="keywords" content="Zerojudge,題解"><meta property="og:url" content="https://seansie0830.github.io/posts/zj_d518/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="zerojudge d518 C&#43;&#43;詳解 文字抄寫 II">
+	<meta property="og:description" content="d518 題目 https://zerojudge.tw/ShowProblem?problemid=d518
+Content 從機器中，不斷地出現 “?” 個英文字母的單字，現在要你抄寫下來， 倘若這個單字已經出現過，則會使用編號上的號碼直接書寫 倘若這個單字沒有出現過，則會賦予單字一個新的號碼
+每組新的測資，代表不同事件，請勿將其納入新的號碼
+Input 每組輸入的第一行 , 有一個數字 N ( 1 ≦ N ≦ 104 )
+接下來會有瘋狂科學家講出的 N 行單字
+每行由小寫字母 a 到 z 所構成的 ? 字單字. ( 1 ≦ ? ≦ 20 )
+Output 若這個字串之前已經出現過,則輸出號碼,若沒有則輸出它將被編寫的號碼.
+破題 看到這個問題，可以轉換成鍵值對問題，以字串為鍵，值隨便，因為本題利用鍵值對只是要看他有沒有存在而已，所以具體的值不重要。
+那自然而然地要先宣告鍵值對物件，而C&#43;&#43;中的鍵值對是 map，又我們不關心 map 中的順序，因此可以以用 unordered_map 加速。 並且順便宣告用來讀取輸入的字串 s ，題目的 n 還有序號(從1開始)
+unordered_map&lt;string,int&gt; m; string s; int n,no; 然後在處理的時候，先把讀入的字串當作鍵，在 C&#43;&#43; 的 map 中透過 map.find() 查詢，然後如果沒有查詢到就把他加入 map ，反之如果有查詢到就輸出號碼。
+程式碼如下
+cin&gt;&gt;s; if(m.find(s)!=m.end()){ cout&lt;&lt;&#34;Old! &#34;&lt;&lt;m[s]&lt;&lt;endl; } else{ cout&lt;&lt;&#34;New! &#34;&lt;&lt;no&lt;&lt;endl; m[s]=no; no&#43;&#43;; } 據題目”每組新的測資，代表不同事件，請勿將其納入新的號碼”，因此每次回合是為獨立的查詢，因此要做初始化">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2025-01-24T15:06:22+08:00">
+		<meta property="article:modified_time" content="2025-01-24T15:06:22+08:00">
+		<meta property="article:tag" content="Zerojudge">
+		<meta property="article:tag" content="題解">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="zerojudge d518 C&#43;&#43;詳解 文字抄寫 II">
+	<meta name="twitter:description" content="d518 題目 https://zerojudge.tw/ShowProblem?problemid=d518
+Content 從機器中，不斷地出現 “?” 個英文字母的單字，現在要你抄寫下來， 倘若這個單字已經出現過，則會使用編號上的號碼直接書寫 倘若這個單字沒有出現過，則會賦予單字一個新的號碼
+每組新的測資，代表不同事件，請勿將其納入新的號碼
+Input 每組輸入的第一行 , 有一個數字 N ( 1 ≦ N ≦ 104 )
+接下來會有瘋狂科學家講出的 N 行單字
+每行由小寫字母 a 到 z 所構成的 ? 字單字. ( 1 ≦ ? ≦ 20 )
+Output 若這個字串之前已經出現過,則輸出號碼,若沒有則輸出它將被編寫的號碼.
+破題 看到這個問題，可以轉換成鍵值對問題，以字串為鍵，值隨便，因為本題利用鍵值對只是要看他有沒有存在而已，所以具體的值不重要。
+那自然而然地要先宣告鍵值對物件，而C&#43;&#43;中的鍵值對是 map，又我們不關心 map 中的順序，因此可以以用 unordered_map 加速。 並且順便宣告用來讀取輸入的字串 s ，題目的 n 還有序號(從1開始)
+unordered_map&lt;string,int&gt; m; string s; int n,no; 然後在處理的時候，先把讀入的字串當作鍵，在 C&#43;&#43; 的 map 中透過 map.find() 查詢，然後如果沒有查詢到就把他加入 map ，反之如果有查詢到就輸出號碼。
+程式碼如下
+cin&gt;&gt;s; if(m.find(s)!=m.end()){ cout&lt;&lt;&#34;Old! &#34;&lt;&lt;m[s]&lt;&lt;endl; } else{ cout&lt;&lt;&#34;New! &#34;&lt;&lt;no&lt;&lt;endl; m[s]=no; no&#43;&#43;; } 據題目”每組新的測資，代表不同事件，請勿將其納入新的號碼”，因此每次回合是為獨立的查詢，因此要做初始化">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_d518/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -92,7 +147,7 @@ int n,no;
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -236,25 +291,25 @@ int n,no;
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/zerojudge"
+      href="https://seansie0830.github.io/tags/zerojudge"
       >zerojudge</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/%E9%A1%8C%E8%A7%A3"
+      href="https://seansie0830.github.io/tags/%E9%A1%8C%E8%A7%A3"
       >題解</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/zj_f149/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/zj_f149/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>zerojudge f149 3. 炸彈偵測器 (Detector) C&#43;&#43;詳解 | seansie blog </span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/zj_b512/"
+      href="https://seansie0830.github.io/posts/zj_b512/"
       ><span>zerojudge b512 高維度稀疏向量 | seansie blog </span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

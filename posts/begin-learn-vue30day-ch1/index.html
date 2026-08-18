@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -64,32 +64,85 @@ data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。
 &lt;/body&gt;
 &lt;/html&gt;
 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右  : 輸入 : &#43;Tab ，就能產生了。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
 
   <script
     defer
-    src="http://localhost:57223/highlight.min.js"
+    src="https://seansie0830.github.io/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="http://localhost:57223/favicon.ico"
+    href="https://seansie0830.github.io/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="http://localhost:57223/apple-touch-icon.png"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog">
+	<meta itemprop="description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 &lt;script&gt; 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。">
+	<meta itemprop="datePublished" content="2025-01-14T18:45:00+08:00">
+	<meta itemprop="dateModified" content="2025-01-14T18:45:00+08:00">
+	<meta itemprop="wordCount" content="273">
+	<meta itemprop="keywords" content="Vuejs,Hello World,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog">
+	<meta property="og:description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 &lt;script&gt; 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2025-01-14T18:45:00+08:00">
+		<meta property="article:modified_time" content="2025-01-14T18:45:00+08:00">
+		<meta property="article:tag" content="Vuejs">
+		<meta property="article:tag" content="Hello World">
+		<meta property="article:tag" content="30天">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog">
+	<meta name="twitter:description" content="好，介紹完vuejs的優點了，大家如果願意點開這個網站，想必是對他蠻有興趣的。
+本篇文章將會用 hello world等級的例子來簡單著介紹vuejs的大致使用方法，以及它所需要觀念
+。
+而vuejs可以簡單地透過 script 標籤匯入，並且直接在 &lt;script&gt; 中使用，不像react還要操作各種繁複的終端機 npm 之類的，恐怕要嚇跑一堆初學者了，本人就是被嚇跑的那個www。
+這時候在第0章所介紹的優點又體現出來了，vuejs的漸進式性質，可以提供比較低的學習曲線。
+匯入 在你的 html檔案的之下，加上這個標籤就完成了。
+&lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; 建立第一個網頁應用程式 先在文字編輯器
+加入一個 script標籤 ，在裡面新增以下內容
+&lt;script&gt; Vue.createApp({ data(){ return{ msg : &#34;hello world&#34; } } ); &lt;/script&gt; 簡介一下
+Vue.createApp 從 Vue 模組中， 呼叫 createApp 函數，而參數是元件邏輯，可以簡單想像程這個網頁的大腦 data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。 接著新增 html 主幹
+&lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; &lt;title&gt;Document&lt;/title&gt; &lt;script src=&#34;https://unpkg.com/vue@3/dist/vue.global.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; =&gt; vuejs要掛載在這裡 &lt;/body&gt; &lt;/html&gt; 對了，這些主幹如果你是用 vscode 的(本人強推)，因為裡面內建 emmet ，可以透過快速簡寫來產生這些，方法如右 : 輸入 : &#43;Tab ，就能產生了。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -99,7 +152,7 @@ data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="http://localhost:57223/"
+      href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
@@ -285,29 +338,29 @@ data() 函數可以想像成網頁記憶體，裡面可以儲存必要資料。
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/vuejs"
+      href="https://seansie0830.github.io/tags/vuejs"
       >vuejs</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/hello-world"
+      href="https://seansie0830.github.io/tags/hello-world"
       >hello World</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="http://localhost:57223/tags/30%E5%A4%A9"
+      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/begin-learn-vue30day-ch2/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="http://localhost:57223/posts/begin-learn-vue30day-ch0/"
+      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/"
       ><span>#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️
