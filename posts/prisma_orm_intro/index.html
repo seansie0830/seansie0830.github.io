@@ -1,0 +1,499 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>TypeScript 現代化 ORM 實戰指南：Prisma 全面解析與高效操作手冊 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="Prisma 是一套現代化且具備完整 TypeScript 型別支援的 ORM（Object-Relational Mapping），透過自動產生 Type 定義檔，讓資料庫操作具備自動補全與型別檢查優勢。
+
+1. 環境安裝與初始化
+使用 pnpm 建立專案並安裝 Prisma CLI 與 Client：
+# 初始化 TypeScript 專案
+pnpm init
+pnpm add typescript @types/node tsx -D
+pnpm tsc --init
+
+# 安裝 Prisma 開發依賴與 Runtime 套件
+pnpm add prisma -D
+pnpm add @prisma/client
+
+# 初始化 Prisma（以 PostgreSQL 為例，預設產生 prisma/schema.prisma 與 .env）
+pnpm prisma init --datasource-provider postgresql
+在 .env 設定資料庫連線字串：
+DATABASE_URL=&#34;postgresql://user:password@localhost:5432/mydb?schema=public&#34;
+
+2. 定義 Schema 與資料庫關聯
+編輯 prisma/schema.prisma，定義一對多（User 與 Post）以及多對多（Post 與 Tag）關聯：" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="TypeScript 現代化 ORM 實戰指南：Prisma 全面解析與高效操作手冊">
+	<meta itemprop="description" content="Prisma 是一套現代化且具備完整 TypeScript 型別支援的 ORM（Object-Relational Mapping），透過自動產生 Type 定義檔，讓資料庫操作具備自動補全與型別檢查優勢。
+1. 環境安裝與初始化 使用 pnpm 建立專案並安裝 Prisma CLI 與 Client：
+# 初始化 TypeScript 專案 pnpm init pnpm add typescript @types/node tsx -D pnpm tsc --init # 安裝 Prisma 開發依賴與 Runtime 套件 pnpm add prisma -D pnpm add @prisma/client # 初始化 Prisma（以 PostgreSQL 為例，預設產生 prisma/schema.prisma 與 .env） pnpm prisma init --datasource-provider postgresql 在 .env 設定資料庫連線字串：
+DATABASE_URL=&#34;postgresql://user:password@localhost:5432/mydb?schema=public&#34; 2. 定義 Schema 與資料庫關聯 編輯 prisma/schema.prisma，定義一對多（User 與 Post）以及多對多（Post 與 Tag）關聯：">
+	<meta itemprop="datePublished" content="2026-08-18T21:14:04+08:00">
+	<meta itemprop="dateModified" content="2026-08-18T21:14:04+08:00">
+	<meta itemprop="wordCount" content="871"><meta property="og:url" content="https://seansie0830.github.io/posts/prisma_orm_intro/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="TypeScript 現代化 ORM 實戰指南：Prisma 全面解析與高效操作手冊">
+	<meta property="og:description" content="Prisma 是一套現代化且具備完整 TypeScript 型別支援的 ORM（Object-Relational Mapping），透過自動產生 Type 定義檔，讓資料庫操作具備自動補全與型別檢查優勢。
+1. 環境安裝與初始化 使用 pnpm 建立專案並安裝 Prisma CLI 與 Client：
+# 初始化 TypeScript 專案 pnpm init pnpm add typescript @types/node tsx -D pnpm tsc --init # 安裝 Prisma 開發依賴與 Runtime 套件 pnpm add prisma -D pnpm add @prisma/client # 初始化 Prisma（以 PostgreSQL 為例，預設產生 prisma/schema.prisma 與 .env） pnpm prisma init --datasource-provider postgresql 在 .env 設定資料庫連線字串：
+DATABASE_URL=&#34;postgresql://user:password@localhost:5432/mydb?schema=public&#34; 2. 定義 Schema 與資料庫關聯 編輯 prisma/schema.prisma，定義一對多（User 與 Post）以及多對多（Post 與 Tag）關聯：">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-18T21:14:04+08:00">
+		<meta property="article:modified_time" content="2026-08-18T21:14:04+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="TypeScript 現代化 ORM 實戰指南：Prisma 全面解析與高效操作手冊">
+	<meta name="twitter:description" content="Prisma 是一套現代化且具備完整 TypeScript 型別支援的 ORM（Object-Relational Mapping），透過自動產生 Type 定義檔，讓資料庫操作具備自動補全與型別檢查優勢。
+1. 環境安裝與初始化 使用 pnpm 建立專案並安裝 Prisma CLI 與 Client：
+# 初始化 TypeScript 專案 pnpm init pnpm add typescript @types/node tsx -D pnpm tsc --init # 安裝 Prisma 開發依賴與 Runtime 套件 pnpm add prisma -D pnpm add @prisma/client # 初始化 Prisma（以 PostgreSQL 為例，預設產生 prisma/schema.prisma 與 .env） pnpm prisma init --datasource-provider postgresql 在 .env 設定資料庫連線字串：
+DATABASE_URL=&#34;postgresql://user:password@localhost:5432/mydb?schema=public&#34; 2. 定義 Schema 與資料庫關聯 編輯 prisma/schema.prisma，定義一對多（User 與 Post）以及多對多（Post 與 Tag）關聯：">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/prisma_orm_intro/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">TypeScript 現代化 ORM 實戰指南：Prisma 全面解析與高效操作手冊</h1><div class="text-xs antialiased opacity-60"><time>Aug 18, 2026</time></div></header>
+
+  <section><p>Prisma 是一套現代化且具備完整 TypeScript 型別支援的 ORM（Object-Relational Mapping），透過自動產生 Type 定義檔，讓資料庫操作具備自動補全與型別檢查優勢。</p>
+<hr>
+<h2 id="1-環境安裝與初始化">1. 環境安裝與初始化</h2>
+<p>使用 <code>pnpm</code> 建立專案並安裝 Prisma CLI 與 Client：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 初始化 TypeScript 專案</span>
+</span></span><span style="display:flex;"><span>pnpm init
+</span></span><span style="display:flex;"><span>pnpm add typescript @types/node tsx -D
+</span></span><span style="display:flex;"><span>pnpm tsc --init
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Prisma 開發依賴與 Runtime 套件</span>
+</span></span><span style="display:flex;"><span>pnpm add prisma -D
+</span></span><span style="display:flex;"><span>pnpm add @prisma/client
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化 Prisma（以 PostgreSQL 為例，預設產生 prisma/schema.prisma 與 .env）</span>
+</span></span><span style="display:flex;"><span>pnpm prisma init --datasource-provider postgresql
+</span></span></code></pre></div><p>在 <code>.env</code> 設定資料庫連線字串：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-env" data-lang="env"><span style="display:flex;"><span>DATABASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;postgresql://user:password@localhost:5432/mydb?schema=public&#34;</span>
+</span></span></code></pre></div><hr>
+<h2 id="2-定義-schema-與資料庫關聯">2. 定義 Schema 與資料庫關聯</h2>
+<p>編輯 <code>prisma/schema.prisma</code>，定義一對多（User 與 Post）以及多對多（Post 與 Tag）關聯：</p>
+<pre tabindex="0"><code class="language-prisma" data-lang="prisma">generator client {
+  provider = &#34;prisma-client-js&#34;
+}
+
+datasource db {
+  provider = &#34;postgresql&#34;
+  url      = env(&#34;DATABASE_URL&#34;)
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  posts     Post[]
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean   @default(false)
+  viewCount Int       @default(0)
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags      Tag[]
+  createdAt DateTime  @default(now())
+
+  @@index([authorId])
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[]
+}
+</code></pre><p>執行資料庫遷移（Migration）並生成 Client：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm prisma migrate dev --name init
+</span></span></code></pre></div><hr>
+<h2 id="3-基本-crud-操作">3. 基本 CRUD 操作</h2>
+<p>建立單一 Prisma Client 實例（建議在獨立檔案如 <code>db.ts</code> 中管理）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">PrismaClient</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@prisma/client&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prisma</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PrismaClient</span>();
+</span></span></code></pre></div><h3 id="create新增">Create（新增）</h3>
+<p>支援單筆新增、巢狀新增（Nested Writes）與批次新增：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 巢狀新增：建立 User 的同時建立關聯的 Post
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userWithPosts</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">create</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;alice@example.com&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Alice&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">posts</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">create</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>        { <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Prisma 入門指南&#39;</span>, <span style="color:#a6e22e">published</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>        { <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;TypeScript 最佳實踐&#39;</span>, <span style="color:#a6e22e">published</span>: <span style="color:#66d9ef">false</span> },
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">include</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">posts</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 批次新增
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">tag</span>.<span style="color:#a6e22e">createMany</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> [{ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;TypeScript&#39;</span> }, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;ORM&#39;</span> }, { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Node.js&#39;</span> }],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">skipDuplicates</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="read查詢">Read（查詢）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 查詢單筆（支援 Unique 欄位）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">findUnique</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;alice@example.com&#39;</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 複合條件查詢
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">posts</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">findMany</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">published</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">viewCount</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">gte</span>: <span style="color:#66d9ef">100</span> },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">contains</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Prisma&#39;</span>, <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;insensitive&#39;</span> },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">title</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">author</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">select</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">true</span> } },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="update更新與-upsert">Update（更新）與 Upsert</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 更新單筆
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">updatedPost</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">update</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">viewCount</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">increment</span>: <span style="color:#66d9ef">1</span> } },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Upsert：存在則更新，不存在則新增
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">profile</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">upsert</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bob@example.com&#39;</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">update</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Bob Updated&#39;</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">create</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bob@example.com&#39;</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Bob&#39;</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="delete刪除">Delete（刪除）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 刪除單筆
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#66d9ef">delete</span>({ <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1</span> } });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 批次刪除
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">deleteMany</span>({ <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">published</span>: <span style="color:#66d9ef">false</span> } });
+</span></span></code></pre></div><hr>
+<h2 id="4-聚合與分組查詢aggregate--group-by">4. 聚合與分組查詢（Aggregate &amp; Group By）</h2>
+<p>Prisma 提供 <code>aggregate</code> 與 <code>groupBy</code> 計算統計數值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 聚合：計算總貼文數、最大/平均觀看次數
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">stats</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">aggregate</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">_count</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">_avg</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">viewCount</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">_max</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">viewCount</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">published</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Group By：依作者統計發文數與總觀看數，並使用 having 過濾
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">authorStats</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">groupBy</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">by</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;authorId&#39;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">_count</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">_sum</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">viewCount</span>: <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">having</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">viewCount</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">_avg</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">gt</span>: <span style="color:#66d9ef">50</span> },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">orderBy</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">_sum</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">viewCount</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;desc&#39;</span> },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="5-分頁策略pagination">5. 分頁策略（Pagination）</h2>
+<h3 id="offset-based-分頁skip--take">Offset-based 分頁（<code>skip</code> / <code>take</code>）</h3>
+<p>適合資料量小、需要跳頁導航的場景，但在資料量龐大時效能較差。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pageSize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">posts</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">findMany</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">skip</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">page</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">pageSize</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">take</span>: <span style="color:#66d9ef">pageSize</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">orderBy</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">createdAt</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;desc&#39;</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="cursor-based-分頁cursor--take">Cursor-based 分頁（<code>cursor</code> / <code>take</code>）</h3>
+<p>適合無限滾動（Infinite Scroll）或大資料量場景，利用索引欄位定位，查詢效率恆定。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lastCursor</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>; <span style="color:#75715e">// 上一頁最後一筆資料的 ID
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">nextPosts</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">findMany</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">take</span>: <span style="color:#66d9ef">10</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">skip</span>: <span style="color:#66d9ef">1</span>, <span style="color:#75715e">// 跳過游標本身
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cursor</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">lastCursor</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">orderBy</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;asc&#39;</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="6-join-優化與-n1-查詢問題解析">6. Join 優化與 N+1 查詢問題解析</h2>
+<h3 id="何謂-n1-問題">何謂 N+1 問題？</h3>
+<p>當要查詢 10 筆文章並取得其作者時，若先查出 10 筆 Post，再於迴圈內對每個 Post 發送 1 次 User 查詢，資料庫總共執行了 $1 + 10 = 11$ 次查詢。</p>
+<h3 id="prisma-的處理機制">Prisma 的處理機制</h3>
+<ul>
+<li><strong><code>include</code> / <code>select</code>（批次化查詢）：</strong>
+Prisma 在預設關聯載入時，底層通常不會直接使用 SQL <code>LEFT JOIN</code>，而是將查詢拆為兩條並以 <code>IN</code> 聚合：</li>
+</ul>
+<ol>
+<li><code>SELECT * FROM &quot;Post&quot;;</code></li>
+<li><code>SELECT * FROM &quot;User&quot; WHERE id IN (1, 2, 3...);</code>
+這在應用層自動拼裝，將 $N+1$ 次查詢收斂至 $2$ 次。</li>
+</ol>
+<ul>
+<li><strong><code>relationMode = &quot;prisma&quot;</code> vs <code>&quot;foreignKeys&quot;</code>：</strong>
+若資料庫不支援外鍵（如 PlanetScale / Vitess），可在 schema 設定 <code>relationMode = &quot;prisma&quot;</code>，由 Prisma 在應用層模擬外鍵約束與 Cascade 行為。</li>
+<li><strong>Join 優化原則：</strong></li>
+<li>避免在 <code>findMany</code> 裡過度深層巢狀 <code>include</code>（如 User -&gt; Posts -&gt; Comments -&gt; Likes）。</li>
+<li>僅取所需欄位，使用 <code>select</code> 代替全欄位 <code>include</code>，降低記憶體佔用與網路傳輸。</li>
+<li>確保外鍵欄位（如 <code>authorId</code>）建立了索引（Index）。</li>
+</ul>
+<hr>
+<h2 id="7-進階-sql-查詢raw-sql">7. 進階 SQL 查詢（Raw SQL）</h2>
+<p>當 ORM API 無法表達複雜查詢（如 CTE、Window Functions、全文檢索）時，可使用型別安全的 Raw SQL：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Prisma</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@prisma/client&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1. 查詢資料：$queryRaw（使用 tagged template 自動防止 SQL Injection）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">minViews</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">results</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$queryRaw</span>&lt;<span style="color:#f92672">Array</span><span style="color:#960050;background-color:#1e0010">&lt;</span>{ <span style="color:#a6e22e">id</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">number</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">title</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">string</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">rank</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">number</span> }&gt;<span style="color:#f92672">&gt;</span><span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  WITH RankedPosts AS (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    SELECT id, title, view_count,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">           DENSE_RANK() OVER (ORDER BY view_count DESC) as rank
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    FROM &#34;Post&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    WHERE view_count &gt;= </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">minViews</span><span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  )
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  SELECT * FROM RankedPosts WHERE rank &lt;= 5;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2. 執行指令：$executeRaw（用於 UPDATE / DELETE 等無回傳資料操作）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">affectedRows</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$executeRaw</span><span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  UPDATE &#34;Post&#34; SET &#34;viewCount&#34; = &#34;viewCount&#34; + 10 WHERE &#34;published&#34; = false;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>;
+</span></span></code></pre></div><hr>
+<h2 id="8-實用進階技巧misc">8. 實用進階技巧（Misc）</h2>
+<h3 id="交易處理transactions">交易處理（Transactions）</h3>
+<p>Prisma 提供 Sequential 與 Interactive 兩種交易模式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 批次交易（平行或順序執行，全成功或全失敗）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$transaction</span>([
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">create</span>({ <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;user1@example.com&#39;</span> } }),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">post</span>.<span style="color:#a6e22e">deleteMany</span>({ <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">published</span>: <span style="color:#66d9ef">false</span> } }),
+</span></span><span style="display:flex;"><span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 互動式交易（Interactive Transaction，依賴前一步驟運算結果）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$transaction</span>(<span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">tx</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sender</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">tx</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">update</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1</span> },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">decrement</span>: <span style="color:#66d9ef">100</span> } },
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">sender</span>.<span style="color:#a6e22e">balance</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;餘額不足&#39;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">tx</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">update</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">2</span> },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">increment</span>: <span style="color:#66d9ef">100</span> } },
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="client-extensions取代-middleware">Client Extensions（取代 Middleware）</h3>
+<p>Prisma 推薦使用 Extensions 來擴展功能（如軟刪除、自動 Audit Logs、欄位計算）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">xprisma</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$extends</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;auditExtension&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">post</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">create</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`即將建立文章: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">title</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">args</span>);
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="常用-prisma-cli-指令">常用 Prisma CLI 指令</h3>
+<table>
+	<thead>
+			<tr>
+					<th>指令</th>
+					<th>說明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>pnpm prisma db push</code></td>
+					<td>直接將 Schema 同步到資料庫（適合原型開發，不留 Migration 紀錄）</td>
+			</tr>
+			<tr>
+					<td><code>pnpm prisma migrate dev</code></td>
+					<td>建立並套用 Migration 腳本（適合正式開發）</td>
+			</tr>
+			<tr>
+					<td><code>pnpm prisma studio</code></td>
+					<td>開啟視覺化 Web 介面瀏覽與編輯資料庫資料</td>
+			</tr>
+			<tr>
+					<td><code>pnpm prisma generate</code></td>
+					<td>根據最新 Schema 重新產生 <code>@prisma/client</code> 型別</td>
+			</tr>
+	</tbody>
+</table>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/prisma_orm_softdel_ext/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>捨棄 Middleware！用 Prisma Client Extensions 完美實作軟刪除（Soft Delete）</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/monorepo_or_polyrepo_which_is_better/"
+      ><span>程式碼的圍牆與市集：Monorepo 與 Multirepo 的權衡與清醒選擇</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

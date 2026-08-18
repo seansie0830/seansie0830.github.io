@@ -1,0 +1,435 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>捨棄 Middleware！用 Prisma Client Extensions 完美實作軟刪除（Soft Delete） - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在 Prisma 中，官方推薦使用 Prisma Client Extensions（$extends）來取代已棄用的 Middleware。透過擴充 query 物件，我們可以攔截特定 Model 的 CRUD 操作，將 delete / deleteMany 轉為 update，並在查詢（find*、count、aggregate）時自動注入 deletedAt: null 的過濾條件。
+
+1. 定義 Schema
+在需要軟刪除的 Model 中加入 deletedAt 欄位（可為 DateTime? 或 Boolean，推薦使用 DateTime? 以記錄刪除時間戳記）：
+// prisma/schema.prisma
+
+datasource db {
+  provider = &#34;postgresql&#34;
+  url      = env(&#34;DATABASE_URL&#34;)
+}
+
+generator client {
+  provider = &#34;prisma-client-js&#34;
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  posts     Post[]
+  deletedAt DateTime? // 軟刪除時間戳記
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([deletedAt]) // 建立索引以加速全域過濾查詢
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String?
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id])
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([deletedAt])
+}
+
+2. 撰寫軟刪除 Extension
+建立一個泛用或針對特定 Model 的 Extension 模組 softDeleteExtension.ts：" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="捨棄 Middleware！用 Prisma Client Extensions 完美實作軟刪除（Soft Delete）">
+	<meta itemprop="description" content="在 Prisma 中，官方推薦使用 Prisma Client Extensions（$extends）來取代已棄用的 Middleware。透過擴充 query 物件，我們可以攔截特定 Model 的 CRUD 操作，將 delete / deleteMany 轉為 update，並在查詢（find*、count、aggregate）時自動注入 deletedAt: null 的過濾條件。
+1. 定義 Schema 在需要軟刪除的 Model 中加入 deletedAt 欄位（可為 DateTime? 或 Boolean，推薦使用 DateTime? 以記錄刪除時間戳記）：
+// prisma/schema.prismadatasource db {provider = &#34;postgresql&#34;url = env(&#34;DATABASE_URL&#34;)}generator client {provider = &#34;prisma-client-js&#34;}model User {id Int @id @default(autoincrement())email String @uniquename String?posts Post[]deletedAt DateTime? // 軟刪除時間戳記createdAt DateTime @default(now())updatedAt DateTime @updatedAt@@index([deletedAt]) // 建立索引以加速全域過濾查詢}model Post {id Int @id @default(autoincrement())title Stringcontent String?authorId Intauthor User @relation(fields: [authorId], references: [id])deletedAt DateTime?createdAt DateTime @default(now())@@index([deletedAt])} 2. 撰寫軟刪除 Extension 建立一個泛用或針對特定 Model 的 Extension 模組 softDeleteExtension.ts：">
+	<meta itemprop="datePublished" content="2026-08-18T21:20:55+08:00">
+	<meta itemprop="dateModified" content="2026-08-18T21:20:55+08:00">
+	<meta itemprop="wordCount" content="587"><meta property="og:url" content="https://seansie0830.github.io/posts/prisma_orm_softdel_ext/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="捨棄 Middleware！用 Prisma Client Extensions 完美實作軟刪除（Soft Delete）">
+	<meta property="og:description" content="在 Prisma 中，官方推薦使用 Prisma Client Extensions（$extends）來取代已棄用的 Middleware。透過擴充 query 物件，我們可以攔截特定 Model 的 CRUD 操作，將 delete / deleteMany 轉為 update，並在查詢（find*、count、aggregate）時自動注入 deletedAt: null 的過濾條件。
+1. 定義 Schema 在需要軟刪除的 Model 中加入 deletedAt 欄位（可為 DateTime? 或 Boolean，推薦使用 DateTime? 以記錄刪除時間戳記）：
+// prisma/schema.prismadatasource db {provider = &#34;postgresql&#34;url = env(&#34;DATABASE_URL&#34;)}generator client {provider = &#34;prisma-client-js&#34;}model User {id Int @id @default(autoincrement())email String @uniquename String?posts Post[]deletedAt DateTime? // 軟刪除時間戳記createdAt DateTime @default(now())updatedAt DateTime @updatedAt@@index([deletedAt]) // 建立索引以加速全域過濾查詢}model Post {id Int @id @default(autoincrement())title Stringcontent String?authorId Intauthor User @relation(fields: [authorId], references: [id])deletedAt DateTime?createdAt DateTime @default(now())@@index([deletedAt])} 2. 撰寫軟刪除 Extension 建立一個泛用或針對特定 Model 的 Extension 模組 softDeleteExtension.ts：">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-18T21:20:55+08:00">
+		<meta property="article:modified_time" content="2026-08-18T21:20:55+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="捨棄 Middleware！用 Prisma Client Extensions 完美實作軟刪除（Soft Delete）">
+	<meta name="twitter:description" content="在 Prisma 中，官方推薦使用 Prisma Client Extensions（$extends）來取代已棄用的 Middleware。透過擴充 query 物件，我們可以攔截特定 Model 的 CRUD 操作，將 delete / deleteMany 轉為 update，並在查詢（find*、count、aggregate）時自動注入 deletedAt: null 的過濾條件。
+1. 定義 Schema 在需要軟刪除的 Model 中加入 deletedAt 欄位（可為 DateTime? 或 Boolean，推薦使用 DateTime? 以記錄刪除時間戳記）：
+// prisma/schema.prismadatasource db {provider = &#34;postgresql&#34;url = env(&#34;DATABASE_URL&#34;)}generator client {provider = &#34;prisma-client-js&#34;}model User {id Int @id @default(autoincrement())email String @uniquename String?posts Post[]deletedAt DateTime? // 軟刪除時間戳記createdAt DateTime @default(now())updatedAt DateTime @updatedAt@@index([deletedAt]) // 建立索引以加速全域過濾查詢}model Post {id Int @id @default(autoincrement())title Stringcontent String?authorId Intauthor User @relation(fields: [authorId], references: [id])deletedAt DateTime?createdAt DateTime @default(now())@@index([deletedAt])} 2. 撰寫軟刪除 Extension 建立一個泛用或針對特定 Model 的 Extension 模組 softDeleteExtension.ts：">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/prisma_orm_softdel_ext/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">捨棄 Middleware！用 Prisma Client Extensions 完美實作軟刪除（Soft Delete）</h1><div class="text-xs antialiased opacity-60"><time>Aug 18, 2026</time></div></header>
+
+  <section><p>在 Prisma 中，官方推薦使用 <strong>Prisma Client Extensions</strong>（<code>$extends</code>）來取代已棄用的 Middleware。透過擴充 <code>query</code> 物件，我們可以攔截特定 Model 的 CRUD 操作，將 <code>delete</code> / <code>deleteMany</code> 轉為 <code>update</code>，並在查詢（<code>find*</code>、<code>count</code>、<code>aggregate</code>）時自動注入 <code>deletedAt: null</code> 的過濾條件。</p>
+<hr>
+<h2 id="1-定義-schema">1. 定義 Schema</h2>
+<p>在需要軟刪除的 Model 中加入 <code>deletedAt</code> 欄位（可為 <code>DateTime?</code> 或 <code>Boolean</code>，推薦使用 <code>DateTime?</code> 以記錄刪除時間戳記）：</p>
+<pre tabindex="0"><code class="language-prisma" data-lang="prisma">// prisma/schema.prisma
+
+datasource db {
+  provider = &#34;postgresql&#34;
+  url      = env(&#34;DATABASE_URL&#34;)
+}
+
+generator client {
+  provider = &#34;prisma-client-js&#34;
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  posts     Post[]
+  deletedAt DateTime? // 軟刪除時間戳記
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([deletedAt]) // 建立索引以加速全域過濾查詢
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String?
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id])
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([deletedAt])
+}
+</code></pre><hr>
+<h2 id="2-撰寫軟刪除-extension">2. 撰寫軟刪除 Extension</h2>
+<p>建立一個泛用或針對特定 Model 的 Extension 模組 <code>softDeleteExtension.ts</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// softDeleteExtension.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Prisma</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@prisma/client&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">softDeleteExtension</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">defineExtension</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;softDelete&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 針對 User Model 進行攔截
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 1. 攔截 delete：改寫為 update 並寫入 deletedAt
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">delete</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>)({
+</span></span><span style="display:flex;"><span>          ...<span style="color:#a6e22e">args</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">new</span> Date() },
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">operation</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;update&#39;</span>,
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 2. 攔截 deleteMany：改寫為 updateMany
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">deleteMany</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>)({
+</span></span><span style="display:flex;"><span>          ...<span style="color:#a6e22e">args</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">new</span> Date() },
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">operation</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;updateMany&#39;</span>,
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 3. 攔截 findUnique / findUniqueOrThrow
+</span></span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 由於 findUnique 僅允許唯一鍵，若需過濾 deletedAt 需轉為 findFirst
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">findUnique</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>)({
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            ...<span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          },
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">operation</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;findFirst&#39;</span>,
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">findUniqueOrThrow</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>)({
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            ...<span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          },
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">operation</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;findFirstOrThrow&#39;</span>,
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 4. 攔截 findFirst
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">findFirst</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span> <span style="color:#f92672">=</span> { ...<span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span>, <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span> };
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">args</span>);
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 5. 攔截 findMany
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">findMany</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span> <span style="color:#f92672">=</span> { ...<span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span>, <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span> };
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">args</span>);
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 6. 攔截 count / aggregate
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">count</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span> <span style="color:#f92672">=</span> { ...<span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span>, <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span> };
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">args</span>);
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">aggregate</span>({ <span style="color:#a6e22e">args</span>, <span style="color:#a6e22e">query</span> }) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span> <span style="color:#f92672">=</span> { ...<span style="color:#a6e22e">args</span>.<span style="color:#a6e22e">where</span>, <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span> };
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">query</span>(<span style="color:#a6e22e">args</span>);
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 可擴充自訂方法（例如物理刪除、恢復資料）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">model</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">hardDelete</span>(<span style="color:#a6e22e">where</span>: <span style="color:#66d9ef">Prisma.UserWhereUniqueInput</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prisma</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">getExtensionContext</span>(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 使用 $executeRaw 或底層 client 進行真實物理刪除
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">prisma</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>).<span style="color:#a6e22e">$queryRaw</span><span style="color:#e6db74">`DELETE FROM &#34;User&#34; WHERE id = </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">where</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">restore</span>(<span style="color:#a6e22e">where</span>: <span style="color:#66d9ef">Prisma.UserWhereUniqueInput</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prisma</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">getExtensionContext</span>(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (<span style="color:#a6e22e">prisma</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>).<span style="color:#a6e22e">update</span>({
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">where</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">deletedAt</span>: <span style="color:#66d9ef">null</span> },
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="3-封裝-prisma-client-與型別導出">3. 封裝 Prisma Client 與型別導出</h2>
+<p>使用 <code>$extends</code> 套用擴充，並推導擴充後的 Client 型別：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// db.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">PrismaClient</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@prisma/client&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">softDeleteExtension</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;./softDeleteExtension&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">basePrisma</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PrismaClient</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 套用 Extension
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prisma</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">basePrisma</span>.<span style="color:#a6e22e">$extends</span>(<span style="color:#a6e22e">softDeleteExtension</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 導出包含 Extension 方法的 Client 型別
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ExtendedPrismaClient</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">prisma</span>;
+</span></span></code></pre></div><hr>
+<h2 id="4-實際使用與操作範例">4. 實際使用與操作範例</h2>
+<h3 id="範例一般-crud-與自動過濾">範例：一般 CRUD 與自動過濾</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 1. 軟刪除操作（底層執行 UPDATE &#34;User&#34; SET &#34;deletedAt&#34; = NOW() WHERE id = 1）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#66d9ef">delete</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2. 查詢全部（自動注入 WHERE &#34;deletedAt&#34; IS NULL，查不到 id: 1）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">activeUsers</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">findMany</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 3. 查詢單筆（自動過濾軟刪除資料，回傳 null）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">findUnique</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">user</span>); <span style="color:#75715e">// null
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 4. 統計筆數（自動排除已軟刪除資料）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">count</span>();
+</span></span></code></pre></div><h3 id="範例特殊情境查詢回收站--恢復資料">範例：特殊情境（查詢回收站 / 恢復資料）</h3>
+<p>若有管理後台需要查詢「已軟刪除」或「所有包含已刪除」的資料，可提供不套用 Extension 的原始 Client，或在 Extension 中加入專屬自訂函式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#75715e">// 情況 A：使用擴充模型方法進行恢復
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">restore</span>({ <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">1</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 情況 B：查詢回收站（需查詢已刪除項目時，直接覆寫條件或使用原始 client）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">deletedUsers</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">findMany</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">where</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">deletedAt</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">not</span>: <span style="color:#66d9ef">null</span> }, <span style="color:#75715e">// 若有顯式指定，可在 extension 判斷不覆蓋
+</span></span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="5-注意事項與限制">5. 注意事項與限制</h2>
+<table>
+	<thead>
+			<tr>
+					<th>注意事項</th>
+					<th>說明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Unique 欄位衝突</strong></td>
+					<td>若 <code>email</code> 設有 <code>@unique</code>，軟刪除後同一個 Email 再次註冊會觸發 Unique Constraint 錯誤。解決方案通常為：使用複合唯一鍵（如 <code>@@unique([email, deletedAt])</code>），或在刪除時將 Email 加上後綴（如 <code>user@example.com_deleted_1690000000</code>）。</td>
+			</tr>
+			<tr>
+					<td><strong>關聯載入（<code>include</code>）</strong></td>
+					<td><code>findMany</code> 內的 <code>include: { posts: true }</code> 預設不會自動攔截巢狀 Post 的 <code>deletedAt</code>。若 Post 也需要軟刪除，需在 Extension 的 <code>post</code> 物件中同樣配置攔截規則。</td>
+			</tr>
+			<tr>
+					<td><strong>Raw SQL 繞過</strong></td>
+					<td><code>$queryRaw</code> 或 <code>$executeRaw</code> 不會走 Model Query 攔截器，需自行手動撰寫 <code>WHERE deleted_at IS NULL</code>。</td>
+			</tr>
+	</tbody>
+</table>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/prisma_orm_schema_intro/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>深入理解 Prisma Model：型別修飾、屬性設定與關聯設計</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/prisma_orm_intro/"
+      ><span>TypeScript 現代化 ORM 實戰指南：Prisma 全面解析與高效操作手冊</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
