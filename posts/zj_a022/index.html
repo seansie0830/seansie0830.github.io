@@ -6,38 +6,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html
   class="not-ready lg:text-base"
-  style="--bg: #faf8f1"
+  style="--bg:#faf8f1"
   lang="zh-tw"
->
-  <head>
+  dir="ltr"
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -51,10 +25,6 @@
   
   <meta name="theme-color" />
 
-  
-  
-  
-  
   <meta name="description" content="&lsquo;Zerojudge a022. 迴文題目連結
 法一 內建函數
 //	AC (2ms, 332KB)
@@ -87,129 +57,90 @@ string s;
 
 while (cin &gt;&gt; s) {
 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。" />
-  <meta name="author" content="Sean Sie" />
-  
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.8b1453450c536f5df9a4c754915de032624aa94d1d557d984b6bf98d6cc10155.css" integrity="sha256-ixRTRQxTb135pMdUkV3gMmJKqU0dVX2YS2v5jWzBAVU=" />
 
-  
-  
-  
-  
-  
-  
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
-
-  
-  
-  
-  
   
   <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
-  
-  
-  
-  
 
-  
-  
   <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
-  
-  
 
-  
-  
   <script
     defer
     src="https://seansie0830.github.io/highlight.min.js"
-    onload="hljs.initHighlightingOnLoad();"
+    onload="hljs.initHighlightingOnLoad()"
   ></script>
-  
 
   
-  
-  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
 
-  
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
-
-  
-  <meta name="generator" content="Hugo 0.156.0">
-
-  
-  
-  
-  
-  
-  
-  <meta itemprop="name" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
-  <meta itemprop="description" content="‘Zerojudge a022. 迴文題目連結
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
+	<meta itemprop="description" content="‘Zerojudge a022. 迴文題目連結
 法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
 包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
 宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
 輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
-  <meta itemprop="datePublished" content="2024-07-12T21:03:53+08:00">
-  <meta itemprop="dateModified" content="2024-07-12T21:03:53+08:00">
-  <meta itemprop="wordCount" content="425">
-  <meta itemprop="keywords" content="Zerojudge,題解">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/zj_a022/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
-  <meta property="og:description" content="‘Zerojudge a022. 迴文題目連結
+	<meta itemprop="datePublished" content="2024-07-12T21:03:53+08:00">
+	<meta itemprop="dateModified" content="2024-07-12T21:03:53+08:00">
+	<meta itemprop="wordCount" content="425">
+	<meta itemprop="keywords" content="Zerojudge,題解"><meta property="og:url" content="https://seansie0830.github.io/posts/zj_a022/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
+	<meta property="og:description" content="‘Zerojudge a022. 迴文題目連結
 法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
 包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
 宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
 輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
-  <meta property="og:locale" content="zh_tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-07-12T21:03:53+08:00">
-    <meta property="article:modified_time" content="2024-07-12T21:03:53+08:00">
-    <meta property="article:tag" content="Zerojudge">
-    <meta property="article:tag" content="題解">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2024-07-12T21:03:53+08:00">
+		<meta property="article:modified_time" content="2024-07-12T21:03:53+08:00">
+		<meta property="article:tag" content="Zerojudge">
+		<meta property="article:tag" content="題解">
 
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
-  <meta name="twitter:description" content="‘Zerojudge a022. 迴文題目連結
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解">
+	<meta name="twitter:description" content="‘Zerojudge a022. 迴文題目連結
 法一 內建函數 //	AC (2ms, 332KB) #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main() { string s; while (cin &gt;&gt; s) { string t = s; // Create a copy of s reverse(t.begin(), t.end()); cout &lt;&lt; ((s == t) ? &#34;yes&#34; : &#34;no&#34;); } return 0; } 程式碼分析
 包含函式庫 #include &lt;bits/stdc&#43;&#43;.h&gt; using namespace std; 此段程式碼包含了 C&#43;&#43; 標準函式庫中的所有頭文件，並使用 using namespace std; 語句將函式庫中的函式引入到全局範圍內。
 宣告變數 string s; 此行程式碼宣告了一個名為 s 的字串變數。
 輸入字串 while (cin &gt;&gt; s) { 此段程式碼使用 cin 函式從標準輸入設備中讀取一個字串並將其存儲在 s 變數中。while 迴圈將不斷執行，直到讀取到空字串為止。">
 
-  
-  
-  
   <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a022/" />
-  
-  
 </head>
-
-  <body class="text-black duration-200 ease-out dark:text-white">
-    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
-  <div class="relative z-50 mr-auto flex items-center">
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
-      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      class="-translate-y-[1px] text-2xl font-medium"
       href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
-      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
       role="button"
       aria-label="Dark"
     ></div>
   </div>
 
   <div
-    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
     role="button"
     aria-label="Menu"
   ></div>
-
-  
 
   <script>
     
@@ -228,7 +159,7 @@ while (cin &gt;&gt; s) {
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     const lightBg = '#faf8f1'.replace(/"/g, '');
     const setDark = (isDark) => {
-      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
       htmlClass[isDark ? 'add' : 'remove']('dark');
       localStorage.setItem('dark', isDark);
     };
@@ -255,55 +186,25 @@ while (cin &gt;&gt; s) {
   </script>
 
   <div
-    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
-  >
-    
-    
-
-    
-    <nav
-      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
     >
-      
       <a
-        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
         style="--url: url(./github.svg)"
         href="https://github.com/seansie0830"
         target="_blank"
         rel="me"
-      >
-        github
-      </a>
-      
+      >github</a>
     </nav>
-    
   </div>
 </header>
-
-
-    <main
-      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
-    >
-      
-
-<article>
-  <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</h1>
-
-    
-    <div class="text-sm antialiased opacity-60">
-      
-      <time>Jul 12, 2024</time>
-      
-      
-      
-      
-      <span class="mx-1">&middot;</span>
-      <span>Sean Sie</span>
-      
-    </div>
-    
-  </header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Zerojudge a022. 迴文 C&#43;&#43;多種方法的題解</h1><div class="text-xs antialiased opacity-60"><time>Jul 12, 2024</time></div></header>
 
   <section><p><a href="https://zerojudge.tw/ShowProblem?problemid=a022">&lsquo;Zerojudge a022. 迴文題目連結</a></p>
 <h2 id="法一-內建函數">法一 內建函數</h2>
@@ -505,81 +406,37 @@ while (cin &gt;&gt; s) {
 <p>這段程式碼使用簡單的循環來比較字符串的每個字符及其對應的逆序字符，有效地判斷了一個字符串是否為迴文。程式碼結構清晰，易於理解和修改。</p>
 </section>
 
-  
-  
-  <footer class="mt-12 flex flex-wrap">
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+  <footer class="mt-12 flex flex-wrap"><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
       href="https://seansie0830.github.io/tags/zerojudge"
       >zerojudge</a
-    >
-     
-    <a
-      class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]"
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
       href="https://seansie0830.github.io/tags/%E9%A1%8C%E8%A7%A3"
       >題解</a
-    >
-    
-  </footer>
-  
-
-  
-  
-  
-  
-  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
-    
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/cpp-3opeator/"
-      ><span class="mr-1.5">←</span><span>C&#43;&#43; 教學 三元運算子</span></a
-    >
-    
-    
-    <a
-      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+    ></footer><nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/cpp-3opeator/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>C&#43;&#43; 教學 三元運算子</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
       href="https://seansie0830.github.io/posts/zj_d219/"
-      ><span>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</span><span class="ml-1.5">→</span></a
-    >
-    
-  </nav>
-  
-  
-
-  
-  
-
-  
-  
-
-  
-
-
-  
-</article>
-
-
-    </main>
-
-    <footer
-  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+      ><span>d219. 00374 - Big Mod C&#43;&#43;題解（正常版與極致優化版）</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">
-    &copy; 2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
-  </div>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
-    >Powered by Hugo️️</a
+    >powered by hugo️️</a
   >️
   <a
     class="link"
     href="https://github.com/nanxiaobei/hugo-paper"
     rel="noopener"
     target="_blank"
-    >✎ Paper</a
+    >hugo-paper</a
   >
 </footer>
-
-  </body>
+</body>
 </html>

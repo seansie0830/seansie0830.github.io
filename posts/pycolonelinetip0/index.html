@@ -6,38 +6,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html
   class="not-ready lg:text-base"
-  style="--bg: #faf8f1"
+  style="--bg:#faf8f1"
   lang="zh-tw"
->
-  <head>
+  dir="ltr"
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -51,10 +25,6 @@
   
   <meta name="theme-color" />
 
-  
-  
-  
-  
   <meta name="description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
 在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
 清單推導式
@@ -88,64 +58,34 @@ Python的列表生成式（List comprehension）提供了一個簡潔的方式�
 假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
 [int(i) for i in arr if i&gt;0]
 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。" />
-  <meta name="author" content="Sean Sie" />
-  
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.8b1453450c536f5df9a4c754915de032624aa94d1d557d984b6bf98d6cc10155.css" integrity="sha256-ixRTRQxTb135pMdUkV3gMmJKqU0dVX2YS2v5jWzBAVU=" />
 
-  
-  
-  
-  
-  
-  
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
-
-  
-  
-  
-  
   
   <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
-  
-  
-  
-  
 
-  
-  
   <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
-  
-  
 
-  
-  
   <script
     defer
     src="https://seansie0830.github.io/highlight.min.js"
-    onload="hljs.initHighlightingOnLoad();"
+    onload="hljs.initHighlightingOnLoad()"
   ></script>
-  
 
   
-  
-  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
 
-  
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
-
-  
-  <meta name="generator" content="Hugo 0.156.0">
-
-  
-  
-  
-  
-  
-  
-  <meta itemprop="name" content="python一行系簡潔程式碼技巧示範">
-  <meta itemprop="description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="python一行系簡潔程式碼技巧示範">
+	<meta itemprop="description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
 在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
 清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
 如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
@@ -160,14 +100,12 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
 範例
 假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
 [int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
-  <meta itemprop="datePublished" content="2024-09-07T17:58:50+08:00">
-  <meta itemprop="dateModified" content="2024-09-07T17:58:50+08:00">
-  <meta itemprop="wordCount" content="165">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/pycolonelinetip0/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="python一行系簡潔程式碼技巧示範">
-  <meta property="og:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+	<meta itemprop="datePublished" content="2024-09-07T17:58:50+08:00">
+	<meta itemprop="dateModified" content="2024-09-07T17:58:50+08:00">
+	<meta itemprop="wordCount" content="165"><meta property="og:url" content="https://seansie0830.github.io/posts/pycolonelinetip0/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="python一行系簡潔程式碼技巧示範">
+	<meta property="og:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
 在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
 清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
 如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
@@ -182,17 +120,15 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
 範例
 假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
 [int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
-  <meta property="og:locale" content="zh_tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-09-07T17:58:50+08:00">
-    <meta property="article:modified_time" content="2024-09-07T17:58:50+08:00">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2024-09-07T17:58:50+08:00">
+		<meta property="article:modified_time" content="2024-09-07T17:58:50+08:00">
 
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="python一行系簡潔程式碼技巧示範">
-  <meta name="twitter:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="python一行系簡潔程式碼技巧示範">
+	<meta name="twitter:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
 在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
 清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
 如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
@@ -208,36 +144,31 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
 假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
 [int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
 
-  
-  
-  
   <link rel="canonical" href="https://seansie0830.github.io/posts/pycolonelinetip0/" />
-  
-  
 </head>
-
-  <body class="text-black duration-200 ease-out dark:text-white">
-    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
-  <div class="relative z-50 mr-auto flex items-center">
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
-      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      class="-translate-y-[1px] text-2xl font-medium"
       href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
-      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
       role="button"
       aria-label="Dark"
     ></div>
   </div>
 
   <div
-    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
     role="button"
     aria-label="Menu"
   ></div>
-
-  
 
   <script>
     
@@ -256,7 +187,7 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     const lightBg = '#faf8f1'.replace(/"/g, '');
     const setDark = (isDark) => {
-      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
       htmlClass[isDark ? 'add' : 'remove']('dark');
       localStorage.setItem('dark', isDark);
     };
@@ -283,55 +214,25 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
   </script>
 
   <div
-    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
-  >
-    
-    
-
-    
-    <nav
-      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
     >
-      
       <a
-        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
         style="--url: url(./github.svg)"
         href="https://github.com/seansie0830"
         target="_blank"
         rel="me"
-      >
-        github
-      </a>
-      
+      >github</a>
     </nav>
-    
   </div>
 </header>
-
-
-    <main
-      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
-    >
-      
-
-<article>
-  <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">python一行系簡潔程式碼技巧示範</h1>
-
-    
-    <div class="text-sm antialiased opacity-60">
-      
-      <time>Sep 7, 2024</time>
-      
-      
-      
-      
-      <span class="mx-1">&middot;</span>
-      <span>Sean Sie</span>
-      
-    </div>
-    
-  </header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">python一行系簡潔程式碼技巧示範</h1><div class="text-xs antialiased opacity-60"><time>Sep 7, 2024</time></div></header>
 
   <section><p>Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。</p>
 <p>在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。</p>
@@ -409,65 +310,29 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
 </span></span></code></pre></div><p>其他好用的內建函數，的近期再更新。</p>
 </section>
 
-  
-  
-
-  
-  
-  
-  
-  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
-    
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/cppioopt0/"
-      ><span class="mr-1.5">←</span><span>C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog</span></a
-    >
-    
-    
-    <a
-      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/vuesturctintro/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>VueSturctIntro</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
       href="https://seansie0830.github.io/posts/pymodopencvintro0/"
-      ><span>Python 電腦視覺模組 OpenCV 新手入門 | seansie blog</span><span class="ml-1.5">→</span></a
-    >
-    
-  </nav>
-  
-  
-
-  
-  
-
-  
-  
-
-  
-
-
-  
-</article>
-
-
-    </main>
-
-    <footer
-  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+      ><span>Python 電腦視覺模組 OpenCV 新手入門 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">
-    &copy; 2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
-  </div>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
-    >Powered by Hugo️️</a
+    >powered by hugo️️</a
   >️
   <a
     class="link"
     href="https://github.com/nanxiaobei/hugo-paper"
     rel="noopener"
     target="_blank"
-    >✎ Paper</a
+    >hugo-paper</a
   >
 </footer>
-
-  </body>
+</body>
 </html>

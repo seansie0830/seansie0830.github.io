@@ -6,38 +6,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <html
   class="not-ready lg:text-base"
-  style="--bg: #faf8f1"
+  style="--bg:#faf8f1"
   lang="zh-tw"
->
-  <head>
+  dir="ltr"
+><head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -51,10 +25,6 @@
   
   <meta name="theme-color" />
 
-  
-  
-  
-  
   <meta name="description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
 重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
 而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
@@ -81,64 +51,34 @@ c 建構子呼叫
 d. call bind apply (手動改變上下文)
 進階用法，因為篇幅，等一下在子文章中會一一介紹。
 舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰" />
-  <meta name="author" content="Sean Sie" />
-  
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.8b1453450c536f5df9a4c754915de032624aa94d1d557d984b6bf98d6cc10155.css" integrity="sha256-ixRTRQxTb135pMdUkV3gMmJKqU0dVX2YS2v5jWzBAVU=" />
 
-  
-  
-  
-  
-  
-  
-  <link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.css" />
-
-  
-  
-  
-  
   
   <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
 
   
-  
-  
-  
-  
 
-  
-  
   <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
-  
-  
 
-  
-  
   <script
     defer
     src="https://seansie0830.github.io/highlight.min.js"
-    onload="hljs.initHighlightingOnLoad();"
+    onload="hljs.initHighlightingOnLoad()"
   ></script>
-  
 
   
-  
-  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
 
-  
-  <link rel="icon" href="https://seansie0830.github.io/favicon.ico" />
-  <link rel="apple-touch-icon" href="https://seansie0830.github.io/apple-touch-icon.png" />
-
-  
-  <meta name="generator" content="Hugo 0.156.0">
-
-  
-  
-  
-  
-  
-  
-  <meta itemprop="name" content="js中的this到底是甚麼 js隨筆 |seansie blog">
-  <meta itemprop="description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="js中的this到底是甚麼 js隨筆 |seansie blog">
+	<meta itemprop="description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
 重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
 而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
 定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
@@ -152,14 +92,12 @@ b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 �
 c 建構子呼叫 會指向新建立的物件
 d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
 舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
-  <meta itemprop="datePublished" content="2025-02-06T15:59:18+08:00">
-  <meta itemprop="dateModified" content="2025-02-06T15:59:18+08:00">
-  <meta itemprop="wordCount" content="355">
-  
-  <meta property="og:url" content="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/">
-  <meta property="og:site_name" content="seansie&#39;s blog">
-  <meta property="og:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
-  <meta property="og:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+	<meta itemprop="datePublished" content="2025-02-06T15:59:18+08:00">
+	<meta itemprop="dateModified" content="2025-02-06T15:59:18+08:00">
+	<meta itemprop="wordCount" content="355"><meta property="og:url" content="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
+	<meta property="og:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
 重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
 而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
 定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
@@ -173,17 +111,15 @@ b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 �
 c 建構子呼叫 會指向新建立的物件
 d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
 舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
-  <meta property="og:locale" content="zh_tw">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2025-02-06T15:59:18+08:00">
-    <meta property="article:modified_time" content="2025-02-06T15:59:18+08:00">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2025-02-06T15:59:18+08:00">
+		<meta property="article:modified_time" content="2025-02-06T15:59:18+08:00">
 
-  
-  
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
-  <meta name="twitter:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
+	<meta name="twitter:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
 重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
 而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
 定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
@@ -198,36 +134,31 @@ c 建構子呼叫 會指向新建立的物件
 d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
 舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
 
-  
-  
-  
   <link rel="canonical" href="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/" />
-  
-  
 </head>
-
-  <body class="text-black duration-200 ease-out dark:text-white">
-    <header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center">
-  <div class="relative z-50 mr-auto flex items-center">
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
-      class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold"
+      class="-translate-y-[1px] text-2xl font-medium"
       href="https://seansie0830.github.io/"
       >seansie&#39;s blog</a
     >
     <div
-      class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
       role="button"
       aria-label="Dark"
     ></div>
   </div>
 
   <div
-    class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
     role="button"
     aria-label="Menu"
   ></div>
-
-  
 
   <script>
     
@@ -246,7 +177,7 @@ d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一�
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     const lightBg = '#faf8f1'.replace(/"/g, '');
     const setDark = (isDark) => {
-      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
       htmlClass[isDark ? 'add' : 'remove']('dark');
       localStorage.setItem('dark', isDark);
     };
@@ -273,55 +204,25 @@ d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一�
   </script>
 
   <div
-    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
-  >
-    
-    
-
-    
-    <nav
-      class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
     >
-      
       <a
-        class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
         style="--url: url(./github.svg)"
         href="https://github.com/seansie0830"
         target="_blank"
         rel="me"
-      >
-        github
-      </a>
-      
+      >github</a>
     </nav>
-    
   </div>
 </header>
-
-
-    <main
-      class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"
-    >
-      
-
-<article>
-  <header class="mb-16">
-    <h1 class="!my-0 pb-2.5">js中的this到底是甚麼 js隨筆 |seansie blog</h1>
-
-    
-    <div class="text-sm antialiased opacity-60">
-      
-      <time>Feb 6, 2025</time>
-      
-      
-      
-      
-      <span class="mx-1">&middot;</span>
-      <span>Sean Sie</span>
-      
-    </div>
-    
-  </header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">js中的this到底是甚麼 js隨筆 |seansie blog</h1><div class="text-xs antialiased opacity-60"><time>Feb 6, 2025</time></div></header>
 
   <section><p><code>this</code> 這個關鍵字在 <code>js</code> 中令許多人困惑之處，尤其是在普通函數中，因為 <code>this</code> 所指向的物件是動態的取決於呼叫方式。</p>
 <p>重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。</p>
@@ -485,65 +386,29 @@ console.log(this);
 </ul>
 </section>
 
-  
-  
-
-  
-  
-  
-  
-  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
-    
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="https://seansie0830.github.io/posts/cpp-overloading-intro/"
-      ><span class="mr-1.5">←</span><span>C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog</span></a
-    >
-    
-    
-    <a
-      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/cpp-overloading-intro/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
       href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/"
-      ><span>#4 事件處理 30天學會 vue系列文 | seansie blog</span><span class="ml-1.5">→</span></a
-    >
-    
-  </nav>
-  
-  
-
-  
-  
-
-  
-  
-
-  
-
-
-  
-</article>
-
-
-    </main>
-
-    <footer
-  class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+      ><span>#4 事件處理 30天學會 vue系列文 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
-  <div class="mr-auto">
-    &copy; 2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a>
-  </div>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
-    >Powered by Hugo️️</a
+    >powered by hugo️️</a
   >️
   <a
     class="link"
     href="https://github.com/nanxiaobei/hugo-paper"
     rel="noopener"
     target="_blank"
-    >✎ Paper</a
+    >hugo-paper</a
   >
 </footer>
-
-  </body>
+</body>
 </html>
