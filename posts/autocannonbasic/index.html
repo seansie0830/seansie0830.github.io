@@ -1,0 +1,796 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>autocannon API 端點壓力測試套件介紹  - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="autocannon 是一款受 wrk 啟發、由 Node.js 撰寫的高效能 HTTP/1.1 基準測試（Benchmarking）工具。其支援 HTTP Pipelining ⚡，在 Node.js 環境中能榨出極高吞吐量，非常適合用於測試 REST API、GraphQL 或微服務的極限乘載力。
+一、 📦 安裝與前置準備
+你可以透過 pnpm 選擇「全域安裝」或「作為專案開發依賴 (Dev Dependency)」：
+1. 🌐 全域安裝 (常用於個人電腦快速測試)
+pnpm add -g autocannon
+2. 📁 專案開發依賴 (推薦，便於團隊與 CI/CD 共享版本)
+pnpm add -D autocannon
+3. ⚡ 免安裝直接執行 (使用 pnpm dlx)
+如果你不想預先安裝，可以直接呼叫：
+pnpm dlx autocannon http://localhost:3000
+
+二、 🛠️ CLI 快速上手與常用參數
+CLI 是最快速驗證 API 效能的方式。
+1. ⚙️ 常用選項說明
+
+	
+			
+					參數
+					長名稱
+					預設值
+					說明
+			
+	
+	
+			
+					-c
+					--connections
+					10
+					並發連線數 (Concurrent Connections) 👥
+			
+			
+					-d
+					--duration
+					10
+					壓測持續時間 (秒) ⏱️
+			
+			
+					-p
+					--pipelining
+					1
+					每個連線同時送出的管線化請求數 (極限測試時建議調整為 10 或 20) 🚀
+			
+			
+					-a
+					--amount
+					無
+					總請求次數 (若設定此項，將忽視 -d 時間設定) 🎯
+			
+			
+					-m
+					--method
+					GET
+					HTTP 請求方法 (GET, POST, PUT, DELETE&hellip;) 📮
+			
+			
+					-H
+					--headers
+					無
+					自訂 Header，可重複傳入多個 🔑
+			
+			
+					-b
+					--body
+					無
+					請求主體 (Payload) 📦
+			
+			
+					-w
+					--workers
+					1
+					開啟多執行緒 (Worker Threads) 發送請求，避免壓測端 CPU 成為瓶頸 🧠
+			
+			
+					-t
+					--timeout
+					10
+					單一請求超時時間 (秒) ⏳
+			
+			
+					-l
+					--latency
+					false
+					輸出詳細的延遲統計表 (包含 p99.9 等百分位數) 📊
+			
+			
+					--json
+					--json
+					false
+					以 JSON 格式輸出結果 (適合系統整合) 📄
+			
+	
+
+2. 💡 實用 CLI 範例
+
+🔹 基礎 GET 壓測 (50 連線，持續 15 秒)
+
+pnpm dlx autocannon -c 50 -d 15 http://localhost:3000/api/health
+
+🔹 POST JSON Payload 測試
+
+pnpm dlx autocannon -c 100 -d 10 \
+  -m POST \
+  -H &#34;Content-Type=application/json&#34; \
+  -H &#34;Authorization=Bearer YOUR_ACCESS_TOKEN&#34; \
+  -b &#39;{&#34;userId&#34;: 101, &#34;action&#34;: &#34;checkout&#34;}&#39; \
+  http://localhost:3000/api/orders
+
+🔹 極限效能測試 (開啟 Pipelining 與 Worker Threads)
+
+pnpm dlx autocannon -c 200 -d 10 -p 10 -w 4 http://localhost:3000/api/v1/products
+
+三、 📊 測試結果與指標詳細判讀
+執行後，autocannon 會輸出如下的表格與統計：" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="autocannon API 端點壓力測試套件介紹 ">
+	<meta itemprop="description" content="autocannon 是一款受 wrk 啟發、由 Node.js 撰寫的高效能 HTTP/1.1 基準測試（Benchmarking）工具。其支援 HTTP Pipelining ⚡，在 Node.js 環境中能榨出極高吞吐量，非常適合用於測試 REST API、GraphQL 或微服務的極限乘載力。
+一、 📦 安裝與前置準備 你可以透過 pnpm 選擇「全域安裝」或「作為專案開發依賴 (Dev Dependency)」：
+1. 🌐 全域安裝 (常用於個人電腦快速測試) pnpm add -g autocannon 2. 📁 專案開發依賴 (推薦，便於團隊與 CI/CD 共享版本) pnpm add -D autocannon 3. ⚡ 免安裝直接執行 (使用 pnpm dlx) 如果你不想預先安裝，可以直接呼叫：
+pnpm dlx autocannon http://localhost:3000 二、 🛠️ CLI 快速上手與常用參數 CLI 是最快速驗證 API 效能的方式。
+1. ⚙️ 常用選項說明 參數 長名稱 預設值 說明 -c --connections 10 並發連線數 (Concurrent Connections) 👥 -d --duration 10 壓測持續時間 (秒) ⏱️ -p --pipelining 1 每個連線同時送出的管線化請求數 (極限測試時建議調整為 10 或 20) 🚀 -a --amount 無 總請求次數 (若設定此項，將忽視 -d 時間設定) 🎯 -m --method GET HTTP 請求方法 (GET, POST, PUT, DELETE…) 📮 -H --headers 無 自訂 Header，可重複傳入多個 🔑 -b --body 無 請求主體 (Payload) 📦 -w --workers 1 開啟多執行緒 (Worker Threads) 發送請求，避免壓測端 CPU 成為瓶頸 🧠 -t --timeout 10 單一請求超時時間 (秒) ⏳ -l --latency false 輸出詳細的延遲統計表 (包含 p99.9 等百分位數) 📊 --json --json false 以 JSON 格式輸出結果 (適合系統整合) 📄 2. 💡 實用 CLI 範例 🔹 基礎 GET 壓測 (50 連線，持續 15 秒) pnpm dlx autocannon -c 50 -d 15 http://localhost:3000/api/health 🔹 POST JSON Payload 測試 pnpm dlx autocannon -c 100 -d 10 \ -m POST \ -H &#34;Content-Type=application/json&#34; \ -H &#34;Authorization=Bearer YOUR_ACCESS_TOKEN&#34; \ -b &#39;{&#34;userId&#34;: 101, &#34;action&#34;: &#34;checkout&#34;}&#39; \ http://localhost:3000/api/orders 🔹 極限效能測試 (開啟 Pipelining 與 Worker Threads) pnpm dlx autocannon -c 200 -d 10 -p 10 -w 4 http://localhost:3000/api/v1/products 三、 📊 測試結果與指標詳細判讀 執行後，autocannon 會輸出如下的表格與統計：">
+	<meta itemprop="datePublished" content="2026-08-18T20:33:27+08:00">
+	<meta itemprop="dateModified" content="2026-08-18T20:33:27+08:00">
+	<meta itemprop="wordCount" content="1383"><meta property="og:url" content="https://seansie0830.github.io/posts/autocannonbasic/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="autocannon API 端點壓力測試套件介紹 ">
+	<meta property="og:description" content="autocannon 是一款受 wrk 啟發、由 Node.js 撰寫的高效能 HTTP/1.1 基準測試（Benchmarking）工具。其支援 HTTP Pipelining ⚡，在 Node.js 環境中能榨出極高吞吐量，非常適合用於測試 REST API、GraphQL 或微服務的極限乘載力。
+一、 📦 安裝與前置準備 你可以透過 pnpm 選擇「全域安裝」或「作為專案開發依賴 (Dev Dependency)」：
+1. 🌐 全域安裝 (常用於個人電腦快速測試) pnpm add -g autocannon 2. 📁 專案開發依賴 (推薦，便於團隊與 CI/CD 共享版本) pnpm add -D autocannon 3. ⚡ 免安裝直接執行 (使用 pnpm dlx) 如果你不想預先安裝，可以直接呼叫：
+pnpm dlx autocannon http://localhost:3000 二、 🛠️ CLI 快速上手與常用參數 CLI 是最快速驗證 API 效能的方式。
+1. ⚙️ 常用選項說明 參數 長名稱 預設值 說明 -c --connections 10 並發連線數 (Concurrent Connections) 👥 -d --duration 10 壓測持續時間 (秒) ⏱️ -p --pipelining 1 每個連線同時送出的管線化請求數 (極限測試時建議調整為 10 或 20) 🚀 -a --amount 無 總請求次數 (若設定此項，將忽視 -d 時間設定) 🎯 -m --method GET HTTP 請求方法 (GET, POST, PUT, DELETE…) 📮 -H --headers 無 自訂 Header，可重複傳入多個 🔑 -b --body 無 請求主體 (Payload) 📦 -w --workers 1 開啟多執行緒 (Worker Threads) 發送請求，避免壓測端 CPU 成為瓶頸 🧠 -t --timeout 10 單一請求超時時間 (秒) ⏳ -l --latency false 輸出詳細的延遲統計表 (包含 p99.9 等百分位數) 📊 --json --json false 以 JSON 格式輸出結果 (適合系統整合) 📄 2. 💡 實用 CLI 範例 🔹 基礎 GET 壓測 (50 連線，持續 15 秒) pnpm dlx autocannon -c 50 -d 15 http://localhost:3000/api/health 🔹 POST JSON Payload 測試 pnpm dlx autocannon -c 100 -d 10 \ -m POST \ -H &#34;Content-Type=application/json&#34; \ -H &#34;Authorization=Bearer YOUR_ACCESS_TOKEN&#34; \ -b &#39;{&#34;userId&#34;: 101, &#34;action&#34;: &#34;checkout&#34;}&#39; \ http://localhost:3000/api/orders 🔹 極限效能測試 (開啟 Pipelining 與 Worker Threads) pnpm dlx autocannon -c 200 -d 10 -p 10 -w 4 http://localhost:3000/api/v1/products 三、 📊 測試結果與指標詳細判讀 執行後，autocannon 會輸出如下的表格與統計：">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-18T20:33:27+08:00">
+		<meta property="article:modified_time" content="2026-08-18T20:33:27+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="autocannon API 端點壓力測試套件介紹 ">
+	<meta name="twitter:description" content="autocannon 是一款受 wrk 啟發、由 Node.js 撰寫的高效能 HTTP/1.1 基準測試（Benchmarking）工具。其支援 HTTP Pipelining ⚡，在 Node.js 環境中能榨出極高吞吐量，非常適合用於測試 REST API、GraphQL 或微服務的極限乘載力。
+一、 📦 安裝與前置準備 你可以透過 pnpm 選擇「全域安裝」或「作為專案開發依賴 (Dev Dependency)」：
+1. 🌐 全域安裝 (常用於個人電腦快速測試) pnpm add -g autocannon 2. 📁 專案開發依賴 (推薦，便於團隊與 CI/CD 共享版本) pnpm add -D autocannon 3. ⚡ 免安裝直接執行 (使用 pnpm dlx) 如果你不想預先安裝，可以直接呼叫：
+pnpm dlx autocannon http://localhost:3000 二、 🛠️ CLI 快速上手與常用參數 CLI 是最快速驗證 API 效能的方式。
+1. ⚙️ 常用選項說明 參數 長名稱 預設值 說明 -c --connections 10 並發連線數 (Concurrent Connections) 👥 -d --duration 10 壓測持續時間 (秒) ⏱️ -p --pipelining 1 每個連線同時送出的管線化請求數 (極限測試時建議調整為 10 或 20) 🚀 -a --amount 無 總請求次數 (若設定此項，將忽視 -d 時間設定) 🎯 -m --method GET HTTP 請求方法 (GET, POST, PUT, DELETE…) 📮 -H --headers 無 自訂 Header，可重複傳入多個 🔑 -b --body 無 請求主體 (Payload) 📦 -w --workers 1 開啟多執行緒 (Worker Threads) 發送請求，避免壓測端 CPU 成為瓶頸 🧠 -t --timeout 10 單一請求超時時間 (秒) ⏳ -l --latency false 輸出詳細的延遲統計表 (包含 p99.9 等百分位數) 📊 --json --json false 以 JSON 格式輸出結果 (適合系統整合) 📄 2. 💡 實用 CLI 範例 🔹 基礎 GET 壓測 (50 連線，持續 15 秒) pnpm dlx autocannon -c 50 -d 15 http://localhost:3000/api/health 🔹 POST JSON Payload 測試 pnpm dlx autocannon -c 100 -d 10 \ -m POST \ -H &#34;Content-Type=application/json&#34; \ -H &#34;Authorization=Bearer YOUR_ACCESS_TOKEN&#34; \ -b &#39;{&#34;userId&#34;: 101, &#34;action&#34;: &#34;checkout&#34;}&#39; \ http://localhost:3000/api/orders 🔹 極限效能測試 (開啟 Pipelining 與 Worker Threads) pnpm dlx autocannon -c 200 -d 10 -p 10 -w 4 http://localhost:3000/api/v1/products 三、 📊 測試結果與指標詳細判讀 執行後，autocannon 會輸出如下的表格與統計：">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/autocannonbasic/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">autocannon API 端點壓力測試套件介紹 </h1><div class="text-xs antialiased opacity-60"><time>Aug 18, 2026</time></div></header>
+
+  <section><p>autocannon 是一款受 wrk 啟發、由 Node.js 撰寫的高效能 HTTP/1.1 基準測試（Benchmarking）工具。其支援 HTTP Pipelining ⚡，在 Node.js 環境中能榨出極高吞吐量，非常適合用於測試 REST API、GraphQL 或微服務的極限乘載力。</p>
+<h2 id="一--安裝與前置準備">一、 📦 安裝與前置準備</h2>
+<p>你可以透過 <code>pnpm</code> 選擇「全域安裝」或「作為專案開發依賴 (Dev Dependency)」：</p>
+<h3 id="1--全域安裝-常用於個人電腦快速測試">1. 🌐 全域安裝 (常用於個人電腦快速測試)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm add -g autocannon
+</span></span></code></pre></div><h3 id="2--專案開發依賴-推薦便於團隊與-cicd-共享版本">2. 📁 專案開發依賴 (推薦，便於團隊與 CI/CD 共享版本)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm add -D autocannon
+</span></span></code></pre></div><h3 id="3--免安裝直接執行-使用-pnpm-dlx">3. ⚡ 免安裝直接執行 (使用 pnpm dlx)</h3>
+<p>如果你不想預先安裝，可以直接呼叫：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm dlx autocannon http://localhost:3000
+</span></span></code></pre></div><hr>
+<h2 id="二--cli-快速上手與常用參數">二、 🛠️ CLI 快速上手與常用參數</h2>
+<p>CLI 是最快速驗證 API 效能的方式。</p>
+<h3 id="1--常用選項說明">1. ⚙️ 常用選項說明</h3>
+<table>
+	<thead>
+			<tr>
+					<th>參數</th>
+					<th>長名稱</th>
+					<th>預設值</th>
+					<th>說明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>-c</code></td>
+					<td><code>--connections</code></td>
+					<td><code>10</code></td>
+					<td>並發連線數 (Concurrent Connections) 👥</td>
+			</tr>
+			<tr>
+					<td><code>-d</code></td>
+					<td><code>--duration</code></td>
+					<td><code>10</code></td>
+					<td>壓測持續時間 (秒) ⏱️</td>
+			</tr>
+			<tr>
+					<td><code>-p</code></td>
+					<td><code>--pipelining</code></td>
+					<td><code>1</code></td>
+					<td>每個連線同時送出的管線化請求數 (極限測試時建議調整為 10 或 20) 🚀</td>
+			</tr>
+			<tr>
+					<td><code>-a</code></td>
+					<td><code>--amount</code></td>
+					<td>無</td>
+					<td>總請求次數 (若設定此項，將忽視 <code>-d</code> 時間設定) 🎯</td>
+			</tr>
+			<tr>
+					<td><code>-m</code></td>
+					<td><code>--method</code></td>
+					<td><code>GET</code></td>
+					<td>HTTP 請求方法 (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>&hellip;) 📮</td>
+			</tr>
+			<tr>
+					<td><code>-H</code></td>
+					<td><code>--headers</code></td>
+					<td>無</td>
+					<td>自訂 Header，可重複傳入多個 🔑</td>
+			</tr>
+			<tr>
+					<td><code>-b</code></td>
+					<td><code>--body</code></td>
+					<td>無</td>
+					<td>請求主體 (Payload) 📦</td>
+			</tr>
+			<tr>
+					<td><code>-w</code></td>
+					<td><code>--workers</code></td>
+					<td><code>1</code></td>
+					<td>開啟多執行緒 (Worker Threads) 發送請求，避免壓測端 CPU 成為瓶頸 🧠</td>
+			</tr>
+			<tr>
+					<td><code>-t</code></td>
+					<td><code>--timeout</code></td>
+					<td><code>10</code></td>
+					<td>單一請求超時時間 (秒) ⏳</td>
+			</tr>
+			<tr>
+					<td><code>-l</code></td>
+					<td><code>--latency</code></td>
+					<td><code>false</code></td>
+					<td>輸出詳細的延遲統計表 (包含 p99.9 等百分位數) 📊</td>
+			</tr>
+			<tr>
+					<td><code>--json</code></td>
+					<td><code>--json</code></td>
+					<td><code>false</code></td>
+					<td>以 JSON 格式輸出結果 (適合系統整合) 📄</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="2--實用-cli-範例">2. 💡 實用 CLI 範例</h3>
+<ul>
+<li><strong>🔹 基礎 GET 壓測 (50 連線，持續 15 秒)</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm dlx autocannon -c <span style="color:#ae81ff">50</span> -d <span style="color:#ae81ff">15</span> http://localhost:3000/api/health
+</span></span></code></pre></div><ul>
+<li><strong>🔹 POST JSON Payload 測試</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm dlx autocannon -c <span style="color:#ae81ff">100</span> -d <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -m POST <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Content-Type=application/json&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Authorization=Bearer YOUR_ACCESS_TOKEN&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -b <span style="color:#e6db74">&#39;{&#34;userId&#34;: 101, &#34;action&#34;: &#34;checkout&#34;}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  http://localhost:3000/api/orders
+</span></span></code></pre></div><ul>
+<li><strong>🔹 極限效能測試 (開啟 Pipelining 與 Worker Threads)</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm dlx autocannon -c <span style="color:#ae81ff">200</span> -d <span style="color:#ae81ff">10</span> -p <span style="color:#ae81ff">10</span> -w <span style="color:#ae81ff">4</span> http://localhost:3000/api/v1/products
+</span></span></code></pre></div><hr>
+<h2 id="三--測試結果與指標詳細判讀">三、 📊 測試結果與指標詳細判讀</h2>
+<p>執行後，autocannon 會輸出如下的表格與統計：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Running 10s test @ http://localhost:3000/api/v1/products
+</span></span><span style="display:flex;"><span>100 connections
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>┌─────────┬──────┬──────┬───────┬──────┬─────────┬─────────┬──────┐
+</span></span><span style="display:flex;"><span>│ Stat    │ 2.5% │ 50%  │ 97.5% │ 99%  │ Avg     │ Stdev   │ Max  │
+</span></span><span style="display:flex;"><span>├─────────┼──────┼──────┼───────┼──────┼─────────┼─────────┼──────┤
+</span></span><span style="display:flex;"><span>│ Latency │ 1 ms │ 3 ms │ 18 ms │ 45 ms│ 4.12 ms │ 8.54 ms │ 98 ms│
+</span></span><span style="display:flex;"><span>└─────────┴──────┴──────┴───────┴──────┴─────────┴─────────┴──────┘
+</span></span><span style="display:flex;"><span>┌───────────┬────────┬────────┬────────┬────────┬───────────┬────────┬────────┐
+</span></span><span style="display:flex;"><span>│ Stat      │ 1%     │ 2.5%   │ 50%    │ 97.5%  │ Avg       │ Stdev  │ Min    │
+</span></span><span style="display:flex;"><span>├───────────┼────────┼────────┼────────┼────────┼───────────┼────────┼────────┤
+</span></span><span style="display:flex;"><span>│ Req/Sec   │ 12000  │ 14500  │ 24000  │ 26000  │ 23410.5   │ 2100   │ 11200  │
+</span></span><span style="display:flex;"><span>├───────────┼────────┼────────┼────────┼────────┼───────────┼────────┼────────┤
+</span></span><span style="display:flex;"><span>│ Bytes/Sec │ 2.4 MB │ 2.9 MB │ 4.8 MB │ 5.2 MB │ 4.68 MB   │ 420 kB │ 2.2 MB │
+</span></span><span style="display:flex;"><span>└───────────┴────────┴────────┴────────┴────────┴───────────┴────────┴────────┘
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Req/Bytes counts sampled once per second.
+</span></span><span style="display:flex;"><span># 234k requests in 10.05s, 46.8 MB read
+</span></span><span style="display:flex;"><span># 0 errors, 0 timeouts, 0 non-2xx responses
+</span></span></code></pre></div><h3 id="-欄位詳細說明">🔍 欄位詳細說明</h3>
+<h4 id="-latency-回應延遲時間毫秒-ms">⏱️ Latency (回應延遲時間，毫秒 ms)</h4>
+<ul>
+<li><strong>Avg (平均值)</strong>：所有請求延遲的平均，容易受極端值干擾。</li>
+<li><strong>50% (中位數 / p50)</strong>：一半的使用者回應時間快於此值。</li>
+<li><strong>97.5% / 99% (長尾延遲 / Tail Latency)</strong>：🔥 最重要的穩定度指標。表示 $99%$ 的請求回應時間都在該數值以內。若 <code>Avg</code> 只有 4ms 但 <code>p99</code> 突增至數百毫秒，代表伺服器存在偶發性阻塞（例如：垃圾回收 GC 停頓、DB connection pool 耗盡或 Event Loop 被阻塞）。</li>
+<li><strong>Stdev (標準差)</strong>：數值越低，說明系統回應越穩定均勻。</li>
+</ul>
+<h4 id="-reqsec-每秒請求數--qps--tps">⚡ Req/Sec (每秒請求數 / QPS / TPS)</h4>
+<ul>
+<li><strong>Avg</strong>：伺服器平均每秒能處理的請求數。數字越高代表吞吐量越好。</li>
+</ul>
+<h4 id="-bytessec-每秒網路流量吞吐">🌐 Bytes/Sec (每秒網路流量吞吐)</h4>
+<p>每秒傳送的資料量。若 QPS 無法提升但 Bytes/Sec 已接近網卡限制，代表網卡頻寬滿載。</p>
+<h4 id="-健康度統計-最底部的數值">🏥 健康度統計 (最底部的數值)</h4>
+<ul>
+<li><code>errors</code>：TCP/Socket 連線失敗或重置數量。</li>
+<li><code>timeouts</code>：超過設定時間未獲得回應的請求數。</li>
+<li><code>non-2xx responses</code>：收到 HTTP 4xx 或 5xx 的數量。⚠️ <strong>特別注意</strong>：當伺服器壞掉直接回傳 500 時，QPS 可能會異常飆高，必須比對 <code>non-2xx</code> 是否不為 0。</li>
+</ul>
+<hr>
+<h2 id="四--啟動機制setupclient-與-client-物件詳解">四、 ⚙️ 啟動機制、setupClient 與 client 物件詳解</h2>
+<p>在 Node.js 中呼叫 <code>autocannon(opts, [cb])</code> 時，執行方式取決於是否有傳入完成 Callback 函式。</p>
+<h3 id="1--深度解析什麼是-client-物件與-setupclient">1. 🔬 深度解析：什麼是 client 物件與 setupClient？</h3>
+<p>在選項中，<code>setupClient</code> 是一個用來初始化連線實例的 Callback 函式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">setupClient</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">client</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 💡 這個 client 代表其中一個「虛擬使用者 / TCP 持久連線」
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="1--什麼是-client-物件">(1) 🔌 什麼是 client 物件？</h4>
+<ul>
+<li><strong>觀念</strong>：若你設定 <code>connections: 10</code>，autocannon 會在內部建立 10 個長連線 (HTTP Keep-Alive / TCP Socket) 實例。每一個實例就是一個 <code>client</code> 物件（本質上是一個 EventEmitter）。</li>
+<li><strong>生命週期</strong>：這 10 個 <code>client</code> 物件會貫穿整個壓測過程。在 10 秒的壓測期間內，這 10 個 <code>client</code> 會各自不斷重複以下循環：
+<code>[發送請求] ➔ [收到回應] ➔ [發送下一個請求] ➔ [收到回應] ...</code></li>
+<li><strong>觸發時機</strong>：<code>setupClient</code> 函式會在每個 <code>client</code> 被建立時呼叫 1 次。若 <code>connections: 10</code>，<code>setupClient</code> 就會被呼叫 10 次，傳入 10 個不同的 <code>client</code> 實例。</li>
+</ul>
+<h4 id="2--client-vs-req-的關鍵區別">(2) 🔄 client vs req 的關鍵區別</h4>
+<p>在監聽 <code>client.on('request', (req) =&gt; ...)</code> 時，很多人會混淆 <code>client</code> 與 <code>req</code>：</p>
+<table>
+	<thead>
+			<tr>
+					<th>物件</th>
+					<th>代表意義</th>
+					<th>存在時間</th>
+					<th>核心用途</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>client 🔌</strong></td>
+					<td>連線通道 / 虛擬使用者 (EventEmitter)</td>
+					<td>整個壓測生命週期 (只建立一次)</td>
+					<td>用於監聽 <code>request</code>、<code>response</code> 或 <code>error</code> 事件</td>
+			</tr>
+			<tr>
+					<td><strong>req ✉️</strong></td>
+					<td>當前這「一次」發送的 HTTP 請求</td>
+					<td>僅存在於該次請求發送前的瞬間</td>
+					<td>用於改寫 <code>req.path</code> (隨機 ID)、<code>req.headers</code> 或 <code>req.body</code></td>
+			</tr>
+	</tbody>
+</table>
+<h4 id="3--client-支援的常用事件與屬性">(3) 🛠️ client 支援的常用事件與屬性：</h4>
+<table>
+	<thead>
+			<tr>
+					<th>事件 / 屬性</th>
+					<th>說明</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>client.on('request', (req) =&gt; ...)</code></td>
+					<td>⭐ 最常用。每次準備送出請求前觸發，傳入當前的 <code>req</code> 物件以修改請求細節</td>
+			</tr>
+			<tr>
+					<td><code>client.on('response', (statusCode, resBytes, responseTime) =&gt; ...)</code></td>
+					<td>當該連線收到伺服器回應時觸發，可用於檢查狀態碼或紀錄延遲</td>
+			</tr>
+			<tr>
+					<td><code>client.on('error', (err) =&gt; ...)</code></td>
+					<td>當該連線發生 TCP / Socket 底層錯誤時觸發</td>
+			</tr>
+			<tr>
+					<td><code>client.setHeaders(headers)</code></td>
+					<td>設定該 client 後續所有請求預設帶有的 Header 物件</td>
+			</tr>
+			<tr>
+					<td><code>client.setBody(body)</code></td>
+					<td>設定該 client 後續所有請求預設帶有的 Body 內容</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="2--自動執行模式">2. 🤖 自動執行模式</h3>
+<p>只要呼叫 <code>autocannon(opts, cb)</code> 時傳入最後一個 Callback 函式，autocannon 在建立完實例後就會「自動開始壓測」。</p>
+<p>配合 <code>setupClient</code> 回呼函式隨機產生 API ID 的完整範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[https://your-api.com](https://your-api.com)&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>, <span style="color:#75715e">// 會建立 10 個虛擬 Client，因此 setupClient 會被呼叫 10 次
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// setupClient 是一個 Callback 函式，參數 client 為這 10 個連線實例之一
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setupClient</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">client</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 🎲 為這個 client 監聽 request 事件：每次它要發送 HTTP 請求前都會觸發此 Callback
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;request&#39;</span>, (<span style="color:#a6e22e">req</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 1. 動態隨機產生 1 ~ 1000 的 API ID
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">randomId</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">floor</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 2. 直接改寫這次請求的 path
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`/api/users/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">randomId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 3. (選擇性) 動態調整 Header，例如加上時間戳記
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span>[<span style="color:#e6db74">&#39;x-request-timestamp&#39;</span>] <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>().<span style="color:#a6e22e">toString</span>();
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// (選擇性) 監聽該 client 收到回應的事件
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;response&#39;</span>, (<span style="color:#a6e22e">statusCode</span>, <span style="color:#a6e22e">resBytes</span>, <span style="color:#a6e22e">responseTime</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">statusCode</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">400</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">warn</span>(<span style="color:#e6db74">`⚠️ 收到錯誤狀態碼: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">statusCode</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}, (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">result</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 🎯 傳入這個完成 Callback 後，建立完 instance 就會「自動執行」壓測
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;❌ 壓測出錯了：&#39;</span>, <span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`⚡ 平均 QPS: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">requests</span>.<span style="color:#a6e22e">average</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`💥 錯誤的請求數量: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">errors</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="3--手動執行與事件監聽模式">3. 🎮 手動執行與事件監聽模式</h3>
+<p>如果不傳最後的完成 Callback，<code>autocannon(opts)</code> 會回傳一個 EventEmitter 實例 (<code>instance</code>)。你可以監聽多種事件（如 <code>start</code>、<code>tick</code>、<code>done</code>、<code>reqError</code>），並可在特定條件下呼叫 <code>instance.stop()</code> 主動結束壓測。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 不傳最後的 Callback 函式，取得 instance 實例
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[https://your-api.com](https://your-api.com)&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setupClient</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">client</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;request&#39;</span>, (<span style="color:#a6e22e">req</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 🎲 每次發送前動態產生亂數 ID
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">randomProduct</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">floor</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">500</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`/api/products/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">randomProduct</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 🚀 監聽啟動事件
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;start&#39;</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;🚀 壓測已開始...&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ⏱️ 監聽每秒進度 (tick)
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;tick&#39;</span>, (<span style="color:#a6e22e">stats</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// stats 包含該秒的單秒數據
+</span></span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ❌ 監聽單一請求錯誤
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;reqError&#39;</span>, (<span style="color:#a6e22e">err</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;💥 發生請求錯誤:&#39;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">message</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 🎉 監聽完成事件 (取得最終結果)
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;done&#39;</span>, (<span style="color:#a6e22e">result</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;✅ 壓測完成！&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`📊 總請求數: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">requests</span>.<span style="color:#a6e22e">total</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`⏱️ p99 延遲: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">latency</span>.<span style="color:#a6e22e">p99</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms`</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 🛑 手動控制：需要時呼叫 stop() 主動中止測試
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#75715e">/* 觸發緊急條件 */</span> <span style="color:#66d9ef">false</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;⚠️ 手動中止壓測！&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">stop</span>(); <span style="color:#75715e">// 手動結束並觸發 done 事件
+</span></span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}, <span style="color:#ae81ff">3000</span>);
+</span></span></code></pre></div><h3 id="4--美觀輸出與進度條">4. 🎨 美觀輸出與進度條</h3>
+<p>不論是自動還是手動執行的 instance，都可以直接傳給 <code>autocannon.track()</code> 來渲染終端機進度條：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[https://your-api.com](https://your-api.com)&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>}, (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">result</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 📊 直接把 instance 傳給 track 函數（自動或手動都可以處理）
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">autocannon</span>.<span style="color:#a6e22e">track</span>(<span style="color:#a6e22e">instance</span>, { <span style="color:#a6e22e">renderProgressBar</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> });
+</span></span></code></pre></div><h3 id="5--現代化-async--await-封裝範例">5. ⚡ 現代化 Async / Await 封裝範例</h3>
+<p>在現代專案中，通常會以 Promise 將其封裝，配合 <code>async/await</code> 呼叫：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">runBenchmark</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;🚀 開始執行壓測...&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>(
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[https://your-api.com](https://your-api.com)&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setupClient</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">client</span>) =&gt; {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;request&#39;</span>, (<span style="color:#a6e22e">req</span>) =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 🎲 動態隨機生成 API ID
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">randomId</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">floor</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">5000</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`/api/products/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">randomId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>          });
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">res</span>) =&gt; (<span style="color:#a6e22e">err</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">err</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">res</span>))
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 📊 掛載進度條
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">autocannon</span>.<span style="color:#a6e22e">track</span>(<span style="color:#a6e22e">instance</span>, { <span style="color:#a6e22e">renderProgressBar</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> });
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;\n✅ 測試完成！&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`⚡ 平均 QPS: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">requests</span>.<span style="color:#a6e22e">average</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`⏱️ p99 延遲: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">latency</span>.<span style="color:#a6e22e">p99</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms`</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">runBenchmark</span>().<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>);
+</span></span></code></pre></div><hr>
+<h2 id="五--進階應用情境">五、 🎯 進階應用情境</h2>
+<h3 id="1--post--自訂-header">1. ✉️ POST / 自訂 Header</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[https://your-api.com](https://your-api.com)&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;POST&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;content-type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/json&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;authorization&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Bearer your-dynamic-token&#39;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Test User&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;test@example.com&#39;</span>
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>}, (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">result</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;✅ 測試完成！&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="2--多重-api-端點管道測試-requests-陣列">2. 🔀 多重 API 端點管道測試 (requests 陣列)</h3>
+<p>按順序輪流發送不同的 API 請求：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[https://your-api.com](https://your-api.com)&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">requests</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GET&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/&#39;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;GET&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/api/products&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> { <span style="color:#e6db74">&#39;x-custom-header&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;abc&#39;</span> }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;POST&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/api/checkout&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({ <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">123</span> })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="六--cicd-自動化與效能門檻檢測-quality-gate">六、 🤖 CI/CD 自動化與效能門檻檢測 (Quality Gate)</h2>
+<p>將效能壓測納入 CI/CD 流程中，當 API 效能退化（如 p99 延遲過高或出現錯誤）時自動讓 Build 失敗。</p>
+<p>建立一個驗證腳本 <code>scripts/perf-test.js</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// scripts/perf-test.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">autocannon</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;autocannon&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">THRESHOLDS</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">maxErrorRate</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,       <span style="color:#75715e">// ❌ 錯誤數必須為 0
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">maxNon2xx</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,          <span style="color:#75715e">// ⚠️ 非 2xx 狀態碼必須為 0
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">maxLatencyP99</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">200</span>,    <span style="color:#75715e">// ⏱️ p99 延遲不可超過 200ms
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">minAvgQps</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1000</span>        <span style="color:#75715e">// ⚡ 平均 QPS 必須大於等於 1000
+</span></span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">runCiTest</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;🔍 正在執行 CI 效能門檻檢測...&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">autocannon</span>(
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">TEST_TARGET_URL</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;http://localhost:3000/api/health&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">connections</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">res</span>) =&gt; (<span style="color:#a6e22e">err</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">err</span>) <span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">res</span>))
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">autocannon</span>.<span style="color:#a6e22e">track</span>(<span style="color:#a6e22e">instance</span>, { <span style="color:#a6e22e">renderProgressBar</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> });
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;\n--- 📊 壓測數據門檻驗證 ---&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">passed</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">errors</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">maxErrorRate</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">`❌ 失敗: 連線錯誤數 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">errors</span><span style="color:#e6db74">}</span><span style="color:#e6db74">) 超過門檻 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">maxErrorRate</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">passed</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">non2xx</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">maxNon2xx</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">`❌ 失敗: 非 2xx 回應數 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">non2xx</span><span style="color:#e6db74">}</span><span style="color:#e6db74">) 超過門檻 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">maxNon2xx</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">passed</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">latency</span>.<span style="color:#a6e22e">p99</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">maxLatencyP99</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">`❌ 失敗: p99 延遲 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">latency</span>.<span style="color:#a6e22e">p99</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms) 超過門檻 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">maxLatencyP99</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms)`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">passed</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">requests</span>.<span style="color:#a6e22e">average</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">minAvgQps</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">`❌ 失敗: 平均 QPS (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">requests</span>.<span style="color:#a6e22e">average</span><span style="color:#e6db74">}</span><span style="color:#e6db74">) 低於門檻 (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">THRESHOLDS</span>.<span style="color:#a6e22e">minAvgQps</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">passed</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">passed</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;\n💥 效能測試未達標！&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;\n🎉 所有效能門檻皆已順利通過！&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">runCiTest</span>().<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">err</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;💥 執行壓測時發生意外錯誤:&#39;</span>, <span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>在 <code>package.json</code> 設定指令並執行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;scripts&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;test:perf&#34;</span>: <span style="color:#e6db74">&#34;node scripts/perf-test.js&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm test:perf
+</span></span></code></pre></div><hr>
+<h2 id="七--報表輸出">七、 📈 報表輸出</h2>
+<p>除了終端機列印，也可以將結果存成報告：</p>
+<h3 id="1--產生-html-視覺化報表-cli">1. 🌐 產生 HTML 視覺化報表 (CLI)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm dlx autocannon <span style="color:#f92672">[</span>https://your-api.com<span style="color:#f92672">](</span>https://your-api.com<span style="color:#f92672">)</span> --report &gt; report.html
+</span></span></code></pre></div><h3 id="2--輸出-json-格式供歷史紀錄分析">2. 📄 輸出 JSON 格式供歷史紀錄分析</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pnpm dlx autocannon <span style="color:#f92672">[</span>https://your-api.com<span style="color:#f92672">](</span>https://your-api.com<span style="color:#f92672">)</span> --json &gt; result.json
+</span></span></code></pre></div></section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/gofromeasyleet01/"
+      ><span>透過簡單的 leetcode 題目來學習 go 的基礎語法 #1</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
