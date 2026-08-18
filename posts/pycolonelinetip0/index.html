@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -58,93 +58,32 @@ Python的列表生成式（List comprehension）提供了一個簡潔的方式�
 假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
 [int(i) for i in arr if i&gt;0]
 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="python一行系簡潔程式碼技巧示範">
-	<meta itemprop="description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
-在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
-清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
-如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
-for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
-雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
-相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
-格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
-它是您希望對其每個元素進行操作的目標。 變數：
-在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
-這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
-進階if-else用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
-範例
-假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
-[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
-	<meta itemprop="datePublished" content="2024-09-07T17:58:50+08:00">
-	<meta itemprop="dateModified" content="2024-09-07T17:58:50+08:00">
-	<meta itemprop="wordCount" content="165"><meta property="og:url" content="https://seansie0830.github.io/posts/pycolonelinetip0/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="python一行系簡潔程式碼技巧示範">
-	<meta property="og:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
-在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
-清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
-如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
-for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
-雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
-相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
-格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
-它是您希望對其每個元素進行操作的目標。 變數：
-在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
-這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
-進階if-else用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
-範例
-假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
-[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2024-09-07T17:58:50+08:00">
-		<meta property="article:modified_time" content="2024-09-07T17:58:50+08:00">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="python一行系簡潔程式碼技巧示範">
-	<meta name="twitter:description" content="Python 經常被譽為一種簡潔而優雅的程式語言。這種簡潔性並非偶然，而是 Python 從設計之初就堅持的理念。Python 提供了豐富的內建工具，讓我們能用精簡的程式碼完成各種任務。更令人驚嘆的是，許多功能甚至可以濃縮成一行程式碼，展現出 Python 獨特的魅力。
-在本文中，我將分享一些我常用的「一行絕技」，希望能幫助你更深入地了解 Python 的簡潔之美，並為你的編碼帶來更多啟發。
-清單推導式 有時候，我們需要對陣列中的每個元素進行相同的操作。尤其在 Python 這種動態類型語言中，從鍵盤讀取的整數數據會以字串形式儲存，這時如果要對這些資料進行數學運算，就不得不逐一使用 int() 函數將每個元素轉換成整數型態，就算有for迴圈，這個過程還是相當繁瑣。
-如果不用列表推導式，正常情況我們會用for迴圈，遍歷整個陣列
-for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ? 這種寫法中，i 實際上是 arr 中元素的副本，換句話說，修改 i 並不會影響到 arr 陣列中的元素。因此，如果想要修改所有元素的形態，我們必須藉助 range() 函數建立一個儲存arr所有元素的索引陣列，然後逐一存取 arr 中的元素，才能成功地進行修改。
-雖然這種寫法已經算簡潔，但有些人會選擇建立一個新陣列，再逐一複製元素，這種做法顯然更加複雜。
-相較之下，使用清單推導式，只需輸入 [int(i) for i in arr] 即可達成相同目的，效率顯著提升。
-格式 [表達式 for 變數 in 可迭代物件 ] 可迭代物件：
-它是您希望對其每個元素進行操作的目標。 變數：
-在每次迭代中，它會依序代表可迭代物件中的每一個元素。 您可以把它想像成一個臨時的容器，用來裝載目前正在處理的元素。 運算式：
-這是您定義的規則，用來決定如何轉換每個元素。 運算式的結果會被收集起來，形成一個全新的列表。 最後，這個方括號的語法會回傳一個逐項依照表達式規則改寫的清單。
-進階if-else用法 Python的列表生成式（List comprehension）提供了一個簡潔的方式來創建新的列表。在某些情況下，我們可能需要根據特定條件來過濾元素，這時就可以在列表生成式中加入if條件式。
-範例
-假設我們有一個列表 arr，其中包含了一些字串形式的數字，我們希望將其中的正整數轉換為整數物件。
-[int(i) for i in arr if i&gt;0] 在這個例子中，我們使用 if int(i) &gt; 0 來確保只轉換那些代表正整數的字串。">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/pycolonelinetip0/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -154,7 +93,7 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -312,17 +251,17 @@ for i in range(len(arr)): arr[i]=int(arr[i]) 稍微提醒一下，在 for i in ?
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/vuesturctintro/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/vuesturctintro/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>VueSturctIntro</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/pymodopencvintro0/"
+      href="http://localhost:57223/posts/pymodopencvintro0/"
       ><span>Python 電腦視覺模組 OpenCV 新手入門 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

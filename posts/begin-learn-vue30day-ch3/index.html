@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -56,119 +56,32 @@ vue元件其實大致上有兩種類別
 
 那怎麼使用呢?
 要使用元件，必須在元件的使用者(也是元件，可以類比成程式語言的語言的函數呼叫函數)中的元件邏輯中註冊，註冊方法如下，在該元件 .vue 檔案中的 script 標籤中新增" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="#3 元件系統 30天學會 vue系列文 | seansie blog">
-	<meta itemprop="description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
-舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
-這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
-反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
-有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
-同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
-vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
-舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
-其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
-題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
-而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
-而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
-如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
-不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
-對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
-舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
-&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
-這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
-這個之後會介紹
-元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
-vue元件其實大致上有兩種類別
-主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢? 要使用元件，必須在元件的使用者(也是元件，可以類比成程式語言的語言的函數呼叫函數)中的元件邏輯中註冊，註冊方法如下，在該元件 .vue 檔案中的 script 標籤中新增">
-	<meta itemprop="datePublished" content="2025-02-06T15:29:36+08:00">
-	<meta itemprop="dateModified" content="2025-02-06T15:29:36+08:00">
-	<meta itemprop="wordCount" content="168">
-	<meta itemprop="keywords" content="Vuejs,元件,抽象,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="#3 元件系統 30天學會 vue系列文 | seansie blog">
-	<meta property="og:description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
-舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
-這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
-反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
-有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
-同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
-vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
-舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
-其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
-題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
-而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
-而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
-如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
-不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
-對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
-舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
-&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
-這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
-這個之後會介紹
-元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
-vue元件其實大致上有兩種類別
-主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢? 要使用元件，必須在元件的使用者(也是元件，可以類比成程式語言的語言的函數呼叫函數)中的元件邏輯中註冊，註冊方法如下，在該元件 .vue 檔案中的 script 標籤中新增">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-02-06T15:29:36+08:00">
-		<meta property="article:modified_time" content="2025-02-06T15:29:36+08:00">
-		<meta property="article:tag" content="Vuejs">
-		<meta property="article:tag" content="元件">
-		<meta property="article:tag" content="抽象">
-		<meta property="article:tag" content="30天">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="#3 元件系統 30天學會 vue系列文 | seansie blog">
-	<meta name="twitter:description" content="何謂元件 抽象的超能力 常常有人覺得抽象不好，覺得抽象=難，例如像是數學題目很抽象，其實這是天大的誤解，抽象實質上是讓事物變簡單，因為他用虛擬的簡單概念隱藏了真實的複雜性。
-舉例來說，你現在正在閱讀這篇文章，你肯定感覺上網瀏覽網頁不難吧。
-這就是得意於瀏覽器，作業系統，還有網路協定幫你提供的抽象使用者見面(就是你眼前看到的UI 按鈕 選單)，幫你隱藏了非常晦澀難懂的細節。
-反而只專心在重點，像是你想要去哪個網站，而不在乎不重要且瑣碎的細節，例如怎麼傳送 http請求啦，js程式碼怎麼解析啦 ，怎麼用gpu做硬體加速之類的，非專業人士基本上聽不懂的細節，這些都是由抽象介面自動完成的
-有句英文諺語叫做 天才熱愛簡潔，白癡熱愛複雜 (**A genius admires simplicity, an idiot admires complexity)，**很好的點出了抽象的好處。
-同理，vuejs的元件就是抽象網頁元素的一種方式，他隱藏了裡面的複雜性，只專心在重點上。
-vuejs中的元件 大家在網頁設計的時候，處理成千上萬的標籤，常常會迷失自我，搞到不知道在幹嘛，這個時候就應該問自己 重點在哪裡?
-舉例來說，選單的重點是甚麼，不就是裡面的選項嗎?
-其他樣式每個選項都一樣吧，顯然不是重點，這個可以透過抽象介面來把它隱藏起來。
-題外話，這樣的好處還有如果想要修該按鈕樣式的時候，只要對抽象介面修改一次就好，省時省力，如果不用恐怕要逐項修改，不僅繁雜還易錯。
-而vuejs的抽象介面就是 元件 可以把一些負責相同功能的標籤樣式js，封裝成一個元件(黑箱子)，然後僅留下幾個跟外部互動的介面，用來處理重點的事情。
-而元件使用方法就是 &lt;元件名 屬性1=? 屬性2=? ... 屬性n=?&gt; &lt;元件名/&gt; 。
-如果沒有使用這層元件抽象，光是實現一個簡單的選單，恐怕要處理成千上萬的標籤了。
-不過有了元件只要輸入以元件名為名的標籤，就可以使用由眾多標籤組成的功能了。
-對了，你有看到上面有屬性嗎，這是vue元件常用的 介面， 也就是前文所提到的重點事物的互動窗口。
-舉例來說，像選單的重點就是裡面的選項對吧，那我透過這個傳入兩個陣列 一個是選項名稱，另一個是選項名稱對應的網址，那這個元件標籤可以這樣寫
-&lt;選單 :名稱=namArr :網址=URLarr&gt;&lt;/選單&gt; 注: 如果要綁定 data() 中的資料需要在屬性前面加上 : 。
-這個在 vuejs 中有專有名詞， 叫做prop ，直譯為屬性，不過本文通常會叫他的英文避免混淆。
-這個之後會介紹
-元件使用介紹 剛剛在第二章已經介紹了 .vue 的SCF(單一元件檔案)了，那我就透過這些基礎來示範吧。
-vue元件其實大致上有兩種類別
-主元件 : 是要被掛載在 div標籤上的元件，是裡面最大的元件，存在項目資料夾的src目錄之下，有點像是老闆。 其他元件 : 是要被主元件或其他元件使用的元件，存在項目 /src/components 目錄之下，有點像是員工。 那怎麼使用呢? 要使用元件，必須在元件的使用者(也是元件，可以類比成程式語言的語言的函數呼叫函數)中的元件邏輯中註冊，註冊方法如下，在該元件 .vue 檔案中的 script 標籤中新增">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch3/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -178,7 +91,7 @@ vue元件其實大致上有兩種類別
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -343,33 +256,33 @@ vue元件其實大致上有兩種類別
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/vuejs"
+      href="http://localhost:57223/tags/vuejs"
       >vuejs</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/%E5%85%83%E4%BB%B6"
+      href="http://localhost:57223/tags/%E5%85%83%E4%BB%B6"
       >元件</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/%E6%8A%BD%E8%B1%A1"
+      href="http://localhost:57223/tags/%E6%8A%BD%E8%B1%A1"
       >抽象</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      href="http://localhost:57223/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/begin-learn-vue30day-ch4/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>#4 事件處理 30天學會 vue系列文 | seansie blog</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/cpp-oop-4rule-intro/"
+      href="http://localhost:57223/posts/cpp-oop-4rule-intro/"
       ><span> 物件導向四大原則 封裝 抽象 繼承 多形 介紹 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

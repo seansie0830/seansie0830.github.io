@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -44,85 +44,32 @@ linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgr
 
 winget  brew   apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
 安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
-	<meta itemprop="description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
-你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
-正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
-那說了這麼多，事不宜遲來開始介紹使用方法。
-終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
-而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
-甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
-其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
-如何安裝 nodejs 在終端機根據不同的作業系統輸入。
-windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
-安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
-	<meta itemprop="datePublished" content="2025-01-14T18:50:45+08:00">
-	<meta itemprop="dateModified" content="2025-01-14T18:50:45+08:00">
-	<meta itemprop="wordCount" content="611">
-	<meta itemprop="keywords" content="Vuejs,30天,元件系統"><meta property="og:url" content="https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
-	<meta property="og:description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
-你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
-正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
-那說了這麼多，事不宜遲來開始介紹使用方法。
-終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
-而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
-甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
-其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
-如何安裝 nodejs 在終端機根據不同的作業系統輸入。
-windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
-安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-01-14T18:50:45+08:00">
-		<meta property="article:modified_time" content="2025-01-14T18:50:45+08:00">
-		<meta property="article:tag" content="Vuejs">
-		<meta property="article:tag" content="30天">
-		<meta property="article:tag" content="元件系統">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="#2 Vue CLI介紹 30天學會 vue系列文 | seansie blog">
-	<meta name="twitter:description" content="工欲善其事，必先利其器，vuejs團隊為各位開發者提供了一個好工具 vue CLI 。
-你可能在 第一章，透過 script src 的方式匯入了vuejs，使用起來感覺也不錯，但是老實說這只是為了降低初學者的學習難度而做的權宜之計而已。
-正港的方法還是透過 Vue CLI 來進行 vuejs 應用程式開發會比較好，他有許多單純使用標籤匯入法無法提供的功能，待會會一一介紹。
-那說了這麼多，事不宜遲來開始介紹使用方法。
-終端機介紹 應該有這方面基礎的讀者都知道吧，如果不知道，而且幸運的跟我一樣用 vscode 英文版的話，在最上面有個 Terminal 按鈕，按下有個 new terminal選項，按他完在下面就會看到有個黑色東西(如下圖)這就是終端機
-而本文所提，在終端機中輸入，就是把命令輸入到裡面，而執行就是按下 enter 。
-甚至因為這個提到的頻率實在太高了，可能本人描述的時候會說 使用 mycommand 命令等等比較模糊的詞彙、甚至直接用程式碼字形 (例如 consolas )暗示為命令，別忘了就是輸入終端機&#43;執行的意思
-其實終端機現在不僅沒落五而且還是個很強大的工具，之後預計會專門寫一篇來深度講解。
-如何安裝 nodejs 在終端機根據不同的作業系統輸入。
-windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu) sudo apt install nodejs 如果無法安裝記得用 sudo apt upgrade 或 sudo apt update 更新。 winget brew apt 可以理解成不同平台上的 手機應用程式商店，只是手機是下載APP，這些是下載軟體。
-安裝後透過在終端機輸入 node -v 來驗證是否有安裝成功。">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch2/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -132,7 +79,7 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -416,29 +363,29 @@ windows winget install -e --id OpenJS.NodeJS mac brew install node linux (ubuntu
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/vuejs"
+      href="http://localhost:57223/tags/vuejs"
       >vuejs</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      href="http://localhost:57223/tags/30%E5%A4%A9"
       >30天</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/%E5%85%83%E4%BB%B6%E7%B3%BB%E7%B5%B1"
+      href="http://localhost:57223/tags/%E5%85%83%E4%BB%B6%E7%B3%BB%E7%B5%B1"
       >元件系統</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/zj_b512/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/zj_b512/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>zerojudge b512 高維度稀疏向量 | seansie blog </span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch1/"
+      href="http://localhost:57223/posts/begin-learn-vue30day-ch1/"
       ><span>#1 hello Vue 一 最簡單vuejs例子 - 30天學會vue系列文 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

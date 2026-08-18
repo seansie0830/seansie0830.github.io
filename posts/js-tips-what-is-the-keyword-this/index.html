@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -51,90 +51,32 @@ c 建構子呼叫
 d. call bind apply (手動改變上下文)
 進階用法，因為篇幅，等一下在子文章中會一一介紹。
 舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="js中的this到底是甚麼 js隨筆 |seansie blog">
-	<meta itemprop="description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
-重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
-而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
-定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
-先來進行名詞解釋
-1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
-在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
-a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
-b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
-注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
-其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
-c 建構子呼叫 會指向新建立的物件
-d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
-舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
-	<meta itemprop="datePublished" content="2025-02-06T15:59:18+08:00">
-	<meta itemprop="dateModified" content="2025-02-06T15:59:18+08:00">
-	<meta itemprop="wordCount" content="355"><meta property="og:url" content="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
-	<meta property="og:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
-重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
-而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
-定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
-先來進行名詞解釋
-1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
-在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
-a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
-b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
-注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
-其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
-c 建構子呼叫 會指向新建立的物件
-d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
-舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-02-06T15:59:18+08:00">
-		<meta property="article:modified_time" content="2025-02-06T15:59:18+08:00">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="js中的this到底是甚麼 js隨筆 |seansie blog">
-	<meta name="twitter:description" content="this 這個關鍵字在 js 中令許多人困惑之處，尤其是在普通函數中，因為 this 所指向的物件是動態的取決於呼叫方式。
-重點來了，”方式”這個詞可不是字面意義上的”方式”，像我就曾經誤解這個詞，不僅有一些js對this的行規(執行上下文)，而且這麼模糊的詞彙容易被各自解讀，如果不是老手來看這個”方式”恐怕是聽君一席話，如聽一席話。畢竟簡單把方式跟專業術語執行上下文當成同個東西只會使理解過於片面。
-而本人覺得這個詞非常會讓人誤會，所以我在之後會用其他比較清楚的詞彙來描述這個，像是上下文。
-定義 this 指向取決於**被呼叫的函數物件(callable function object)的執行上下文(executing context)，**而上下文取決於呼叫方法的類型
-先來進行名詞解釋
-1.上下文 這個蠻重要的，也是 js 官方推薦的術語，然後後面章節如果有看不懂的建議回來這個”萬物之源”章節來釐清觀念，因為非常重要。
-在 js 引擎中，每次呼叫 (也就是() 運算子，詳細見第二點)一個函數物件的時候，就會自動建立一個執行上下文，提供 this 使用，而執行上下文取決於多種因素，看你怎麼呼叫(就是剛剛提到的方法)，但是哪些方法對應那些執行上下文只有下面有提到的分類，不要自己腦補出其他類別。
-a. 全域呼叫 語法 : 函數物件() 簡單粗暴直接呼叫，那自然而然沒有啥 上下文 可言，不過在非嚴格模式 js 會自動把他補成指向 全域物件
-b. 透過物件呼叫 語法 : 物件.函數物件的屬性() 既然是透過 物件 呼叫的，那該函數的上下文自然而然就會指向 物件
-注意這裡不要理解成父物件喔，我一開始學的時候就是因為 too young sometimes naive啦，想說把他理解成從屬關係，結果一直卡住(要是這麼簡單怎麼對得起js大魔王關卡的稱號🤣🤣)
-其實關鍵在於函數物件的怎麼被呼叫的 形式 (像是a跟b就是不同形式)， 而不是父物件之類的從屬關係，藉由其形式(看看前面有沒有物件(那陀東西)阿)就能分辨出到底是 a 跟b了，而 c 跟 d本身很明顯不會搞錯。
-c 建構子呼叫 會指向新建立的物件
-d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一下在子文章中會一一介紹。
-舉例來說，像是據說 vuejs 的vue元件實體透過 bind 方法把所有旗下諸物件像是data() method 的之類的，全部把他的執行上下文綁在vue實體上，使得初學者使用更方便且清晰">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/js-tips-what-is-the-keyword-this/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -144,7 +86,7 @@ d. call bind apply (手動改變上下文) 進階用法，因為篇幅，等一�
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -388,17 +330,17 @@ console.log(this);
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/cpp-overloading-intro/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/cpp-overloading-intro/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>C&#43;&#43; 多載介紹 (運算子多載&amp;函數多載) | seansie blog</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch4/"
+      href="http://localhost:57223/posts/begin-learn-vue30day-ch4/"
       ><span>#4 事件處理 30天學會 vue系列文 | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

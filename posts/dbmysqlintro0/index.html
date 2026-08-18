@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -42,75 +42,32 @@ seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start
 然後再以root身分來執行mysql這個命令，如果最後出現 mysql (詳情請見下節)就代表進入成功，可以輸入 exit 來離開這個環境。
 以root身分登入
 在 MySQL 中，root 帳號擁有最高權限，首次安裝 MySQL 時，預設只有 root 帳號可用。接下來，我們將說明如何使用 root 身分登入 MySQL 系統。請注意，此處的 root 帳號與 Linux 系統中的 root 帳號是不同的概念，請勿混淆。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="MySQL#0  新手入門：安裝、登入與新增使用者權限管理 | seansie blog">
-	<meta itemprop="description" content="mysql介紹 MySQL，一款開放原始碼的關聯式資料庫管理系統，以其卓越的效能、可靠性和彈性，在資料庫領域獨樹一幟。它不僅能高效處理巨量資料，滿足各類應用場景的需求，還具備跨平台相容性，為開發者提供廣闊的選擇空間。
-MySQL 的強大功能體現在它對 SQL 標準的全面支援，使得複雜的資料操作變得輕而易舉。同時，它擁有龐大而活躍的社群，為使用者提供豐富的學習資源和技術支援。
-mysql可以適用於多種應用情境，無論是建構動態網站、開發企業級應用，還是部署在資源受限的嵌入式系統中，MySQL 都能勝任。它在資料儲存、檢索和管理方面的出色表現，使其成為眾多開發者和企業的首選資料庫解決方案。
-更重要的是，MySQL 始終保持著與時俱進的步伐，不斷推出新功能和優化，以適應雲端運算和大數據等新興技術的發展趨勢。
-安裝 在ubuntu可以透過apt安裝， 因為該檔案頗小，所以速度應該挺快的。
-sudo apt install mysql-server 接著要確認mysql是否有成功啟動，先用root身分執行一下 mysql ，如果不能用root可以用sudo，原因請見下一節，如果沒有成功啟動，會有如下的錯誤訊息。
-root@LAPTOP-MBDVAQ4B:~# mysql ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;/var/run/mysqld/mysqld.sock&#39; (2) 如果沒有成功啟動的話，需要透過此命令來啟動。
-seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start * Starting MySQL database server mysqld su: warning: cannot change directory to /nonexistent: No such file or directory 然後再以root身分來執行mysql這個命令，如果最後出現 mysql (詳情請見下節)就代表進入成功，可以輸入 exit 來離開這個環境。
-以root身分登入 在 MySQL 中，root 帳號擁有最高權限，首次安裝 MySQL 時，預設只有 root 帳號可用。接下來，我們將說明如何使用 root 身分登入 MySQL 系統。請注意，此處的 root 帳號與 Linux 系統中的 root 帳號是不同的概念，請勿混淆。">
-	<meta itemprop="datePublished" content="2024-09-22T16:16:28+08:00">
-	<meta itemprop="dateModified" content="2024-09-22T16:16:28+08:00">
-	<meta itemprop="wordCount" content="297"><meta property="og:url" content="https://seansie0830.github.io/posts/dbmysqlintro0/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="MySQL#0  新手入門：安裝、登入與新增使用者權限管理 | seansie blog">
-	<meta property="og:description" content="mysql介紹 MySQL，一款開放原始碼的關聯式資料庫管理系統，以其卓越的效能、可靠性和彈性，在資料庫領域獨樹一幟。它不僅能高效處理巨量資料，滿足各類應用場景的需求，還具備跨平台相容性，為開發者提供廣闊的選擇空間。
-MySQL 的強大功能體現在它對 SQL 標準的全面支援，使得複雜的資料操作變得輕而易舉。同時，它擁有龐大而活躍的社群，為使用者提供豐富的學習資源和技術支援。
-mysql可以適用於多種應用情境，無論是建構動態網站、開發企業級應用，還是部署在資源受限的嵌入式系統中，MySQL 都能勝任。它在資料儲存、檢索和管理方面的出色表現，使其成為眾多開發者和企業的首選資料庫解決方案。
-更重要的是，MySQL 始終保持著與時俱進的步伐，不斷推出新功能和優化，以適應雲端運算和大數據等新興技術的發展趨勢。
-安裝 在ubuntu可以透過apt安裝， 因為該檔案頗小，所以速度應該挺快的。
-sudo apt install mysql-server 接著要確認mysql是否有成功啟動，先用root身分執行一下 mysql ，如果不能用root可以用sudo，原因請見下一節，如果沒有成功啟動，會有如下的錯誤訊息。
-root@LAPTOP-MBDVAQ4B:~# mysql ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;/var/run/mysqld/mysqld.sock&#39; (2) 如果沒有成功啟動的話，需要透過此命令來啟動。
-seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start * Starting MySQL database server mysqld su: warning: cannot change directory to /nonexistent: No such file or directory 然後再以root身分來執行mysql這個命令，如果最後出現 mysql (詳情請見下節)就代表進入成功，可以輸入 exit 來離開這個環境。
-以root身分登入 在 MySQL 中，root 帳號擁有最高權限，首次安裝 MySQL 時，預設只有 root 帳號可用。接下來，我們將說明如何使用 root 身分登入 MySQL 系統。請注意，此處的 root 帳號與 Linux 系統中的 root 帳號是不同的概念，請勿混淆。">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2024-09-22T16:16:28+08:00">
-		<meta property="article:modified_time" content="2024-09-22T16:16:28+08:00">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="MySQL#0  新手入門：安裝、登入與新增使用者權限管理 | seansie blog">
-	<meta name="twitter:description" content="mysql介紹 MySQL，一款開放原始碼的關聯式資料庫管理系統，以其卓越的效能、可靠性和彈性，在資料庫領域獨樹一幟。它不僅能高效處理巨量資料，滿足各類應用場景的需求，還具備跨平台相容性，為開發者提供廣闊的選擇空間。
-MySQL 的強大功能體現在它對 SQL 標準的全面支援，使得複雜的資料操作變得輕而易舉。同時，它擁有龐大而活躍的社群，為使用者提供豐富的學習資源和技術支援。
-mysql可以適用於多種應用情境，無論是建構動態網站、開發企業級應用，還是部署在資源受限的嵌入式系統中，MySQL 都能勝任。它在資料儲存、檢索和管理方面的出色表現，使其成為眾多開發者和企業的首選資料庫解決方案。
-更重要的是，MySQL 始終保持著與時俱進的步伐，不斷推出新功能和優化，以適應雲端運算和大數據等新興技術的發展趨勢。
-安裝 在ubuntu可以透過apt安裝， 因為該檔案頗小，所以速度應該挺快的。
-sudo apt install mysql-server 接著要確認mysql是否有成功啟動，先用root身分執行一下 mysql ，如果不能用root可以用sudo，原因請見下一節，如果沒有成功啟動，會有如下的錯誤訊息。
-root@LAPTOP-MBDVAQ4B:~# mysql ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;/var/run/mysqld/mysqld.sock&#39; (2) 如果沒有成功啟動的話，需要透過此命令來啟動。
-seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start * Starting MySQL database server mysqld su: warning: cannot change directory to /nonexistent: No such file or directory 然後再以root身分來執行mysql這個命令，如果最後出現 mysql (詳情請見下節)就代表進入成功，可以輸入 exit 來離開這個環境。
-以root身分登入 在 MySQL 中，root 帳號擁有最高權限，首次安裝 MySQL 時，預設只有 root 帳號可用。接下來，我們將說明如何使用 root 身分登入 MySQL 系統。請注意，此處的 root 帳號與 Linux 系統中的 root 帳號是不同的概念，請勿混淆。">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/dbmysqlintro0/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -120,7 +77,7 @@ seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start * Starting MySQL databas
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -276,17 +233,17 @@ seansie0830@LAPTOP-MBDVAQ4B:~$ sudo service mysql start * Starting MySQL databas
 
   <nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/begin-learn-vue30day-ch0/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/begin-learn-vue30day-ch0/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>#0 為甚麼要用vuejs框架? -30天學會vue系列文 | seansie blog</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/cppioopt0/"
+      href="http://localhost:57223/posts/cppioopt0/"
       ><span>C/C&#43;&#43; IO 基本優化介紹(IO同步取消方法與進階函數使用) #0  | seansie blog</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

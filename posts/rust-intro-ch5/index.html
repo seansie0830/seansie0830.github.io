@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -73,60 +73,32 @@ self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉�
 
 泛型 (Generics)：寫一份代碼，跑遍所有型態
 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="Ch5：特徵與泛型 — 行為與能力的模組化">
-	<meta itemprop="description" content="impl：賦予資料靈魂 Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
-方法與關聯函數 在 impl 塊裡，函數分為兩類：
-方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。 關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。 struct Rectangle { width: u32, height: u32, } impl Rectangle { // 關聯函數：用來創建物件 fn new(width: u32, height: u32) -&gt; Self { Self { width, height } } // 方法：計算面積。&amp;self 代表「唯讀借用」 fn area(&amp;self) -&gt; u32 { self.width * self.height } // 方法：修改大小。&amp;mut self 代表「可變借用」 fn scale(&amp;mut self, factor: u32) { self.width *= factor; self.height *= factor; } } fn main() { let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數 println!(&#34;面積：{}&#34;, rect.area()); // 呼叫方法 rect.scale(2); // 修改物件 } ⚡ 極速講解： &amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。 &amp;mut self：我想改這個物件。 self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。 常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&#34;blue&#34;).draw() 這種極具藝術感的漂亮代碼。 泛型 (Generics)：寫一份代碼，跑遍所有型態 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。">
-	<meta itemprop="datePublished" content="2026-02-26T09:44:00+08:00">
-	<meta itemprop="dateModified" content="2026-02-26T09:44:00+08:00">
-	<meta itemprop="wordCount" content="372">
-	<meta itemprop="keywords" content="Rust,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch5/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="Ch5：特徵與泛型 — 行為與能力的模組化">
-	<meta property="og:description" content="impl：賦予資料靈魂 Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
-方法與關聯函數 在 impl 塊裡，函數分為兩類：
-方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。 關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。 struct Rectangle { width: u32, height: u32, } impl Rectangle { // 關聯函數：用來創建物件 fn new(width: u32, height: u32) -&gt; Self { Self { width, height } } // 方法：計算面積。&amp;self 代表「唯讀借用」 fn area(&amp;self) -&gt; u32 { self.width * self.height } // 方法：修改大小。&amp;mut self 代表「可變借用」 fn scale(&amp;mut self, factor: u32) { self.width *= factor; self.height *= factor; } } fn main() { let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數 println!(&#34;面積：{}&#34;, rect.area()); // 呼叫方法 rect.scale(2); // 修改物件 } ⚡ 極速講解： &amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。 &amp;mut self：我想改這個物件。 self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。 常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&#34;blue&#34;).draw() 這種極具藝術感的漂亮代碼。 泛型 (Generics)：寫一份代碼，跑遍所有型態 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-02-26T09:44:00+08:00">
-		<meta property="article:modified_time" content="2026-02-26T09:44:00+08:00">
-		<meta property="article:tag" content="Rust">
-		<meta property="article:tag" content="30天">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Ch5：特徵與泛型 — 行為與能力的模組化">
-	<meta name="twitter:description" content="impl：賦予資料靈魂 Rust 雖然不是傳統那種繼承滿天飛的物件導向語言（OOP），但它透過 impl 塊，讓你能夠幫結構體或列舉定義「方法」。這就像是給一個靜態的資料結構注入了靈魂，讓它從「一堆資料」變成「能做事的物件」。
-方法與關聯函數 在 impl 塊裡，函數分為兩類：
-方法 (Methods)：第一個參數是 self（或是 &amp;self、&amp;mut self），需要透過執行個體來呼叫。 關聯函數 (Associated Functions)：沒有 self 參數。最常見的就是 new()，類似其他語言的「靜態方法」或「建構子」。 struct Rectangle { width: u32, height: u32, } impl Rectangle { // 關聯函數：用來創建物件 fn new(width: u32, height: u32) -&gt; Self { Self { width, height } } // 方法：計算面積。&amp;self 代表「唯讀借用」 fn area(&amp;self) -&gt; u32 { self.width * self.height } // 方法：修改大小。&amp;mut self 代表「可變借用」 fn scale(&amp;mut self, factor: u32) { self.width *= factor; self.height *= factor; } } fn main() { let mut rect = Rectangle::new(10, 20); // 呼叫關聯函數 println!(&#34;面積：{}&#34;, rect.area()); // 呼叫方法 rect.scale(2); // 修改物件 } ⚡ 極速講解： &amp;self：最常用，我只是想「看看」這個物件，不想改它，也不想把它弄壞（轉移所有權）。 &amp;mut self：我想改這個物件。 self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉」了。通常用於「狀態轉換」（例如把一個「草稿」轉換成「發布文章」）。 常用模式：鍊式調用（Chain Calling / Builder Pattern）。讓方法最後回傳 Self，你就能寫出像 rect.resize(100, 100).color(&#34;blue&#34;).draw() 這種極具藝術感的漂亮代碼。 泛型 (Generics)：寫一份代碼，跑遍所有型態 不想為 i32 寫一遍 add，又為 f64 寫一遍一模一樣的 add？泛型 T 是你的救星。">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch5/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -136,7 +108,7 @@ self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉�
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -391,25 +363,25 @@ self：最少用，呼叫完這個方法後，物件的所有權就被「吃掉�
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/rust"
+      href="http://localhost:57223/tags/rust"
       >rust</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      href="http://localhost:57223/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/rust-intro-ch6/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/rust-intro-ch6/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Ch6：閉包與迭代器 — 持續開出的支票</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/rust-intro-ch4/"
+      href="http://localhost:57223/posts/rust-intro-ch4/"
       ><span>Ch4：所有權避坑指南與智慧指標 — 記憶體權力的分配</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

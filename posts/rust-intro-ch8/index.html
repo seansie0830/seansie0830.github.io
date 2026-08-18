@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -46,72 +46,32 @@ Electron 殺手：tauri
 
 模組系統 (Mod)：整理你的檔案室
 當你的專案變大時，別把所有程式碼都塞在 main.rs，那會變成一場災難. Rust 的模組系統就像是一個嚴密的檔案櫃." />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="Ch8：生態系、模組與你的 Rust 之路">
-	<meta itemprop="description" content="生態系統：Crates.io 的魔法 Rust 的強大有一半來自它那令人驚豔的社群與工具鏈。如果說 Rust 是你的戰鬥機，那麼 Cargo 就是你的維護後勤團隊，而 Crates.io 就是你的軍火庫.
-Cargo：地表最強套件管理工具. 它不只管下載，還管編譯、管測試、管文檔生成. 最厲害的是它處理「語義化版本 (SemVer)」的邏輯非常嚴謹，幾乎不會讓你遇到其他語言常見的依賴衝突地獄. Crates.io：尋找寶藏的地方. 這是 Rust 官方的套件託管中心，任何你想得到的功能（從 Web 到機器學習），幾乎都能在這裡找到現成的輪子. 必看熱門套件深度解析 序列化神器：serde (Serialize/Deserialize)
-這絕對是 Rust 生態系的靈魂. 透過 Rust 的屬性（Attribute）系統，你可以一鍵將結構體轉成 JSON、YAML、Toml 或二進位格式. 它利用了 Rust 的強型別系統在編譯期就生成代碼，速度快到讓你懷疑人生. 非同步核心：tokio
-Rust 本身不提供非同步執行環境（Runtime），而 tokio 是事實上的工業標準. 它提供了一個多執行緒、事件驅動的平台，讓你能輕易處理數萬個並發連線. CLI 專家：clap
-想寫出像 git 一樣優雅的終端機指令？clap 能幫你自動生成 --help 訊息、驗證參數類型. 這可能是目前所有編程語言中，開發 CLI 工具效率最高的選擇. Web 框架新秀：axum
-由 tokio 團隊親自操刀，語法極度人道且靈活. 它完美結合了 Rust 的型別系統，讓你能在編譯期就抓出大半的路由或參數錯誤. Electron 殺手：tauri
-想寫桌面應用但討厭 Electron 肥大的體積？tauri 使用 Rust 作為後端，前端可以用任何你喜歡的 JS 框架（React/Vue），最後生成的軟體體積只有幾 MB，記憶體占用更是低得驚人. 模組系統 (Mod)：整理你的檔案室 當你的專案變大時，別把所有程式碼都塞在 main.rs，那會變成一場災難. Rust 的模組系統就像是一個嚴密的檔案櫃.">
-	<meta itemprop="datePublished" content="2026-02-26T09:47:00+08:00">
-	<meta itemprop="dateModified" content="2026-02-26T09:47:00+08:00">
-	<meta itemprop="wordCount" content="206">
-	<meta itemprop="keywords" content="Rust,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch8/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="Ch8：生態系、模組與你的 Rust 之路">
-	<meta property="og:description" content="生態系統：Crates.io 的魔法 Rust 的強大有一半來自它那令人驚豔的社群與工具鏈。如果說 Rust 是你的戰鬥機，那麼 Cargo 就是你的維護後勤團隊，而 Crates.io 就是你的軍火庫.
-Cargo：地表最強套件管理工具. 它不只管下載，還管編譯、管測試、管文檔生成. 最厲害的是它處理「語義化版本 (SemVer)」的邏輯非常嚴謹，幾乎不會讓你遇到其他語言常見的依賴衝突地獄. Crates.io：尋找寶藏的地方. 這是 Rust 官方的套件託管中心，任何你想得到的功能（從 Web 到機器學習），幾乎都能在這裡找到現成的輪子. 必看熱門套件深度解析 序列化神器：serde (Serialize/Deserialize)
-這絕對是 Rust 生態系的靈魂. 透過 Rust 的屬性（Attribute）系統，你可以一鍵將結構體轉成 JSON、YAML、Toml 或二進位格式. 它利用了 Rust 的強型別系統在編譯期就生成代碼，速度快到讓你懷疑人生. 非同步核心：tokio
-Rust 本身不提供非同步執行環境（Runtime），而 tokio 是事實上的工業標準. 它提供了一個多執行緒、事件驅動的平台，讓你能輕易處理數萬個並發連線. CLI 專家：clap
-想寫出像 git 一樣優雅的終端機指令？clap 能幫你自動生成 --help 訊息、驗證參數類型. 這可能是目前所有編程語言中，開發 CLI 工具效率最高的選擇. Web 框架新秀：axum
-由 tokio 團隊親自操刀，語法極度人道且靈活. 它完美結合了 Rust 的型別系統，讓你能在編譯期就抓出大半的路由或參數錯誤. Electron 殺手：tauri
-想寫桌面應用但討厭 Electron 肥大的體積？tauri 使用 Rust 作為後端，前端可以用任何你喜歡的 JS 框架（React/Vue），最後生成的軟體體積只有幾 MB，記憶體占用更是低得驚人. 模組系統 (Mod)：整理你的檔案室 當你的專案變大時，別把所有程式碼都塞在 main.rs，那會變成一場災難. Rust 的模組系統就像是一個嚴密的檔案櫃.">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-02-26T09:47:00+08:00">
-		<meta property="article:modified_time" content="2026-02-26T09:47:00+08:00">
-		<meta property="article:tag" content="Rust">
-		<meta property="article:tag" content="30天">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Ch8：生態系、模組與你的 Rust 之路">
-	<meta name="twitter:description" content="生態系統：Crates.io 的魔法 Rust 的強大有一半來自它那令人驚豔的社群與工具鏈。如果說 Rust 是你的戰鬥機，那麼 Cargo 就是你的維護後勤團隊，而 Crates.io 就是你的軍火庫.
-Cargo：地表最強套件管理工具. 它不只管下載，還管編譯、管測試、管文檔生成. 最厲害的是它處理「語義化版本 (SemVer)」的邏輯非常嚴謹，幾乎不會讓你遇到其他語言常見的依賴衝突地獄. Crates.io：尋找寶藏的地方. 這是 Rust 官方的套件託管中心，任何你想得到的功能（從 Web 到機器學習），幾乎都能在這裡找到現成的輪子. 必看熱門套件深度解析 序列化神器：serde (Serialize/Deserialize)
-這絕對是 Rust 生態系的靈魂. 透過 Rust 的屬性（Attribute）系統，你可以一鍵將結構體轉成 JSON、YAML、Toml 或二進位格式. 它利用了 Rust 的強型別系統在編譯期就生成代碼，速度快到讓你懷疑人生. 非同步核心：tokio
-Rust 本身不提供非同步執行環境（Runtime），而 tokio 是事實上的工業標準. 它提供了一個多執行緒、事件驅動的平台，讓你能輕易處理數萬個並發連線. CLI 專家：clap
-想寫出像 git 一樣優雅的終端機指令？clap 能幫你自動生成 --help 訊息、驗證參數類型. 這可能是目前所有編程語言中，開發 CLI 工具效率最高的選擇. Web 框架新秀：axum
-由 tokio 團隊親自操刀，語法極度人道且靈活. 它完美結合了 Rust 的型別系統，讓你能在編譯期就抓出大半的路由或參數錯誤. Electron 殺手：tauri
-想寫桌面應用但討厭 Electron 肥大的體積？tauri 使用 Rust 作為後端，前端可以用任何你喜歡的 JS 框架（React/Vue），最後生成的軟體體積只有幾 MB，記憶體占用更是低得驚人. 模組系統 (Mod)：整理你的檔案室 當你的專案變大時，別把所有程式碼都塞在 main.rs，那會變成一場災難. Rust 的模組系統就像是一個嚴密的檔案櫃.">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch8/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -121,7 +81,7 @@ Rust 本身不提供非同步執行環境（Runtime），而 tokio 是事實上�
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -269,23 +229,25 @@ Rust 本身不提供非同步執行環境（Runtime），而 tokio 是事實上�
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/rust"
+      href="http://localhost:57223/tags/rust"
       >rust</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      href="http://localhost:57223/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/gofromeasyleet01/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>透過簡單的 leetcode 題目來學習 go 的基礎語法 #1</span></a
+    ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/rust-intro-ch7/"
+      href="http://localhost:57223/posts/rust-intro-ch7/"
       ><span>Ch7：併發、隧道與巨集 — 跨時空的對話</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

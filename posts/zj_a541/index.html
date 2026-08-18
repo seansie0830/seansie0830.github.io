@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -70,54 +70,32 @@ int main(){
 	}
 }
 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="Zerojudge a541 題解">
-	<meta itemprop="description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);">
-	<meta itemprop="datePublished" content="2024-07-13T12:05:17+08:00">
-	<meta itemprop="dateModified" content="2024-07-13T12:05:17+08:00">
-	<meta itemprop="wordCount" content="145">
-	<meta itemprop="keywords" content="Zerojudge,題解"><meta property="og:url" content="https://seansie0830.github.io/posts/zj_a541/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="Zerojudge a541 題解">
-	<meta property="og:description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2024-07-13T12:05:17+08:00">
-		<meta property="article:modified_time" content="2024-07-13T12:05:17+08:00">
-		<meta property="article:tag" content="Zerojudge">
-		<meta property="article:tag" content="題解">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Zerojudge a541 題解">
-	<meta name="twitter:description" content="題解-基本版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n; set&lt;string&gt; st; string s; cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;n; for(int i=0;i&lt;n;i&#43;&#43;){ cin&gt;&gt;s; cout&lt;&lt;((st.find(s)==st.end())?&#34;no\n&#34;:&#34;yes\n&#34;); st.insert(s); } } 精益求精優化版 #include&lt;bits/stdc&#43;&#43;.h&gt; using namespace std; int main(){ int n,m; ios_base::sync_with_stdio(false); cin.tie(nullptr); unordered_set&lt;string&gt; st; string s; cin&gt;&gt;n; st.reserve(n); for(int i=0;i&lt;n;i&#43;&#43;) { cin&gt;&gt;s; st.insert(s); } cin&gt;&gt;m; st.reserve(n&#43;m); for(int i=0;i&lt;m;i&#43;&#43;){ cin&gt;&gt;s; bool flag=st.find(s)==st.end(); cout&lt;&lt;((flag)?&#34;no\n&#34;:&#34;yes\n&#34;); if(flag)st.insert(s); } } 1. ios_base::sync_with_stdio(false); cin.tie(nullptr);">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/zj_a541/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -127,7 +105,7 @@ int main(){
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -267,25 +245,25 @@ int main(){
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/zerojudge"
+      href="http://localhost:57223/tags/zerojudge"
       >zerojudge</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/%E9%A1%8C%E8%A7%A3"
+      href="http://localhost:57223/tags/%E9%A1%8C%E8%A7%A3"
       >題解</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/py-new-tutorial1/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/py-new-tutorial1/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Python完全零基礎入門概念教學 | seansie blog</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/zj_a233/"
+      href="http://localhost:57223/posts/zj_a233/"
       ><span>Zj_a233</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

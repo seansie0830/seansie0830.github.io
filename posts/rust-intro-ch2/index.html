@@ -11,7 +11,7 @@
   style="--bg:#faf8f1"
   lang="zh-tw"
   dir="ltr"
-><head>
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
@@ -103,72 +103,32 @@ char：支援 Unicode，一個佔 4 bytes。這代表你可以用表情符號當
 
 3. 切片 (Slice)：觀察資料的窗戶
 切片 &amp;[T] 是 Rust 最精華的設計之一。它不擁有資料，它只是指向資料的一段區間。" />
-  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
 
   
-  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
 
   
 
-  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
 
   <script
     defer
-    src="https://seansie0830.github.io/highlight.min.js"
+    src="http://localhost:57223/highlight.min.js"
     onload="hljs.initHighlightingOnLoad()"
   ></script>
 
   
   <link
     rel="icon"
-    href="https://seansie0830.github.io/favicon.ico"
+    href="http://localhost:57223/favicon.ico"
   />
   <link
     rel="apple-touch-icon"
-    href="https://seansie0830.github.io/apple-touch-icon.png"
+    href="http://localhost:57223/apple-touch-icon.png"
   />
 
   <meta name="generator" content="Hugo 0.165.0">
-	<meta itemprop="name" content="Ch2：變數、結構、列舉 — 各種資料的形狀">
-	<meta itemprop="description" content="宣告：預設就是「乖乖牌」 在 Rust，變數預設是不可變的（Immutable）。這不是編譯器在找你麻煩，而是為了追求極致的效能與安全性。不可變變數讓編譯器能大膽地進行優化（例如直接內聯數值），同時在多執行緒環境下完全杜絕「資料競爭」。
-let mut variable: i32 = 1; variable = 2; // 沒問題，因為有 mut ⚡ 極速講解
-let：宣告關鍵字。在記憶體中劃出一塊領地。 mut：代表這變數是個「過動兒」，可以修改。Rust 故意讓這關鍵字多三個字母，就是要讓你每打一次 mut 就反省一次：真的需要修改嗎？ :i32：型態標示。Rust 會盡力幫你猜（型態推論），但如果它猜不到，它會噴紅字求救。 預設安全：如果你嘗試修改一個沒加 mut 的變數，編譯器會噴出史上最親切的錯誤訊息，甚至告訴你該在哪裡補上 mut。 遮擋 (Shadowing)：不想取名字的救星 遮擋跟 mut 完全不同。mut 是在同一個空間改數值，遮擋則是開一塊新空間，把舊的名字搶過來用，然後把舊的變數丟進碎紙機。
-let space = &#34; &#34;; // 這是一個字串切片 let space = space.len(); // 現在 space 變成了一個數字 (usize) 為什麼要用它？
-型態轉換：不需取名 space_str 和 space_int，讓你的命名空間保持乾淨。 不可變性保護：轉換完後，新的 space 依然是不可變的，避免了後續不小心誤改數值的風險。 未使用變數：給編譯器的「封口費」 Rust 編譯器非常囉唆，如果你宣告了一個變數卻從未讀取它，它會一直噴警告訊息給你。如果你確定這個變數現在不用（或是為了以後留著），請在名稱前面加上底線 _。
-let _unused_variable = 100; // 這樣編譯器就不會碎碎念了 let _ = 5 * 5; // 如果你連名字都懶得取，直接用底線接住它 數字與純量型態 (Scalars) 1. 整數家族：挑選合身的衣服 Rust 的整數分得很細，因為它在意每一 bit 的記憶體。
-型態 有號 (Signed) 無號 (Unsigned) 說明 8-bit i8 u8 小數字，u8 常代表位元組 (Byte) 32-bit i32 u32 預設首選，大部分 CPU 跑最快 Arch isize usize 根據 CPU 位元數決定，陣列索引必用 ⚡ 溢位行為：開發模式下溢位會直接 panic 報警；發布模式下會「環繞」 (Wrap-around)，即 255 &#43; 1 = 0。如果你想要確定的溢位行為，請使用 wrapping_add 或 checked_add。 2. 布林與字元 bool：只有 true 和 false。 char：支援 Unicode，一個佔 4 bytes。這代表你可以用表情符號當字元：let robot = &#39;🤖&#39;;。 線性容器與記憶體窗戶 1. Array (陣列)：[1, 2, 3] 長度固定：在編譯時就要確定大小，這讓它能穩穩地待在 Stack。 語法糖：let a = [3; 5]; 等同於 [3, 3, 3, 3, 3]。 安全性：如果你敢嘗試存取 a[10]，Rust 會在編譯期攔截你；如果索引是變數，則會在執行期 panic。永遠沒有緩衝區溢位。 2. Vec (動態陣列)：vec![1, 2, 3] 長度可變：存在 Heap，受所有權管理。 3. 切片 (Slice)：觀察資料的窗戶 切片 &amp;[T] 是 Rust 最精華的設計之一。它不擁有資料，它只是指向資料的一段區間。">
-	<meta itemprop="datePublished" content="2026-02-26T09:41:00+08:00">
-	<meta itemprop="dateModified" content="2026-02-26T09:41:00+08:00">
-	<meta itemprop="wordCount" content="364">
-	<meta itemprop="keywords" content="Rust,30天"><meta property="og:url" content="https://seansie0830.github.io/posts/rust-intro-ch2/">
-	<meta property="og:site_name" content="seansie&#39;s blog">
-	<meta property="og:title" content="Ch2：變數、結構、列舉 — 各種資料的形狀">
-	<meta property="og:description" content="宣告：預設就是「乖乖牌」 在 Rust，變數預設是不可變的（Immutable）。這不是編譯器在找你麻煩，而是為了追求極致的效能與安全性。不可變變數讓編譯器能大膽地進行優化（例如直接內聯數值），同時在多執行緒環境下完全杜絕「資料競爭」。
-let mut variable: i32 = 1; variable = 2; // 沒問題，因為有 mut ⚡ 極速講解
-let：宣告關鍵字。在記憶體中劃出一塊領地。 mut：代表這變數是個「過動兒」，可以修改。Rust 故意讓這關鍵字多三個字母，就是要讓你每打一次 mut 就反省一次：真的需要修改嗎？ :i32：型態標示。Rust 會盡力幫你猜（型態推論），但如果它猜不到，它會噴紅字求救。 預設安全：如果你嘗試修改一個沒加 mut 的變數，編譯器會噴出史上最親切的錯誤訊息，甚至告訴你該在哪裡補上 mut。 遮擋 (Shadowing)：不想取名字的救星 遮擋跟 mut 完全不同。mut 是在同一個空間改數值，遮擋則是開一塊新空間，把舊的名字搶過來用，然後把舊的變數丟進碎紙機。
-let space = &#34; &#34;; // 這是一個字串切片 let space = space.len(); // 現在 space 變成了一個數字 (usize) 為什麼要用它？
-型態轉換：不需取名 space_str 和 space_int，讓你的命名空間保持乾淨。 不可變性保護：轉換完後，新的 space 依然是不可變的，避免了後續不小心誤改數值的風險。 未使用變數：給編譯器的「封口費」 Rust 編譯器非常囉唆，如果你宣告了一個變數卻從未讀取它，它會一直噴警告訊息給你。如果你確定這個變數現在不用（或是為了以後留著），請在名稱前面加上底線 _。
-let _unused_variable = 100; // 這樣編譯器就不會碎碎念了 let _ = 5 * 5; // 如果你連名字都懶得取，直接用底線接住它 數字與純量型態 (Scalars) 1. 整數家族：挑選合身的衣服 Rust 的整數分得很細，因為它在意每一 bit 的記憶體。
-型態 有號 (Signed) 無號 (Unsigned) 說明 8-bit i8 u8 小數字，u8 常代表位元組 (Byte) 32-bit i32 u32 預設首選，大部分 CPU 跑最快 Arch isize usize 根據 CPU 位元數決定，陣列索引必用 ⚡ 溢位行為：開發模式下溢位會直接 panic 報警；發布模式下會「環繞」 (Wrap-around)，即 255 &#43; 1 = 0。如果你想要確定的溢位行為，請使用 wrapping_add 或 checked_add。 2. 布林與字元 bool：只有 true 和 false。 char：支援 Unicode，一個佔 4 bytes。這代表你可以用表情符號當字元：let robot = &#39;🤖&#39;;。 線性容器與記憶體窗戶 1. Array (陣列)：[1, 2, 3] 長度固定：在編譯時就要確定大小，這讓它能穩穩地待在 Stack。 語法糖：let a = [3; 5]; 等同於 [3, 3, 3, 3, 3]。 安全性：如果你敢嘗試存取 a[10]，Rust 會在編譯期攔截你；如果索引是變數，則會在執行期 panic。永遠沒有緩衝區溢位。 2. Vec (動態陣列)：vec![1, 2, 3] 長度可變：存在 Heap，受所有權管理。 3. 切片 (Slice)：觀察資料的窗戶 切片 &amp;[T] 是 Rust 最精華的設計之一。它不擁有資料，它只是指向資料的一段區間。">
-	<meta property="og:locale" content="zh_tw">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-02-26T09:41:00+08:00">
-		<meta property="article:modified_time" content="2026-02-26T09:41:00+08:00">
-		<meta property="article:tag" content="Rust">
-		<meta property="article:tag" content="30天">
-
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Ch2：變數、結構、列舉 — 各種資料的形狀">
-	<meta name="twitter:description" content="宣告：預設就是「乖乖牌」 在 Rust，變數預設是不可變的（Immutable）。這不是編譯器在找你麻煩，而是為了追求極致的效能與安全性。不可變變數讓編譯器能大膽地進行優化（例如直接內聯數值），同時在多執行緒環境下完全杜絕「資料競爭」。
-let mut variable: i32 = 1; variable = 2; // 沒問題，因為有 mut ⚡ 極速講解
-let：宣告關鍵字。在記憶體中劃出一塊領地。 mut：代表這變數是個「過動兒」，可以修改。Rust 故意讓這關鍵字多三個字母，就是要讓你每打一次 mut 就反省一次：真的需要修改嗎？ :i32：型態標示。Rust 會盡力幫你猜（型態推論），但如果它猜不到，它會噴紅字求救。 預設安全：如果你嘗試修改一個沒加 mut 的變數，編譯器會噴出史上最親切的錯誤訊息，甚至告訴你該在哪裡補上 mut。 遮擋 (Shadowing)：不想取名字的救星 遮擋跟 mut 完全不同。mut 是在同一個空間改數值，遮擋則是開一塊新空間，把舊的名字搶過來用，然後把舊的變數丟進碎紙機。
-let space = &#34; &#34;; // 這是一個字串切片 let space = space.len(); // 現在 space 變成了一個數字 (usize) 為什麼要用它？
-型態轉換：不需取名 space_str 和 space_int，讓你的命名空間保持乾淨。 不可變性保護：轉換完後，新的 space 依然是不可變的，避免了後續不小心誤改數值的風險。 未使用變數：給編譯器的「封口費」 Rust 編譯器非常囉唆，如果你宣告了一個變數卻從未讀取它，它會一直噴警告訊息給你。如果你確定這個變數現在不用（或是為了以後留著），請在名稱前面加上底線 _。
-let _unused_variable = 100; // 這樣編譯器就不會碎碎念了 let _ = 5 * 5; // 如果你連名字都懶得取，直接用底線接住它 數字與純量型態 (Scalars) 1. 整數家族：挑選合身的衣服 Rust 的整數分得很細，因為它在意每一 bit 的記憶體。
-型態 有號 (Signed) 無號 (Unsigned) 說明 8-bit i8 u8 小數字，u8 常代表位元組 (Byte) 32-bit i32 u32 預設首選，大部分 CPU 跑最快 Arch isize usize 根據 CPU 位元數決定，陣列索引必用 ⚡ 溢位行為：開發模式下溢位會直接 panic 報警；發布模式下會「環繞」 (Wrap-around)，即 255 &#43; 1 = 0。如果你想要確定的溢位行為，請使用 wrapping_add 或 checked_add。 2. 布林與字元 bool：只有 true 和 false。 char：支援 Unicode，一個佔 4 bytes。這代表你可以用表情符號當字元：let robot = &#39;🤖&#39;;。 線性容器與記憶體窗戶 1. Array (陣列)：[1, 2, 3] 長度固定：在編譯時就要確定大小，這讓它能穩穩地待在 Stack。 語法糖：let a = [3; 5]; 等同於 [3, 3, 3, 3, 3]。 安全性：如果你敢嘗試存取 a[10]，Rust 會在編譯期攔截你；如果索引是變數，則會在執行期 panic。永遠沒有緩衝區溢位。 2. Vec (動態陣列)：vec![1, 2, 3] 長度可變：存在 Heap，受所有權管理。 3. 切片 (Slice)：觀察資料的窗戶 切片 &amp;[T] 是 Rust 最精華的設計之一。它不擁有資料，它只是指向資料的一段區間。">
-
-  <link rel="canonical" href="https://seansie0830.github.io/posts/rust-intro-ch2/" />
 </head>
 <body
     class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
@@ -178,7 +138,7 @@ let _unused_variable = 100; // 這樣編譯器就不會碎碎念了 let _ = 5 * 
   <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
     <a
       class="-translate-y-[1px] text-2xl font-medium"
-      href="https://seansie0830.github.io/"
+      href="http://localhost:57223/"
       >seansie&#39;s blog</a
     >
     <div
@@ -406,25 +366,25 @@ let _unused_variable = 100; // 這樣編譯器就不會碎碎念了 let _ = 5 * 
 
   <footer class="mt-12 flex flex-wrap"><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/rust"
+      href="http://localhost:57223/tags/rust"
       >rust</a
     ><a
       class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
-      href="https://seansie0830.github.io/tags/30%E5%A4%A9"
+      href="http://localhost:57223/tags/30%E5%A4%A9"
       >30天</a
     ></footer><nav
     class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
-  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/rust-intro-ch3/"
+  ><a class="ltr:pr-3 rtl:pl-3" href="http://localhost:57223/posts/rust-intro-ch3/"
       ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Ch3：控制流與解構術 — 邏輯的對稱之美</span></a
     ><a
       class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
-      href="https://seansie0830.github.io/posts/rust-intro-ch1/"
+      href="http://localhost:57223/posts/rust-intro-ch1/"
       ><span>Ch1：為什麼是 Rust？記憶體安全的暴力美學</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
     ></nav></article></main><footer
   class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
 >
   <div class="mr-auto">&copy;2026
-    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
   <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
     >powered by hugo️️</a
   >️

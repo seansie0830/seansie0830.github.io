@@ -1,0 +1,337 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=57223&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>透過簡單的 leetcode 題目來學習 go 的基礎語法 #1 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="受眾
+有基礎程式語法能力的，變數，分支，迴圈，函數等。
+最後一個單字的長度
+https://leetcode.com/problems/length-of-last-word/
+func lengthOfLastWord(s string) int {
+    tok := strings.Fields(s)
+    return len(tok[len(tok)-1])
+}
+逐行解析
+
+:= 是宣告的語法， go 會自動推論 資料型態，這樣可以少寫一點，不過這種語法只能放在函數之外
+strings.Fields() 輸入字串 輸出依照 空格切割的字串
+len() 輸出長度，僅限於以下資料型態
+
+字串（string）：傳回位元組（byte）長度。
+陣列（array）：傳回陣列固定長度。
+切片（slice）：傳回目前元素個數。映射（map）：傳回鍵值對（key-value）數量。
+通道（channel）：傳回目前通道緩衝區中未被讀取的元素個數。
+指標（指向陣列）：若是指向陣列的指標，同樣支援
+
+
+
+是否有重複
+https://leetcode.com/problems/contains-duplicate/
+func containsDuplicate(nums []int) bool {
+    freq := make(map[int]int)
+    for _ , v := range nums{
+        freq[v] = freq[v]&#43;1
+    }
+    for _ ,v := range freq{
+        if v != 1 {
+            return true;
+        }
+    }
+    return false;
+
+}
+逐行解析
+
+freq := make(map[int]int)
+
+這個 make 函數是 go 的資料結構的 工廠函數 他會回傳一個空的資料結構，除了 map 還有其他東西都可以
+
+切片 (Slices)：配置底層陣列並回傳切片。
+映射 (Maps)：初始化雜湊表結構。
+通道 (Channels)：初始化並配置佇列緩衝區。
+
+
+為甚麼要用 make ?
+
+因為 slice , map , ch 是引用型別 Reference Types ，預設不是 0 而是 nil 如果不用 make 進行初始化會錯誤， make 會當成類似初始化的步驟。
+
+
+for _ , v := range nums
+
+這是 go 針對內建五種可迭代資料型態(切片（Slice）、陣列（Array）、地圖（Map）、字串（String）、通道（Channel）。 剛剛有提過)，提供一個語法糖(就是讓開發者可以寫得比較方便的語法這樣)，也就是 for range 語法
+這個意思就是 for i,v := range nums 從 nums 開始走訪元素，然後把 索引( index 因為這個例子用不到 所以用 _ 代表) 設為 i (慣例)，然後元素數值設定為 v 然後重複執行直到走訪完所有元素。
+freq[v] = freq[v]&#43;1 就標準的 &#43;1 寫法，運用了 go 的 map 的 int 初始化的時候數值為 0
+
+
+
+
+
+242. Valid Anagram
+https://leetcode.com/problems/valid-anagram/" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="http://localhost:57223/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="http://localhost:57223/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="http://localhost:57223/github.svg" />
+
+  <script
+    defer
+    src="http://localhost:57223/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:57223/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:57223/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="http://localhost:57223/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">透過簡單的 leetcode 題目來學習 go 的基礎語法 #1</h1><div class="text-xs antialiased opacity-60"><time>Aug 18, 2026</time></div></header>
+
+  <section><h2 id="受眾">受眾</h2>
+<p>有基礎程式語法能力的，變數，分支，迴圈，函數等。</p>
+<h2 id="最後一個單字的長度">最後一個單字的長度</h2>
+<p><a href="https://leetcode.com/problems/length-of-last-word/">https://leetcode.com/problems/length-of-last-word/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">lengthOfLastWord</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Fields</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">tok</span>[len(<span style="color:#a6e22e">tok</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="逐行解析">逐行解析</h3>
+<ul>
+<li><code>:=</code> 是宣告的語法， go 會自動推論 資料型態，這樣可以少寫一點，不過這種語法只能放在函數之外</li>
+<li><code>strings.Fields()</code> 輸入字串 輸出依照 空格切割的字串</li>
+<li><code>len()</code> 輸出長度，僅限於以下資料型態
+<ul>
+<li>字串（string）：傳回位元組（byte）長度。</li>
+<li>陣列（array）：傳回陣列固定長度。</li>
+<li>切片（slice）：傳回目前元素個數。映射（map）：傳回鍵值對（key-value）數量。</li>
+<li>通道（channel）：傳回目前通道緩衝區中未被讀取的元素個數。</li>
+<li>指標（指向陣列）：若是指向陣列的指標，同樣支援</li>
+</ul>
+</li>
+</ul>
+<h2 id="是否有重複">是否有重複</h2>
+<p><a href="https://leetcode.com/problems/contains-duplicate/">https://leetcode.com/problems/contains-duplicate/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">containsDuplicate</span>(<span style="color:#a6e22e">nums</span> []<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">freq</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">int</span>]<span style="color:#66d9ef">int</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span> , <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">nums</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">freq</span>[<span style="color:#a6e22e">v</span>] = <span style="color:#a6e22e">freq</span>[<span style="color:#a6e22e">v</span>]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span> ,<span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">freq</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="逐行解析-1">逐行解析</h3>
+<ul>
+<li><code>freq := make(map[int]int)</code>
+<ul>
+<li>這個 <code>make</code> 函數是 go 的資料結構的 <strong>工廠函數</strong> 他會回傳一個空的資料結構，除了 map 還有其他東西都可以
+<ul>
+<li><strong>切片</strong> (Slices)：配置底層陣列並回傳切片。</li>
+<li><strong>映射</strong> (Maps)：初始化雜湊表結構。</li>
+<li><strong>通道</strong> (Channels)：初始化並配置佇列緩衝區。</li>
+</ul>
+</li>
+<li>為甚麼要用 <code>make</code> ?
+<ul>
+<li>因為 slice , map , ch 是引用型別 Reference Types ，預設不是 0 而是 <code>nil</code> 如果不用 <code>make</code> 進行初始化會錯誤， <code>make</code> 會當成類似初始化的步驟。</li>
+</ul>
+</li>
+<li><code>for _ , v := range nums</code>
+<ul>
+<li>這是 <code>go</code> 針對內建五種可迭代資料型態(切片（Slice）、陣列（Array）、地圖（Map）、字串（String）、通道（Channel）。 剛剛有提過)，提供一個<strong>語法糖</strong>(就是讓開發者可以寫得比較方便的語法這樣)，也就是 <code>for</code> <code>range</code> 語法</li>
+<li>這個意思就是 <code>for i,v := range nums</code> 從 <code>nums</code> 開始走訪元素，然後把 索引( index 因為這個例子用不到 所以用 <code>_</code> 代表) 設為 <code>i</code> (慣例)，然後元素數值設定為 <code>v</code> 然後重複執行直到走訪完所有元素。</li>
+<li><code>freq[v] = freq[v]+1</code> 就標準的 +1 寫法，運用了 go 的 map 的 <code>int</code> 初始化的時候數值為 0</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="242-valid-anagram">242. Valid Anagram</h2>
+<p><a href="https://leetcode.com/problems/valid-anagram/">https://leetcode.com/problems/valid-anagram/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">isAnagram</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">t</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">s</span>) <span style="color:#f92672">!=</span> len(<span style="color:#a6e22e">t</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sMap</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">26</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tMap</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">26</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sMap</span>[<span style="color:#a6e22e">ch</span><span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">t</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">tMap</span>[<span style="color:#a6e22e">ch</span><span style="color:#f92672">-</span><span style="color:#e6db74">&#39;a&#39;</span>]<span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">26</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">sMap</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tMap</span>[<span style="color:#a6e22e">i</span>] {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="逐行解析-2">逐行解析</h3>
+<ul>
+<li><code>sMap := make([]int, 26)</code>
+<ul>
+<li>slice 的 make 用法，記得最後要放切片的長度</li>
+</ul>
+</li>
+</ul>
+<h2 id="反轉-ascii-的字串">反轉 ascii 的字串</h2>
+<p><a href="https://leetcode.com/problems/reverse-string/">https://leetcode.com/problems/reverse-string/</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">reverseString</span>(<span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">byte</span>)  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">slices</span>.<span style="color:#a6e22e">Reverse</span>(<span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="逐行解析-3">逐行解析</h3>
+<ul>
+<li>就練習一下 go 的 builtin function</li>
+</ul>
+<blockquote>
+<p>注意 : 這只有 ascii 的字串才能這樣搞， utf8 的要先轉換成 <code>rune</code> (就是 utf8 的字元 跟 ascii 不一樣)，然後用 two pointer 的方法手動轉換。</p>
+</blockquote>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="http://localhost:57223/posts/rust-intro-ch8/"
+      ><span>Ch8：生態系、模組與你的 Rust 之路</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="http://localhost:57223/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
