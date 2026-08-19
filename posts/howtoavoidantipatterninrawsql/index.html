@@ -1,0 +1,403 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>避開效能暗礁：常見 SQL Anti-Patterns 解析與重構實踐 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在資料庫驅動的應用系統中，隨著資料量的指數級增長，SQL 查詢往往會從「系統的核心驅動力」轉變為「整體效能的致命瓶頸」。許多在開發初期運作良好的查詢邏輯，本質上潛藏著未考慮資料庫底層執行機制（如索引遍歷、執行計畫生成、I/O 吞吐與記憶體緩衝區配置）的設計缺陷。
+本文聚焦於效能層面，深入剖析 6 種最常見且具破壞力的 SQL Anti-Patterns，拆解其背後導致效能衰退的硬體與架構機制，並提供符合現代資料庫實踐的重構方案。
+
+1. 濫用 SELECT *（過度擷取）
+在開發或快速除錯時使用 SELECT * 相當直覺，但在生產環境中，這往往是造成無謂 I/O 與網路延遲的首要元兇。
+效能問題機制
+
+阻礙覆蓋索引（Covering Index）： 若查詢僅需特定的幾個欄位，而這些欄位皆存在於某個複合索引中，資料庫引擎只需掃描 B-Tree 索引頁（Index-Only Scan），無需回表（Table Lookup / Bookmark Lookup）讀取主資料檔。使用 SELECT * 會強制資料庫執行高成本的回表讀取。
+增加 I/O 與 Buffer Pool 壓力： 讀取包含巨大文字（TEXT、BLOB）或不必要的欄位會耗盡資料庫的快取記憶體（Buffer Cache），擠出其他高頻查詢所需的熱資料頁。
+網路頻寬消耗： 傳輸序列化後的額外資料會直接拉長 API 的 TTFB（Time to First Byte）。
+
+重構方式
+明確宣告所需欄位，並為高頻讀取設計適當的覆蓋索引：
+-- ❌ Anti-Pattern: 全欄位檢索，強制回表
+SELECT * 
+FROM orders 
+WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;;
+
+--  Best Practice: 僅讀取業務所需欄位，搭配複合索引 (customer_id, status, order_id, total_amount)
+SELECT order_id, total_amount, created_at 
+FROM orders 
+WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;;
+
+2. 條件欄位運算導致索引失效（Non-Sargable Queries）
+SARGable（Search Argument Able）代表查詢條件能夠有效利用索引進行範圍掃描（Index Range Scan）或點查（Index Seek）。對條件欄位進行函數運算或型態轉換是開發中最常見的效能陷阱。" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="避開效能暗礁：常見 SQL Anti-Patterns 解析與重構實踐">
+	<meta itemprop="description" content="在資料庫驅動的應用系統中，隨著資料量的指數級增長，SQL 查詢往往會從「系統的核心驅動力」轉變為「整體效能的致命瓶頸」。許多在開發初期運作良好的查詢邏輯，本質上潛藏著未考慮資料庫底層執行機制（如索引遍歷、執行計畫生成、I/O 吞吐與記憶體緩衝區配置）的設計缺陷。
+本文聚焦於效能層面，深入剖析 6 種最常見且具破壞力的 SQL Anti-Patterns，拆解其背後導致效能衰退的硬體與架構機制，並提供符合現代資料庫實踐的重構方案。
+1. 濫用 SELECT *（過度擷取） 在開發或快速除錯時使用 SELECT * 相當直覺，但在生產環境中，這往往是造成無謂 I/O 與網路延遲的首要元兇。
+效能問題機制 阻礙覆蓋索引（Covering Index）： 若查詢僅需特定的幾個欄位，而這些欄位皆存在於某個複合索引中，資料庫引擎只需掃描 B-Tree 索引頁（Index-Only Scan），無需回表（Table Lookup / Bookmark Lookup）讀取主資料檔。使用 SELECT * 會強制資料庫執行高成本的回表讀取。 增加 I/O 與 Buffer Pool 壓力： 讀取包含巨大文字（TEXT、BLOB）或不必要的欄位會耗盡資料庫的快取記憶體（Buffer Cache），擠出其他高頻查詢所需的熱資料頁。 網路頻寬消耗： 傳輸序列化後的額外資料會直接拉長 API 的 TTFB（Time to First Byte）。 重構方式 明確宣告所需欄位，並為高頻讀取設計適當的覆蓋索引：
+-- ❌ Anti-Pattern: 全欄位檢索，強制回表 SELECT * FROM orders WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;; -- Best Practice: 僅讀取業務所需欄位，搭配複合索引 (customer_id, status, order_id, total_amount) SELECT order_id, total_amount, created_at FROM orders WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;; 2. 條件欄位運算導致索引失效（Non-Sargable Queries） SARGable（Search Argument Able）代表查詢條件能夠有效利用索引進行範圍掃描（Index Range Scan）或點查（Index Seek）。對條件欄位進行函數運算或型態轉換是開發中最常見的效能陷阱。">
+	<meta itemprop="datePublished" content="2026-08-19T22:39:07+08:00">
+	<meta itemprop="dateModified" content="2026-08-19T22:39:07+08:00">
+	<meta itemprop="wordCount" content="594"><meta property="og:url" content="https://seansie0830.github.io/posts/howtoavoidantipatterninrawsql/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="避開效能暗礁：常見 SQL Anti-Patterns 解析與重構實踐">
+	<meta property="og:description" content="在資料庫驅動的應用系統中，隨著資料量的指數級增長，SQL 查詢往往會從「系統的核心驅動力」轉變為「整體效能的致命瓶頸」。許多在開發初期運作良好的查詢邏輯，本質上潛藏著未考慮資料庫底層執行機制（如索引遍歷、執行計畫生成、I/O 吞吐與記憶體緩衝區配置）的設計缺陷。
+本文聚焦於效能層面，深入剖析 6 種最常見且具破壞力的 SQL Anti-Patterns，拆解其背後導致效能衰退的硬體與架構機制，並提供符合現代資料庫實踐的重構方案。
+1. 濫用 SELECT *（過度擷取） 在開發或快速除錯時使用 SELECT * 相當直覺，但在生產環境中，這往往是造成無謂 I/O 與網路延遲的首要元兇。
+效能問題機制 阻礙覆蓋索引（Covering Index）： 若查詢僅需特定的幾個欄位，而這些欄位皆存在於某個複合索引中，資料庫引擎只需掃描 B-Tree 索引頁（Index-Only Scan），無需回表（Table Lookup / Bookmark Lookup）讀取主資料檔。使用 SELECT * 會強制資料庫執行高成本的回表讀取。 增加 I/O 與 Buffer Pool 壓力： 讀取包含巨大文字（TEXT、BLOB）或不必要的欄位會耗盡資料庫的快取記憶體（Buffer Cache），擠出其他高頻查詢所需的熱資料頁。 網路頻寬消耗： 傳輸序列化後的額外資料會直接拉長 API 的 TTFB（Time to First Byte）。 重構方式 明確宣告所需欄位，並為高頻讀取設計適當的覆蓋索引：
+-- ❌ Anti-Pattern: 全欄位檢索，強制回表 SELECT * FROM orders WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;; -- Best Practice: 僅讀取業務所需欄位，搭配複合索引 (customer_id, status, order_id, total_amount) SELECT order_id, total_amount, created_at FROM orders WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;; 2. 條件欄位運算導致索引失效（Non-Sargable Queries） SARGable（Search Argument Able）代表查詢條件能夠有效利用索引進行範圍掃描（Index Range Scan）或點查（Index Seek）。對條件欄位進行函數運算或型態轉換是開發中最常見的效能陷阱。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-19T22:39:07+08:00">
+		<meta property="article:modified_time" content="2026-08-19T22:39:07+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="避開效能暗礁：常見 SQL Anti-Patterns 解析與重構實踐">
+	<meta name="twitter:description" content="在資料庫驅動的應用系統中，隨著資料量的指數級增長，SQL 查詢往往會從「系統的核心驅動力」轉變為「整體效能的致命瓶頸」。許多在開發初期運作良好的查詢邏輯，本質上潛藏著未考慮資料庫底層執行機制（如索引遍歷、執行計畫生成、I/O 吞吐與記憶體緩衝區配置）的設計缺陷。
+本文聚焦於效能層面，深入剖析 6 種最常見且具破壞力的 SQL Anti-Patterns，拆解其背後導致效能衰退的硬體與架構機制，並提供符合現代資料庫實踐的重構方案。
+1. 濫用 SELECT *（過度擷取） 在開發或快速除錯時使用 SELECT * 相當直覺，但在生產環境中，這往往是造成無謂 I/O 與網路延遲的首要元兇。
+效能問題機制 阻礙覆蓋索引（Covering Index）： 若查詢僅需特定的幾個欄位，而這些欄位皆存在於某個複合索引中，資料庫引擎只需掃描 B-Tree 索引頁（Index-Only Scan），無需回表（Table Lookup / Bookmark Lookup）讀取主資料檔。使用 SELECT * 會強制資料庫執行高成本的回表讀取。 增加 I/O 與 Buffer Pool 壓力： 讀取包含巨大文字（TEXT、BLOB）或不必要的欄位會耗盡資料庫的快取記憶體（Buffer Cache），擠出其他高頻查詢所需的熱資料頁。 網路頻寬消耗： 傳輸序列化後的額外資料會直接拉長 API 的 TTFB（Time to First Byte）。 重構方式 明確宣告所需欄位，並為高頻讀取設計適當的覆蓋索引：
+-- ❌ Anti-Pattern: 全欄位檢索，強制回表 SELECT * FROM orders WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;; -- Best Practice: 僅讀取業務所需欄位，搭配複合索引 (customer_id, status, order_id, total_amount) SELECT order_id, total_amount, created_at FROM orders WHERE customer_id = 1042 AND status = &#39;COMPLETED&#39;; 2. 條件欄位運算導致索引失效（Non-Sargable Queries） SARGable（Search Argument Able）代表查詢條件能夠有效利用索引進行範圍掃描（Index Range Scan）或點查（Index Seek）。對條件欄位進行函數運算或型態轉換是開發中最常見的效能陷阱。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/howtoavoidantipatterninrawsql/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">避開效能暗礁：常見 SQL Anti-Patterns 解析與重構實踐</h1><div class="text-xs antialiased opacity-60"><time>Aug 19, 2026</time></div></header>
+
+  <section><p>在資料庫驅動的應用系統中，隨著資料量的指數級增長，SQL 查詢往往會從「系統的核心驅動力」轉變為「整體效能的致命瓶頸」。許多在開發初期運作良好的查詢邏輯，本質上潛藏著未考慮資料庫底層執行機制（如索引遍歷、執行計畫生成、I/O 吞吐與記憶體緩衝區配置）的設計缺陷。</p>
+<p>本文聚焦於<strong>效能層面</strong>，深入剖析 6 種最常見且具破壞力的 SQL Anti-Patterns，拆解其背後導致效能衰退的硬體與架構機制，並提供符合現代資料庫實踐的重構方案。</p>
+<hr>
+<h2 id="1-濫用-select-過度擷取">1. 濫用 <code>SELECT *</code>（過度擷取）</h2>
+<p>在開發或快速除錯時使用 <code>SELECT *</code> 相當直覺，但在生產環境中，這往往是造成無謂 I/O 與網路延遲的首要元兇。</p>
+<h3 id="效能問題機制">效能問題機制</h3>
+<ul>
+<li><strong>阻礙覆蓋索引（Covering Index）：</strong> 若查詢僅需特定的幾個欄位，而這些欄位皆存在於某個複合索引中，資料庫引擎只需掃描 B-Tree 索引頁（Index-Only Scan），無需回表（Table Lookup / Bookmark Lookup）讀取主資料檔。使用 <code>SELECT *</code> 會強制資料庫執行高成本的回表讀取。</li>
+<li><strong>增加 I/O 與 Buffer Pool 壓力：</strong> 讀取包含巨大文字（<code>TEXT</code>、<code>BLOB</code>）或不必要的欄位會耗盡資料庫的快取記憶體（Buffer Cache），擠出其他高頻查詢所需的熱資料頁。</li>
+<li><strong>網路頻寬消耗：</strong> 傳輸序列化後的額外資料會直接拉長 API 的 TTFB（Time to First Byte）。</li>
+</ul>
+<h3 id="重構方式">重構方式</h3>
+<p>明確宣告所需欄位，並為高頻讀取設計適當的覆蓋索引：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- ❌ Anti-Pattern: 全欄位檢索，強制回表
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> orders 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1042</span> <span style="color:#66d9ef">AND</span> status <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;COMPLETED&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice: 僅讀取業務所需欄位，搭配複合索引 (customer_id, status, order_id, total_amount)
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> order_id, total_amount, created_at 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> orders 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> customer_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1042</span> <span style="color:#66d9ef">AND</span> status <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;COMPLETED&#39;</span>;
+</span></span></code></pre></div><hr>
+<h2 id="2-條件欄位運算導致索引失效non-sargable-queries">2. 條件欄位運算導致索引失效（Non-Sargable Queries）</h2>
+<p><strong>SARGable</strong>（Search Argument Able）代表查詢條件能夠有效利用索引進行範圍掃描（Index Range Scan）或點查（Index Seek）。對條件欄位進行函數運算或型態轉換是開發中最常見的效能陷阱。</p>
+<h3 id="效能問題機制-1">效能問題機制</h3>
+<p>B-Tree 索引是根據<strong>原始欄位值</strong>進行排序存儲的。一旦在 <code>WHERE</code> 條件中對索引欄位施加函數運算（如 <code>YEAR(date)</code>）或字串比對（如 <code>SUBSTRING(code, 1, 3)</code>），查詢優化器（Query Optimizer）將無法預先得知函數計算後的排序關係，只能被迫退化為<strong>全表掃描（Full Table Scan）<strong>或</strong>全索引掃描（Index Full Scan）</strong>，對每一筆記錄逐一計算。</p>
+<h3 id="重構方式-1">重構方式</h3>
+<p>將計算邏輯移至常數端，保持欄位本身的純粹性：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- ❌ Anti-Pattern: 對索引欄位施加函數，導致全表掃描
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, transaction_amount 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> transactions 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">YEAR</span>(created_at) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2026</span> <span style="color:#66d9ef">AND</span> <span style="color:#66d9ef">MONTH</span>(created_at) <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice: 轉換為開閉區間的常數比對，觸發 Index Seek
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, transaction_amount 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> transactions 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> created_at <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39;2026-08-01 00:00:00&#39;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AND</span> created_at <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#39;2026-09-01 00:00:00&#39;</span>;
+</span></span></code></pre></div><blockquote>
+<p><strong>注意：</strong> 隱式型別轉換（Implicit Type Conversion，例如在字串型別的 <code>phone</code> 欄位上使用數字比對 <code>WHERE phone = 0912345678</code>）底層會自動包裹型別轉換函數，同樣會徹底破壞索引。</p>
+</blockquote>
+<hr>
+<h2 id="3-前置模糊搜尋leading-wildcard-like">3. 前置模糊搜尋（Leading Wildcard Like）</h2>
+<p>在文字搜尋情境中，直接使用萬用字元 <code>%</code> 開頭進行比對是效能崩潰的經典來源。</p>
+<h3 id="效能問題機制-2">效能問題機制</h3>
+<p>標準 B-Tree 索引按照字元的前綴字母順序構建。使用前置萬用字元（如 <code>LIKE '%keyword'</code> 或 <code>LIKE '%keyword%'</code>）會使前綴資訊完全丟失，資料庫無法利用 B-Tree 的二分搜尋特性定位節點，僅能執行高成本的全表循序掃描。</p>
+<h3 id="重構方式-2">重構方式</h3>
+<ul>
+<li>若業務需求僅為前綴匹配，移除開頭的萬用字元：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- ❌ Anti-Pattern: 全表掃描
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, email <span style="color:#66d9ef">FROM</span> users <span style="color:#66d9ef">WHERE</span> email <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;%@example.com&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice (若支援後綴查詢情境): 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- 1. 改為精準前綴比對
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, username <span style="color:#66d9ef">FROM</span> users <span style="color:#66d9ef">WHERE</span> username <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;dev_%&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 2. 或建立反轉字串索引（Reverse Index）優化後綴比對
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, email <span style="color:#66d9ef">FROM</span> users <span style="color:#66d9ef">WHERE</span> reversed_email <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;moc.elpmaxe@%&#39;</span>;
+</span></span></code></pre></div><ul>
+<li>若必須支援任意子字串全文搜尋，應引入全文檢索（Full-Text Search, FTS）引擎（如 PostgreSQL GIN 索引、MySQL Full-Text，或外部分散式搜尋引擎 Elasticsearch / OpenSearch），而非依賴關聯式資料庫的 <code>LIKE</code> 運算。</li>
+</ul>
+<hr>
+<h2 id="4-深度分頁的-offset-效能衰退deep-pagination">4. 深度分頁的 <code>OFFSET</code> 效能衰退（Deep Pagination）</h2>
+<p>傳統的分頁方式常採用 <code>LIMIT offset, count</code> 語法，但在巨量資料集下，頁數越深，查詢耗時會呈線性甚至指數級增長。</p>
+<h3 id="效能問題機制-3">效能問題機制</h3>
+<p>當執行 <code>LIMIT 1000000, 20</code> 時，資料庫並非「跳過」前 100 萬筆資料，而是必須先掃描並依序讀取 1,000,020 筆記錄到記憶體中，排序後捨棄前 1,000,000 筆，僅返回最後 20 筆。這產生了極其龐大且完全無效的磁碟與記憶體 I/O。</p>
+<h3 id="重構方式seek-method--keysize-pagination">重構方式：Seek Method / Keysize Pagination</h3>
+<p>採用<strong>游標分頁（Cursor-based Pagination）</strong>，利用唯一且具遞增性的索引鍵（如 <code>id</code> 或時間戳記）作為錨點：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- ❌ Anti-Pattern: 深度分頁造成大量無效掃描
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, title, created_at 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> articles 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> id <span style="color:#66d9ef">DESC</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">20</span> <span style="color:#66d9ef">OFFSET</span> <span style="color:#ae81ff">1000000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice: 利用上一頁最後一筆 ID 進行條件篩選，直接由索引定位
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, title, created_at 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> articles 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> id <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">984520</span>  <span style="color:#75715e">-- 上一頁最後一筆記錄的 ID
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> id <span style="color:#66d9ef">DESC</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">20</span>;
+</span></span></code></pre></div><hr>
+<h2 id="5-迴圈中的-n1-查詢n1-query-problem">5. 迴圈中的 N+1 查詢（N+1 Query Problem）</h2>
+<p>此問題常伴隨著 ORM（Object-Relational Mapping）的關聯讀取機制發生，例如在遍歷主資料表的每一行時，內部獨立觸發一次次要資料表的查詢。</p>
+<h3 id="效能問題機制-4">效能問題機制</h3>
+<p>即使單次查詢極快（例如 1 毫秒），當主集合有 $N$ 筆記錄時，系統會額外執行 $N$ 次 SQL 呼叫。這會急遽放大<strong>網路往返延遲（Network Round-Trip Time, RTT）</strong>、連線池排隊時間與資料庫執行緒上下文切換（Context Switching）成本。</p>
+<h3 id="重構方式-3">重構方式</h3>
+<p>利用單次關聯查詢（<code>JOIN</code>）或批次聚合（<code>IN (...)</code>）取代多次往返：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- ❌ Anti-Pattern (偽代碼): 1 次取列表 + N 次取關聯資料
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- Query 1: SELECT id FROM users WHERE role = &#39;ENGINEER&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">-- Loop (N 次): SELECT * FROM user_profiles WHERE user_id = ?;
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice 1: 單次 JOIN 聚合
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> u.id, u.email, p.bio, p.avatar_url
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> users u
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> user_profiles p <span style="color:#66d9ef">ON</span> u.id <span style="color:#f92672">=</span> p.user_id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> u.<span style="color:#66d9ef">role</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ENGINEER&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice 2: 批次 IN 檢索（ORM 常用的 Eager Loading 機制）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">FROM</span> user_profiles <span style="color:#66d9ef">WHERE</span> user_id <span style="color:#66d9ef">IN</span> (<span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">102</span>, <span style="color:#ae81ff">103</span>, ...);
+</span></span></code></pre></div><hr>
+<h2 id="6-在子查詢中使用低效的-not-in">6. 在子查詢中使用低效的 <code>NOT IN</code></h2>
+<p>在進行集合排他性過濾時，<code>NOT IN</code> 語法不僅可讀性脆弱，在包含 NULL 值的資料集中更容易產生災難性的效能表現。</p>
+<h3 id="效能問題機制-5">效能問題機制</h3>
+<ul>
+<li><strong>三值邏輯（Three-Valued Logic）陷阱：</strong> SQL 中的 NULL 代表未知（Unknown）。若 <code>NOT IN (Subquery)</code> 的子查詢結果集中包含任何一個 <code>NULL</code>，整體比對結果將永遠評估為 <code>UNKNOWN</code>/<code>FALSE</code>。</li>
+<li><strong>無法優化為 Anti-Join：</strong> 為了遵循 NULL 的語言規範，查詢優化器往往無法將 <code>NOT IN</code> 轉換為高效的 Hash Anti-Join 或 Merge Anti-Join，而被迫退化為低效的相關子查詢嵌套循環（Correlated Nested Loop），複雜度高達 $O(M \times N)$。</li>
+</ul>
+<h3 id="重構方式-4">重構方式</h3>
+<p>改用 <code>NOT EXISTS</code> 或 <code>LEFT JOIN ... WHERE ... IS NULL</code>，讓優化器能夠安全採用 Anti-Join 演算法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- ❌ Anti-Pattern: NOT IN 遇到 NULL 會產生語意問題且通常無法優化
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, name 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> customers 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> id <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">IN</span> (<span style="color:#66d9ef">SELECT</span> customer_id <span style="color:#66d9ef">FROM</span> blacklist);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">--  Best Practice: 使用 NOT EXISTS（短路運算，且對 NULL 免疫）
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">c</span>.id, <span style="color:#66d9ef">c</span>.name 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> customers <span style="color:#66d9ef">c</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SELECT</span> <span style="color:#ae81ff">1</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">FROM</span> blacklist b 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">WHERE</span> b.customer_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">c</span>.id
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><hr>
+<h2 id="效能重構對照表">效能重構對照表</h2>
+<table>
+	<thead>
+			<tr>
+					<th>Anti-Pattern</th>
+					<th>根本問題</th>
+					<th>效能影響</th>
+					<th>推薦重構方案</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong><code>SELECT *</code></strong></td>
+					<td>讀取無用欄位、破壞覆蓋索引</td>
+					<td>額外 I/O、記憶體快取被稀釋</td>
+					<td>明確宣告必要欄位，建立覆蓋索引</td>
+			</tr>
+			<tr>
+					<td><strong>Non-Sargable 條件</strong></td>
+					<td>欄位被函數運算或隱式轉型包裹</td>
+					<td>索引失效，退化為全表/全索引掃描</td>
+					<td>將運算移至常數端，保持欄位純粹</td>
+			</tr>
+			<tr>
+					<td>**前置萬用字元 <code>LIKE**</code></td>
+					<td>缺乏前綴資訊，無法利用 B-Tree</td>
+					<td>強制全表循序讀取</td>
+					<td>改用精準前綴、反轉索引或全文檢索</td>
+			</tr>
+			<tr>
+					<td><strong><code>OFFSET</code> 深度分頁</strong></td>
+					<td>必須掃描並拋棄前面所有偏移記錄</td>
+					<td>高偏移量下 I/O 線性倍增</td>
+					<td>改用 Seek Method（游標錨點分頁）</td>
+			</tr>
+			<tr>
+					<td><strong>N+1 查詢</strong></td>
+					<td>應用程式層在迴圈中逐筆發送 SQL</td>
+					<td>網路 RTT 爆炸、連線池阻塞</td>
+					<td>改用 <code>JOIN</code> 或批次 <code>IN (...)</code> 擷取</td>
+			</tr>
+			<tr>
+					<td><strong><code>NOT IN (Subquery)</code></strong></td>
+					<td>NULL 語意限制導致無法走 Anti-Join</td>
+					<td>演算法退化至嵌套迴圈比對</td>
+					<td>改用 <code>NOT EXISTS</code> 或 <code>LEFT JOIN ... IS NULL</code></td>
+			</tr>
+	</tbody>
+</table>
+<hr>
+<h2 id="結語">結語</h2>
+<p>SQL 效能優化的核心原則，始終在於<strong>減少無效的資料塊讀取（Logical/Physical Reads）<strong>與</strong>充分利用索引的排序結構</strong>。在撰寫查詢時，多利用資料庫提供的 <code>EXPLAIN ANALYZE</code> 或執行計畫工具，檢視是否有非預期的 <code>Seq Scan</code>、<code>Temporary Files</code> 或過高的成本預估，從架構與語法源頭杜絕 Anti-Patterns，才能確保系統在高併發與海量資料下依舊維持穩定的低延遲回應。</p>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/whatiscomposableinfrontenddesign/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/prisma_orm_schema_intro/"
+      ><span>深入理解 Prisma Model：型別修飾、屬性設定與關聯設計</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

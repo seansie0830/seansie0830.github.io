@@ -1,0 +1,424 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>超越 ORM 的邊界：從 Prisma 邁向高階 Raw SQL 與效能調校實戰 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在現代後端開發中，Prisma 等現代物件關聯對應工具（ORM）憑藉著強大的型別安全、直觀的資料建模（Schema-driven）與自動生成關聯查詢的能力，大幅提升了團隊的開發吞吐量。然而，任何抽象層都有其效能天花板與表達邊界。當資料規模突破數百萬級距、業務邏輯涉及多維聚合、複雜報表或高頻並發寫入時，過度依賴 ORM 的高階抽象往往會引發嚴重的「物件關聯阻抗不匹配（Object-Relational Impedance Mismatch）」以及不可預期的資料庫效能損耗。
+務實的架構思維並非全盤否定 ORM，而是清晰界定其能力邊界。理解何時該果斷退回 Raw SQL，並具備精準調校 SQL 與執行計畫的能力，是每位後端工程師邁向進階的必經之路。
+
+一、 何時該跨出 ORM 的舒適圈？
+Prisma 提供了優雅的 Client API（如 findMany、include），但在以下四種情境中，手寫 Raw SQL 通常是更好的技術決策：
+1. ORM 抽象導致的 N&#43;1 與關聯載入放大
+Prisma 在處理跨表關聯時，預設透過多個平行或批次查詢（Separate Queries）在應用程式記憶體中進行組裝，或是生成包含大量子查詢的龐大 SQL。當需要深度關聯查詢（如 4 層以上的樹狀或關聯資料）時，應用層與資料庫之間的網路來回（Round-trip Time, RTT）與記憶體解構成本會急遽上升。
+2. 複雜的多維度聚合與視窗函式（Window Functions）
+Prisma 的 groupBy 和 aggregate 僅支援基本的 COUNT、SUM、AVG、MIN、MAX。一旦需要涉及時序分析、排名運算（如 ROW_NUMBER()、DENSE_RANK()）、滑動視窗累加（OVER (PARTITION BY ... ORDER BY ...)）或樞紐轉換，ORM API 往往無能為力。
+3. 大規模批次更新與資料清洗（Bulk Upsert / Conditional Updates）
+Prisma 的 updateMany 不支援依據每筆記錄的動態值進行條件更新。若透過迴圈搭配 prisma.user.update()，會產生數千次資料庫連線請求；改用手寫 SQL 搭配暫存表、UNNEST 或 INSERT ... ON CONFLICT DO UPDATE（PostgreSQL），可在單一 Transaction 內完成萬級資料更新。" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="超越 ORM 的邊界：從 Prisma 邁向高階 Raw SQL 與效能調校實戰">
+	<meta itemprop="description" content="在現代後端開發中，Prisma 等現代物件關聯對應工具（ORM）憑藉著強大的型別安全、直觀的資料建模（Schema-driven）與自動生成關聯查詢的能力，大幅提升了團隊的開發吞吐量。然而，任何抽象層都有其效能天花板與表達邊界。當資料規模突破數百萬級距、業務邏輯涉及多維聚合、複雜報表或高頻並發寫入時，過度依賴 ORM 的高階抽象往往會引發嚴重的「物件關聯阻抗不匹配（Object-Relational Impedance Mismatch）」以及不可預期的資料庫效能損耗。
+務實的架構思維並非全盤否定 ORM，而是清晰界定其能力邊界。理解何時該果斷退回 Raw SQL，並具備精準調校 SQL 與執行計畫的能力，是每位後端工程師邁向進階的必經之路。
+一、 何時該跨出 ORM 的舒適圈？ Prisma 提供了優雅的 Client API（如 findMany、include），但在以下四種情境中，手寫 Raw SQL 通常是更好的技術決策：
+1. ORM 抽象導致的 N&#43;1 與關聯載入放大 Prisma 在處理跨表關聯時，預設透過多個平行或批次查詢（Separate Queries）在應用程式記憶體中進行組裝，或是生成包含大量子查詢的龐大 SQL。當需要深度關聯查詢（如 4 層以上的樹狀或關聯資料）時，應用層與資料庫之間的網路來回（Round-trip Time, RTT）與記憶體解構成本會急遽上升。
+2. 複雜的多維度聚合與視窗函式（Window Functions） Prisma 的 groupBy 和 aggregate 僅支援基本的 COUNT、SUM、AVG、MIN、MAX。一旦需要涉及時序分析、排名運算（如 ROW_NUMBER()、DENSE_RANK()）、滑動視窗累加（OVER (PARTITION BY ... ORDER BY ...)）或樞紐轉換，ORM API 往往無能為力。
+3. 大規模批次更新與資料清洗（Bulk Upsert / Conditional Updates） Prisma 的 updateMany 不支援依據每筆記錄的動態值進行條件更新。若透過迴圈搭配 prisma.user.update()，會產生數千次資料庫連線請求；改用手寫 SQL 搭配暫存表、UNNEST 或 INSERT ... ON CONFLICT DO UPDATE（PostgreSQL），可在單一 Transaction 內完成萬級資料更新。">
+	<meta itemprop="datePublished" content="2026-08-19T22:48:02+08:00">
+	<meta itemprop="dateModified" content="2026-08-19T22:48:02+08:00">
+	<meta itemprop="wordCount" content="708"><meta property="og:url" content="https://seansie0830.github.io/posts/beyondormfromprismaasex00/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="超越 ORM 的邊界：從 Prisma 邁向高階 Raw SQL 與效能調校實戰">
+	<meta property="og:description" content="在現代後端開發中，Prisma 等現代物件關聯對應工具（ORM）憑藉著強大的型別安全、直觀的資料建模（Schema-driven）與自動生成關聯查詢的能力，大幅提升了團隊的開發吞吐量。然而，任何抽象層都有其效能天花板與表達邊界。當資料規模突破數百萬級距、業務邏輯涉及多維聚合、複雜報表或高頻並發寫入時，過度依賴 ORM 的高階抽象往往會引發嚴重的「物件關聯阻抗不匹配（Object-Relational Impedance Mismatch）」以及不可預期的資料庫效能損耗。
+務實的架構思維並非全盤否定 ORM，而是清晰界定其能力邊界。理解何時該果斷退回 Raw SQL，並具備精準調校 SQL 與執行計畫的能力，是每位後端工程師邁向進階的必經之路。
+一、 何時該跨出 ORM 的舒適圈？ Prisma 提供了優雅的 Client API（如 findMany、include），但在以下四種情境中，手寫 Raw SQL 通常是更好的技術決策：
+1. ORM 抽象導致的 N&#43;1 與關聯載入放大 Prisma 在處理跨表關聯時，預設透過多個平行或批次查詢（Separate Queries）在應用程式記憶體中進行組裝，或是生成包含大量子查詢的龐大 SQL。當需要深度關聯查詢（如 4 層以上的樹狀或關聯資料）時，應用層與資料庫之間的網路來回（Round-trip Time, RTT）與記憶體解構成本會急遽上升。
+2. 複雜的多維度聚合與視窗函式（Window Functions） Prisma 的 groupBy 和 aggregate 僅支援基本的 COUNT、SUM、AVG、MIN、MAX。一旦需要涉及時序分析、排名運算（如 ROW_NUMBER()、DENSE_RANK()）、滑動視窗累加（OVER (PARTITION BY ... ORDER BY ...)）或樞紐轉換，ORM API 往往無能為力。
+3. 大規模批次更新與資料清洗（Bulk Upsert / Conditional Updates） Prisma 的 updateMany 不支援依據每筆記錄的動態值進行條件更新。若透過迴圈搭配 prisma.user.update()，會產生數千次資料庫連線請求；改用手寫 SQL 搭配暫存表、UNNEST 或 INSERT ... ON CONFLICT DO UPDATE（PostgreSQL），可在單一 Transaction 內完成萬級資料更新。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-19T22:48:02+08:00">
+		<meta property="article:modified_time" content="2026-08-19T22:48:02+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="超越 ORM 的邊界：從 Prisma 邁向高階 Raw SQL 與效能調校實戰">
+	<meta name="twitter:description" content="在現代後端開發中，Prisma 等現代物件關聯對應工具（ORM）憑藉著強大的型別安全、直觀的資料建模（Schema-driven）與自動生成關聯查詢的能力，大幅提升了團隊的開發吞吐量。然而，任何抽象層都有其效能天花板與表達邊界。當資料規模突破數百萬級距、業務邏輯涉及多維聚合、複雜報表或高頻並發寫入時，過度依賴 ORM 的高階抽象往往會引發嚴重的「物件關聯阻抗不匹配（Object-Relational Impedance Mismatch）」以及不可預期的資料庫效能損耗。
+務實的架構思維並非全盤否定 ORM，而是清晰界定其能力邊界。理解何時該果斷退回 Raw SQL，並具備精準調校 SQL 與執行計畫的能力，是每位後端工程師邁向進階的必經之路。
+一、 何時該跨出 ORM 的舒適圈？ Prisma 提供了優雅的 Client API（如 findMany、include），但在以下四種情境中，手寫 Raw SQL 通常是更好的技術決策：
+1. ORM 抽象導致的 N&#43;1 與關聯載入放大 Prisma 在處理跨表關聯時，預設透過多個平行或批次查詢（Separate Queries）在應用程式記憶體中進行組裝，或是生成包含大量子查詢的龐大 SQL。當需要深度關聯查詢（如 4 層以上的樹狀或關聯資料）時，應用層與資料庫之間的網路來回（Round-trip Time, RTT）與記憶體解構成本會急遽上升。
+2. 複雜的多維度聚合與視窗函式（Window Functions） Prisma 的 groupBy 和 aggregate 僅支援基本的 COUNT、SUM、AVG、MIN、MAX。一旦需要涉及時序分析、排名運算（如 ROW_NUMBER()、DENSE_RANK()）、滑動視窗累加（OVER (PARTITION BY ... ORDER BY ...)）或樞紐轉換，ORM API 往往無能為力。
+3. 大規模批次更新與資料清洗（Bulk Upsert / Conditional Updates） Prisma 的 updateMany 不支援依據每筆記錄的動態值進行條件更新。若透過迴圈搭配 prisma.user.update()，會產生數千次資料庫連線請求；改用手寫 SQL 搭配暫存表、UNNEST 或 INSERT ... ON CONFLICT DO UPDATE（PostgreSQL），可在單一 Transaction 內完成萬級資料更新。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/beyondormfromprismaasex00/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">超越 ORM 的邊界：從 Prisma 邁向高階 Raw SQL 與效能調校實戰</h1><div class="text-xs antialiased opacity-60"><time>Aug 19, 2026</time></div></header>
+
+  <section><p>在現代後端開發中，Prisma 等現代物件關聯對應工具（ORM）憑藉著強大的型別安全、直觀的資料建模（Schema-driven）與自動生成關聯查詢的能力，大幅提升了團隊的開發吞吐量。然而，任何抽象層都有其效能天花板與表達邊界。當資料規模突破數百萬級距、業務邏輯涉及多維聚合、複雜報表或高頻並發寫入時，過度依賴 ORM 的高階抽象往往會引發嚴重的「物件關聯阻抗不匹配（Object-Relational Impedance Mismatch）」以及不可預期的資料庫效能損耗。</p>
+<p>務實的架構思維並非全盤否定 ORM，而是清晰界定其能力邊界。理解何時該果斷退回 Raw SQL，並具備精準調校 SQL 與執行計畫的能力，是每位後端工程師邁向進階的必經之路。</p>
+<hr>
+<h2 id="一-何時該跨出-orm-的舒適圈">一、 何時該跨出 ORM 的舒適圈？</h2>
+<p>Prisma 提供了優雅的 Client API（如 <code>findMany</code>、<code>include</code>），但在以下四種情境中，手寫 Raw SQL 通常是更好的技術決策：</p>
+<h3 id="1-orm-抽象導致的-n1-與關聯載入放大">1. ORM 抽象導致的 N+1 與關聯載入放大</h3>
+<p>Prisma 在處理跨表關聯時，預設透過多個平行或批次查詢（Separate Queries）在應用程式記憶體中進行組裝，或是生成包含大量子查詢的龐大 SQL。當需要深度關聯查詢（如 4 層以上的樹狀或關聯資料）時，應用層與資料庫之間的網路來回（Round-trip Time, RTT）與記憶體解構成本會急遽上升。</p>
+<h3 id="2-複雜的多維度聚合與視窗函式window-functions">2. 複雜的多維度聚合與視窗函式（Window Functions）</h3>
+<p>Prisma 的 <code>groupBy</code> 和 <code>aggregate</code> 僅支援基本的 <code>COUNT</code>、<code>SUM</code>、<code>AVG</code>、<code>MIN</code>、<code>MAX</code>。一旦需要涉及時序分析、排名運算（如 <code>ROW_NUMBER()</code>、<code>DENSE_RANK()</code>）、滑動視窗累加（<code>OVER (PARTITION BY ... ORDER BY ...)</code>）或樞紐轉換，ORM API 往往無能為力。</p>
+<h3 id="3-大規模批次更新與資料清洗bulk-upsert--conditional-updates">3. 大規模批次更新與資料清洗（Bulk Upsert / Conditional Updates）</h3>
+<p>Prisma 的 <code>updateMany</code> 不支援依據每筆記錄的動態值進行條件更新。若透過迴圈搭配 <code>prisma.user.update()</code>，會產生數千次資料庫連線請求；改用手寫 SQL 搭配暫存表、<code>UNNEST</code> 或 <code>INSERT ... ON CONFLICT DO UPDATE</code>（PostgreSQL），可在單一 Transaction 內完成萬級資料更新。</p>
+<h3 id="4-資料庫特有原生功能database-specific-features">4. 資料庫特有原生功能（Database-Specific Features）</h3>
+<p>當需要充分利用資料庫的底層硬體特性或專屬延伸模組時，例如 PostgreSQL 的全文檢索（<code>tsvector</code>、GIN 索引）、地理空間運算（PostGIS）、遞迴查詢（Recursive CTE）或複雜的 JSONB 路徑運算（<code>jsonb_path_query</code>），Raw SQL 是唯一的選擇。</p>
+<hr>
+<h2 id="二-在-prisma-中撰寫-raw-sql-的核心技巧">二、 在 Prisma 中撰寫 Raw SQL 的核心技巧</h2>
+<p>在 Prisma 專案中編寫 Raw SQL，必須同時兼顧<strong>防範 SQL Injection</strong>、<strong>保留 TypeScript 型別安全</strong>與<strong>動態語句拼接的彈性</strong>。</p>
+<h3 id="1-嚴格區分-queryraw-與-queryrawunsafe">1. 嚴格區分 <code>$queryRaw</code> 與 <code>$queryRawUnsafe</code></h3>
+<ul>
+<li><strong><code>$queryRaw</code>（推薦）：</strong> 採用 ES6 標籤樣板字串（Tagged Template Literals），Prisma 會自動將插值轉換為參數化查詢（Parameterized Query / Prepared Statement），徹底防範 SQL Injection。</li>
+<li><strong><code>$queryRawUnsafe</code>（謹慎）：</strong> 接受純字串，僅適用於表名、欄位名動態代入，或語句結構本身完全由程式碼控制且無使用者輸入的情境。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">PrismaClient</span>, <span style="color:#a6e22e">Prisma</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@prisma/client&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prisma</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PrismaClient</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 正確做法：自動參數化查詢
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getActiveUsers</span>(<span style="color:#a6e22e">minScore</span>: <span style="color:#66d9ef">number</span>, <span style="color:#a6e22e">search</span>: <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">users</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$queryRaw</span>&lt;<span style="color:#f92672">Array</span><span style="color:#960050;background-color:#1e0010">&lt;</span>{ <span style="color:#a6e22e">id</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">string</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">email</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">string</span> }&gt;<span style="color:#f92672">&gt;</span><span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    SELECT id, email 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    FROM &#34;User&#34; 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    WHERE status = &#39;ACTIVE&#39; 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      AND score &gt;= </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">minScore</span><span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      AND email ILIKE </span><span style="color:#e6db74">${</span><span style="color:#e6db74">`%</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">search</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%`</span><span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  `</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">users</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2-使用-prismasql-實現安全的動態條件拼接">2. 使用 <code>Prisma.sql</code> 實現安全的動態條件拼接</h3>
+<p>在複雜的過濾條件篩選器（Filter Query）中，字串串接容易造成安全漏洞或語法破裂。使用 <code>Prisma.sql</code> 與 <code>Prisma.join</code> 可以動態組合子語句，同時保持參數化特性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">searchOrders</span>(<span style="color:#a6e22e">filters</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">userId?</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">status?</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">minAmount?</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>}) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">conditions</span>: <span style="color:#66d9ef">Prisma.Sql</span>[] <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">filters</span>.<span style="color:#a6e22e">userId</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">sql</span><span style="color:#e6db74">`&#34;userId&#34; = </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">filters</span>.<span style="color:#a6e22e">userId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">filters</span>.<span style="color:#a6e22e">status</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">sql</span><span style="color:#e6db74">`&#34;status&#34; = </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">filters</span>.<span style="color:#a6e22e">status</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">filters</span>.<span style="color:#a6e22e">minAmount</span> <span style="color:#f92672">!==</span> <span style="color:#66d9ef">undefined</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">sql</span><span style="color:#e6db74">`&#34;totalAmount&#34; &gt;= </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">filters</span>.<span style="color:#a6e22e">minAmount</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">whereClause</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">?</span> <span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">sql</span><span style="color:#e6db74">`WHERE </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">conditions</span>, <span style="color:#e6db74">&#39; AND &#39;</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">:</span> <span style="color:#a6e22e">Prisma</span>.<span style="color:#a6e22e">empty</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$queryRaw</span>&lt;<span style="color:#f92672">Array</span><span style="color:#960050;background-color:#1e0010">&lt;</span>{ <span style="color:#a6e22e">id</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">string</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">totalAmount</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#a6e22e">number</span> }&gt;<span style="color:#f92672">&gt;</span><span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    SELECT id, &#34;totalAmount&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    FROM &#34;Order&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">whereClause</span><span style="color:#e6db74">}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ORDER BY &#34;createdAt&#34; DESC
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    LIMIT 20
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  `</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="3-處理-prisma-型別轉換與-bigint-序列化">3. 處理 Prisma 型別轉換與 BigInt 序列化</h3>
+<p><code>$queryRaw</code> 返回的結果中，PostgreSQL 的 <code>BIGINT</code> 會映射為 JavaScript 原生 <code>BigInt</code> 型別，這會導致 <code>JSON.stringify()</code> 拋出 <code>TypeError: Do not know how to serialize a BigInt</code>。</p>
+<p><strong>解決方案：</strong></p>
+<ul>
+<li>在 SQL 層進行顯式轉型：<code>SELECT count(*)::INT AS total ...</code></li>
+<li>或在應用層全域定義序列化規則：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span>(<span style="color:#a6e22e">BigInt</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">any</span>).<span style="color:#a6e22e">toJSON</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> () {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> Number(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><hr>
+<h2 id="三-常見-sql-效能瓶頸與優化範例">三、 常見 SQL 效能瓶頸與優化範例</h2>
+<h3 id="範例-1深度分頁效能優化keyset-pagination-vs-offsetlimit">範例 1：深度分頁效能優化（Keyset Pagination vs. Offset/Limit）</h3>
+<ul>
+<li><strong>問題背景：</strong> ORM 常見的 <code>skip: 50000, take: 20</code>（<code>OFFSET 50000 LIMIT 20</code>）會導致資料庫讀取前 50,020 筆資料後丟棄前 50,000 筆，引發嚴重的 Disk I/O 與 CPU 消耗。</li>
+<li><strong>優化方案：</strong> 改用「尋標分頁（Keyset / Cursor Pagination）」。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 原始 ORM 常見模式 (低效)
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, <span style="color:#e6db74">&#34;createdAt&#34;</span>, title 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">&#34;Post&#34;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#34;createdAt&#34;</span> <span style="color:#66d9ef">DESC</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">OFFSET</span> <span style="color:#ae81ff">50000</span> <span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">20</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">-- 優化後的 Raw SQL (高效：直接利用索引走 Range Scan)
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, <span style="color:#e6db74">&#34;createdAt&#34;</span>, title 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">&#34;Post&#34;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#e6db74">&#34;createdAt&#34;</span> <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#39;2026-08-01T10:00:00Z&#39;</span> <span style="color:#75715e">-- 上一頁最後一筆記錄的時間戳
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#34;createdAt&#34;</span> <span style="color:#66d9ef">DESC</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">LIMIT</span> <span style="color:#ae81ff">20</span>;
+</span></span></code></pre></div><hr>
+<h3 id="範例-2分組取最新-n-筆記錄top-n-per-group">範例 2：分組取最新 N 筆記錄（Top-N Per Group）</h3>
+<ul>
+<li><strong>問題背景：</strong> 取得「每個分類下最新發布的 3 篇文章」。使用 ORM 往往需要先查詢所有分類，再針對每個分類發送查詢（引發 $N$ 次查詢），或拉取全量資料在 Node.js 記憶體中排序過濾。</li>
+<li><strong>優化方案：</strong> 使用視窗函式（Window Function）在資料庫核心內完成運算。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">WITH</span> RankedPosts <span style="color:#66d9ef">AS</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">SELECT</span> 
+</span></span><span style="display:flex;"><span>    p.id, 
+</span></span><span style="display:flex;"><span>    p.title, 
+</span></span><span style="display:flex;"><span>    p.<span style="color:#e6db74">&#34;categoryId&#34;</span>, 
+</span></span><span style="display:flex;"><span>    p.<span style="color:#e6db74">&#34;createdAt&#34;</span>,
+</span></span><span style="display:flex;"><span>    ROW_NUMBER() OVER (
+</span></span><span style="display:flex;"><span>      PARTITION <span style="color:#66d9ef">BY</span> p.<span style="color:#e6db74">&#34;categoryId&#34;</span> 
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span> p.<span style="color:#e6db74">&#34;createdAt&#34;</span> <span style="color:#66d9ef">DESC</span>
+</span></span><span style="display:flex;"><span>    ) <span style="color:#66d9ef">AS</span> rank
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">&#34;Post&#34;</span> p
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">WHERE</span> p.<span style="color:#e6db74">&#34;isPublished&#34;</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, title, <span style="color:#e6db74">&#34;categoryId&#34;</span>, <span style="color:#e6db74">&#34;createdAt&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> RankedPosts
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> rank <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">3</span>;
+</span></span></code></pre></div><hr>
+<h3 id="範例-3大批量寫入與衝突處理bulk-upsert">範例 3：大批量寫入與衝突處理（Bulk Upsert）</h3>
+<ul>
+<li><strong>問題背景：</strong> 同步 5,000 筆商品庫存。ORM 的 <code>upsert</code> API 只能單筆執行，造成 5,000 次網路往返。</li>
+<li><strong>優化方案：</strong> 透過 PostgreSQL 的 <code>UNNEST</code> 搭配 <code>INSERT ... ON CONFLICT</code>，一次網路來回完成。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">bulkUpsertProducts</span>(<span style="color:#a6e22e">products</span>: <span style="color:#66d9ef">Array</span><span style="color:#f92672">&lt;</span>{ <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">string</span>; <span style="color:#a6e22e">price</span>: <span style="color:#66d9ef">number</span>; <span style="color:#a6e22e">stock</span>: <span style="color:#66d9ef">number</span> }<span style="color:#f92672">&gt;</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ids</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">products</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">p</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">id</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prices</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">products</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">p</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">price</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">stocks</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">products</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">p</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">stock</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$executeRaw</span><span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    INSERT INTO &#34;Product&#34; (id, price, stock, &#34;updatedAt&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    SELECT 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      u.id, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      u.price, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      u.stock, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      NOW()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    FROM UNNEST(
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">ids</span><span style="color:#e6db74">}</span><span style="color:#e6db74">::text[], 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">prices</span><span style="color:#e6db74">}</span><span style="color:#e6db74">::numeric[], 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">stocks</span><span style="color:#e6db74">}</span><span style="color:#e6db74">::int[]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ) AS u(id, price, stock)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ON CONFLICT (id) DO UPDATE SET
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      price = EXCLUDED.price,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      stock = EXCLUDED.stock,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;updatedAt&#34; = NOW();
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  `</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="四-效能分析與觀測實務observability--profiling">四、 效能分析與觀測實務（Observability &amp; Profiling）</h2>
+<p>撰寫 Raw SQL 時，不能僅憑直覺評估效能，必須以資料庫底層的指標與執行計畫為依據。</p>
+<h3 id="1-掌握-explain-analyze-buffers">1. 掌握 <code>EXPLAIN (ANALYZE, BUFFERS)</code></h3>
+<p>在 PostgreSQL 中，評估 SQL 效能最權威的工具是 <code>EXPLAIN (ANALYZE, BUFFERS)</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">EXPLAIN</span> (<span style="color:#66d9ef">ANALYZE</span>, BUFFERS, <span style="color:#66d9ef">VERBOSE</span>, COSTS)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> p.id, p.title 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">&#34;Post&#34;</span> p
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">JOIN</span> <span style="color:#e6db74">&#34;User&#34;</span> u <span style="color:#66d9ef">ON</span> p.<span style="color:#e6db74">&#34;authorId&#34;</span> <span style="color:#f92672">=</span> u.id
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> u.email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;engineer@example.com&#39;</span>;
+</span></span></code></pre></div><p><strong>解讀執行計畫的核心重點：</strong></p>
+<ul>
+<li>
+<p><strong>Scan 模式：</strong></p>
+</li>
+<li>
+<p><code>Seq Scan</code>（全表掃描）：大表應盡量避免，通常代表缺乏有效索引或查詢條件未命中索引。</p>
+</li>
+<li>
+<p><code>Index Scan</code> / <code>Bitmap Index Scan</code>：透過索引檢索，效率較高。</p>
+</li>
+<li>
+<p><code>Index Only Scan</code>：最高效，查詢所需的欄位均包含在索引內（Covering Index），無需回表（Heap Fetch）。</p>
+</li>
+<li>
+<p><strong>Buffers 統計：</strong></p>
+</li>
+<li>
+<p><code>shared hit</code>：從記憶體緩衝區（Buffer Cache）命中的資料頁。</p>
+</li>
+<li>
+<p><code>shared read</code>：從實體磁碟讀取的資料頁。若此數值過高，代表需要調優索引或擴增 Shared Buffers。</p>
+</li>
+<li>
+<p><strong>Cost 與 Time 偏差：</strong> 比較 <code>actual time</code> 與 <code>cost</code>，若規劃器預估的列數（<code>rows</code>）與實際返回差距巨大，代表資料庫統計資訊過期，需執行 <code>ANALYZE &lt;table&gt;</code>。</p>
+</li>
+</ul>
+<hr>
+<h3 id="2-啟用-prisma-query-logging">2. 啟用 Prisma Query Logging</h3>
+<p>在開發與測試環境中，應啟用 Prisma 的底層查詢監聽，捕捉 ORM 實際生成的 SQL 語句與執行耗時：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">prisma</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PrismaClient</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">log</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">emit</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;event&#39;</span>, <span style="color:#a6e22e">level</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;query&#39;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">emit</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;stdout&#39;</span>, <span style="color:#a6e22e">level</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;warn&#39;</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">emit</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;stdout&#39;</span>, <span style="color:#a6e22e">level</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;error&#39;</span> },
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">prisma</span>.<span style="color:#a6e22e">$on</span>(<span style="color:#e6db74">&#39;query&#39;</span>, (<span style="color:#a6e22e">e</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">duration</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">100</span>) { <span style="color:#75715e">// 標記超過 100ms 的慢查詢
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">warn</span>(<span style="color:#e6db74">`[Slow Query] Duration: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">duration</span><span style="color:#e6db74">}</span><span style="color:#e6db74">ms | Query: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">query</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> | Params: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">params</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="結語架構選擇的務實平衡">結語：架構選擇的務實平衡</h2>
+<p>在軟體工程中，沒有單一的銀彈。完全摒棄 ORM 走回純手寫 SQL 會犧牲開發效率與維護性；但過度依賴 ORM 又容易在系統擴展時埋下效能隱患。</p>
+<p><strong>最佳實踐架構策略：</strong></p>
+<ol>
+<li><strong>80% 的常規 CRUD：</strong> 繼續使用 Prisma Client，享受型別安全、自動遷移與簡潔的語法。</li>
+<li><strong>20% 的高效能核心、複雜報表與批次作業：</strong> 透過 <code>$queryRaw</code> 與適當的 SQL 技巧，精確控制執行計畫與資源消耗。</li>
+</ol>
+<p>掌握 ORM 封裝的便利，同時保留直面底層資料庫的能力，才能在兼顧交付速度的同時，建構出具備彈性與高負載韌性的後端架構。</p>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/introofhugotoml00/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/databaseschemadesignbasic00/"
+      ><span>資料庫綱要設計的平衡藝術：從關聯基數、正規化理論到高併發下的效能妥協與外鍵抉擇</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

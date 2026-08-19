@@ -1,0 +1,407 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在前端架構演進的歷史中，「如何優雅地複用邏輯」始終是核心命題。早年我們用過 Mixins，後來轉向高階組件（HOC）與 Render Props，但這幾種模式在規模化後往往演變成維護惡夢。
+現代前端框架（Vue Composition API、React Hooks、SolidJS Primitives、Svelte Runes）逐步收斂出一個共通典範——Composable（可組合項）。
+
+為什麼需要 Composable？痛點與演進
+在 Options API 或傳統 Class 組件時期，組件通常按「語法類型」劃分區塊（data、methods、lifecycle hooks）。這種模式在小型功能尚可運作，但當業務邏輯膨脹時，會帶來三個致命痛點：
+
+關注點碎片化（Fragmented Concerns）：實現一個「即時資料輪詢」功能，狀態要寫在 data、啟動要寫在 mounted、清理要寫在 unmounted、觸發要寫在 methods。單一功能的代碼被硬生生拆散在數百行代碼的各個角落。
+Mixins 的隱含衝突：Mixins 曾是邏輯複用的主力，但它帶來嚴重的「命名空間碰撞」與「黑盒依賴」——你很難一眼看出某個 this.userData 究竟來自組件本身還是五個 Mixin 中的哪一個。
+組件樹膨脹（Wrapper Hell）：HOC 和 Render Props 雖然解決了命名衝突，但過度嵌套組件會增加渲染層級與除錯負擔。
+
+Composable 的核心精神是：將有狀態的業務邏輯（Stateful Logic）封裝為獨立函式，以純粹的參數輸入與值輸出進行組裝。
+
+實戰對比：Before vs. After
+以常見的「視窗尺寸監聽（Window Resize）」為例。
+Before：未抽離邏輯的傳統組件（以 Vue 2 / Options API 為例）
+視窗監聽邏輯與組件的其他商業邏輯混雜，無法直接被其他組件複用：
+export default {
+  data() {
+    return {
+      // 視窗狀態
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+      // 其他業務狀態混雜在此
+      userList: [],
+      isLoading: false
+    }
+  },
+  mounted() {
+    // 監聽邏輯散落在生命週期
+    window.addEventListener(&#39;resize&#39;, this.onResize)
+    this.fetchUsers()
+  },
+  beforeDestroy() {
+    // 清理邏輯散落在另一處
+    window.removeEventListener(&#39;resize&#39;, this.onResize)
+  },
+  methods: {
+    onResize() {
+      this.windowWidth = window.innerWidth
+      this.windowHeight = window.innerHeight
+    },
+    fetchUsers() { /* ... */ }
+  }
+}
+
+After：封裝為 Composable（以 Vue 3 Composition API 為例）
+將狀態、事件監聽與銷毀清理完整封裝為 useWindowSize：" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統">
+	<meta itemprop="description" content="在前端架構演進的歷史中，「如何優雅地複用邏輯」始終是核心命題。早年我們用過 Mixins，後來轉向高階組件（HOC）與 Render Props，但這幾種模式在規模化後往往演變成維護惡夢。
+現代前端框架（Vue Composition API、React Hooks、SolidJS Primitives、Svelte Runes）逐步收斂出一個共通典範——Composable（可組合項）。
+為什麼需要 Composable？痛點與演進 在 Options API 或傳統 Class 組件時期，組件通常按「語法類型」劃分區塊（data、methods、lifecycle hooks）。這種模式在小型功能尚可運作，但當業務邏輯膨脹時，會帶來三個致命痛點：
+關注點碎片化（Fragmented Concerns）：實現一個「即時資料輪詢」功能，狀態要寫在 data、啟動要寫在 mounted、清理要寫在 unmounted、觸發要寫在 methods。單一功能的代碼被硬生生拆散在數百行代碼的各個角落。 Mixins 的隱含衝突：Mixins 曾是邏輯複用的主力，但它帶來嚴重的「命名空間碰撞」與「黑盒依賴」——你很難一眼看出某個 this.userData 究竟來自組件本身還是五個 Mixin 中的哪一個。 組件樹膨脹（Wrapper Hell）：HOC 和 Render Props 雖然解決了命名衝突，但過度嵌套組件會增加渲染層級與除錯負擔。 Composable 的核心精神是：將有狀態的業務邏輯（Stateful Logic）封裝為獨立函式，以純粹的參數輸入與值輸出進行組裝。
+實戰對比：Before vs. After 以常見的「視窗尺寸監聽（Window Resize）」為例。
+Before：未抽離邏輯的傳統組件（以 Vue 2 / Options API 為例） 視窗監聽邏輯與組件的其他商業邏輯混雜，無法直接被其他組件複用：
+export default { data() { return { // 視窗狀態 windowWidth: window.innerWidth, windowHeight: window.innerHeight, // 其他業務狀態混雜在此 userList: [], isLoading: false } }, mounted() { // 監聽邏輯散落在生命週期 window.addEventListener(&#39;resize&#39;, this.onResize) this.fetchUsers() }, beforeDestroy() { // 清理邏輯散落在另一處 window.removeEventListener(&#39;resize&#39;, this.onResize) }, methods: { onResize() { this.windowWidth = window.innerWidth this.windowHeight = window.innerHeight }, fetchUsers() { /* ... */ } } } After：封裝為 Composable（以 Vue 3 Composition API 為例） 將狀態、事件監聽與銷毀清理完整封裝為 useWindowSize：">
+	<meta itemprop="datePublished" content="2026-08-19T22:40:18+08:00">
+	<meta itemprop="dateModified" content="2026-08-19T22:40:18+08:00">
+	<meta itemprop="wordCount" content="446"><meta property="og:url" content="https://seansie0830.github.io/posts/whatiscomposableinfrontenddesign/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統">
+	<meta property="og:description" content="在前端架構演進的歷史中，「如何優雅地複用邏輯」始終是核心命題。早年我們用過 Mixins，後來轉向高階組件（HOC）與 Render Props，但這幾種模式在規模化後往往演變成維護惡夢。
+現代前端框架（Vue Composition API、React Hooks、SolidJS Primitives、Svelte Runes）逐步收斂出一個共通典範——Composable（可組合項）。
+為什麼需要 Composable？痛點與演進 在 Options API 或傳統 Class 組件時期，組件通常按「語法類型」劃分區塊（data、methods、lifecycle hooks）。這種模式在小型功能尚可運作，但當業務邏輯膨脹時，會帶來三個致命痛點：
+關注點碎片化（Fragmented Concerns）：實現一個「即時資料輪詢」功能，狀態要寫在 data、啟動要寫在 mounted、清理要寫在 unmounted、觸發要寫在 methods。單一功能的代碼被硬生生拆散在數百行代碼的各個角落。 Mixins 的隱含衝突：Mixins 曾是邏輯複用的主力，但它帶來嚴重的「命名空間碰撞」與「黑盒依賴」——你很難一眼看出某個 this.userData 究竟來自組件本身還是五個 Mixin 中的哪一個。 組件樹膨脹（Wrapper Hell）：HOC 和 Render Props 雖然解決了命名衝突，但過度嵌套組件會增加渲染層級與除錯負擔。 Composable 的核心精神是：將有狀態的業務邏輯（Stateful Logic）封裝為獨立函式，以純粹的參數輸入與值輸出進行組裝。
+實戰對比：Before vs. After 以常見的「視窗尺寸監聽（Window Resize）」為例。
+Before：未抽離邏輯的傳統組件（以 Vue 2 / Options API 為例） 視窗監聽邏輯與組件的其他商業邏輯混雜，無法直接被其他組件複用：
+export default { data() { return { // 視窗狀態 windowWidth: window.innerWidth, windowHeight: window.innerHeight, // 其他業務狀態混雜在此 userList: [], isLoading: false } }, mounted() { // 監聽邏輯散落在生命週期 window.addEventListener(&#39;resize&#39;, this.onResize) this.fetchUsers() }, beforeDestroy() { // 清理邏輯散落在另一處 window.removeEventListener(&#39;resize&#39;, this.onResize) }, methods: { onResize() { this.windowWidth = window.innerWidth this.windowHeight = window.innerHeight }, fetchUsers() { /* ... */ } } } After：封裝為 Composable（以 Vue 3 Composition API 為例） 將狀態、事件監聽與銷毀清理完整封裝為 useWindowSize：">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-19T22:40:18+08:00">
+		<meta property="article:modified_time" content="2026-08-19T22:40:18+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統">
+	<meta name="twitter:description" content="在前端架構演進的歷史中，「如何優雅地複用邏輯」始終是核心命題。早年我們用過 Mixins，後來轉向高階組件（HOC）與 Render Props，但這幾種模式在規模化後往往演變成維護惡夢。
+現代前端框架（Vue Composition API、React Hooks、SolidJS Primitives、Svelte Runes）逐步收斂出一個共通典範——Composable（可組合項）。
+為什麼需要 Composable？痛點與演進 在 Options API 或傳統 Class 組件時期，組件通常按「語法類型」劃分區塊（data、methods、lifecycle hooks）。這種模式在小型功能尚可運作，但當業務邏輯膨脹時，會帶來三個致命痛點：
+關注點碎片化（Fragmented Concerns）：實現一個「即時資料輪詢」功能，狀態要寫在 data、啟動要寫在 mounted、清理要寫在 unmounted、觸發要寫在 methods。單一功能的代碼被硬生生拆散在數百行代碼的各個角落。 Mixins 的隱含衝突：Mixins 曾是邏輯複用的主力，但它帶來嚴重的「命名空間碰撞」與「黑盒依賴」——你很難一眼看出某個 this.userData 究竟來自組件本身還是五個 Mixin 中的哪一個。 組件樹膨脹（Wrapper Hell）：HOC 和 Render Props 雖然解決了命名衝突，但過度嵌套組件會增加渲染層級與除錯負擔。 Composable 的核心精神是：將有狀態的業務邏輯（Stateful Logic）封裝為獨立函式，以純粹的參數輸入與值輸出進行組裝。
+實戰對比：Before vs. After 以常見的「視窗尺寸監聽（Window Resize）」為例。
+Before：未抽離邏輯的傳統組件（以 Vue 2 / Options API 為例） 視窗監聽邏輯與組件的其他商業邏輯混雜，無法直接被其他組件複用：
+export default { data() { return { // 視窗狀態 windowWidth: window.innerWidth, windowHeight: window.innerHeight, // 其他業務狀態混雜在此 userList: [], isLoading: false } }, mounted() { // 監聽邏輯散落在生命週期 window.addEventListener(&#39;resize&#39;, this.onResize) this.fetchUsers() }, beforeDestroy() { // 清理邏輯散落在另一處 window.removeEventListener(&#39;resize&#39;, this.onResize) }, methods: { onResize() { this.windowWidth = window.innerWidth this.windowHeight = window.innerHeight }, fetchUsers() { /* ... */ } } } After：封裝為 Composable（以 Vue 3 Composition API 為例） 將狀態、事件監聽與銷毀清理完整封裝為 useWindowSize：">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/whatiscomposableinfrontenddesign/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統</h1><div class="text-xs antialiased opacity-60"><time>Aug 19, 2026</time></div></header>
+
+  <section><p>在前端架構演進的歷史中，「如何優雅地複用邏輯」始終是核心命題。早年我們用過 Mixins，後來轉向高階組件（HOC）與 Render Props，但這幾種模式在規模化後往往演變成維護惡夢。</p>
+<p>現代前端框架（Vue Composition API、React Hooks、SolidJS Primitives、Svelte Runes）逐步收斂出一個共通典範——<strong>Composable（可組合項）</strong>。</p>
+<hr>
+<h2 id="為什麼需要-composable痛點與演進">為什麼需要 Composable？痛點與演進</h2>
+<p>在 Options API 或傳統 Class 組件時期，組件通常按「語法類型」劃分區塊（<code>data</code>、<code>methods</code>、<code>lifecycle hooks</code>）。這種模式在小型功能尚可運作，但當業務邏輯膨脹時，會帶來三個致命痛點：</p>
+<ol>
+<li><strong>關注點碎片化（Fragmented Concerns）</strong>：實現一個「即時資料輪詢」功能，狀態要寫在 <code>data</code>、啟動要寫在 <code>mounted</code>、清理要寫在 <code>unmounted</code>、觸發要寫在 <code>methods</code>。單一功能的代碼被硬生生拆散在數百行代碼的各個角落。</li>
+<li><strong>Mixins 的隱含衝突</strong>：Mixins 曾是邏輯複用的主力，但它帶來嚴重的「命名空間碰撞」與「黑盒依賴」——你很難一眼看出某個 <code>this.userData</code> 究竟來自組件本身還是五個 Mixin 中的哪一個。</li>
+<li><strong>組件樹膨脹（Wrapper Hell）</strong>：HOC 和 Render Props 雖然解決了命名衝突，但過度嵌套組件會增加渲染層級與除錯負擔。</li>
+</ol>
+<p>Composable 的核心精神是：<strong>將有狀態的業務邏輯（Stateful Logic）封裝為獨立函式，以純粹的參數輸入與值輸出進行組裝。</strong></p>
+<hr>
+<h2 id="實戰對比before-vs-after">實戰對比：Before vs. After</h2>
+<p>以常見的「視窗尺寸監聽（Window Resize）」為例。</p>
+<h3 id="before未抽離邏輯的傳統組件以-vue-2--options-api-為例">Before：未抽離邏輯的傳統組件（以 Vue 2 / Options API 為例）</h3>
+<p>視窗監聽邏輯與組件的其他商業邏輯混雜，無法直接被其他組件複用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 視窗狀態
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">windowWidth</span><span style="color:#f92672">:</span> window.<span style="color:#a6e22e">innerWidth</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">windowHeight</span><span style="color:#f92672">:</span> window.<span style="color:#a6e22e">innerHeight</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 其他業務狀態混雜在此
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">userList</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">isLoading</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mounted</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 監聽邏輯散落在生命週期
+</span></span></span><span style="display:flex;"><span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">onResize</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fetchUsers</span>()
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">beforeDestroy</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 清理邏輯散落在另一處
+</span></span></span><span style="display:flex;"><span>    window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">onResize</span>)
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">onResize</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">windowWidth</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">innerWidth</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">windowHeight</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">innerHeight</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fetchUsers</span>() { <span style="color:#75715e">/* ... */</span> }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h3 id="after封裝為-composable以-vue-3-composition-api-為例">After：封裝為 Composable（以 Vue 3 Composition API 為例）</h3>
+<p>將狀態、事件監聽與銷毀清理完整封裝為 <code>useWindowSize</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// composables/useWindowSize.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ref</span>, <span style="color:#a6e22e">onMounted</span>, <span style="color:#a6e22e">onUnmounted</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">useWindowSize</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">width</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(window.<span style="color:#a6e22e">innerWidth</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(window.<span style="color:#a6e22e">innerHeight</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">update</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">width</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">innerWidth</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">height</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">innerHeight</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">onMounted</span>(() =&gt; window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#a6e22e">update</span>))
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">onUnmounted</span>(() =&gt; window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#39;resize&#39;</span>, <span style="color:#a6e22e">update</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在組件中只需一行呼叫，來源與型別完全透明：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-vue" data-lang="vue"><span style="display:flex;"><span><span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">components</span><span style="color:#f92672">/</span><span style="color:#a6e22e">ResponsiveDashboard</span>.<span style="color:#a6e22e">vue</span> <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">setup</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useWindowSize</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@/composables/useWindowSize&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 邏輯即插即用，毫無侵入性
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useWindowSize</span>()
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span>&gt;<span style="color:#a6e22e">視窗解析度</span><span style="color:#960050;background-color:#1e0010">：</span>{{ <span style="color:#a6e22e">width</span> }} <span style="color:#a6e22e">x</span> {{ <span style="color:#a6e22e">height</span> }}&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span></code></pre></div><hr>
+<h2 id="各主流框架的實現方式">各主流框架的實現方式</h2>
+<p>雖然語法與響應式底層機制有所不同，但「函式化封裝狀態邏輯」的理念完全相通：</p>
+<h3 id="1-vue-3-composition-api">1. Vue 3 (Composition API)</h3>
+<ul>
+<li><strong>核心機制</strong>：基於 Proxy 的依賴追蹤（<code>ref</code>、<code>reactive</code>）。</li>
+<li><strong>特性</strong>：<code>setup()</code> 只執行一次建立響應依賴，後續狀態變更不重新執行整段函式，心智模型直觀。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// useCounter.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ref</span>, <span style="color:#a6e22e">computed</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">useCounter</span>(<span style="color:#a6e22e">initialValue</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#a6e22e">initialValue</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">doubleCount</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">computed</span>(() =&gt; <span style="color:#a6e22e">count</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">increment</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#a6e22e">count</span>.<span style="color:#a6e22e">value</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">doubleCount</span>, <span style="color:#a6e22e">increment</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2-react-custom-hooks">2. React (Custom Hooks)</h3>
+<ul>
+<li><strong>核心機制</strong>：基於 Fiber 渲染週期的 Hook 機制（<code>useState</code>、<code>useEffect</code>）。</li>
+<li><strong>特性</strong>：狀態更新會觸發組件重新渲染，需注意 <code>useCallback</code> / <code>useMemo</code> 與 Hook 調用順序限制（不可在條件式內調用）。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// useCounter.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useState</span>, <span style="color:#a6e22e">useMemo</span>, <span style="color:#a6e22e">useCallback</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;react&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">useCounter</span>(<span style="color:#a6e22e">initialValue</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>(<span style="color:#a6e22e">initialValue</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">doubleCount</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useMemo</span>(() =&gt; <span style="color:#a6e22e">count</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, [<span style="color:#a6e22e">count</span>])
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">increment</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useCallback</span>(() =&gt; <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">c</span> =&gt; <span style="color:#a6e22e">c</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>), [])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">doubleCount</span>, <span style="color:#a6e22e">increment</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="3-solidjs-primitives">3. SolidJS (Primitives)</h3>
+<ul>
+<li><strong>核心機制</strong>：細粒度響應系統（Signals）。</li>
+<li><strong>特性</strong>：組件函式本身只執行一次建立運算圖，更新時精確驅動 DOM 節點，無 Virtual DOM 開銷。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// createCounter.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">createSignal</span>, <span style="color:#a6e22e">createMemo</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;solid-js&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createCounter</span>(<span style="color:#a6e22e">initialValue</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">setCount</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">createSignal</span>(<span style="color:#a6e22e">initialValue</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">doubleCount</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">createMemo</span>(() =&gt; <span style="color:#a6e22e">count</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">increment</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#a6e22e">setCount</span>(<span style="color:#a6e22e">c</span> =&gt; <span style="color:#a6e22e">c</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">doubleCount</span>, <span style="color:#a6e22e">increment</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="4-svelte-5-runes">4. Svelte 5 (Runes)</h3>
+<ul>
+<li><strong>核心機制</strong>：編譯器驅動的訊號系統（<code>$state</code>、<code>$derived</code>）。</li>
+<li><strong>特性</strong>：直接使用原生 JS 語法賦值，不再受限於 <code>.svelte</code> 單檔案組件內，在標準 <code>.js</code>/<code>.ts</code> 模組中即可定義通用響應邏輯。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// counter.svelte.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createCounter</span>(<span style="color:#a6e22e">initialValue</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$state</span>(<span style="color:#a6e22e">initialValue</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">doubleCount</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$derived</span>(<span style="color:#a6e22e">count</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">increment</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">count</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">count</span>() { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">count</span> },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">doubleCount</span>() { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">doubleCount</span> },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">increment</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="架構設計原則">架構設計原則</h2>
+<p>要在大型專案中寫好 Composable，建議遵循以下實務原則：</p>
+<ol>
+<li><strong>命名明確</strong>：遵循 <code>useXxx</code>（Vue/React）或 <code>createXxx</code>（Solid）的約定，清楚表達功能意圖。</li>
+<li><strong>單一職責</strong>：一個 Composable 只專注解決一個問題（如 <code>useAuth</code>、<code>usePagination</code>、<code>useClipboard</code>）。</li>
+<li><strong>靈活組合（Composition）</strong>：高階 Composable 應由基礎 Composable 拼裝而成。例如 <code>useUserTable</code> 可內部調用 <code>useFetch</code> 與 <code>usePagination</code>。</li>
+<li><strong>自動清理副作用</strong>：內部涉及事件監聽、計時器或 WebSocket 時，務必在內部生命週期或清理函式中完成釋放，避免調用方產生記憶體洩漏。</li>
+</ol>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/exceljsintro/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>Node.js 試算表利器：ExcelJS 完整實戰指南（概念、語法與 CRUD 操作）</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/howtoavoidantipatterninrawsql/"
+      ><span>避開效能暗礁：常見 SQL Anti-Patterns 解析與重構實踐</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

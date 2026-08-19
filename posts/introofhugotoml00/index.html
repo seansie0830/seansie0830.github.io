@@ -1,0 +1,405 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="各位旅客請繫好安全帶！歡迎登上 Hugo 靜態網站旗艦特快車 🚄。
+我是大家的隨車導遊。在 Hugo 的世界裡，不管你的主題多華麗、內容多豐富，整座網站的心臟與中樞神經全都在這一檔：hugo.toml（早期版本為 config.toml）。
+很多新手只把它當成填寫網站名稱的地方，但對老司機來說，這裡藏著編譯管線、網址架構、隱私防護與自動影像暗房的全部機關。今天導遊把基礎配備與內行密技一次打包，帶大家從頭到尾徹底走一遍！👇
+
+📍 第一站：身分證與航線座標（全域基礎設定）
+這幾行是整個網站的立足之本，上線前務必反覆確認：
+baseURL = &#39;https://example.com/&#39;
+languageCode = &#39;zh-tw&#39;
+title = &#39;老司機的數位探險筆記&#39;
+theme = &#39;ananke&#39;
+
+# 內容閱讀節奏
+paginate = 10
+summaryLength = 70
+
+baseURL（絕對不能寫錯的門牌） 🗺️：網站上線後的正式網址。新手最常遇到的「本地預覽正常，一上線 CSS/圖片全爆」災情，九成都是因為這裡少填了結尾的斜線 / 或網址有誤。
+languageCode（語系廣播） 🌐：通知瀏覽器與搜尋引擎你的主語言，繁體中文填 zh-tw，對 SEO 與字元渲染至關重要。
+theme（外觀戰袍） 👕：指定 themes/ 資料夾中對應的主題資料夾名稱，大小寫必須分毫不差。
+**paginate &amp; summaryLength** 📖：分別控制首頁每頁顯示的文章篇數，以及列表頁自動抓取的摘要字元長度。
+
+
+🧭 第二站：選單指南針與百寶袋（導覽與自訂參數）
+# 頂部導覽列
+[menus]
+  [[menus.main]]
+    name = &#39;首頁&#39;
+    url = &#39;/&#39;
+    weight = 1
+
+  [[menus.main]]
+    name = &#39;旅遊日誌&#39;
+    url = &#39;/posts/&#39;
+    weight = 2
+
+# 主題專屬擴充參數
+[params]
+  author = &#39;探險家小明&#39;
+  description = &#39;紀錄程式與旅行的極簡空間&#39;
+  darkMode = true
+
+weight（排隊號碼牌） 🔢：數字越小排越左邊。調整導覽列順序只要改數字，完全不用手動搬動模板代碼。
+[params]（客製化外掛區） 🧰：主題開發者放自訂變數的地方（如社群連結、作者資訊、深色模式切換）。換新主題時，直接參考該主題的 README.md 把設定複製過來即可。
+
+
+📂 第三站：路徑自定義與安檢名單（建置輸出與忽略規則）
+當網站需要接入 CI/CD（GitHub Actions、Cloudflare Pages、Vercel）或文章庫包含私密筆記時，這兩項設定是救命解藥：" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校">
+	<meta itemprop="description" content="各位旅客請繫好安全帶！歡迎登上 Hugo 靜態網站旗艦特快車 🚄。
+我是大家的隨車導遊。在 Hugo 的世界裡，不管你的主題多華麗、內容多豐富，整座網站的心臟與中樞神經全都在這一檔：hugo.toml（早期版本為 config.toml）。
+很多新手只把它當成填寫網站名稱的地方，但對老司機來說，這裡藏著編譯管線、網址架構、隱私防護與自動影像暗房的全部機關。今天導遊把基礎配備與內行密技一次打包，帶大家從頭到尾徹底走一遍！👇
+📍 第一站：身分證與航線座標（全域基礎設定） 這幾行是整個網站的立足之本，上線前務必反覆確認：
+baseURL = &#39;https://example.com/&#39; languageCode = &#39;zh-tw&#39; title = &#39;老司機的數位探險筆記&#39; theme = &#39;ananke&#39; # 內容閱讀節奏 paginate = 10 summaryLength = 70 baseURL（絕對不能寫錯的門牌） 🗺️：網站上線後的正式網址。新手最常遇到的「本地預覽正常，一上線 CSS/圖片全爆」災情，九成都是因為這裡少填了結尾的斜線 / 或網址有誤。 languageCode（語系廣播） 🌐：通知瀏覽器與搜尋引擎你的主語言，繁體中文填 zh-tw，對 SEO 與字元渲染至關重要。 theme（外觀戰袍） 👕：指定 themes/ 資料夾中對應的主題資料夾名稱，大小寫必須分毫不差。 **paginate &amp; summaryLength** 📖：分別控制首頁每頁顯示的文章篇數，以及列表頁自動抓取的摘要字元長度。 🧭 第二站：選單指南針與百寶袋（導覽與自訂參數） # 頂部導覽列 [menus] [[menus.main]] name = &#39;首頁&#39; url = &#39;/&#39; weight = 1 [[menus.main]] name = &#39;旅遊日誌&#39; url = &#39;/posts/&#39; weight = 2 # 主題專屬擴充參數 [params] author = &#39;探險家小明&#39; description = &#39;紀錄程式與旅行的極簡空間&#39; darkMode = true weight（排隊號碼牌） 🔢：數字越小排越左邊。調整導覽列順序只要改數字，完全不用手動搬動模板代碼。 [params]（客製化外掛區） 🧰：主題開發者放自訂變數的地方（如社群連結、作者資訊、深色模式切換）。換新主題時，直接參考該主題的 README.md 把設定複製過來即可。 📂 第三站：路徑自定義與安檢名單（建置輸出與忽略規則） 當網站需要接入 CI/CD（GitHub Actions、Cloudflare Pages、Vercel）或文章庫包含私密筆記時，這兩項設定是救命解藥：">
+	<meta itemprop="datePublished" content="2026-08-19T22:48:45+08:00">
+	<meta itemprop="dateModified" content="2026-08-19T22:48:45+08:00">
+	<meta itemprop="wordCount" content="325"><meta property="og:url" content="https://seansie0830.github.io/posts/introofhugotoml00/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校">
+	<meta property="og:description" content="各位旅客請繫好安全帶！歡迎登上 Hugo 靜態網站旗艦特快車 🚄。
+我是大家的隨車導遊。在 Hugo 的世界裡，不管你的主題多華麗、內容多豐富，整座網站的心臟與中樞神經全都在這一檔：hugo.toml（早期版本為 config.toml）。
+很多新手只把它當成填寫網站名稱的地方，但對老司機來說，這裡藏著編譯管線、網址架構、隱私防護與自動影像暗房的全部機關。今天導遊把基礎配備與內行密技一次打包，帶大家從頭到尾徹底走一遍！👇
+📍 第一站：身分證與航線座標（全域基礎設定） 這幾行是整個網站的立足之本，上線前務必反覆確認：
+baseURL = &#39;https://example.com/&#39; languageCode = &#39;zh-tw&#39; title = &#39;老司機的數位探險筆記&#39; theme = &#39;ananke&#39; # 內容閱讀節奏 paginate = 10 summaryLength = 70 baseURL（絕對不能寫錯的門牌） 🗺️：網站上線後的正式網址。新手最常遇到的「本地預覽正常，一上線 CSS/圖片全爆」災情，九成都是因為這裡少填了結尾的斜線 / 或網址有誤。 languageCode（語系廣播） 🌐：通知瀏覽器與搜尋引擎你的主語言，繁體中文填 zh-tw，對 SEO 與字元渲染至關重要。 theme（外觀戰袍） 👕：指定 themes/ 資料夾中對應的主題資料夾名稱，大小寫必須分毫不差。 **paginate &amp; summaryLength** 📖：分別控制首頁每頁顯示的文章篇數，以及列表頁自動抓取的摘要字元長度。 🧭 第二站：選單指南針與百寶袋（導覽與自訂參數） # 頂部導覽列 [menus] [[menus.main]] name = &#39;首頁&#39; url = &#39;/&#39; weight = 1 [[menus.main]] name = &#39;旅遊日誌&#39; url = &#39;/posts/&#39; weight = 2 # 主題專屬擴充參數 [params] author = &#39;探險家小明&#39; description = &#39;紀錄程式與旅行的極簡空間&#39; darkMode = true weight（排隊號碼牌） 🔢：數字越小排越左邊。調整導覽列順序只要改數字，完全不用手動搬動模板代碼。 [params]（客製化外掛區） 🧰：主題開發者放自訂變數的地方（如社群連結、作者資訊、深色模式切換）。換新主題時，直接參考該主題的 README.md 把設定複製過來即可。 📂 第三站：路徑自定義與安檢名單（建置輸出與忽略規則） 當網站需要接入 CI/CD（GitHub Actions、Cloudflare Pages、Vercel）或文章庫包含私密筆記時，這兩項設定是救命解藥：">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-19T22:48:45+08:00">
+		<meta property="article:modified_time" content="2026-08-19T22:48:45+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校">
+	<meta name="twitter:description" content="各位旅客請繫好安全帶！歡迎登上 Hugo 靜態網站旗艦特快車 🚄。
+我是大家的隨車導遊。在 Hugo 的世界裡，不管你的主題多華麗、內容多豐富，整座網站的心臟與中樞神經全都在這一檔：hugo.toml（早期版本為 config.toml）。
+很多新手只把它當成填寫網站名稱的地方，但對老司機來說，這裡藏著編譯管線、網址架構、隱私防護與自動影像暗房的全部機關。今天導遊把基礎配備與內行密技一次打包，帶大家從頭到尾徹底走一遍！👇
+📍 第一站：身分證與航線座標（全域基礎設定） 這幾行是整個網站的立足之本，上線前務必反覆確認：
+baseURL = &#39;https://example.com/&#39; languageCode = &#39;zh-tw&#39; title = &#39;老司機的數位探險筆記&#39; theme = &#39;ananke&#39; # 內容閱讀節奏 paginate = 10 summaryLength = 70 baseURL（絕對不能寫錯的門牌） 🗺️：網站上線後的正式網址。新手最常遇到的「本地預覽正常，一上線 CSS/圖片全爆」災情，九成都是因為這裡少填了結尾的斜線 / 或網址有誤。 languageCode（語系廣播） 🌐：通知瀏覽器與搜尋引擎你的主語言，繁體中文填 zh-tw，對 SEO 與字元渲染至關重要。 theme（外觀戰袍） 👕：指定 themes/ 資料夾中對應的主題資料夾名稱，大小寫必須分毫不差。 **paginate &amp; summaryLength** 📖：分別控制首頁每頁顯示的文章篇數，以及列表頁自動抓取的摘要字元長度。 🧭 第二站：選單指南針與百寶袋（導覽與自訂參數） # 頂部導覽列 [menus] [[menus.main]] name = &#39;首頁&#39; url = &#39;/&#39; weight = 1 [[menus.main]] name = &#39;旅遊日誌&#39; url = &#39;/posts/&#39; weight = 2 # 主題專屬擴充參數 [params] author = &#39;探險家小明&#39; description = &#39;紀錄程式與旅行的極簡空間&#39; darkMode = true weight（排隊號碼牌） 🔢：數字越小排越左邊。調整導覽列順序只要改數字，完全不用手動搬動模板代碼。 [params]（客製化外掛區） 🧰：主題開發者放自訂變數的地方（如社群連結、作者資訊、深色模式切換）。換新主題時，直接參考該主題的 README.md 把設定複製過來即可。 📂 第三站：路徑自定義與安檢名單（建置輸出與忽略規則） 當網站需要接入 CI/CD（GitHub Actions、Cloudflare Pages、Vercel）或文章庫包含私密筆記時，這兩項設定是救命解藥：">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/introofhugotoml00/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校</h1><div class="text-xs antialiased opacity-60"><time>Aug 19, 2026</time></div></header>
+
+  <section><p>各位旅客請繫好安全帶！歡迎登上 Hugo 靜態網站旗艦特快車 🚄。</p>
+<p>我是大家的隨車導遊。在 Hugo 的世界裡，不管你的主題多華麗、內容多豐富，整座網站的心臟與中樞神經全都在這一檔：<code>hugo.toml</code>（早期版本為 <code>config.toml</code>）。</p>
+<p>很多新手只把它當成填寫網站名稱的地方，但對老司機來說，這裡藏著編譯管線、網址架構、隱私防護與自動影像暗房的全部機關。今天導遊把基礎配備與內行密技一次打包，帶大家從頭到尾徹底走一遍！👇</p>
+<hr>
+<h3 id="-第一站身分證與航線座標全域基礎設定">📍 第一站：身分證與航線座標（全域基礎設定）</h3>
+<p>這幾行是整個網站的立足之本，上線前務必反覆確認：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">baseURL</span> = <span style="color:#e6db74">&#39;https://example.com/&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">languageCode</span> = <span style="color:#e6db74">&#39;zh-tw&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">title</span> = <span style="color:#e6db74">&#39;老司機的數位探險筆記&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">theme</span> = <span style="color:#e6db74">&#39;ananke&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 內容閱讀節奏</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">paginate</span> = <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">summaryLength</span> = <span style="color:#ae81ff">70</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>baseURL</code>（絕對不能寫錯的門牌）</strong> 🗺️：網站上線後的正式網址。新手最常遇到的「本地預覽正常，一上線 CSS/圖片全爆」災情，九成都是因為這裡少填了結尾的斜線 <code>/</code> 或網址有誤。</li>
+<li><strong><code>languageCode</code>（語系廣播）</strong> 🌐：通知瀏覽器與搜尋引擎你的主語言，繁體中文填 <code>zh-tw</code>，對 SEO 與字元渲染至關重要。</li>
+<li><strong><code>theme</code>（外觀戰袍）</strong> 👕：指定 <code>themes/</code> 資料夾中對應的主題資料夾名稱，大小寫必須分毫不差。</li>
+<li>**<code>paginate</code> &amp; <code>summaryLength**</code> 📖：分別控制首頁每頁顯示的文章篇數，以及列表頁自動抓取的摘要字元長度。</li>
+</ul>
+<hr>
+<h3 id="-第二站選單指南針與百寶袋導覽與自訂參數">🧭 第二站：選單指南針與百寶袋（導覽與自訂參數）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#75715e"># 頂部導覽列</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">menus</span>]
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">menus</span>.<span style="color:#a6e22e">main</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#39;首頁&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#39;/&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">weight</span> = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  [[<span style="color:#a6e22e">menus</span>.<span style="color:#a6e22e">main</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#39;旅遊日誌&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">url</span> = <span style="color:#e6db74">&#39;/posts/&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">weight</span> = <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 主題專屬擴充參數</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">params</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">author</span> = <span style="color:#e6db74">&#39;探險家小明&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#39;紀錄程式與旅行的極簡空間&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">darkMode</span> = <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>weight</code>（排隊號碼牌）</strong> 🔢：數字越小排越左邊。調整導覽列順序只要改數字，完全不用手動搬動模板代碼。</li>
+<li><strong><code>[params]</code>（客製化外掛區）</strong> 🧰：主題開發者放自訂變數的地方（如社群連結、作者資訊、深色模式切換）。換新主題時，直接參考該主題的 <code>README.md</code> 把設定複製過來即可。</li>
+</ul>
+<hr>
+<h3 id="-第三站路徑自定義與安檢名單建置輸出與忽略規則">📂 第三站：路徑自定義與安檢名單（建置輸出與忽略規則）</h3>
+<p>當網站需要接入 CI/CD（GitHub Actions、Cloudflare Pages、Vercel）或文章庫包含私密筆記時，這兩項設定是救命解藥：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#75715e"># 靜態網站編譯目的地（預設是 public）</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">publishDir</span> = <span style="color:#e6db74">&#39;dist&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 每次編譯前自動清空目的地舊檔案</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cleanDestinationDir</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 編譯安檢：利用正則表達式（Regex）直接無視特定檔案</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ignoreFiles</span> = [
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;\\.tmp$&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;\\.bak$&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;draft-notes/.*&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;README\\.md$&#39;</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><ul>
+<li><strong><code>publishDir</code></strong> 📦：很多部署平台預設吃 <code>dist</code> 或 <code>build</code> 資料夾，直接改這行，省去寫建置腳本搬移檔案的麻煩。</li>
+<li><strong><code>cleanDestinationDir = true</code></strong> 🧹：編譯前自動大掃除，避免伺服器殘留已被刪除文章的 HTML 死連結。</li>
+<li><strong><code>ignoreFiles</code></strong> 🕵️‍♂️：套上隱形斗篷，編輯器暫存檔或未公開筆記完全不參與編譯，既加速又防機密外洩。</li>
+</ul>
+<hr>
+<h3 id="-第四站網址結構手術刀與隱私防護罩seo--privacy">🔗 第四站：網址結構手術刀與隱私防護罩（SEO &amp; Privacy）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#75715e"># 網址結尾是否強制加上 .html（預設 false 為漂亮目錄網址）</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">uglyURLs</span> = <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 批量定義分類網址結構</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">permalinks</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">posts</span> = <span style="color:#e6db74">&#39;/posts/:year/:month/:slug/&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 內建隱私合規與外連控制</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">privacy</span>]
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">privacy</span>.<span style="color:#a6e22e">googleAnalytics</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">anonymizeIP</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">respectDoNotTrack</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">privacy</span>.<span style="color:#a6e22e">youtube</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">privacyEnhanced</span> = <span style="color:#66d9ef">true</span> <span style="color:#75715e"># 使用 youtube-nocookie.com 嵌入</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>[permalinks]</code></strong> 🗺️：不用一篇篇手動改 front matter，全站的文章（posts）會自動依照發布年份與月份產出如 <code>/posts/2026/08/my-post/</code> 的專業 SEO 結構。</li>
+<li><strong><code>[privacy]</code></strong> 🕶️：開啟 <code>privacyEnhanced</code> 後，內嵌 YouTube 自動切換為無 Cookie 模式，提升載入速度並符合 GDPR 隱私法規。</li>
+</ul>
+<hr>
+<h3 id="-第五站隨車暗房imaging-圖片全域優化引擎">📸 第五站：隨車暗房（<code>[imaging]</code> 圖片全域優化引擎）</h3>
+<p>當模板呼叫 <code>.Resize</code>、<code>.Fill</code> 或 <code>.Process</code> 進行動態轉圖時，這裡就是控制畫質、體積與裁切焦點的司令部：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">imaging</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 預設壓縮品質（0 - 100，80~85 為畫質與體積黃金平衡點）</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">quality</span> = <span style="color:#ae81ff">82</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 縮放濾鏡：lanczos 細節最銳利，catmullrom 為平衡預設值</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">resampleFilter</span> = <span style="color:#e6db74">&#39;lanczos&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 智慧裁切錨點：自動辨識畫面重心與人臉，避免切到主體</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">anchor</span> = <span style="color:#e6db74">&#39;smart&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 背景填充顏色（PNG 轉 JPEG 補邊色）</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bgColor</span> = <span style="color:#e6db74">&#39;#ffffff&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># EXIF 隱私清理</span>
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">imaging</span>.<span style="color:#a6e22e">exif</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">disableLatLong</span> = <span style="color:#66d9ef">true</span> <span style="color:#75715e"># 🔒 自動抹除照片 GPS 經緯度，保護隱私</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>quality = 82</code></strong> ⚖️：兼顧肉眼高解析度與輕量化體積的最佳甜蜜點。</li>
+<li><strong><code>resampleFilter = 'lanczos'</code></strong> 🔬：使用最高階插值演算法，讓縮圖邊緣依然清晰銳利。</li>
+<li><strong><code>disableLatLong = true</code></strong> 🛡️：自動剔除手機照片中的定位資訊，防止訪客下載原圖抓取住家座標。</li>
+</ul>
+<hr>
+<h3 id="-終點站markdown-引擎解鎖goldmark-渲染">⚙️ 終點站：Markdown 引擎解鎖（Goldmark 渲染）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">markup</span>]
+</span></span><span style="display:flex;"><span>  [<span style="color:#a6e22e">markup</span>.<span style="color:#a6e22e">goldmark</span>.<span style="color:#a6e22e">renderer</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unsafe</span> = <span style="color:#66d9ef">true</span> <span style="color:#75715e"># 允許在 Markdown 中直接渲染原生 HTML 標籤</span>
+</span></span></code></pre></div><ul>
+<li><strong><code>unsafe = true</code></strong> 🔓：Hugo 出於安全性考量預設會過濾 HTML。開啟此設定後，你在 Markdown 裡手寫的 <code>&lt;iframe&gt;</code>（嵌入影片/地圖）或自訂按鈕樣式才能正常呈現。</li>
+</ul>
+<hr>
+<h3 id="-導遊總結核心屬性全景速查表">🎯 導遊總結：核心屬性全景速查表</h3>
+<table>
+	<thead>
+			<tr>
+					<th>功能板塊</th>
+					<th>關鍵屬性 / 區塊</th>
+					<th>核心任務</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>基礎定位</strong></td>
+					<td><code>baseURL</code>, <code>languageCode</code>, <code>theme</code></td>
+					<td>定位根網址、語言語系、套用主題外觀</td>
+			</tr>
+			<tr>
+					<td><strong>導覽與參數</strong></td>
+					<td><code>[menus]</code> (<code>weight</code>), <code>[params]</code></td>
+					<td>依權重排列導覽列、傳遞自訂變數給模板</td>
+			</tr>
+			<tr>
+					<td><strong>建置管理</strong></td>
+					<td><code>publishDir</code>, <code>ignoreFiles</code>, <code>cleanDestinationDir</code></td>
+					<td>變更輸出資料夾、正則排除暫存檔、清理殘留快取</td>
+			</tr>
+			<tr>
+					<td><strong>網址與隱私</strong></td>
+					<td><code>[permalinks]</code>, <code>[privacy]</code></td>
+					<td>格式化 SEO 階層網址、無 Cookie 嵌入與 IP 匿名化</td>
+			</tr>
+			<tr>
+					<td><strong>圖片管線</strong></td>
+					<td><code>[imaging]</code> (<code>quality</code>, <code>resampleFilter</code>, <code>anchor</code>)</td>
+					<td>統一全域轉圖品質、Lanczos 銳利縮放、抹除 GPS</td>
+			</tr>
+			<tr>
+					<td><strong>渲染核心</strong></td>
+					<td><code>[markup.goldmark.renderer]</code> (<code>unsafe</code>)</td>
+					<td>解除 Markdown 原生 HTML 標籤防護限制</td>
+			</tr>
+	</tbody>
+</table>
+<p>把這套完整的駕駛艙設定放進你的專案，終端機敲下 <code>hugo server -D</code>，準備享受極速、穩定又專業的靜態網站體驗吧！🚀</p>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/beyondormfromprismaasex00/"
+      ><span>超越 ORM 的邊界：從 Prisma 邁向高階 Raw SQL 與效能調校實戰</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

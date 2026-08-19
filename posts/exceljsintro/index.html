@@ -1,0 +1,457 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Node.js 試算表利器：ExcelJS 完整實戰指南（概念、語法與 CRUD 操作） - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在現代 Web 應用程式與後端系統開發中，Excel 檔案（.xlsx）的匯入、匯出與自動化處理是極為常見的需求。無論是財務報表生成、批次資料匯入，還是複雜試算表的客製化排版，選擇一個合適且穩健的工具至關重要。
+在 Node.js 生態系中，ExcelJS 憑藉著物件導向的 API 設計、強大的樣式自訂能力，以及對大型檔案串流（Streaming）的完整支援，成為許多企業級專案的首選方案。本文將深入介紹 ExcelJS 的核心架構，並透過完整的 CRUD（Create, Read, Update, Delete）範例，協助您在專案中快速落地應用。
+
+一、ExcelJS 套件介紹與核心優勢
+ExcelJS 是一個專為 Node.js 與瀏覽器環境打造的 Excel 檔案處理函式庫，專注於提供現代 .xlsx 格式的深度控制。相較於其他純資料轉換的工具，ExcelJS 的優勢體現在以下面向：
+
+完整的樣式控制（Styling）：支援字型、前景色/背景色、外框、對齊方式、數字格式（Number Formats）以及富文本（Rich Text）。
+結構化物件導向模型：按照 Workbook（活頁簿）$\rightarrow$ Worksheet（工作表）$\rightarrow$ Row（資料列）$\rightarrow$ Cell（儲存格）的層級進行操作，邏輯清晰直覺。
+優異的記憶體管理（Stream I/O）：提供基於 Node.js Stream 的 Reader 與 Writer，即便處理數十萬筆的大型資料集，也能有效避免記憶體溢出（Out-of-Memory, OOM）。
+進階試算表特性：支援公式運算結果保留、合併儲存格（Merge Cells）、資料驗證（Data Validation）、凍結窗格（Frozen Panes）及插入圖片。
+
+
+二、安裝與環境準備
+在 Node.js 專案中，透過 npm 或 yarn 即可完成安裝：
+npm install exceljs
+在程式碼中引入套件：
+const ExcelJS = require(&#39;exceljs&#39;);
+// 若使用 ES Module：
+// import ExcelJS from &#39;exceljs&#39;;
+
+三、ExcelJS 核心 CRUD 實戰
+接下來，我們將以具體的程式碼範例展示如何對 Excel 檔案進行建立（Create）、讀取（Read）、修改（Update）與刪除（Delete）操作。" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="Node.js 試算表利器：ExcelJS 完整實戰指南（概念、語法與 CRUD 操作）">
+	<meta itemprop="description" content="在現代 Web 應用程式與後端系統開發中，Excel 檔案（.xlsx）的匯入、匯出與自動化處理是極為常見的需求。無論是財務報表生成、批次資料匯入，還是複雜試算表的客製化排版，選擇一個合適且穩健的工具至關重要。
+在 Node.js 生態系中，ExcelJS 憑藉著物件導向的 API 設計、強大的樣式自訂能力，以及對大型檔案串流（Streaming）的完整支援，成為許多企業級專案的首選方案。本文將深入介紹 ExcelJS 的核心架構，並透過完整的 CRUD（Create, Read, Update, Delete）範例，協助您在專案中快速落地應用。
+一、ExcelJS 套件介紹與核心優勢 ExcelJS 是一個專為 Node.js 與瀏覽器環境打造的 Excel 檔案處理函式庫，專注於提供現代 .xlsx 格式的深度控制。相較於其他純資料轉換的工具，ExcelJS 的優勢體現在以下面向：
+完整的樣式控制（Styling）：支援字型、前景色/背景色、外框、對齊方式、數字格式（Number Formats）以及富文本（Rich Text）。 結構化物件導向模型：按照 Workbook（活頁簿）$\rightarrow$ Worksheet（工作表）$\rightarrow$ Row（資料列）$\rightarrow$ Cell（儲存格）的層級進行操作，邏輯清晰直覺。 優異的記憶體管理（Stream I/O）：提供基於 Node.js Stream 的 Reader 與 Writer，即便處理數十萬筆的大型資料集，也能有效避免記憶體溢出（Out-of-Memory, OOM）。 進階試算表特性：支援公式運算結果保留、合併儲存格（Merge Cells）、資料驗證（Data Validation）、凍結窗格（Frozen Panes）及插入圖片。 二、安裝與環境準備 在 Node.js 專案中，透過 npm 或 yarn 即可完成安裝：
+npm install exceljs 在程式碼中引入套件：
+const ExcelJS = require(&#39;exceljs&#39;); // 若使用 ES Module： // import ExcelJS from &#39;exceljs&#39;; 三、ExcelJS 核心 CRUD 實戰 接下來，我們將以具體的程式碼範例展示如何對 Excel 檔案進行建立（Create）、讀取（Read）、修改（Update）與刪除（Delete）操作。">
+	<meta itemprop="datePublished" content="2026-08-19T22:40:55+08:00">
+	<meta itemprop="dateModified" content="2026-08-19T22:40:55+08:00">
+	<meta itemprop="wordCount" content="699"><meta property="og:url" content="https://seansie0830.github.io/posts/exceljsintro/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="Node.js 試算表利器：ExcelJS 完整實戰指南（概念、語法與 CRUD 操作）">
+	<meta property="og:description" content="在現代 Web 應用程式與後端系統開發中，Excel 檔案（.xlsx）的匯入、匯出與自動化處理是極為常見的需求。無論是財務報表生成、批次資料匯入，還是複雜試算表的客製化排版，選擇一個合適且穩健的工具至關重要。
+在 Node.js 生態系中，ExcelJS 憑藉著物件導向的 API 設計、強大的樣式自訂能力，以及對大型檔案串流（Streaming）的完整支援，成為許多企業級專案的首選方案。本文將深入介紹 ExcelJS 的核心架構，並透過完整的 CRUD（Create, Read, Update, Delete）範例，協助您在專案中快速落地應用。
+一、ExcelJS 套件介紹與核心優勢 ExcelJS 是一個專為 Node.js 與瀏覽器環境打造的 Excel 檔案處理函式庫，專注於提供現代 .xlsx 格式的深度控制。相較於其他純資料轉換的工具，ExcelJS 的優勢體現在以下面向：
+完整的樣式控制（Styling）：支援字型、前景色/背景色、外框、對齊方式、數字格式（Number Formats）以及富文本（Rich Text）。 結構化物件導向模型：按照 Workbook（活頁簿）$\rightarrow$ Worksheet（工作表）$\rightarrow$ Row（資料列）$\rightarrow$ Cell（儲存格）的層級進行操作，邏輯清晰直覺。 優異的記憶體管理（Stream I/O）：提供基於 Node.js Stream 的 Reader 與 Writer，即便處理數十萬筆的大型資料集，也能有效避免記憶體溢出（Out-of-Memory, OOM）。 進階試算表特性：支援公式運算結果保留、合併儲存格（Merge Cells）、資料驗證（Data Validation）、凍結窗格（Frozen Panes）及插入圖片。 二、安裝與環境準備 在 Node.js 專案中，透過 npm 或 yarn 即可完成安裝：
+npm install exceljs 在程式碼中引入套件：
+const ExcelJS = require(&#39;exceljs&#39;); // 若使用 ES Module： // import ExcelJS from &#39;exceljs&#39;; 三、ExcelJS 核心 CRUD 實戰 接下來，我們將以具體的程式碼範例展示如何對 Excel 檔案進行建立（Create）、讀取（Read）、修改（Update）與刪除（Delete）操作。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-19T22:40:55+08:00">
+		<meta property="article:modified_time" content="2026-08-19T22:40:55+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Node.js 試算表利器：ExcelJS 完整實戰指南（概念、語法與 CRUD 操作）">
+	<meta name="twitter:description" content="在現代 Web 應用程式與後端系統開發中，Excel 檔案（.xlsx）的匯入、匯出與自動化處理是極為常見的需求。無論是財務報表生成、批次資料匯入，還是複雜試算表的客製化排版，選擇一個合適且穩健的工具至關重要。
+在 Node.js 生態系中，ExcelJS 憑藉著物件導向的 API 設計、強大的樣式自訂能力，以及對大型檔案串流（Streaming）的完整支援，成為許多企業級專案的首選方案。本文將深入介紹 ExcelJS 的核心架構，並透過完整的 CRUD（Create, Read, Update, Delete）範例，協助您在專案中快速落地應用。
+一、ExcelJS 套件介紹與核心優勢 ExcelJS 是一個專為 Node.js 與瀏覽器環境打造的 Excel 檔案處理函式庫，專注於提供現代 .xlsx 格式的深度控制。相較於其他純資料轉換的工具，ExcelJS 的優勢體現在以下面向：
+完整的樣式控制（Styling）：支援字型、前景色/背景色、外框、對齊方式、數字格式（Number Formats）以及富文本（Rich Text）。 結構化物件導向模型：按照 Workbook（活頁簿）$\rightarrow$ Worksheet（工作表）$\rightarrow$ Row（資料列）$\rightarrow$ Cell（儲存格）的層級進行操作，邏輯清晰直覺。 優異的記憶體管理（Stream I/O）：提供基於 Node.js Stream 的 Reader 與 Writer，即便處理數十萬筆的大型資料集，也能有效避免記憶體溢出（Out-of-Memory, OOM）。 進階試算表特性：支援公式運算結果保留、合併儲存格（Merge Cells）、資料驗證（Data Validation）、凍結窗格（Frozen Panes）及插入圖片。 二、安裝與環境準備 在 Node.js 專案中，透過 npm 或 yarn 即可完成安裝：
+npm install exceljs 在程式碼中引入套件：
+const ExcelJS = require(&#39;exceljs&#39;); // 若使用 ES Module： // import ExcelJS from &#39;exceljs&#39;; 三、ExcelJS 核心 CRUD 實戰 接下來，我們將以具體的程式碼範例展示如何對 Excel 檔案進行建立（Create）、讀取（Read）、修改（Update）與刪除（Delete）操作。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/exceljsintro/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Node.js 試算表利器：ExcelJS 完整實戰指南（概念、語法與 CRUD 操作）</h1><div class="text-xs antialiased opacity-60"><time>Aug 19, 2026</time></div></header>
+
+  <section><p>在現代 Web 應用程式與後端系統開發中，Excel 檔案（<code>.xlsx</code>）的匯入、匯出與自動化處理是極為常見的需求。無論是財務報表生成、批次資料匯入，還是複雜試算表的客製化排版，選擇一個合適且穩健的工具至關重要。</p>
+<p>在 Node.js 生態系中，<strong>ExcelJS</strong> 憑藉著物件導向的 API 設計、強大的樣式自訂能力，以及對大型檔案串流（Streaming）的完整支援，成為許多企業級專案的首選方案。本文將深入介紹 ExcelJS 的核心架構，並透過完整的 CRUD（Create, Read, Update, Delete）範例，協助您在專案中快速落地應用。</p>
+<hr>
+<h2 id="一exceljs-套件介紹與核心優勢">一、ExcelJS 套件介紹與核心優勢</h2>
+<p>ExcelJS 是一個專為 Node.js 與瀏覽器環境打造的 Excel 檔案處理函式庫，專注於提供現代 <code>.xlsx</code> 格式的深度控制。相較於其他純資料轉換的工具，ExcelJS 的優勢體現在以下面向：</p>
+<ol>
+<li><strong>完整的樣式控制（Styling）</strong>：支援字型、前景色/背景色、外框、對齊方式、數字格式（Number Formats）以及富文本（Rich Text）。</li>
+<li><strong>結構化物件導向模型</strong>：按照 <code>Workbook</code>（活頁簿）$\rightarrow$ <code>Worksheet</code>（工作表）$\rightarrow$ <code>Row</code>（資料列）$\rightarrow$ <code>Cell</code>（儲存格）的層級進行操作，邏輯清晰直覺。</li>
+<li><strong>優異的記憶體管理（Stream I/O）</strong>：提供基於 Node.js Stream 的 Reader 與 Writer，即便處理數十萬筆的大型資料集，也能有效避免記憶體溢出（Out-of-Memory, OOM）。</li>
+<li><strong>進階試算表特性</strong>：支援公式運算結果保留、合併儲存格（Merge Cells）、資料驗證（Data Validation）、凍結窗格（Frozen Panes）及插入圖片。</li>
+</ol>
+<hr>
+<h2 id="二安裝與環境準備">二、安裝與環境準備</h2>
+<p>在 Node.js 專案中，透過 npm 或 yarn 即可完成安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install exceljs
+</span></span></code></pre></div><p>在程式碼中引入套件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ExcelJS</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;exceljs&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 若使用 ES Module：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// import ExcelJS from &#39;exceljs&#39;;
+</span></span></span></code></pre></div><hr>
+<h2 id="三exceljs-核心-crud-實戰">三、ExcelJS 核心 CRUD 實戰</h2>
+<p>接下來，我們將以具體的程式碼範例展示如何對 Excel 檔案進行<strong>建立（Create）</strong>、<strong>讀取（Read）</strong>、修改（Update）<strong>與</strong>刪除（Delete）操作。</p>
+<hr>
+<h3 id="1-建立create建立活頁簿設定欄位與寫入資料">1. 建立（Create）：建立活頁簿、設定欄位與寫入資料</h3>
+<p>建立 Excel 時，通常會先定義工作表的欄位結構（Columns），再逐筆或批次新增資料列（Rows），並可針對表頭進行樣式美化。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ExcelJS</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;exceljs&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createExcelFile</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 1. 初始化活頁簿
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">workbook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExcelJS</span>.<span style="color:#a6e22e">Workbook</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">creator</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;System Admin&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">created</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 2. 新增工作表
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worksheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">addWorksheet</span>(<span style="color:#e6db74">&#39;員工名單&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 3. 定義欄位標頭與寬度
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">columns</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;員工編號&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;id&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">15</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;姓名&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;部門&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;dept&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;薪資 (TWD)&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;salary&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">18</span>, <span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">numFmt</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#,##0&#39;</span> } },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;到職日期&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;joinedDate&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">18</span>, <span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">numFmt</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;yyyy-mm-dd&#39;</span> } }
+</span></span><span style="display:flex;"><span>  ];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 4. 新增資料列
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">addRow</span>({ <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;EMP001&#39;</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;王小明&#39;</span>, <span style="color:#a6e22e">dept</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;技術部&#39;</span>, <span style="color:#a6e22e">salary</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">75000</span>, <span style="color:#a6e22e">joinedDate</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> Date(<span style="color:#e6db74">&#39;2022-03-15&#39;</span>) });
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">addRow</span>({ <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;EMP002&#39;</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;李美華&#39;</span>, <span style="color:#a6e22e">dept</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;行銷部&#39;</span>, <span style="color:#a6e22e">salary</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">62000</span>, <span style="color:#a6e22e">joinedDate</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> Date(<span style="color:#e6db74">&#39;2023-01-10&#39;</span>) });
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">addRow</span>({ <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;EMP003&#39;</span>, <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;張志豪&#39;</span>, <span style="color:#a6e22e">dept</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;產品部&#39;</span>, <span style="color:#a6e22e">salary</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">81000</span>, <span style="color:#a6e22e">joinedDate</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> Date(<span style="color:#e6db74">&#39;2021-08-01&#39;</span>) });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 5. 表頭樣式美化（深色背景、白色粗體字、置中）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">headerRow</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">getRow</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headerRow</span>.<span style="color:#a6e22e">eachCell</span>((<span style="color:#a6e22e">cell</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cell</span>.<span style="color:#a6e22e">font</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Microsoft JhengHei&#39;</span>, <span style="color:#a6e22e">bold</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>, <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">argb</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;FFFFFFFF&#39;</span> } };
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cell</span>.<span style="color:#a6e22e">fill</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;pattern&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">pattern</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;solid&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">fgColor</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">argb</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;FF1F4E79&#39;</span> } <span style="color:#75715e">// 深藍色
+</span></span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cell</span>.<span style="color:#a6e22e">alignment</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">vertical</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;middle&#39;</span>, <span style="color:#a6e22e">horizontal</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;center&#39;</span> };
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headerRow</span>.<span style="color:#a6e22e">height</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 6. 儲存檔案
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">writeFile</span>(<span style="color:#e6db74">&#39;員工清冊.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;檔案建立成功：員工清冊.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">createExcelFile</span>();
+</span></span></code></pre></div><hr>
+<h3 id="2-讀取read載入檔案並解析內容">2. 讀取（Read）：載入檔案並解析內容</h3>
+<p>讀取既有檔案時，ExcelJS 提供了便利的走訪機制，可逐列（Row）或逐格（Cell）取得資料。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ExcelJS</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;exceljs&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">readExcelFile</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">workbook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExcelJS</span>.<span style="color:#a6e22e">Workbook</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;員工清冊.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 取得第一個工作表（亦可使用 workbook.getWorksheet(&#39;工作表名稱&#39;)）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worksheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">worksheets</span>[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">records</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`讀取工作表：</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">，總列數：</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">rowCount</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 走訪每一列資料（排除第 1 列表頭）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">eachRow</span>((<span style="color:#a6e22e">row</span>, <span style="color:#a6e22e">rowNumber</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">rowNumber</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 取得各儲存格數值
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rowData</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rowNumber</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">1</span>).<span style="color:#a6e22e">value</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">2</span>).<span style="color:#a6e22e">value</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">dept</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">3</span>).<span style="color:#a6e22e">value</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">salary</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">value</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">joinedDate</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">row</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">5</span>).<span style="color:#a6e22e">value</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">records</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">rowData</span>);
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;解析結果：&#39;</span>, <span style="color:#a6e22e">records</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">readExcelFile</span>();
+</span></span></code></pre></div><hr>
+<h3 id="3-修改update更新內容調整格式與增加計算公式">3. 修改（Update）：更新內容、調整格式與增加計算公式</h3>
+<p>修改既有 Excel 時，可先讀入檔案，針對特定的儲存格重新賦值、套用樣式，甚至新增總計列與公式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ExcelJS</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;exceljs&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">updateExcelFile</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">workbook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExcelJS</span>.<span style="color:#a6e22e">Workbook</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;員工清冊.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worksheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">getWorksheet</span>(<span style="color:#e6db74">&#39;員工名單&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 情境 A：精準修改特定儲存格（例如：調升 EMP001 的薪資）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">targetCell</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#e6db74">&#39;D2&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">targetCell</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">80000</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">targetCell</span>.<span style="color:#a6e22e">font</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">argb</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;FFC00000&#39;</span> }, <span style="color:#a6e22e">bold</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> }; <span style="color:#75715e">// 標註為紅色加粗
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 情境 B：在底部新增「薪資總計」與公式計算
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">totalRowNumber</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">rowCount</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">totalRow</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">getRow</span>(<span style="color:#a6e22e">totalRowNumber</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">3</span>).<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;薪資總計&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">3</span>).<span style="color:#a6e22e">font</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">bold</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> };
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">3</span>).<span style="color:#a6e22e">alignment</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">horizontal</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;right&#39;</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 設定 Excel 內建公式 SUM(D2:D4)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">formula</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`SUM(D2:D</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">totalRowNumber</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)`</span> };
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">numFmt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#,##0&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">font</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">bold</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 加上雙底線樣式以符合會計規範
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">totalRow</span>.<span style="color:#a6e22e">getCell</span>(<span style="color:#ae81ff">4</span>).<span style="color:#a6e22e">border</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">top</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;thin&#39;</span> },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bottom</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;double&#39;</span> }
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 儲存為新檔案或覆寫原檔
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">writeFile</span>(<span style="color:#e6db74">&#39;員工清冊_已更新.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;檔案修改成功：員工清冊_已更新.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">updateExcelFile</span>();
+</span></span></code></pre></div><hr>
+<h3 id="4-刪除delete刪除指定資料列或欄位">4. 刪除（Delete）：刪除指定資料列或欄位</h3>
+<p>ExcelJS 支援動態移除指定的資料列（Row）或欄（Column），並自動重整後續的行索引。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ExcelJS</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;exceljs&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deleteRowAndColumn</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">workbook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExcelJS</span>.<span style="color:#a6e22e">Workbook</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;員工清冊.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worksheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">getWorksheet</span>(<span style="color:#e6db74">&#39;員工名單&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 1. 刪除指定的資料列：spliceRows(開始列號, 刪除列數)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 例如：刪除第 3 列（EMP002）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">spliceRows</span>(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 2. 若要刪除指定欄位：spliceColumns(開始欄號, 刪除欄數)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 例如：刪除「到職日期」這一欄（第 5 欄）
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// worksheet.spliceColumns(5, 1);
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">writeFile</span>(<span style="color:#e6db74">&#39;員工清冊_已刪除部分資料.xlsx&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;刪除作業完成。&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">deleteRowAndColumn</span>();
+</span></span></code></pre></div><hr>
+<h2 id="四大型檔案高效能處理stream-寫入技巧">四、大型檔案高效能處理：Stream 寫入技巧</h2>
+<p>當匯出資料量達到數萬甚至數十萬筆時，將所有資料一次性載入記憶體容易導致 Node.js 程序耗盡記憶體而崩潰。ExcelJS 提供了串流寫入器（Stream Writer），能以極低且穩定的記憶體佔用完成匯出。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ExcelJS</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;exceljs&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fs</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;fs&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">exportLargeDataStream</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;大型報表.xlsx&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">useStyles</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">useSharedStrings</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 建立串流活頁簿寫入器
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">workbook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExcelJS</span>.<span style="color:#a6e22e">stream</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">WorkbookWriter</span>(<span style="color:#a6e22e">options</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worksheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">addWorksheet</span>(<span style="color:#e6db74">&#39;大數據清單&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">columns</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;序號&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;id&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;交易代碼&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;code&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">25</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">header</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;金額&#39;</span>, <span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;amount&#39;</span>, <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">15</span> }
+</span></span><span style="display:flex;"><span>  ];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 模擬寫入 50,000 筆資料
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">50000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">addRow</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">i</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">code</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`TXN-</span><span style="color:#e6db74">${</span>Date.<span style="color:#a6e22e">now</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">amount</span><span style="color:#f92672">:</span> Math.<span style="color:#a6e22e">floor</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>    }).<span style="color:#a6e22e">commit</span>(); <span style="color:#75715e">// 每一列寫入後立即 commit 釋放記憶體
+</span></span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 完成工作表與活頁簿
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">commit</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">commit</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;大型串流匯出完成。&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exportLargeDataStream</span>();
+</span></span></code></pre></div><hr>
+<h2 id="五實務開發的最佳實踐與建議">五、實務開發的最佳實踐與建議</h2>
+<ol>
+<li><strong>日期格式轉換</strong>：Excel 內部對日期的儲存是基於序列值。使用 ExcelJS 時，建議直接傳入 JavaScript <code>Date</code> 物件，並在欄位或儲存格中明確指定 <code>numFmt: 'yyyy-mm-dd hh:mm:ss'</code>，以確保跨平台開啟時格式一致。</li>
+<li><strong>公式計算特性</strong>：ExcelJS 寫入公式（如 <code>{ formula: 'SUM(A1:A10)' }</code>）時，主要負責建立公式結構。若未指定 <code>result</code> 預算值，實際計算結果會在使用者以 Microsoft Excel 或 LibreOffice 開啟該檔案時自動運算呈現。</li>
+<li><strong>Web API 檔案下載整合</strong>：在 Express 或 NestJS 等後端框架中，若需要讓使用者下載產生的 Excel，可利用 <code>workbook.xlsx.write(res)</code> 直接將檔案內容寫入 HTTP Response 串流，無需在伺服器硬碟儲存暫存檔：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// Express.js 範例
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/download-report&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">workbook</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ExcelJS</span>.<span style="color:#a6e22e">Workbook</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">worksheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">addWorksheet</span>(<span style="color:#e6db74">&#39;Report&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">addRow</span>([<span style="color:#e6db74">&#39;項目&#39;</span>, <span style="color:#e6db74">&#39;數值&#39;</span>]);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">worksheet</span>.<span style="color:#a6e22e">addRow</span>([<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#ae81ff">100</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">setHeader</span>(<span style="color:#e6db74">&#39;Content-Type&#39;</span>, <span style="color:#e6db74">&#39;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&#39;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">setHeader</span>(<span style="color:#e6db74">&#39;Content-Disposition&#39;</span>, <span style="color:#e6db74">&#39;attachment; filename=&#34;report.xlsx&#34;&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">workbook</span>.<span style="color:#a6e22e">xlsx</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">end</span>();
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="六結語">六、結語</h2>
+<p>ExcelJS 兼具<strong>直覺的 API 設計</strong>與<strong>強大的排版樣式支援</strong>，同時在面對巨量資料時提供了<strong>穩健的 Stream 機制</strong>。在 Node.js 開發中，若您的應用場景需要產出專業排版、套用品牌視覺、撰寫公式，或是安全處理大型試算表匯出，ExcelJS 是相當成熟且值得信賴的選擇。</p>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a class="ltr:pr-3 rtl:pl-3" href="https://seansie0830.github.io/posts/databaseschemadesignbasic00/"
+      ><span class="ltr:mr-1.5 rtl:ml-1.5">←</span><span>資料庫綱要設計的平衡藝術：從關聯基數、正規化理論到高併發下的效能妥協與外鍵抉擇</span></a
+    ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/whatiscomposableinfrontenddesign/"
+      ><span>解構前端 Composable 架構：告別邏輯泥淖，打造高內聚的現代 UI 系統</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
