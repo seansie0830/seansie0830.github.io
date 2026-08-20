@@ -10,9 +10,16 @@
 		
 		
 		
-			<lastBuildDate>Wed, 19 Aug 2026 22:48:45 +0800</lastBuildDate>
+			<lastBuildDate>Thu, 20 Aug 2026 16:15:10 +0800</lastBuildDate>
 		
 			<atom:link href="https://seansie0830.github.io/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢</title>
+				<link>https://seansie0830.github.io/posts/intros2geowithnpm/</link>
+				<pubDate>Thu, 20 Aug 2026 16:15:10 +0800</pubDate>
+				<guid>https://seansie0830.github.io/posts/intros2geowithnpm/</guid>
+				<description>&lt;p&gt;地理空間數據（Geospatial Data）的檢索與計算一直是分散式系統與資料庫工程中的經典難題。傳統的 R-Tree 索引在多維數據增長時容易出現樹高失衡，而傳統的 Geohash（基於二元網格劃分）在極點與換日線附近存在嚴重的幾何畸變與鄰域不連續性。&lt;/p&gt;&#xA;&lt;p&gt;為了解決這些問題，Google 開發了 &lt;strong&gt;S2 Geometry Library&lt;/strong&gt;。S2 將地球視為一個完整的三維球體，利用立方體投影（Cube Projection）與希爾伯特空間填充曲線（Hilbert Space-Filling Curve），將二維球面座標無損映射為一維的 64 位元整數（&lt;code&gt;uint64&lt;/code&gt;）。這讓百萬級別的地理空間查詢轉換為極速的一維整數區間掃描（B-Tree Range Scan）。&lt;/p&gt;&#xA;&lt;p&gt;本文將深入探討 S2 的核心數學原理，並基於 Node.js 生態（&lt;code&gt;s2geometry-node&lt;/code&gt; / &lt;code&gt;nodes2&lt;/code&gt;），詳細解析關鍵 Class、方法，並手把手實作「矩形經緯度區間查詢（Bounding Box Query）」的最佳實踐。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;一-s2-geometry-核心架構與數學底層&#34;&gt;一、 S2 Geometry 核心架構與數學底層&lt;/h2&gt;&#xA;&lt;p&gt;S2 能夠在地理計算上超越傳統方案，核心在於三個數學轉換階段：&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;經緯度 (Lat/Lng) &#xD;&#xA;    ⬇  1. 三維球面映射&#xD;&#xA;球面三維向量 (x, y, z) &#xD;&#xA;    ⬇  2. 立方體六面切線投影&#xD;&#xA;立方體二維座標 (Face, u, v) &#xD;&#xA;    ⬇  3. 希爾伯特曲線四叉樹離散化&#xD;&#xA;64 位元 S2CellId (整數索引)&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;球面投影到立方體（Cube Projection）&lt;/strong&gt;：&#xA;S2 首先將地球包裹在一個六面立方體中。每個點會先被投影到立方體的某個面（Face 0 到 Face 5），並轉換為局部座標 $(u, v)$。這種投影大幅減少了極地附近的面積失真。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;希爾伯特曲線（Hilbert Curve）與四叉樹離散化&lt;/strong&gt;：&#xA;在立方體的每一個面上，S2 採用四叉樹（Quadtree）進行遞迴四等分，最多可劃分至 30 層（Level 30，單一 Cell 尺寸約為 $1\text{ cm} \times 1\text{ cm}$）。透過希爾伯特曲線遍歷這些四叉樹節點，保證了&lt;strong&gt;一維空間中相鄰的整數在二維球面上也是物理相鄰的（Locality-Preserving）&lt;/strong&gt;。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;S2CellId 的位元編碼結構&lt;/strong&gt;：&#xA;每個 S2 網格由一個 64 位元的無號整數表示：&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;前 3 個位元表示立方體的面（Face 0 ~ 5）。&lt;/li&gt;&#xA;&lt;li&gt;後續最多 60 個位元，每 2 個位元代表一層四叉樹分支方向（00, 01, 10, 11）。&lt;/li&gt;&#xA;&lt;li&gt;最末尾保留一個 &lt;code&gt;1&lt;/code&gt; 作為標記位元（Sentinel Bit），其餘補 &lt;code&gt;0&lt;/code&gt;，用以直接判斷該 Cell 處於哪一個層級（Level）。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;二-nodejs-環境安裝與核心-class-解析&#34;&gt;二、 Node.js 環境安裝與核心 Class 解析&lt;/h2&gt;&#xA;&lt;p&gt;在 Node.js 中，最常使用的原生封裝為 &lt;code&gt;s2geometry-node&lt;/code&gt;（或相容純 JS 實作的 &lt;code&gt;nodes2&lt;/code&gt;）。本篇以相容 Google C++ 原生邏輯的套件為核心解說。&lt;/p&gt;</description>
+			</item>
 			<item>
 				<title>🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校</title>
 				<link>https://seansie0830.github.io/posts/introofhugotoml00/</link>

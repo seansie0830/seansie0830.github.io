@@ -1,0 +1,434 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="地理空間數據（Geospatial Data）的檢索與計算一直是分散式系統與資料庫工程中的經典難題。傳統的 R-Tree 索引在多維數據增長時容易出現樹高失衡，而傳統的 Geohash（基於二元網格劃分）在極點與換日線附近存在嚴重的幾何畸變與鄰域不連續性。
+為了解決這些問題，Google 開發了 S2 Geometry Library。S2 將地球視為一個完整的三維球體，利用立方體投影（Cube Projection）與希爾伯特空間填充曲線（Hilbert Space-Filling Curve），將二維球面座標無損映射為一維的 64 位元整數（uint64）。這讓百萬級別的地理空間查詢轉換為極速的一維整數區間掃描（B-Tree Range Scan）。
+本文將深入探討 S2 的核心數學原理，並基於 Node.js 生態（s2geometry-node / nodes2），詳細解析關鍵 Class、方法，並手把手實作「矩形經緯度區間查詢（Bounding Box Query）」的最佳實踐。
+
+一、 S2 Geometry 核心架構與數學底層
+S2 能夠在地理計算上超越傳統方案，核心在於三個數學轉換階段：
+經緯度 (Lat/Lng) 
+    ⬇  1. 三維球面映射
+球面三維向量 (x, y, z) 
+    ⬇  2. 立方體六面切線投影
+立方體二維座標 (Face, u, v) 
+    ⬇  3. 希爾伯特曲線四叉樹離散化
+64 位元 S2CellId (整數索引)
+
+球面投影到立方體（Cube Projection）：
+S2 首先將地球包裹在一個六面立方體中。每個點會先被投影到立方體的某個面（Face 0 到 Face 5），並轉換為局部座標 $(u, v)$。這種投影大幅減少了極地附近的面積失真。
+希爾伯特曲線（Hilbert Curve）與四叉樹離散化：
+在立方體的每一個面上，S2 採用四叉樹（Quadtree）進行遞迴四等分，最多可劃分至 30 層（Level 30，單一 Cell 尺寸約為 $1\text{ cm} \times 1\text{ cm}$）。透過希爾伯特曲線遍歷這些四叉樹節點，保證了一維空間中相鄰的整數在二維球面上也是物理相鄰的（Locality-Preserving）。
+S2CellId 的位元編碼結構：
+每個 S2 網格由一個 64 位元的無號整數表示：
+
+
+前 3 個位元表示立方體的面（Face 0 ~ 5）。
+後續最多 60 個位元，每 2 個位元代表一層四叉樹分支方向（00, 01, 10, 11）。
+最末尾保留一個 1 作為標記位元（Sentinel Bit），其餘補 0，用以直接判斷該 Cell 處於哪一個層級（Level）。
+
+
+二、 Node.js 環境安裝與核心 Class 解析
+在 Node.js 中，最常使用的原生封裝為 s2geometry-node（或相容純 JS 實作的 nodes2）。本篇以相容 Google C&#43;&#43; 原生邏輯的套件為核心解說。" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢">
+	<meta itemprop="description" content="地理空間數據（Geospatial Data）的檢索與計算一直是分散式系統與資料庫工程中的經典難題。傳統的 R-Tree 索引在多維數據增長時容易出現樹高失衡，而傳統的 Geohash（基於二元網格劃分）在極點與換日線附近存在嚴重的幾何畸變與鄰域不連續性。
+為了解決這些問題，Google 開發了 S2 Geometry Library。S2 將地球視為一個完整的三維球體，利用立方體投影（Cube Projection）與希爾伯特空間填充曲線（Hilbert Space-Filling Curve），將二維球面座標無損映射為一維的 64 位元整數（uint64）。這讓百萬級別的地理空間查詢轉換為極速的一維整數區間掃描（B-Tree Range Scan）。
+本文將深入探討 S2 的核心數學原理，並基於 Node.js 生態（s2geometry-node / nodes2），詳細解析關鍵 Class、方法，並手把手實作「矩形經緯度區間查詢（Bounding Box Query）」的最佳實踐。
+一、 S2 Geometry 核心架構與數學底層 S2 能夠在地理計算上超越傳統方案，核心在於三個數學轉換階段：
+經緯度 (Lat/Lng) ⬇ 1. 三維球面映射球面三維向量 (x, y, z) ⬇ 2. 立方體六面切線投影立方體二維座標 (Face, u, v) ⬇ 3. 希爾伯特曲線四叉樹離散化64 位元 S2CellId (整數索引) 球面投影到立方體（Cube Projection）： S2 首先將地球包裹在一個六面立方體中。每個點會先被投影到立方體的某個面（Face 0 到 Face 5），並轉換為局部座標 $(u, v)$。這種投影大幅減少了極地附近的面積失真。 希爾伯特曲線（Hilbert Curve）與四叉樹離散化： 在立方體的每一個面上，S2 採用四叉樹（Quadtree）進行遞迴四等分，最多可劃分至 30 層（Level 30，單一 Cell 尺寸約為 $1\text{ cm} \times 1\text{ cm}$）。透過希爾伯特曲線遍歷這些四叉樹節點，保證了一維空間中相鄰的整數在二維球面上也是物理相鄰的（Locality-Preserving）。 S2CellId 的位元編碼結構： 每個 S2 網格由一個 64 位元的無號整數表示： 前 3 個位元表示立方體的面（Face 0 ~ 5）。 後續最多 60 個位元，每 2 個位元代表一層四叉樹分支方向（00, 01, 10, 11）。 最末尾保留一個 1 作為標記位元（Sentinel Bit），其餘補 0，用以直接判斷該 Cell 處於哪一個層級（Level）。 二、 Node.js 環境安裝與核心 Class 解析 在 Node.js 中，最常使用的原生封裝為 s2geometry-node（或相容純 JS 實作的 nodes2）。本篇以相容 Google C&#43;&#43; 原生邏輯的套件為核心解說。">
+	<meta itemprop="datePublished" content="2026-08-20T16:15:10+08:00">
+	<meta itemprop="dateModified" content="2026-08-20T16:15:10+08:00">
+	<meta itemprop="wordCount" content="661"><meta property="og:url" content="https://seansie0830.github.io/posts/intros2geowithnpm/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢">
+	<meta property="og:description" content="地理空間數據（Geospatial Data）的檢索與計算一直是分散式系統與資料庫工程中的經典難題。傳統的 R-Tree 索引在多維數據增長時容易出現樹高失衡，而傳統的 Geohash（基於二元網格劃分）在極點與換日線附近存在嚴重的幾何畸變與鄰域不連續性。
+為了解決這些問題，Google 開發了 S2 Geometry Library。S2 將地球視為一個完整的三維球體，利用立方體投影（Cube Projection）與希爾伯特空間填充曲線（Hilbert Space-Filling Curve），將二維球面座標無損映射為一維的 64 位元整數（uint64）。這讓百萬級別的地理空間查詢轉換為極速的一維整數區間掃描（B-Tree Range Scan）。
+本文將深入探討 S2 的核心數學原理，並基於 Node.js 生態（s2geometry-node / nodes2），詳細解析關鍵 Class、方法，並手把手實作「矩形經緯度區間查詢（Bounding Box Query）」的最佳實踐。
+一、 S2 Geometry 核心架構與數學底層 S2 能夠在地理計算上超越傳統方案，核心在於三個數學轉換階段：
+經緯度 (Lat/Lng) ⬇ 1. 三維球面映射球面三維向量 (x, y, z) ⬇ 2. 立方體六面切線投影立方體二維座標 (Face, u, v) ⬇ 3. 希爾伯特曲線四叉樹離散化64 位元 S2CellId (整數索引) 球面投影到立方體（Cube Projection）： S2 首先將地球包裹在一個六面立方體中。每個點會先被投影到立方體的某個面（Face 0 到 Face 5），並轉換為局部座標 $(u, v)$。這種投影大幅減少了極地附近的面積失真。 希爾伯特曲線（Hilbert Curve）與四叉樹離散化： 在立方體的每一個面上，S2 採用四叉樹（Quadtree）進行遞迴四等分，最多可劃分至 30 層（Level 30，單一 Cell 尺寸約為 $1\text{ cm} \times 1\text{ cm}$）。透過希爾伯特曲線遍歷這些四叉樹節點，保證了一維空間中相鄰的整數在二維球面上也是物理相鄰的（Locality-Preserving）。 S2CellId 的位元編碼結構： 每個 S2 網格由一個 64 位元的無號整數表示： 前 3 個位元表示立方體的面（Face 0 ~ 5）。 後續最多 60 個位元，每 2 個位元代表一層四叉樹分支方向（00, 01, 10, 11）。 最末尾保留一個 1 作為標記位元（Sentinel Bit），其餘補 0，用以直接判斷該 Cell 處於哪一個層級（Level）。 二、 Node.js 環境安裝與核心 Class 解析 在 Node.js 中，最常使用的原生封裝為 s2geometry-node（或相容純 JS 實作的 nodes2）。本篇以相容 Google C&#43;&#43; 原生邏輯的套件為核心解說。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-20T16:15:10+08:00">
+		<meta property="article:modified_time" content="2026-08-20T16:15:10+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢">
+	<meta name="twitter:description" content="地理空間數據（Geospatial Data）的檢索與計算一直是分散式系統與資料庫工程中的經典難題。傳統的 R-Tree 索引在多維數據增長時容易出現樹高失衡，而傳統的 Geohash（基於二元網格劃分）在極點與換日線附近存在嚴重的幾何畸變與鄰域不連續性。
+為了解決這些問題，Google 開發了 S2 Geometry Library。S2 將地球視為一個完整的三維球體，利用立方體投影（Cube Projection）與希爾伯特空間填充曲線（Hilbert Space-Filling Curve），將二維球面座標無損映射為一維的 64 位元整數（uint64）。這讓百萬級別的地理空間查詢轉換為極速的一維整數區間掃描（B-Tree Range Scan）。
+本文將深入探討 S2 的核心數學原理，並基於 Node.js 生態（s2geometry-node / nodes2），詳細解析關鍵 Class、方法，並手把手實作「矩形經緯度區間查詢（Bounding Box Query）」的最佳實踐。
+一、 S2 Geometry 核心架構與數學底層 S2 能夠在地理計算上超越傳統方案，核心在於三個數學轉換階段：
+經緯度 (Lat/Lng) ⬇ 1. 三維球面映射球面三維向量 (x, y, z) ⬇ 2. 立方體六面切線投影立方體二維座標 (Face, u, v) ⬇ 3. 希爾伯特曲線四叉樹離散化64 位元 S2CellId (整數索引) 球面投影到立方體（Cube Projection）： S2 首先將地球包裹在一個六面立方體中。每個點會先被投影到立方體的某個面（Face 0 到 Face 5），並轉換為局部座標 $(u, v)$。這種投影大幅減少了極地附近的面積失真。 希爾伯特曲線（Hilbert Curve）與四叉樹離散化： 在立方體的每一個面上，S2 採用四叉樹（Quadtree）進行遞迴四等分，最多可劃分至 30 層（Level 30，單一 Cell 尺寸約為 $1\text{ cm} \times 1\text{ cm}$）。透過希爾伯特曲線遍歷這些四叉樹節點，保證了一維空間中相鄰的整數在二維球面上也是物理相鄰的（Locality-Preserving）。 S2CellId 的位元編碼結構： 每個 S2 網格由一個 64 位元的無號整數表示： 前 3 個位元表示立方體的面（Face 0 ~ 5）。 後續最多 60 個位元，每 2 個位元代表一層四叉樹分支方向（00, 01, 10, 11）。 最末尾保留一個 1 作為標記位元（Sentinel Bit），其餘補 0，用以直接判斷該 Cell 處於哪一個層級（Level）。 二、 Node.js 環境安裝與核心 Class 解析 在 Node.js 中，最常使用的原生封裝為 s2geometry-node（或相容純 JS 實作的 nodes2）。本篇以相容 Google C&#43;&#43; 原生邏輯的套件為核心解說。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/intros2geowithnpm/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢</h1><div class="text-xs antialiased opacity-60"><time>Aug 20, 2026</time></div></header>
+
+  <section><p>地理空間數據（Geospatial Data）的檢索與計算一直是分散式系統與資料庫工程中的經典難題。傳統的 R-Tree 索引在多維數據增長時容易出現樹高失衡，而傳統的 Geohash（基於二元網格劃分）在極點與換日線附近存在嚴重的幾何畸變與鄰域不連續性。</p>
+<p>為了解決這些問題，Google 開發了 <strong>S2 Geometry Library</strong>。S2 將地球視為一個完整的三維球體，利用立方體投影（Cube Projection）與希爾伯特空間填充曲線（Hilbert Space-Filling Curve），將二維球面座標無損映射為一維的 64 位元整數（<code>uint64</code>）。這讓百萬級別的地理空間查詢轉換為極速的一維整數區間掃描（B-Tree Range Scan）。</p>
+<p>本文將深入探討 S2 的核心數學原理，並基於 Node.js 生態（<code>s2geometry-node</code> / <code>nodes2</code>），詳細解析關鍵 Class、方法，並手把手實作「矩形經緯度區間查詢（Bounding Box Query）」的最佳實踐。</p>
+<hr>
+<h2 id="一-s2-geometry-核心架構與數學底層">一、 S2 Geometry 核心架構與數學底層</h2>
+<p>S2 能夠在地理計算上超越傳統方案，核心在於三個數學轉換階段：</p>
+<pre tabindex="0"><code>經緯度 (Lat/Lng) 
+    ⬇  1. 三維球面映射
+球面三維向量 (x, y, z) 
+    ⬇  2. 立方體六面切線投影
+立方體二維座標 (Face, u, v) 
+    ⬇  3. 希爾伯特曲線四叉樹離散化
+64 位元 S2CellId (整數索引)
+</code></pre><ol>
+<li><strong>球面投影到立方體（Cube Projection）</strong>：
+S2 首先將地球包裹在一個六面立方體中。每個點會先被投影到立方體的某個面（Face 0 到 Face 5），並轉換為局部座標 $(u, v)$。這種投影大幅減少了極地附近的面積失真。</li>
+<li><strong>希爾伯特曲線（Hilbert Curve）與四叉樹離散化</strong>：
+在立方體的每一個面上，S2 採用四叉樹（Quadtree）進行遞迴四等分，最多可劃分至 30 層（Level 30，單一 Cell 尺寸約為 $1\text{ cm} \times 1\text{ cm}$）。透過希爾伯特曲線遍歷這些四叉樹節點，保證了<strong>一維空間中相鄰的整數在二維球面上也是物理相鄰的（Locality-Preserving）</strong>。</li>
+<li><strong>S2CellId 的位元編碼結構</strong>：
+每個 S2 網格由一個 64 位元的無號整數表示：</li>
+</ol>
+<ul>
+<li>前 3 個位元表示立方體的面（Face 0 ~ 5）。</li>
+<li>後續最多 60 個位元，每 2 個位元代表一層四叉樹分支方向（00, 01, 10, 11）。</li>
+<li>最末尾保留一個 <code>1</code> 作為標記位元（Sentinel Bit），其餘補 <code>0</code>，用以直接判斷該 Cell 處於哪一個層級（Level）。</li>
+</ul>
+<hr>
+<h2 id="二-nodejs-環境安裝與核心-class-解析">二、 Node.js 環境安裝與核心 Class 解析</h2>
+<p>在 Node.js 中，最常使用的原生封裝為 <code>s2geometry-node</code>（或相容純 JS 實作的 <code>nodes2</code>）。本篇以相容 Google C++ 原生邏輯的套件為核心解說。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install s2geometry-node
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者純 JS 版本的</span>
+</span></span><span style="display:flex;"><span>npm install nodes2
+</span></span></code></pre></div><h3 id="關鍵-class-矩陣">關鍵 Class 矩陣</h3>
+<table>
+	<thead>
+			<tr>
+					<th>Class 名稱</th>
+					<th>角色與責任</th>
+					<th>常用場景</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong><code>S2LatLng</code></strong></td>
+					<td>表示經緯度座標（支援度數與弧度轉換）</td>
+					<td>數據輸入、單點定位</td>
+			</tr>
+			<tr>
+					<td><strong><code>S2Point</code></strong></td>
+					<td>單位球體上的三維向量 $(x, y, z)$</td>
+					<td>幾何距離、向量夾角計算</td>
+			</tr>
+			<tr>
+					<td><strong><code>S2CellId</code></strong></td>
+					<td>64 位元空間索引標識符</td>
+					<td>資料庫索引存儲、鄰域查找、階層轉換</td>
+			</tr>
+			<tr>
+					<td><strong><code>S2Cell</code></strong></td>
+					<td>實際的幾何單元實體</td>
+					<td>計算單元邊界、面積、包含判定</td>
+			</tr>
+			<tr>
+					<td><strong><code>S2LatLngRect</code></strong></td>
+					<td>球面上的經緯度矩形邊界</td>
+					<td>區域範圍查詢（Bounding Box）、可視區域過濾</td>
+			</tr>
+			<tr>
+					<td><strong><code>S2RegionCoverer</code></strong></td>
+					<td>空間區域覆蓋算法引擎</td>
+					<td>將任意幾何形狀分解為最佳 S2Cell 集合</td>
+			</tr>
+	</tbody>
+</table>
+<hr>
+<h2 id="三-核心-class-常用方法與代碼範例">三、 核心 Class 常用方法與代碼範例</h2>
+<h3 id="1-座標轉換與-s2cellid-生成">1. 座標轉換與 S2CellId 生成</h3>
+<p>將經緯度轉換為 S2 空間索引值，通常儲存為字串（BigInt）以避免 JavaScript 64 位元浮點數精度遺失。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;s2geometry-node&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1. 建立台北 101 座標 (25.033976, 121.564538)
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">latLng</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">S2LatLng</span>.<span style="color:#a6e22e">fromDegrees</span>(<span style="color:#ae81ff">25.033976</span>, <span style="color:#ae81ff">121.564538</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2. 獲取該點在 Level 16 (約 100m 精度) 的 S2CellId
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cellId</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">S2CellId</span>.<span style="color:#a6e22e">fromLatLng</span>(<span style="color:#a6e22e">latLng</span>).<span style="color:#a6e22e">parent</span>(<span style="color:#ae81ff">16</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 輸出 Token (Hex 字串) 與 64 位元整數 ID
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Level 16 Token:&#39;</span>, <span style="color:#a6e22e">cellId</span>.<span style="color:#a6e22e">toToken</span>());     <span style="color:#75715e">// e.g. &#34;3442abb...&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Level 16 ID (String):&#39;</span>, <span style="color:#a6e22e">cellId</span>.<span style="color:#a6e22e">id</span>().<span style="color:#a6e22e">toString</span>());
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;當前 Level:&#39;</span>, <span style="color:#a6e22e">cellId</span>.<span style="color:#a6e22e">level</span>());          <span style="color:#75715e">// 16
+</span></span></span></code></pre></div><h3 id="2-空間鄰域查詢8-鄰域">2. 空間鄰域查詢（8 鄰域）</h3>
+<p>在地理圍欄或附近搜尋時，直接取周圍 8 個 Cell 可以有效避免跨邊界遺漏問題：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 取得當前 Cell 在同層級的所有相鄰 Cell (包含角點共有 8 個鄰居)
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">neighbors</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cellId</span>.<span style="color:#a6e22e">getEdgeNeighbors</span>(<span style="color:#a6e22e">neighbors</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;鄰近的 Cell 數量:&#39;</span>, <span style="color:#a6e22e">neighbors</span>.<span style="color:#a6e22e">length</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">neighbors</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">neighbor</span>, <span style="color:#a6e22e">idx</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`鄰居 </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">idx</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> Token:`</span>, <span style="color:#a6e22e">neighbor</span>.<span style="color:#a6e22e">toToken</span>());
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="四-核心主題方形經緯度區間查詢bounding-box-query">四、 核心主題：方形經緯度區間查詢（Bounding Box Query）</h2>
+<p>在實際開發中（如地圖拖曳可視範圍搜尋、快遞外送派單區域劃分），最常見的需求是：<strong>「給定左下角與右上角經緯度，查詢該矩形區域內的所有標記點」</strong>。</p>
+<h3 id="查詢核心邏輯與挑戰">查詢核心邏輯與挑戰</h3>
+<p>若直接使用 SQL 的 <code>lat BETWEEN minLat AND maxLat AND lng BETWEEN minLng AND maxLng</code>，在資料量達數百萬時無法有效利用複合索引。</p>
+<p>S2 的解法是：</p>
+<ol>
+<li>用 <strong><code>S2LatLngRect</code></strong> 定義經緯度矩形。</li>
+<li>用 <strong><code>S2RegionCoverer</code></strong> 將該矩形切分成有限數量的 <code>S2CellUnion</code>（一組不同大小但緊密貼合的 S2Cell 集合）。</li>
+<li>每個 Cell 在一維空間中都是一個連續區間 <code>[cell.rangeMin(), cell.rangeMax()]</code>。</li>
+<li>將原本的 2D 範圍查詢轉換為資料庫中的 <strong>1D 區間 <code>OR</code> 查詢</strong>。</li>
+</ol>
+<h3 id="實作範例矩形覆蓋與範圍生成">實作範例：矩形覆蓋與範圍生成</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;s2geometry-node&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 給定矩形經緯度，生成用於資料庫查詢的 Cell 區間
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {number} minLat 最小緯度 (南)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {number} minLng 最小經度 (西)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {number} maxLat 最大緯度 (北)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {number} maxLng 最大經度 (東)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getBoundingBoxQueryRanges</span>(<span style="color:#a6e22e">minLat</span>, <span style="color:#a6e22e">minLng</span>, <span style="color:#a6e22e">maxLat</span>, <span style="color:#a6e22e">maxLng</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 1. 建立矩形範圍 (S2LatLngRect)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pLo</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">S2LatLng</span>.<span style="color:#a6e22e">fromDegrees</span>(<span style="color:#a6e22e">minLat</span>, <span style="color:#a6e22e">minLng</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pHi</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">S2LatLng</span>.<span style="color:#a6e22e">fromDegrees</span>(<span style="color:#a6e22e">maxLat</span>, <span style="color:#a6e22e">maxLng</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rect</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">S2LatLngRect</span>.<span style="color:#a6e22e">fromPointPair</span>(<span style="color:#a6e22e">pLo</span>, <span style="color:#a6e22e">pHi</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 2. 配置 RegionCoverer 參數
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">coverer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">S2RegionCoverer</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coverer</span>.<span style="color:#a6e22e">setMinLevel</span>(<span style="color:#ae81ff">8</span>);    <span style="color:#75715e">// 最小 Cell 層級 (避免覆蓋塊過大造成過多 False Positives)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coverer</span>.<span style="color:#a6e22e">setMaxLevel</span>(<span style="color:#ae81ff">16</span>);   <span style="color:#75715e">// 最大 Cell 層級 (避免切太碎造成過多 SQL 條件)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coverer</span>.<span style="color:#a6e22e">setMaxCells</span>(<span style="color:#ae81ff">20</span>);   <span style="color:#75715e">// 最多產生的 Cell 數量 (建議 8~30 之間平衡查詢效能)
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 3. 獲取覆蓋該矩形的 S2CellUnion
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cellUnion</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">coverer</span>.<span style="color:#a6e22e">getCovering</span>(<span style="color:#a6e22e">rect</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 4. 將每個 S2CellId 轉換為查詢區間 [rangeMin, rangeMax]
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ranges</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cellIds</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cellUnion</span>.<span style="color:#a6e22e">cellIds</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">cellIds</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cid</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cellIds</span>[<span style="color:#a6e22e">i</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ranges</span>.<span style="color:#a6e22e">push</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">cellId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">id</span>().<span style="color:#a6e22e">toString</span>(),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">token</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">toToken</span>(),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">level</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">level</span>(),
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 區間起點：該 Cell 樹狀結構下的最底層第一個葉子節點
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rangeMin</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">rangeMin</span>().<span style="color:#a6e22e">id</span>().<span style="color:#a6e22e">toString</span>(),
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 區間終點：該 Cell 樹狀結構下的最底層最後一個葉子節點
+</span></span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">rangeMax</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">cid</span>.<span style="color:#a6e22e">rangeMax</span>().<span style="color:#a6e22e">id</span>().<span style="color:#a6e22e">toString</span>()
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ranges</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 範例：查詢台北大安森林公園周邊矩形
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">queryRanges</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">getBoundingBoxQueryRanges</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">25.0260</span>, <span style="color:#ae81ff">121.5320</span>, <span style="color:#75715e">// 南西 (SW)
+</span></span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">25.0360</span>, <span style="color:#ae81ff">121.5400</span>  <span style="color:#75715e">// 北東 (NE)
+</span></span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`成功將矩形分解為 </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">queryRanges</span>.<span style="color:#a6e22e">length</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> 個 S2 區間：`</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">dir</span>(<span style="color:#a6e22e">queryRanges</span>, { <span style="color:#a6e22e">depth</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span> });
+</span></span></code></pre></div><h3 id="資料庫整合方案sql-範例">資料庫整合方案（SQL 範例）</h3>
+<p>當數據寫入時，我們為每一筆標記點計算最底層（Level 30）或固定層級（如 Level 16）的 <code>s2_cell_id</code> 並建立 B-Tree 索引：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 寫入時計算的 S2 索引欄位 (使用 BIGINT UNSIGNED 或 DECIMAL)
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> places (
+</span></span><span style="display:flex;"><span>    id BIGINT AUTO_INCREMENT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+</span></span><span style="display:flex;"><span>    name VARCHAR(<span style="color:#ae81ff">255</span>),
+</span></span><span style="display:flex;"><span>    lat DOUBLE,
+</span></span><span style="display:flex;"><span>    lng DOUBLE,
+</span></span><span style="display:flex;"><span>    s2_id BIGINT UNSIGNED <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">INDEX</span> idx_s2_id (s2_id)
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>當進行矩形範圍查詢時，將前端產生的 <code>ranges</code> 拼裝為高效率的 SQL 區間查詢：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- 透過 S2RegionCoverer 產生的多個區間快速篩選
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> id, name, lat, lng <span style="color:#66d9ef">FROM</span> places 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> 
+</span></span><span style="display:flex;"><span>   (s2_id <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">4935105234527715328</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">4935105238822682623</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">OR</span> (s2_id <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">4935105243117649920</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">4935105247412617215</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">OR</span> (s2_id <span style="color:#66d9ef">BETWEEN</span> <span style="color:#ae81ff">4935105251707584512</span> <span style="color:#66d9ef">AND</span> <span style="color:#ae81ff">4935105256002551807</span>);
+</span></span></code></pre></div><p>由於覆蓋算法會在邊緣有些許冗餘（Covering 是以 Cell 為單位的超集），在資料量極度敏感的業務中，可在應用層或 SQL 最後加上精準經緯度過濾（<code>AND lat BETWEEN ... AND lng BETWEEN ...</code>）。</p>
+<hr>
+<h2 id="五-進階技巧與架構設計注意事項">五、 進階技巧與架構設計注意事項</h2>
+<ol>
+<li><strong><code>maxCells</code> 參數權衡</strong>：</li>
+</ol>
+<ul>
+<li><strong><code>maxCells</code> 設太大（如 100+）</strong>：網格與查詢形狀貼合度極高，多餘數據少，但產生的 SQL 條件或 Redis 查詢次數大幅增加。</li>
+<li><strong><code>maxCells</code> 設太小（如 4~8）</strong>：產生的 SQL 極為簡短，但外圍覆蓋過大，導致資料庫檢索出較多不在目標矩形內的數據。</li>
+<li><strong>推薦實踐</strong>：OLTP 資料庫查詢建議設定在 <code>10 ~ 20</code> 之間。</li>
+</ul>
+<ol start="2">
+<li><strong>跨越換日線（180 度經線）與極點</strong>：
+<code>S2LatLngRect</code> 支援跨越換日線的矩形判定。當 <code>lngLo &gt; lngHi</code> 時，S2 會自動將其識別為跨越 180 度經線的區間，開發者無需手動切分為兩個查詢子句。</li>
+<li><strong>層級（Level）與空間尺寸對照</strong>：</li>
+</ol>
+<ul>
+<li><strong>Level 10</strong>：約 $10\text{ km} \times 10\text{ km}$（城市級覆蓋）</li>
+<li><strong>Level 13</strong>：約 $1.2\text{ km} \times 1.2\text{ km}$（區域、商圈分析）</li>
+<li><strong>Level 16</strong>：約 $150\text{ m} \times 150\text{ m}$（街區、附近車輛定位）</li>
+<li><strong>Level 20</strong>：約 $9\text{ m} \times 9\text{ m}$（精確門牌、建築內部定位）</li>
+</ul>
+<p>透過將高維空間幾何運算轉換為一維離散數學與 B-Tree 檢索，S2 Geometry 成為現代分散式地理系統（如 Uber H3 之外的另一主流）的堅實基石。利用 Node.js 結合 S2 覆蓋算法，能夠以極低的架構複雜度支撐起高併發的地理空間查詢業務。</p>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/introofhugotoml00/"
+      ><span>🎒 終極導覽：Hugo.toml 駕駛艙全攻略 —— 從新手出航到極客調校</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
