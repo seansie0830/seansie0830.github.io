@@ -1,0 +1,378 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>深入理解 Express.js Middleware：從核心概念、常見套件到實戰自製 - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="在 Node.js 與 Express.js 的架構設計中，Middleware（中介軟體） 是最核心的靈魂機制。理解 Middleware 的運作模式，是掌握後端請求生命週期、構建安全且可維護 API 的關鍵基礎。
+
+什麼是 Middleware？
+Express 本質上就是由一系列 Middleware 串接而成的路由與控制流程框架。
+當客戶端發送 HTTP 請求至伺服器時，該請求並不會立即直達最終的業務邏輯處理常式（Route Handler），而是會經過一條由多個函數組成的處理管線（Pipeline）。管線中的每一個節點就是一個 Middleware。
+每個標準的 Middleware 函數都可以存取三個核心物件：
+
+req (Request)：當前 HTTP 請求的資訊（包含 Headers、Body、Params、Query 等）。
+res (Response)：準備返回給客戶端的 HTTP 回應物件。
+next：負責將控制權轉移至管線中下一個 Middleware 的回呼函數。
+
+[Client Request] ──&gt; [Middleware 1] ──&gt; [Middleware 2] ──&gt; [Route Handler] ──&gt; [Client Response]
+Middleware 的三大核心職責為：
+
+執行任意程式碼（如記錄日誌、測量耗時）。
+修改 req 或 res 物件（如驗證 Token 後掛載使用者資料）。
+終結請求生命週期（直接呼叫 res.send() 或 res.json()），或呼叫 next() 將流程往下傳遞。
+
+
+常見的生態系 Middleware
+在實際開發中，社群已針對多數通用情境提供了高度穩定且經過測試的開源中介軟體：
+
+cors：處理跨來源資源共用（CORS），動態設定 Access-Control-Allow-Origin 等標頭。
+helmet：透過自動設定適當的 HTTP 安全標頭（如 CSP、HSTS、X-Frame-Options）來提升應用安全性。
+morgan：HTTP 請求記錄器（Logger），可用於終端機輸出與日誌檔分析。
+express-rate-limit：限制短時間內的請求次數，防範暴力破解與 DDoS 攻擊。
+**express.json() / express.urlencoded()**：Express 內建的 Body Parser，用於解析 JSON 與 URL-encoded 格式的請求主體。
+
+
+如何自製客製化 Middleware
+自製 Middleware 僅需定義一個接收 (req, res, next) 參數的函數，並確保在處理完畢後執行 next() 或終止回應。" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="深入理解 Express.js Middleware：從核心概念、常見套件到實戰自製">
+	<meta itemprop="description" content="在 Node.js 與 Express.js 的架構設計中，Middleware（中介軟體） 是最核心的靈魂機制。理解 Middleware 的運作模式，是掌握後端請求生命週期、構建安全且可維護 API 的關鍵基礎。
+什麼是 Middleware？ Express 本質上就是由一系列 Middleware 串接而成的路由與控制流程框架。
+當客戶端發送 HTTP 請求至伺服器時，該請求並不會立即直達最終的業務邏輯處理常式（Route Handler），而是會經過一條由多個函數組成的處理管線（Pipeline）。管線中的每一個節點就是一個 Middleware。
+每個標準的 Middleware 函數都可以存取三個核心物件：
+req (Request)：當前 HTTP 請求的資訊（包含 Headers、Body、Params、Query 等）。 res (Response)：準備返回給客戶端的 HTTP 回應物件。 next：負責將控制權轉移至管線中下一個 Middleware 的回呼函數。 [Client Request] ──&gt; [Middleware 1] ──&gt; [Middleware 2] ──&gt; [Route Handler] ──&gt; [Client Response] Middleware 的三大核心職責為：
+執行任意程式碼（如記錄日誌、測量耗時）。 修改 req 或 res 物件（如驗證 Token 後掛載使用者資料）。 終結請求生命週期（直接呼叫 res.send() 或 res.json()），或呼叫 next() 將流程往下傳遞。 常見的生態系 Middleware 在實際開發中，社群已針對多數通用情境提供了高度穩定且經過測試的開源中介軟體：
+cors：處理跨來源資源共用（CORS），動態設定 Access-Control-Allow-Origin 等標頭。 helmet：透過自動設定適當的 HTTP 安全標頭（如 CSP、HSTS、X-Frame-Options）來提升應用安全性。 morgan：HTTP 請求記錄器（Logger），可用於終端機輸出與日誌檔分析。 express-rate-limit：限制短時間內的請求次數，防範暴力破解與 DDoS 攻擊。 **express.json() / express.urlencoded()**：Express 內建的 Body Parser，用於解析 JSON 與 URL-encoded 格式的請求主體。 如何自製客製化 Middleware 自製 Middleware 僅需定義一個接收 (req, res, next) 參數的函數，並確保在處理完畢後執行 next() 或終止回應。">
+	<meta itemprop="datePublished" content="2026-08-20T16:51:49+08:00">
+	<meta itemprop="dateModified" content="2026-08-20T16:51:49+08:00">
+	<meta itemprop="wordCount" content="447"><meta property="og:url" content="https://seansie0830.github.io/posts/whatisexpressmidware/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="深入理解 Express.js Middleware：從核心概念、常見套件到實戰自製">
+	<meta property="og:description" content="在 Node.js 與 Express.js 的架構設計中，Middleware（中介軟體） 是最核心的靈魂機制。理解 Middleware 的運作模式，是掌握後端請求生命週期、構建安全且可維護 API 的關鍵基礎。
+什麼是 Middleware？ Express 本質上就是由一系列 Middleware 串接而成的路由與控制流程框架。
+當客戶端發送 HTTP 請求至伺服器時，該請求並不會立即直達最終的業務邏輯處理常式（Route Handler），而是會經過一條由多個函數組成的處理管線（Pipeline）。管線中的每一個節點就是一個 Middleware。
+每個標準的 Middleware 函數都可以存取三個核心物件：
+req (Request)：當前 HTTP 請求的資訊（包含 Headers、Body、Params、Query 等）。 res (Response)：準備返回給客戶端的 HTTP 回應物件。 next：負責將控制權轉移至管線中下一個 Middleware 的回呼函數。 [Client Request] ──&gt; [Middleware 1] ──&gt; [Middleware 2] ──&gt; [Route Handler] ──&gt; [Client Response] Middleware 的三大核心職責為：
+執行任意程式碼（如記錄日誌、測量耗時）。 修改 req 或 res 物件（如驗證 Token 後掛載使用者資料）。 終結請求生命週期（直接呼叫 res.send() 或 res.json()），或呼叫 next() 將流程往下傳遞。 常見的生態系 Middleware 在實際開發中，社群已針對多數通用情境提供了高度穩定且經過測試的開源中介軟體：
+cors：處理跨來源資源共用（CORS），動態設定 Access-Control-Allow-Origin 等標頭。 helmet：透過自動設定適當的 HTTP 安全標頭（如 CSP、HSTS、X-Frame-Options）來提升應用安全性。 morgan：HTTP 請求記錄器（Logger），可用於終端機輸出與日誌檔分析。 express-rate-limit：限制短時間內的請求次數，防範暴力破解與 DDoS 攻擊。 **express.json() / express.urlencoded()**：Express 內建的 Body Parser，用於解析 JSON 與 URL-encoded 格式的請求主體。 如何自製客製化 Middleware 自製 Middleware 僅需定義一個接收 (req, res, next) 參數的函數，並確保在處理完畢後執行 next() 或終止回應。">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-08-20T16:51:49+08:00">
+		<meta property="article:modified_time" content="2026-08-20T16:51:49+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="深入理解 Express.js Middleware：從核心概念、常見套件到實戰自製">
+	<meta name="twitter:description" content="在 Node.js 與 Express.js 的架構設計中，Middleware（中介軟體） 是最核心的靈魂機制。理解 Middleware 的運作模式，是掌握後端請求生命週期、構建安全且可維護 API 的關鍵基礎。
+什麼是 Middleware？ Express 本質上就是由一系列 Middleware 串接而成的路由與控制流程框架。
+當客戶端發送 HTTP 請求至伺服器時，該請求並不會立即直達最終的業務邏輯處理常式（Route Handler），而是會經過一條由多個函數組成的處理管線（Pipeline）。管線中的每一個節點就是一個 Middleware。
+每個標準的 Middleware 函數都可以存取三個核心物件：
+req (Request)：當前 HTTP 請求的資訊（包含 Headers、Body、Params、Query 等）。 res (Response)：準備返回給客戶端的 HTTP 回應物件。 next：負責將控制權轉移至管線中下一個 Middleware 的回呼函數。 [Client Request] ──&gt; [Middleware 1] ──&gt; [Middleware 2] ──&gt; [Route Handler] ──&gt; [Client Response] Middleware 的三大核心職責為：
+執行任意程式碼（如記錄日誌、測量耗時）。 修改 req 或 res 物件（如驗證 Token 後掛載使用者資料）。 終結請求生命週期（直接呼叫 res.send() 或 res.json()），或呼叫 next() 將流程往下傳遞。 常見的生態系 Middleware 在實際開發中，社群已針對多數通用情境提供了高度穩定且經過測試的開源中介軟體：
+cors：處理跨來源資源共用（CORS），動態設定 Access-Control-Allow-Origin 等標頭。 helmet：透過自動設定適當的 HTTP 安全標頭（如 CSP、HSTS、X-Frame-Options）來提升應用安全性。 morgan：HTTP 請求記錄器（Logger），可用於終端機輸出與日誌檔分析。 express-rate-limit：限制短時間內的請求次數，防範暴力破解與 DDoS 攻擊。 **express.json() / express.urlencoded()**：Express 內建的 Body Parser，用於解析 JSON 與 URL-encoded 格式的請求主體。 如何自製客製化 Middleware 自製 Middleware 僅需定義一個接收 (req, res, next) 參數的函數，並確保在處理完畢後執行 next() 或終止回應。">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/whatisexpressmidware/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">深入理解 Express.js Middleware：從核心概念、常見套件到實戰自製</h1><div class="text-xs antialiased opacity-60"><time>Aug 20, 2026</time></div></header>
+
+  <section><p>在 Node.js 與 Express.js 的架構設計中，<strong>Middleware（中介軟體）</strong> 是最核心的靈魂機制。理解 Middleware 的運作模式，是掌握後端請求生命週期、構建安全且可維護 API 的關鍵基礎。</p>
+<hr>
+<h2 id="什麼是-middleware">什麼是 Middleware？</h2>
+<p>Express 本質上就是由一系列 Middleware 串接而成的路由與控制流程框架。</p>
+<p>當客戶端發送 HTTP 請求至伺服器時，該請求並不會立即直達最終的業務邏輯處理常式（Route Handler），而是會經過一條由多個函數組成的<strong>處理管線（Pipeline）</strong>。管線中的每一個節點就是一個 Middleware。</p>
+<p>每個標準的 Middleware 函數都可以存取三個核心物件：</p>
+<ul>
+<li><strong><code>req</code> (Request)</strong>：當前 HTTP 請求的資訊（包含 Headers、Body、Params、Query 等）。</li>
+<li><strong><code>res</code> (Response)</strong>：準備返回給客戶端的 HTTP 回應物件。</li>
+<li><strong><code>next</code></strong>：負責將控制權轉移至管線中下一個 Middleware 的回呼函數。</li>
+</ul>
+<pre tabindex="0"><code>[Client Request] ──&gt; [Middleware 1] ──&gt; [Middleware 2] ──&gt; [Route Handler] ──&gt; [Client Response]
+</code></pre><p>Middleware 的三大核心職責為：</p>
+<ol>
+<li>執行任意程式碼（如記錄日誌、測量耗時）。</li>
+<li>修改 <code>req</code> 或 <code>res</code> 物件（如驗證 Token 後掛載使用者資料）。</li>
+<li>終結請求生命週期（直接呼叫 <code>res.send()</code> 或 <code>res.json()</code>），或呼叫 <code>next()</code> 將流程往下傳遞。</li>
+</ol>
+<hr>
+<h2 id="常見的生態系-middleware">常見的生態系 Middleware</h2>
+<p>在實際開發中，社群已針對多數通用情境提供了高度穩定且經過測試的開源中介軟體：</p>
+<ul>
+<li><strong><code>cors</code></strong>：處理跨來源資源共用（CORS），動態設定 <code>Access-Control-Allow-Origin</code> 等標頭。</li>
+<li><strong><code>helmet</code></strong>：透過自動設定適當的 HTTP 安全標頭（如 CSP、HSTS、X-Frame-Options）來提升應用安全性。</li>
+<li><strong><code>morgan</code></strong>：HTTP 請求記錄器（Logger），可用於終端機輸出與日誌檔分析。</li>
+<li><strong><code>express-rate-limit</code></strong>：限制短時間內的請求次數，防範暴力破解與 DDoS 攻擊。</li>
+<li>**<code>express.json()</code> / <code>express.urlencoded()**</code>：Express 內建的 Body Parser，用於解析 JSON 與 URL-encoded 格式的請求主體。</li>
+</ul>
+<hr>
+<h2 id="如何自製客製化-middleware">如何自製客製化 Middleware</h2>
+<p>自製 Middleware 僅需定義一個接收 <code>(req, res, next)</code> 參數的函數，並確保在處理完畢後執行 <code>next()</code> 或終止回應。</p>
+<h3 id="1-請求耗時記錄器request-logger">1. 請求耗時記錄器（Request Logger）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// loggerMiddleware.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestLogger</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">startTime</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">method</span>, <span style="color:#a6e22e">originalUrl</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 監聽 response 完成事件，計算處理總耗時
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;finish&#39;</span>, () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">duration</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>() <span style="color:#f92672">-</span> <span style="color:#a6e22e">startTime</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`[</span><span style="color:#e6db74">${</span><span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">toISOString</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">] </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">method</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">originalUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">statusCode</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> - </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">duration</span><span style="color:#e6db74">}</span><span style="color:#e6db74">ms`</span>);
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">next</span>(); <span style="color:#75715e">// 務必呼叫 next()，否則請求將卡住並超時
+</span></span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">requestLogger</span>;
+</span></span></code></pre></div><h3 id="2-身份驗證與授權防護auth-guard">2. 身份驗證與授權防護（Auth Guard）</h3>
+<p>Middleware 常見的應用是在 <code>req</code> 物件上「擴充資訊」，供後續流程讀取：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// authMiddleware.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">jwt</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;jsonwebtoken&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">authenticateToken</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">authHeader</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span>[<span style="color:#e6db74">&#39;authorization&#39;</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">authHeader</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">authHeader</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39; &#39;</span>)[<span style="color:#ae81ff">1</span>]; <span style="color:#75715e">// 格式: Bearer &lt;TOKEN&gt;
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">token</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">401</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;存取被拒：未提供 Token&#39;</span> });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">jwt</span>.<span style="color:#a6e22e">verify</span>(<span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">JWT_SECRET</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;secret_key&#39;</span>, (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">403</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;憑證無效或已過期&#39;</span> });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 將解碼後的用戶資訊掛載至 req，讓後續的 Controller 可直接讀取
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">user</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">authenticateToken</span>;
+</span></span></code></pre></div><hr>
+<h2 id="middleware-的註冊與套用層級">Middleware 的註冊與套用層級</h2>
+<p>Express 提供了靈活的註冊機制，可依據業務需求將 Middleware 套用至全域、路由模組或單一端點。</p>
+<h3 id="1-應用層級application-level">1. 應用層級（Application-level）</h3>
+<p>使用 <code>app.use()</code> 註冊，所有進入應用的請求都會依宣告順序依序通過。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cors</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;cors&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">helmet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;helmet&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">requestLogger</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./loggerMiddleware&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 基礎全域 Middleware
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">helmet</span>());
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">cors</span>());
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">express</span>.<span style="color:#a6e22e">json</span>());
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">requestLogger</span>);
+</span></span></code></pre></div><h3 id="2-路由模組層級router-level">2. 路由模組層級（Router-level）</h3>
+<p>當系統架構擴大時，通常會使用 <code>express.Router()</code> 模組化各資源路由。此時可將 Middleware 綁定在特定的 Router 實例上。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// routes/userRoutes.js
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">router</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>.<span style="color:#a6e22e">Router</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">authenticateToken</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;../authMiddleware&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 該 Router 底下的所有子路由皆會自動經過 authenticateToken
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">authenticateToken</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/profile&#39;</span>, (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;取得使用者資料成功&#39;</span>, <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#39;/settings&#39;</span>, (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;設定已更新&#39;</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">router</span>;
+</span></span></code></pre></div><p>在主程式中掛載 Router：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userRoutes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./routes/userRoutes&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 僅有以 /api/v1/users 開頭的請求才會進入該 Router 及其內部的中介層
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#39;/api/v1/users&#39;</span>, <span style="color:#a6e22e">userRoutes</span>);
+</span></span></code></pre></div><h3 id="3-單一端點層級endpoint-level">3. 單一端點層級（Endpoint-level）</h3>
+<p>若某個 Middleware 僅適用於特定端點，可直接作為路由方法的第二參數傳入，支援傳入單一函式或陣列：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 只有 POST /api/v1/posts 需要進行 authenticateToken 驗證
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/api/v1/posts&#39;</span>, <span style="color:#a6e22e">authenticateToken</span>, (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">201</span>).<span style="color:#a6e22e">json</span>({ <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;文章發布成功&#39;</span>, <span style="color:#a6e22e">authorId</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">id</span> });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><hr>
+<h2 id="錯誤處理中介軟體error-handling-middleware">錯誤處理中介軟體（Error-handling Middleware）</h2>
+<p>Express 透過函數簽名的<strong>參數數量</strong>來區分一般中介軟體與錯誤處理中介軟體。錯誤處理中介軟體必須嚴格宣告 <strong>4 個參數</strong>：<code>(err, req, res, next)</code>。</p>
+<p>錯誤處理中介軟體必須放置在所有路由與 <code>app.use()</code> 宣告的<strong>最末端</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 全域錯誤捕捉器
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>((<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;[伺服器例外]&#39;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">stack</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">status</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">statusCode</span> <span style="color:#f92672">||</span> <span style="color:#ae81ff">500</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#a6e22e">status</span>).<span style="color:#a6e22e">json</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">message</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;內部伺服器錯誤&#39;</span>,
+</span></span><span style="display:flex;"><span>    ...(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">NODE_ENV</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;development&#39;</span> <span style="color:#f92672">&amp;&amp;</span> { <span style="color:#a6e22e">stack</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">stack</span> })
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>當前方的任何 Middleware 或 Controller 執行 <code>next(new Error('...'))</code> 時，Express 會立即跳過管線中後續的所有一般 Middleware，直接進入此錯誤處理常式。</p>
+<hr>
+<h2 id="最佳實踐與注意事項">最佳實踐與注意事項</h2>
+<ul>
+<li><strong>順序決定一切</strong>：Middleware 的執行順序完全由 <code>app.use()</code> 註冊的先後順序決定。例如，Body Parser 必須宣告在任何需要讀取 <code>req.body</code> 的路由之前。</li>
+<li><strong>避免管線中斷</strong>：自製 Middleware 內部若未發送回應（如 <code>res.json()</code>），務必在所有可能的分支路徑皆呼叫 <code>next()</code>，避免請求處於懸掛（Pending）狀態導致記憶體洩漏。</li>
+<li><strong>非同步異常處理</strong>：在 Express 4.x 中，非同步函數（<code>async/await</code>）若拋出未捕獲的例外，需手動使用 <code>try/catch</code> 捕捉並透過 <code>next(error)</code> 轉發；在 Express 5.x 中則已原生支援自動捕捉 Promise Rejection。</li>
+</ul>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/intros2geowithnpm/"
+      ><span>深度解析 S2 Geometry：在 Node.js 中構建高效能地理空間索引與範圍查詢</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>

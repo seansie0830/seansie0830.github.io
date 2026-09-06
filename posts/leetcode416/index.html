@@ -1,0 +1,390 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="zh-tw"
+  dir="ltr"
+><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>416. Partition Equal Subset Sum：用「開關箱」和「位元魔法」秒殺動態規劃！ - seansie&#39;s blog</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="想像一下：這題到底在玩什麼？
+你有沒有玩過那種解謎遊戲？地上擺著一堆裝了不同重量積木的箱子，系統要求你把它們分成「重量一模一樣的兩堆」。如果分得出來就過關，分不出來就 Game Over。
+這就是 LeetCode 416（Partition Equal Subset Sum，分割等和子集合）。
+很多人一看到這題，腦袋立刻浮現超複雜的數學公式。但放輕鬆，今天我們不背公式，我們用「家裡的電燈開關」和「電腦晶片的超能力」，一口氣把動態規劃（DP）徹底搞懂！
+
+概念暖身：大人的黑話「半環」，其實就是你的日常直覺
+在進入題目之前，我們先聊聊很多工程師喜歡拿來裝酷的名詞：「半環（Semiring）」。
+不要被這個像魔法咒語的名字嚇到了！你可以把它想像成一個「遊戲規則包」。
+平時我們在學校學的加減乘除，是一套規則包（數字相加、數字相乘）。但在寫程式時，聰明的工程師發現：如果我們換一套運算規則，很多看起來完全不同的問題，居然全都是同一種題目！
+這就是所謂的「通靈」——不是瞎猜，而是看穿了背後的本質模式。
+規則包一：地圖導航（走最短路）
+
+你在算從家裡到學校怎麼走最快。
+加法換成「選最小」：走兩條路，你只想要花費時間比較短的那條（min）。
+乘法換成「累加路程」：前半段花了 5 分鐘，後半段花了 10 分鐘，加起來花了 15 分鐘（&#43;）。
+
+規則包二：我們的開關箱（布林半環）
+回到我們這道題目。請注意，題目根本不在乎你最後抓了哪幾顆積木，也不在乎總共有幾萬種擺法。
+題目只在乎一句話：「到底做不做得到？」
+答案只有兩種：行（1 / 綠燈） 或 不行（0 / 紅燈）。
+在這種只有開和關的世界裡，我們的規則包變成了「布林半環」：
+
+「或」運算（OR，代表收集所有可能性）：
+
+
+只要任何一條路走得通，燈就會亮！
+亮 &#43; 滅 = 亮（只要有一種選法能湊出這個重量，就算成功）。
+它的安靜守護者（單位元素）是「滅 / false」：任何狀態跟 false 做 OR，都完全不影響原本的狀態（True OR False = True；False OR False = False）。所以我們一開始把所有的可能都預設成 false，代表「還沒探索到」。
+
+
+「與」運算（AND，代表限制與串聯）：
+
+
+必須前一步走得通，而且這一步也走得通，最後才會通！
+亮 × 亮 = 亮。
+它的安靜守護者（單位元素）是「亮 / true」：任何狀態跟 true 做 AND，依然保持原樣。
+
+所以，動態規劃的核心精神其實超簡單：
+「我現在這個重量能不能湊得出來？＝ 我原本就湊得出來（OR）我從前面的某個重量再加上現在這顆積木（AND）。」" />
+  <meta name="author" content="seansie&#39;s blog" /><link rel="preload stylesheet" as="style" href="https://seansie0830.github.io/main.min.0d4b67b40dc4bc1881be7f1baa2f8a4c119701f7943e390e1a8963084b2b742b.css" integrity="sha256-DUtntA3EvBiBvn8bqi&#43;KTBGXAfeUPjkOGoljCEsrdCs=" />
+
+  
+  <link rel="preload" as="image" href="https://seansie0830.github.io/theme.png" />
+
+  
+
+  <link rel="preload" as="image" href="https://seansie0830.github.io/github.svg" />
+
+  <script
+    defer
+    src="https://seansie0830.github.io/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad()"
+  ></script>
+
+  
+  <link
+    rel="icon"
+    href="https://seansie0830.github.io/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="https://seansie0830.github.io/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.165.0">
+	<meta itemprop="name" content="416. Partition Equal Subset Sum：用「開關箱」和「位元魔法」秒殺動態規劃！">
+	<meta itemprop="description" content="想像一下：這題到底在玩什麼？ 你有沒有玩過那種解謎遊戲？地上擺著一堆裝了不同重量積木的箱子，系統要求你把它們分成「重量一模一樣的兩堆」。如果分得出來就過關，分不出來就 Game Over。
+這就是 LeetCode 416（Partition Equal Subset Sum，分割等和子集合）。
+很多人一看到這題，腦袋立刻浮現超複雜的數學公式。但放輕鬆，今天我們不背公式，我們用「家裡的電燈開關」和「電腦晶片的超能力」，一口氣把動態規劃（DP）徹底搞懂！
+概念暖身：大人的黑話「半環」，其實就是你的日常直覺 在進入題目之前，我們先聊聊很多工程師喜歡拿來裝酷的名詞：「半環（Semiring）」。
+不要被這個像魔法咒語的名字嚇到了！你可以把它想像成一個「遊戲規則包」。
+平時我們在學校學的加減乘除，是一套規則包（數字相加、數字相乘）。但在寫程式時，聰明的工程師發現：如果我們換一套運算規則，很多看起來完全不同的問題，居然全都是同一種題目！
+這就是所謂的「通靈」——不是瞎猜，而是看穿了背後的本質模式。
+規則包一：地圖導航（走最短路） 你在算從家裡到學校怎麼走最快。 加法換成「選最小」：走兩條路，你只想要花費時間比較短的那條（min）。 乘法換成「累加路程」：前半段花了 5 分鐘，後半段花了 10 分鐘，加起來花了 15 分鐘（&#43;）。 規則包二：我們的開關箱（布林半環） 回到我們這道題目。請注意，題目根本不在乎你最後抓了哪幾顆積木，也不在乎總共有幾萬種擺法。
+題目只在乎一句話：「到底做不做得到？」
+答案只有兩種：行（1 / 綠燈） 或 不行（0 / 紅燈）。
+在這種只有開和關的世界裡，我們的規則包變成了「布林半環」：
+「或」運算（OR，代表收集所有可能性）： 只要任何一條路走得通，燈就會亮！ 亮 &#43; 滅 = 亮（只要有一種選法能湊出這個重量，就算成功）。 它的安靜守護者（單位元素）是「滅 / false」：任何狀態跟 false 做 OR，都完全不影響原本的狀態（True OR False = True；False OR False = False）。所以我們一開始把所有的可能都預設成 false，代表「還沒探索到」。 「與」運算（AND，代表限制與串聯）： 必須前一步走得通，而且這一步也走得通，最後才會通！ 亮 × 亮 = 亮。 它的安靜守護者（單位元素）是「亮 / true」：任何狀態跟 true 做 AND，依然保持原樣。 所以，動態規劃的核心精神其實超簡單： 「我現在這個重量能不能湊得出來？＝ 我原本就湊得出來（OR）我從前面的某個重量再加上現在這顆積木（AND）。」">
+	<meta itemprop="datePublished" content="2026-09-06T12:38:50+08:00">
+	<meta itemprop="dateModified" content="2026-09-06T12:38:50+08:00">
+	<meta itemprop="wordCount" content="318"><meta property="og:url" content="https://seansie0830.github.io/posts/leetcode416/">
+	<meta property="og:site_name" content="seansie&#39;s blog">
+	<meta property="og:title" content="416. Partition Equal Subset Sum：用「開關箱」和「位元魔法」秒殺動態規劃！">
+	<meta property="og:description" content="想像一下：這題到底在玩什麼？ 你有沒有玩過那種解謎遊戲？地上擺著一堆裝了不同重量積木的箱子，系統要求你把它們分成「重量一模一樣的兩堆」。如果分得出來就過關，分不出來就 Game Over。
+這就是 LeetCode 416（Partition Equal Subset Sum，分割等和子集合）。
+很多人一看到這題，腦袋立刻浮現超複雜的數學公式。但放輕鬆，今天我們不背公式，我們用「家裡的電燈開關」和「電腦晶片的超能力」，一口氣把動態規劃（DP）徹底搞懂！
+概念暖身：大人的黑話「半環」，其實就是你的日常直覺 在進入題目之前，我們先聊聊很多工程師喜歡拿來裝酷的名詞：「半環（Semiring）」。
+不要被這個像魔法咒語的名字嚇到了！你可以把它想像成一個「遊戲規則包」。
+平時我們在學校學的加減乘除，是一套規則包（數字相加、數字相乘）。但在寫程式時，聰明的工程師發現：如果我們換一套運算規則，很多看起來完全不同的問題，居然全都是同一種題目！
+這就是所謂的「通靈」——不是瞎猜，而是看穿了背後的本質模式。
+規則包一：地圖導航（走最短路） 你在算從家裡到學校怎麼走最快。 加法換成「選最小」：走兩條路，你只想要花費時間比較短的那條（min）。 乘法換成「累加路程」：前半段花了 5 分鐘，後半段花了 10 分鐘，加起來花了 15 分鐘（&#43;）。 規則包二：我們的開關箱（布林半環） 回到我們這道題目。請注意，題目根本不在乎你最後抓了哪幾顆積木，也不在乎總共有幾萬種擺法。
+題目只在乎一句話：「到底做不做得到？」
+答案只有兩種：行（1 / 綠燈） 或 不行（0 / 紅燈）。
+在這種只有開和關的世界裡，我們的規則包變成了「布林半環」：
+「或」運算（OR，代表收集所有可能性）： 只要任何一條路走得通，燈就會亮！ 亮 &#43; 滅 = 亮（只要有一種選法能湊出這個重量，就算成功）。 它的安靜守護者（單位元素）是「滅 / false」：任何狀態跟 false 做 OR，都完全不影響原本的狀態（True OR False = True；False OR False = False）。所以我們一開始把所有的可能都預設成 false，代表「還沒探索到」。 「與」運算（AND，代表限制與串聯）： 必須前一步走得通，而且這一步也走得通，最後才會通！ 亮 × 亮 = 亮。 它的安靜守護者（單位元素）是「亮 / true」：任何狀態跟 true 做 AND，依然保持原樣。 所以，動態規劃的核心精神其實超簡單： 「我現在這個重量能不能湊得出來？＝ 我原本就湊得出來（OR）我從前面的某個重量再加上現在這顆積木（AND）。」">
+	<meta property="og:locale" content="zh_tw">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-09-06T12:38:50+08:00">
+		<meta property="article:modified_time" content="2026-09-06T12:38:50+08:00">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="416. Partition Equal Subset Sum：用「開關箱」和「位元魔法」秒殺動態規劃！">
+	<meta name="twitter:description" content="想像一下：這題到底在玩什麼？ 你有沒有玩過那種解謎遊戲？地上擺著一堆裝了不同重量積木的箱子，系統要求你把它們分成「重量一模一樣的兩堆」。如果分得出來就過關，分不出來就 Game Over。
+這就是 LeetCode 416（Partition Equal Subset Sum，分割等和子集合）。
+很多人一看到這題，腦袋立刻浮現超複雜的數學公式。但放輕鬆，今天我們不背公式，我們用「家裡的電燈開關」和「電腦晶片的超能力」，一口氣把動態規劃（DP）徹底搞懂！
+概念暖身：大人的黑話「半環」，其實就是你的日常直覺 在進入題目之前，我們先聊聊很多工程師喜歡拿來裝酷的名詞：「半環（Semiring）」。
+不要被這個像魔法咒語的名字嚇到了！你可以把它想像成一個「遊戲規則包」。
+平時我們在學校學的加減乘除，是一套規則包（數字相加、數字相乘）。但在寫程式時，聰明的工程師發現：如果我們換一套運算規則，很多看起來完全不同的問題，居然全都是同一種題目！
+這就是所謂的「通靈」——不是瞎猜，而是看穿了背後的本質模式。
+規則包一：地圖導航（走最短路） 你在算從家裡到學校怎麼走最快。 加法換成「選最小」：走兩條路，你只想要花費時間比較短的那條（min）。 乘法換成「累加路程」：前半段花了 5 分鐘，後半段花了 10 分鐘，加起來花了 15 分鐘（&#43;）。 規則包二：我們的開關箱（布林半環） 回到我們這道題目。請注意，題目根本不在乎你最後抓了哪幾顆積木，也不在乎總共有幾萬種擺法。
+題目只在乎一句話：「到底做不做得到？」
+答案只有兩種：行（1 / 綠燈） 或 不行（0 / 紅燈）。
+在這種只有開和關的世界裡，我們的規則包變成了「布林半環」：
+「或」運算（OR，代表收集所有可能性）： 只要任何一條路走得通，燈就會亮！ 亮 &#43; 滅 = 亮（只要有一種選法能湊出這個重量，就算成功）。 它的安靜守護者（單位元素）是「滅 / false」：任何狀態跟 false 做 OR，都完全不影響原本的狀態（True OR False = True；False OR False = False）。所以我們一開始把所有的可能都預設成 false，代表「還沒探索到」。 「與」運算（AND，代表限制與串聯）： 必須前一步走得通，而且這一步也走得通，最後才會通！ 亮 × 亮 = 亮。 它的安靜守護者（單位元素）是「亮 / true」：任何狀態跟 true 做 AND，依然保持原樣。 所以，動態規劃的核心精神其實超簡單： 「我現在這個重量能不能湊得出來？＝ 我原本就湊得出來（OR）我從前面的某個重量再加上現在這顆積木（AND）。」">
+
+  <link rel="canonical" href="https://seansie0830.github.io/posts/leetcode416/" />
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="https://seansie0830.github.io/"
+      >seansie&#39;s blog</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? "rgb(0 0 0 / 85%)" : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/seansie0830"
+        target="_blank"
+        rel="me"
+      >github</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">416. Partition Equal Subset Sum：用「開關箱」和「位元魔法」秒殺動態規劃！</h1><div class="text-xs antialiased opacity-60"><time>Sep 6, 2026</time></div></header>
+
+  <section><h1 id="想像一下這題到底在玩什麼">想像一下：這題到底在玩什麼？</h1>
+<p>你有沒有玩過那種解謎遊戲？地上擺著一堆裝了不同重量積木的箱子，系統要求你把它們分成「重量一模一樣的兩堆」。如果分得出來就過關，分不出來就 Game Over。</p>
+<p>這就是 LeetCode 416（Partition Equal Subset Sum，分割等和子集合）。</p>
+<p>很多人一看到這題，腦袋立刻浮現超複雜的數學公式。但放輕鬆，今天我們不背公式，我們用「家裡的電燈開關」和「電腦晶片的超能力」，一口氣把動態規劃（DP）徹底搞懂！</p>
+<hr>
+<h1 id="概念暖身大人的黑話半環其實就是你的日常直覺">概念暖身：大人的黑話「半環」，其實就是你的日常直覺</h1>
+<p>在進入題目之前，我們先聊聊很多工程師喜歡拿來裝酷的名詞：「半環（Semiring）」。</p>
+<p>不要被這個像魔法咒語的名字嚇到了！你可以把它想像成一個「遊戲規則包」。</p>
+<p>平時我們在學校學的加減乘除，是一套規則包（數字相加、數字相乘）。但在寫程式時，聰明的工程師發現：<strong>如果我們換一套運算規則，很多看起來完全不同的問題，居然全都是同一種題目！</strong></p>
+<p>這就是所謂的「通靈」——不是瞎猜，而是看穿了背後的本質模式。</p>
+<h3 id="規則包一地圖導航走最短路">規則包一：地圖導航（走最短路）</h3>
+<ul>
+<li>你在算從家裡到學校怎麼走最快。</li>
+<li><strong>加法換成「選最小」</strong>：走兩條路，你只想要花費時間比較短的那條（min）。</li>
+<li><strong>乘法換成「累加路程」</strong>：前半段花了 5 分鐘，後半段花了 10 分鐘，加起來花了 15 分鐘（+）。</li>
+</ul>
+<h3 id="規則包二我們的開關箱布林半環">規則包二：我們的開關箱（布林半環）</h3>
+<p>回到我們這道題目。請注意，題目根本不在乎你最後抓了哪幾顆積木，也不在乎總共有幾萬種擺法。</p>
+<p>題目只在乎一句話：<strong>「到底做不做得到？」</strong></p>
+<p>答案只有兩種：<strong>行（1 / 綠燈）</strong> 或 <strong>不行（0 / 紅燈）</strong>。</p>
+<p>在這種只有開和關的世界裡，我們的規則包變成了「布林半環」：</p>
+<ol>
+<li><strong>「或」運算（OR，代表收集所有可能性）：</strong></li>
+</ol>
+<ul>
+<li>只要任何一條路走得通，燈就會亮！</li>
+<li>亮 + 滅 = 亮（只要有一種選法能湊出這個重量，就算成功）。</li>
+<li>它的<strong>安靜守護者（單位元素）是「滅 / false」</strong>：任何狀態跟 false 做 OR，都完全不影響原本的狀態（True OR False = True；False OR False = False）。所以我們一開始把所有的可能都預設成 false，代表「還沒探索到」。</li>
+</ul>
+<ol start="2">
+<li><strong>「與」運算（AND，代表限制與串聯）：</strong></li>
+</ol>
+<ul>
+<li>必須前一步走得通，而且這一步也走得通，最後才會通！</li>
+<li>亮 × 亮 = 亮。</li>
+<li>它的<strong>安靜守護者（單位元素）是「亮 / true」</strong>：任何狀態跟 true 做 AND，依然保持原樣。</li>
+</ul>
+<p>所以，動態規劃的核心精神其實超簡單：
+<strong>「我現在這個重量能不能湊得出來？＝ 我原本就湊得出來（OR）我從前面的某個重量再加上現在這顆積木（AND）。」</strong></p>
+<p>看懂了這套規則包，你就不再只是死背題目，因為不管是找最短路徑、算機率、還是玩開關燈，本質上都是同一台 DP 機器在不同規則包下的運作而已！</p>
+<hr>
+<h1 id="動手寫解法一步步拆解">動手寫解法：一步步拆解</h1>
+<h2 id="第一關先抓出不可能的倒楣鬼">第一關：先抓出不可能的倒楣鬼</h2>
+<p>既然題目說要分成兩堆一模一樣重的積木，那所有積木的「總重量」一定得是偶數吧？</p>
+<p>如果是奇數（例如總共 15 公斤），你怎麼切都不可能切成兩個整數重量。遇到這種情況，連算都不用算，直接跟系統說「不行」！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> total <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>accumulate(nums.begin(), nums.end(), <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 如果總和是奇數，直接回家睡覺，不可能平分！
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (total <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 我們的目標：只要能湊出總重量的一半就算贏！
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> target <span style="color:#f92672">=</span> total <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span></code></pre></div><hr>
+<h2 id="第二關擺出一排開關箱">第二關：擺出一排開關箱</h2>
+<p>假設目標是一半的重量 <code>target</code>，我們就準備一長排電燈開關。
+第 0 格代表重量 0，第 1 格代表重量 1……第 <code>target</code> 格代表我們要的目標。</p>
+<p>一開始，所有開關都是關閉的（0 / false）。
+只有一個開關是預設打開的：<strong>第 0 格</strong>！
+為什麼？因為「一個積木都不拿」，總重量就是 0，這絕對是百分之百做得到的！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">// 題目說每個數字最大 100，陣列最多 200 個，所以總和最多 20000，一半最多 10000
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// std::bitset 就是一台超級省空間、專門放開關燈的機器
+</span></span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>bitset<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">10001</span><span style="color:#f92672">&gt;</span> dp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 什麼都不拿，就能湊出 0，第 0 盞燈點亮！
+</span></span></span><span style="display:flex;"><span>dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> true;
+</span></span></code></pre></div><hr>
+<h2 id="第三關輪流丟入積木見證魔法時刻">第三關：輪流丟入積木，見證魔法時刻！</h2>
+<p>現在，我們把口袋裡的積木一個一個拿出來看。</p>
+<p>假設我們抽到了一塊重量為 <code>num</code> 的積木。對於任何一個重量，我們都有兩個選擇：</p>
+<ol>
+<li><strong>不放這塊積木</strong>：原本能亮的燈繼續亮著（維持 <code>dp</code> 原樣）。</li>
+<li><strong>放這塊積木</strong>：如果之前重量 <code>k</code> 的燈是亮的，那現在重量 <code>k + num</code> 的燈也能被點亮！</li>
+</ol>
+<p>如果照傳統寫法，你得寫個迴圈，由大到小一個一個去檢查跟改燈。</p>
+<p>但別忘了，我們在電腦的世界裡！
+電腦的 CPU 最擅長做一件事：<strong>一口氣把整排開關往左推！</strong></p>
+<p>如果我把整個 <code>dp</code> 開關箱往左位移 <code>num</code> 格（寫成 <code>dp &lt;&lt; num</code>），就相當於「把所有目前能湊出來的重量，一口氣通通加上 num」！</p>
+<p>然後，我們用「OR（|）」把原本的狀態跟新產生的狀態疊加在一起：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> num : nums) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 這一行就是魔法的全部！
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// dp：原本就能湊出的重量（不選當前積木）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// (dp &lt;&lt; num)：把以前能湊出的所有重量，全部加上 num（選了當前積木）
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// |= ：只要有一種方法行得通，燈就點亮！
+</span></span></span><span style="display:flex;"><span>    dp <span style="color:#f92672">|=</span> (dp <span style="color:#f92672">&lt;&lt;</span> num);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 最後只要看 target 那盞燈有沒有亮著，就知道答不答得出來！
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> dp[target];
+</span></span></code></pre></div><h3 id="慢動作重播假設我們拿到一塊重量為-3-的積木">慢動作重播：假設我們拿到一塊重量為 3 的積木</h3>
+<ul>
+<li>原本的燈箱狀態：<code>dp = ...00001</code>（只有重量 0 是亮的）</li>
+<li>往左推 3 格：<code>dp &lt;&lt; 3 = ...01000</code>（重量 3 被點亮了）</li>
+<li>它們相加（OR）：新的 <code>dp = ...01001</code>（現在重量 0 和 3 都是亮的了！）</li>
+</ul>
+<p>整排開關在一個瞬間全部完成更新，完全不需要你寫迴圈在那邊一個一個慢慢搬。</p>
+<hr>
+<h1 id="完整程式碼短到不可思議">完整程式碼：短到不可思議</h1>
+<p>把上面的步驟全部拼在一起，就變成了這份極度優雅、速度快到飛起的解答：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> canPartition(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> total <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>accumulate(nums.begin(), nums.end(), <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 奇數不可能平分
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (total <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> target <span style="color:#f92672">=</span> total <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 準備我們的燈箱，第 0 格亮起
+</span></span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>bitset<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">10001</span><span style="color:#f92672">&gt;</span> dp;
+</span></span><span style="display:flex;"><span>        dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 每摸到一個數字，整排開關一口氣向左平移並疊加
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> num : nums) {
+</span></span><span style="display:flex;"><span>            dp <span style="color:#f92672">|=</span> (dp <span style="color:#f92672">&lt;&lt;</span> num);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 目標燈有沒有亮？
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dp[target];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><hr>
+<h1 id="總結我們學到了什麼">總結：我們學到了什麼？</h1>
+<ol>
+<li><strong>換個規則看世界（半環思考）</strong>：
+動態規劃不是一堆無聊的符號。當你發現問題只在乎「行不行」時，傳統的加乘就變成了「OR 與 AND」。這套思考框架能讓你把背包問題、圖論路徑問題串在同一個腦袋模型裡。</li>
+<li><strong>不要做無用功</strong>：
+先做奇偶數檢查，奇數直接踩煞車，省下一整大段白費的計算時間。</li>
+<li><strong>榨乾 CPU 的硬體超能力</strong>：
+傳統背包 DP 跑迴圈要一個格子一個格子填；但利用 C++ 的 <code>std::bitset</code> 加上位移運算 <code>dp &lt;&lt; num</code>，CPU 可以一次打包 64 個開關甚至更多一起算。這不僅程式碼短到只有十來行，執行速度更直接提升了數十倍！</li>
+</ol>
+</section>
+
+  <nav
+    class="mt-24 flex overflow-hidden rounded-xl bg-black/[3%] text-lg leading-[1.2]! *:flex *:w-1/2 *:items-center *:p-5 *:font-medium *:no-underline dark:bg-white/[8%] [&>*:hover]:bg-black/[2%] dark:[&>*:hover]:bg-white/[3%]"
+  ><a
+      class="justify-end pl-3 ltr:ml-auto rtl:mr-auto"
+      href="https://seansie0830.github.io/posts/rust-intro-ch8/"
+      ><span>Ch8：生態系、模組與你的 Rust 之路</span><span class="ltr:ml-1.5 rtl:mr-1.5">→</span></a
+    ></nav></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2026
+    <a class="link" href="https://seansie0830.github.io/">seansie&#39;s blog</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
